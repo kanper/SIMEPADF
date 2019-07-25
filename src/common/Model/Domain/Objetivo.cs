@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using Model.Domain.DbHelper;
 
 namespace Model.Domain
@@ -7,6 +8,8 @@ namespace Model.Domain
     {
         public int CodigoObjetivo { get; set; }
         public string NombreObjetivo { get; set; }
+
+        public ICollection<Resultado> Resultados { get; set; }
 
         public bool Deleted { get; set; }
     }

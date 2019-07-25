@@ -5,10 +5,11 @@ namespace DatabaseContext.Config
 {
     class ObjetivoConfig
     {
-        public ObjetivoConfig (EntityTypeBuilder<Objetivo> entityBuilder)
+        public ObjetivoConfig (EntityTypeBuilder<Objetivo> builder)
         {
-            entityBuilder.HasKey(x => x.CodigoObjetivo);
-            entityBuilder.Property(x => x.NombreObjetivo).IsRequired().HasMaxLength(500);
+            builder.HasKey(x => x.CodigoObjetivo);
+            builder.Property(x => x.NombreObjetivo).IsRequired().HasMaxLength(500);
+            builder.HasIndex(x => x.NombreObjetivo).IsUnique();
         }
     }
 }

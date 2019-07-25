@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Services;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Cors;
+using Services;
 
 namespace CoreApi
 {
