@@ -17,14 +17,11 @@ namespace Services
 
     }
 
-
     public class OrganizacionResponsableService : IOrganizacionResponsableService
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public OrganizacionResponsableService(
-            ApplicationDbContext databaseContext
-            )
+        public OrganizacionResponsableService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

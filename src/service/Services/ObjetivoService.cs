@@ -1,4 +1,5 @@
-﻿using DatabaseContext;
+﻿using System;
+using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Model.Domain;
 using System.Collections.Generic;
@@ -21,25 +22,16 @@ namespace Services
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public ObjetivoService(
-            ApplicationDbContext databaseContext
-            )
+        public ObjetivoService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }
 
 
         public bool Add(Objetivo model)
-        {
-            try
-            {
-                _databaseContext.Add(model);
-                _databaseContext.SaveChanges();
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
+        {           
+            _databaseContext.Add(model);
+            _databaseContext.SaveChanges();
             return true;
         }
 
@@ -80,7 +72,7 @@ namespace Services
             }
             catch (System.Exception)
             {
-
+                
             }
             return result;
         }

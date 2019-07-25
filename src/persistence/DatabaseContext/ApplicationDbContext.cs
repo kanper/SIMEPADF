@@ -12,9 +12,8 @@ namespace DatabaseContext
 {
     public class ApplicationDbContext : IdentityDbContext<Usuario>
     {
-        public ApplicationDbContext(
-            DbContextOptions<ApplicationDbContext> options
-        ) : base(options)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }

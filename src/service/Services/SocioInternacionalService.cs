@@ -17,14 +17,11 @@ namespace Services
 
     }
 
-
     public class SocioInternacionalService : ISocioInternacionalService
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public SocioInternacionalService(
-            ApplicationDbContext databaseContext
-            )
+        public SocioInternacionalService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

@@ -17,14 +17,11 @@ namespace Services
 
     }
 
-
     public class RolService : IRolService
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public RolService(
-            ApplicationDbContext databaseContext
-            )
+        public RolService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

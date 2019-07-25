@@ -18,14 +18,11 @@ namespace Services
 
     }
 
-
     public class UsuarioService : IUsuarioService
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public UsuarioService(
-            ApplicationDbContext databaseContext
-            )
+        public UsuarioService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }
@@ -35,23 +32,8 @@ namespace Services
             var result = new List<PersonalDTO>();
             try
             {
-                result = (
-                    from u in _databaseContext.Usuario
-                    from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
-                    from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
-                    select new PersonalDTO
-                    {
-                        Id = u.Id,
-                        NombrePersonal = u.NombrePersonal,
-                        ApellidoPersonal = u.ApellidoPersonal,
-                        Cargo = u.Cargo,
-                        FechaAfilacion = u.FechaAfilacion,
-                        UserName = u.UserName,
-                        Email = u.Email,
-                        PhoneNumber = u.PhoneNumber,
-                        Name = r.Name
-                    }
-                   ).ToList();
+                //TODO Resolver errores en consulta de usuarios del sistema.
+                result = null;
             }
             catch (System.Exception)
             {

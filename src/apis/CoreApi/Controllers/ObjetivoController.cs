@@ -6,56 +6,45 @@ namespace CoreApi.Controllers
 {
     public class ObjetivoController : ControllerBase
     {
-        private readonly IObjetivoService _ObjetivoService;
+        private readonly IObjetivoService _service;
 
         public ObjetivoController(IObjetivoService ObjetivoService)
         {
-            _ObjetivoService = ObjetivoService;
+            _service = ObjetivoService;
         }
-
-        // GET api/values  [Route("objetivo")]
+        
         [HttpGet("objetivo")]
         public IActionResult Get()
         {
-            return Ok(
-                _ObjetivoService.GetAll()
-            );
+            return Ok(_service.GetAll());
         }
 
-        // GET api/values/5 [Route("objetivo/{id}")]
         [HttpGet("objetivo/{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(
-                _ObjetivoService.Get(id)
-            );
+            return Ok(_service.Get(id));
         }
 
-        // POST api/values  [Route("objetivo")]
         [HttpPost("objetivo")]
         public IActionResult Post([FromBody] Objetivo model)
         {
-            return Ok(
-                _ObjetivoService.Add(model)
-            );
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return Ok(_service.Add(model));
         }
 
-        // PUT api/values/5  [Route("objetivo/{id}")]
         [HttpPut("objetivo/{id}")]
         public IActionResult Put([FromBody] Objetivo model)
         {
-            return Ok(
-                _ObjetivoService.Update(model)
-            );
+            return Ok(_service.Update(model));
         }
-
-        // DELETE api/values/5[Route("objetivo-{id}")]
+        
         [HttpDelete("objetivo-{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok(
-                _ObjetivoService.Delete(id)
-            );
+            return Ok(_service.Delete(id));
         }
     }
 }
