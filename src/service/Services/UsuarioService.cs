@@ -11,7 +11,7 @@ namespace Services
     public interface IUsuarioService
     {
         IEnumerable<PersonalDTO> GetAll();
-        Usuario Get(string id);
+        PersonalDTO Get(string id);
         bool Add(Usuario model);
         bool Update(Usuario model);
         bool Delete(string id);
@@ -60,12 +60,28 @@ namespace Services
             return result;
         }
 
-        public Usuario Get(string id)
+        public PersonalDTO Get(string id)
         {
-            var result = new Usuario();
+            var result = new PersonalDTO();
             try
             {
-                result = _databaseContext.Usuario.Single(x => x.Id == id);
+                result = (
+                    from u in _databaseContext.Usuario.Where(x => x.Id == id)
+                    from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
+                    from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
+                    select new PersonalDTO
+                    {
+                        Id = u.Id,
+                        NombrePersonal = u.NombrePersonal,
+                        ApellidoPersonal = u.ApellidoPersonal,
+                        Cargo = u.Cargo,
+                        FechaAfilacion = u.FechaAfilacion,
+                        UserName = u.UserName,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber,
+                        Name = r.Name
+                    }
+                   ).Single();
             }
             catch (System.Exception)
             {
