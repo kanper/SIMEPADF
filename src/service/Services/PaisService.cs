@@ -16,15 +16,12 @@ namespace Services
         bool Delete(int id);
 
     }
-
-
+    
     public class PaisService : IPaisService
     {
         private readonly ApplicationDbContext _databaseContext;
 
-        public PaisService(
-            ApplicationDbContext databaseContext
-            )
+        public PaisService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }
