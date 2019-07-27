@@ -20,9 +20,9 @@ namespace Services
 
     public class UsuarioService : IUsuarioService
     {
-        private readonly ApplicationDbContext _databaseContext;
+        private readonly simepadfContext _databaseContext;
 
-        public UsuarioService(ApplicationDbContext databaseContext)
+        public UsuarioService(simepadfContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

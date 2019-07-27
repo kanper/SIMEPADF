@@ -1,100 +1,112 @@
 ﻿using System;
 using DatabaseContext;
-using Microsoft.EntityFrameworkCore;
 using Model.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using DTO.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
 
     public interface IObjetivoService
     {
-        IEnumerable<Objetivo> GetAll();
+        IEnumerable<ObjetivoDTO> GetAll();
         Objetivo Get(int id);
         bool Add(Objetivo model);
         bool Update(Objetivo model);
         bool Delete(int id);
-
     }
 
     public class ObjetivoService : IObjetivoService
     {
-        private readonly ApplicationDbContext _databaseContext;
+        private readonly simepadfContext _databaseContext;
 
-        public ObjetivoService(ApplicationDbContext databaseContext)
+        public ObjetivoService(simepadfContext databaseContext)
         {
             _databaseContext = databaseContext;
         }
 
-
-        public bool Add(Objetivo model)
-        {           
-            _databaseContext.Add(model);
-            _databaseContext.SaveChanges();
-            return true;
+        public bool Add(Objetivo model) 
+        {
+            try
+            {
+                _databaseContext.Add(model);
+                _databaseContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {                
+                Console.WriteLine(e);               
+                return false;
+            }                      
         }
 
         public bool Delete(int id)
         {
             try
             {
-                _databaseContext.Entry(new Objetivo { CodigoObjetivo = id }).State = EntityState.Deleted;
+                _databaseContext.Objetivo.Single(x => x.CodigoObjetivo == id).Deleted = true;
                 _databaseContext.SaveChanges();
+                return true;
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
-            }
-            return true;
+            }           
         }
 
         public Objetivo Get(int id)
         {
-            var result = new Objetivo();
             try
             {
-                result = _databaseContext.Objetivo.Single(x => x.CodigoObjetivo == id);
+                return _databaseContext.Objetivo.Single(x => x.CodigoObjetivo == id);
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e);
+                return null;
             }
-            return result;
         }
 
-        public IEnumerable<Objetivo> GetAll()
+        public IEnumerable<ObjetivoDTO> GetAll()
         {
-            var result = new List<Objetivo>();
             try
-            {
-                result = _databaseContext.Objetivo.ToList();
+            {               
+                return (from o in _databaseContext.Objetivo
+                    join r in _databaseContext.Resultado
+                        on o equals r.Objetivo into oResult
+                    select new ObjetivoDTO()
+                    {
+                        Id = o.CodigoObjetivo,
+                        Nombre = o.NombreObjetivo,
+                        Resultados = oResult.Count()
+                    }).DefaultIfEmpty();
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
-                
+                Console.WriteLine(e);
+                return new List<ObjetivoDTO>();
             }
-            return result;
         }
 
         public bool Update(Objetivo model)
         {
             try
             {
-                var originalModel = _databaseContext.Objetivo.Single(x =>
-                  x.CodigoObjetivo == model.CodigoObjetivo
-                );
-
+                var originalModel = _databaseContext.Objetivo.Single(x =>x.CodigoObjetivo == model.CodigoObjetivo);
                 originalModel.NombreObjetivo = model.NombreObjetivo;
-
                 _databaseContext.Update(originalModel);
                 _databaseContext.SaveChanges();
+                return true;
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
-            return true;
         }
     }
 }

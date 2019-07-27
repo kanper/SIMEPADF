@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Services;
 
@@ -12,11 +13,13 @@ namespace CoreApi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
+        
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -24,18 +27,16 @@ namespace CoreApi
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin", builder => {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();                   
                 });
-
             });
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            services.AddDbContext<simepadfContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
@@ -57,29 +58,22 @@ namespace CoreApi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
+            app.UseSwagger();                     
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SIMEPADF API V1");
-            });
-
-            app.UseMvc();
-
+            });           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            {               
                 app.UseHsts();
             }
-
-            app.UseCors("AllowSpecificOrigin");
-            app.UseHttpsRedirection();
+            app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();
         }
     }
