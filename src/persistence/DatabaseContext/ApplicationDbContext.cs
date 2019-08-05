@@ -38,6 +38,9 @@ namespace DatabaseContext
             new ProyectoConfig(builder.Entity<Proyecto>());
             new SocioConfig(builder.Entity<SocioInternacional>());
             new ObjetivoConfig(builder.Entity<Objetivo>());
+            new ResultadoConfig(builder.Entity<Resultado>());
+            new ActividadConfig(builder.Entity<Actividad>());
+            new IndicadorConfig(builder.Entity<Indicador>());
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -53,6 +56,9 @@ namespace DatabaseContext
         public DbSet<ProyectoSocio> ProyectoSocio { get; set; }
         public DbSet<ProyectoUsuario> ProyectoUsuario { get; set; }
         public DbSet<Objetivo> Objetivo { get; set; }
+        public DbSet<Resultado> Resultado { get; set; }
+        public DbSet<Actividad> Actividad { get; set; }
+        public DbSet<Indicador> Indicador { get; set; }
 
         public override int SaveChanges()
         {
@@ -115,6 +121,14 @@ namespace DatabaseContext
         {
             #region SoftDeleted
             modelBuilder.Entity<Usuario>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Objetivo>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Resultado>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Actividad>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Indicador>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Proyecto>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<SocioInternacional>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<OrganizacionResponsable>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Pais>().HasQueryFilter(x => !x.Deleted);
             #endregion
         }
     }

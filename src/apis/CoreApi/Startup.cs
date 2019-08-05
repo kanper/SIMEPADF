@@ -24,11 +24,11 @@ namespace CoreApi
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin", builder => {
-                    builder.AllowAnyOrigin()
+                options.AddPolicy("AllowSpecificOrigin", builder =>
+                    builder.AllowAnyHeader()
                            .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
+                           .AllowAnyOrigin()
+                );
 
             });
 
@@ -79,7 +79,7 @@ namespace CoreApi
             }
 
             app.UseCors("AllowSpecificOrigin");
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

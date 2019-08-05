@@ -19,6 +19,9 @@ namespace Model.Domain
 
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 
+        public int PaisId { get; set; }
+        public Pais Pais { get; set; }
+
     }
 
 }

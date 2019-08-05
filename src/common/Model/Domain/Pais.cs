@@ -12,5 +12,8 @@ namespace Model.Domain
         public ICollection<ProyectoPais> ProyectoPaises { get; set; }
 
         public bool Deleted { get; set; }
+
+        public string UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
     }
 }

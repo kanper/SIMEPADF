@@ -1,9 +1,11 @@
 ﻿using DatabaseContext;
 using DTO.DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Model.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services
 {
@@ -21,6 +23,7 @@ namespace Services
     public class UsuarioService : IUsuarioService
     {
         private readonly ApplicationDbContext _databaseContext;
+        //private Rol _roleManager => HttpContext.GetOwinContext().Get<Rol>();
 
         public UsuarioService(ApplicationDbContext databaseContext)
         {
@@ -32,8 +35,26 @@ namespace Services
             var result = new List<PersonalDTO>();
             try
             {
-                //TODO Resolver errores en consulta de usuarios del sistema.
-                result = null;
+                result = (
+                    from u in _databaseContext.Usuario
+                    from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
+                    from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
+                    from p in _databaseContext.Pais.Where(x => x.Id == u.PaisId)
+                    select new PersonalDTO
+                    {
+                        Id = u.Id,
+                        NombrePersonal = u.NombrePersonal,
+                        ApellidoPersonal = u.ApellidoPersonal,
+                        Cargo = u.Cargo,
+                        FechaAfilacion = u.FechaAfilacion,
+                        UserName = u.UserName,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber,
+                        Password = u.PasswordHash,
+                        NombrePais = p.NombrePais,
+                        Name = r.Name
+                    }
+                   ).ToList();
             }
             catch (System.Exception)
             {
@@ -51,6 +72,7 @@ namespace Services
                     from u in _databaseContext.Usuario.Where(x => x.Id == id)
                     from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
                     from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
+                    from p in _databaseContext.Pais.Where(x => x.Id == u.PaisId)
                     select new PersonalDTO
                     {
                         Id = u.Id,
@@ -61,6 +83,8 @@ namespace Services
                         UserName = u.UserName,
                         Email = u.Email,
                         PhoneNumber = u.PhoneNumber,
+                        Password = u.PasswordHash,
+                        NombrePais = p.NombrePais,
                         Name = r.Name
                     }
                    ).Single();
@@ -125,4 +149,20 @@ namespace Services
             return true;
         }
     }
+
+    //public async Task CreateRoles()
+    //{
+    //    var roles = new List<Rol>
+    //    {
+    //        new Rol { Name = "" },
+    //    };
+
+    //    foreach (var r in roles)
+    //    {
+    //        if (!await _roleManager.RoleExistsAsync(r.Name))
+    //        {
+    //            await _roleManager.CreateAsync(r);
+    //        }
+    //    }
+    //}
 }

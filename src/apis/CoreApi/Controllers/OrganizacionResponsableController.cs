@@ -15,8 +15,7 @@ namespace CoreApi.Controllers
         }
 
         // GET api/values
-        [HttpGet]
-        [Route("organizacionresponsable")]
+        [HttpGet("organizacionresponsable")]
         public IActionResult Get()
         {
             return Ok(
@@ -25,8 +24,7 @@ namespace CoreApi.Controllers
         }
 
         // GET api/values/5
-        [HttpGet]
-        [Route("organizacionresponsable/{id}")]
+        [HttpGet("organizacionresponsable/{id}")]
         public IActionResult Get(int id)
         {
             return Ok(
@@ -35,8 +33,7 @@ namespace CoreApi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        [Route("organizacionresponsable")]
+        [HttpPost("organizacionresponsable")]
         public IActionResult Post([FromBody] OrganizacionResponsable model)
         {
             return Ok(
@@ -45,8 +42,7 @@ namespace CoreApi.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut]
-        [Route("organizacionresponsable/{id}")]
+        [HttpPut("organizacionresponsable/{id}")]
         public IActionResult Put([FromBody] OrganizacionResponsable model)
         {
             return Ok(
@@ -55,8 +51,7 @@ namespace CoreApi.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete]
-        [Route("organizacionresponsable-{id}")]
+        [HttpDelete("organizacionresponsable-{id}")]
         public IActionResult Delete(int id)
         {
             return Ok(

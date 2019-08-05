@@ -4,22 +4,178 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
-    [DbContext(typeof(simepadfContext))]
-    [Migration("20190722031447_Initialize")]
-    partial class Initialize
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Model.Domain.Actividad", b =>
+                {
+                    b.Property<int>("CodigoActividad")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreActividad")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<int>("ResultadoId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("CodigoActividad");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("NombreActividad")
+                        .IsUnique();
+
+                    b.HasIndex("ResultadoId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Actividad");
+                });
 
             modelBuilder.Entity("Model.Domain.EstadoProyecto", b =>
                 {
@@ -34,6 +190,42 @@ namespace DatabaseContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EstadoProyecto");
+                });
+
+            modelBuilder.Entity("Model.Domain.Indicador", b =>
+                {
+                    b.Property<int>("CodigoIndicador");
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreIndicador")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("CodigoIndicador");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("NombreIndicador")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Indicador");
                 });
 
             modelBuilder.Entity("Model.Domain.Objetivo", b =>
@@ -65,6 +257,9 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("DeletedBy");
+
+                    b.HasIndex("NombreObjetivo")
+                        .IsUnique();
 
                     b.HasIndex("UpdatedBy");
 
@@ -257,24 +452,46 @@ namespace DatabaseContext.Migrations
                     b.ToTable("ProyectoUsuario");
                 });
 
-            modelBuilder.Entity("Model.Domain.Rol", b =>
+            modelBuilder.Entity("Model.Domain.Resultado", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("CodigoResultado")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ConcurrencyStamp");
+                    b.Property<DateTime?>("CreatedAt");
 
-                    b.Property<bool>("Enabled");
+                    b.Property<string>("CreatedBy");
 
-                    b.Property<string>("Name")
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreResultado")
                         .IsRequired()
-                        .HasMaxLength(50);
+                        .HasMaxLength(500);
 
-                    b.Property<string>("NormalizedName");
+                    b.Property<int>("ObjetivoId");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime?>("UpdatedAt");
 
-                    b.ToTable("Rol");
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("CodigoResultado");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("NombreResultado")
+                        .IsUnique();
+
+                    b.HasIndex("ObjetivoId");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Resultado");
                 });
 
             modelBuilder.Entity("Model.Domain.SocioInternacional", b =>
@@ -331,7 +548,8 @@ namespace DatabaseContext.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("ConcurrencyStamp");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
                     b.Property<bool>("Deleted");
 
@@ -353,9 +571,11 @@ namespace DatabaseContext.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("NormalizedEmail");
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("NormalizedUserName");
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash")
                         .IsRequired();
@@ -374,7 +594,109 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Model.Domain.Rol", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<bool>("Enabled");
+
+                    b.HasDiscriminator().HasValue("Rol");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.Domain.Actividad", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Resultado", "Resultado")
+                        .WithMany("Actividades")
+                        .HasForeignKey("ResultadoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.Indicador", b =>
+                {
+                    b.HasOne("Model.Domain.Actividad", "Actividad")
+                        .WithOne("Indicador")
+                        .HasForeignKey("Model.Domain.Indicador", "CodigoIndicador")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
                 });
 
             modelBuilder.Entity("Model.Domain.Objetivo", b =>
@@ -489,6 +811,26 @@ namespace DatabaseContext.Migrations
                         .WithMany("ProyectoUsuarios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Model.Domain.Resultado", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Objetivo", "Objetivo")
+                        .WithMany("Resultados")
+                        .HasForeignKey("ObjetivoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
                 });
 
             modelBuilder.Entity("Model.Domain.SocioInternacional", b =>
