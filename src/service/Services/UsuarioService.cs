@@ -25,7 +25,7 @@ namespace Services
         private readonly ApplicationDbContext _databaseContext;
         //private Rol _roleManager => HttpContext.GetOwinContext().Get<Rol>();
 
-        public UsuarioService(simepadfContext databaseContext)
+        public UsuarioService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

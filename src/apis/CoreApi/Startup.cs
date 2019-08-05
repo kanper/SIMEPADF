@@ -35,8 +35,8 @@ namespace CoreApi
                 });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
