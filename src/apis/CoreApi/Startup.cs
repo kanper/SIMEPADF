@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using Services;
 
 namespace CoreApi
@@ -34,7 +35,10 @@ namespace CoreApi
                     builder.AllowAnyHeader();                   
                 });
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
             services.AddDbContext<simepadfContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
@@ -45,6 +49,9 @@ namespace CoreApi
             services.AddTransient<IRolService, RolService>();
             services.AddTransient<ISocioInternacionalService, SocioInternacionalService>();
             services.AddTransient<IObjetivoService, ObjetivoService>();
+            services.AddTransient<IResultadoService, ResultadoService>();
+            services.AddTransient<IActividadService, ActividadService>();
+            services.AddTransient<IIndicadorService, IndicadorService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

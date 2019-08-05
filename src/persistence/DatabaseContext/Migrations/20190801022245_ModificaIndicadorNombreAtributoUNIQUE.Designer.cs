@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190801022245_ModificaIndicadorNombreAtributoUNIQUE")]
+    partial class ModificaIndicadorNombreAtributoUNIQUE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,37 +109,6 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("Indicador");
-                });
-
-            modelBuilder.Entity("Model.Domain.Meta", b =>
-                {
-                    b.Property<int>("CodigoMeta");
-
-                    b.Property<DateTime?>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("DeletedBy");
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.Property<int>("ValorMeta");
-
-                    b.HasKey("CodigoMeta");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("Meta");
                 });
 
             modelBuilder.Entity("Model.Domain.Objetivo", b =>
@@ -551,26 +522,6 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Model.Domain.Actividad", "Actividad")
                         .WithOne("Indicador")
                         .HasForeignKey("Model.Domain.Indicador", "CodigoIndicador")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Model.Domain.Meta", b =>
-                {
-                    b.HasOne("Model.Domain.Indicador", "Indicador")
-                        .WithOne("Meta")
-                        .HasForeignKey("Model.Domain.Meta", "CodigoMeta")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Usuario", "CreatedUsuario")

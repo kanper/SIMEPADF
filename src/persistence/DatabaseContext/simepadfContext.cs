@@ -51,6 +51,7 @@ namespace DatabaseContext
             new ResultadoConfig(modelBuilder.Entity<Resultado>());
             new ActividadConfig(modelBuilder.Entity<Actividad>());
             new IndicadorConfig(modelBuilder.Entity<Indicador>());
+            new MetaConfig(modelBuilder.Entity<Meta>());
         }
         
         public DbSet<Usuario> Usuario { get; set; }
@@ -68,7 +69,9 @@ namespace DatabaseContext
         public DbSet<Resultado> Resultado { get; set; }
         public DbSet<Actividad> Actividad { get; set; }
         public DbSet<Indicador> Indicador { get; set; }
-        
+
+        public DbSet<Meta> Meta { get; set; }
+
         public override int SaveChanges()
         {
             MakeAudit();
