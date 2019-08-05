@@ -1,4 +1,5 @@
-﻿using DatabaseContext.Config;
+﻿
+using DatabaseContext.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Model.Domain;
@@ -95,7 +96,7 @@ namespace DatabaseContext
                 if (entity != null)
                 {
                     var date = DateTime.UtcNow;
-                    //int personalId;
+                    int personalId;
 
                     if (entry.State == EntityState.Added)
                     {
