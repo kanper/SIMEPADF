@@ -21,9 +21,9 @@ namespace Services
 
     public class ObjetivoService : IObjetivoService
     {
-        private readonly simepadfContext _databaseContext;
+        private readonly ApplicationDbContext _databaseContext;
 
-        public ObjetivoService(simepadfContext databaseContext)
+        public ObjetivoService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

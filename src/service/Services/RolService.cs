@@ -19,9 +19,9 @@ namespace Services
 
     public class RolService : IRolService
     {
-        private readonly simepadfContext _databaseContext;
+        private readonly ApplicationDbContext _databaseContext;
 
-        public RolService(simepadfContext databaseContext)
+        public RolService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

@@ -19,9 +19,9 @@ namespace Services
     
     public class PaisService : IPaisService
     {
-        private readonly simepadfContext _databaseContext;
+        private readonly ApplicationDbContext _databaseContext;
 
-        public PaisService(simepadfContext databaseContext)
+        public PaisService(ApplicationDbContext databaseContext)
         {
             _databaseContext = databaseContext;
         }
