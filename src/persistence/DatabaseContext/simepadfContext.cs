@@ -1,5 +1,4 @@
-﻿/*
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:192.168.42.143,1433;Database=simepadf;User ID=SA;Password=secret;Encrypt=false;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Pw230$poll2455!;Encrypt=false;Connection Timeout=30;");
             }
         }
 
@@ -140,4 +139,3 @@ namespace DatabaseContext
 
     }
 }
-*/

@@ -8,14 +8,14 @@ namespace CoreApi.Controllers
     {
         private readonly IObjetivoService _service;
 
-        public ObjetivoController(IObjetivoService ObjetivoService)
+        public ObjetivoController(IObjetivoService objetivoService)
         {
-            _service = ObjetivoService;
+            _service = objetivoService;
         }
         
         [HttpGet("objetivo")]
         public IActionResult Get()
-        {
+        {            
             return Ok(_service.GetAll());
         }
 
@@ -27,11 +27,7 @@ namespace CoreApi.Controllers
 
         [HttpPost("objetivo")]
         public IActionResult Post([FromBody] Objetivo model)
-        {
-            if (model == null)
-            {
-                return NotFound();
-            }
+        {           
             return Ok(_service.Add(model));
         }
 
