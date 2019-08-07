@@ -11,7 +11,6 @@ namespace DTO.DTO
         public string ApellidoPersonal { get; set; }
         public string Cargo { get; set; }
         public DateTime FechaAfilacion { get; set; }
-        public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
