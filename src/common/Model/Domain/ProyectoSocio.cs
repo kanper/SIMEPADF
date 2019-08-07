@@ -5,6 +5,15 @@ namespace Model.Domain
 {
     public class ProyectoSocio
     {
+        public ProyectoSocio()
+        {
+        }
+
+        public ProyectoSocio(SocioInternacional socioInternacional, Proyecto proyecto)
+        {
+            SocioInternacional = socioInternacional;
+            Proyecto = proyecto;
+        }
 
         public int SocioId { get; set; }
         public SocioInternacional SocioInternacional { get; set; }

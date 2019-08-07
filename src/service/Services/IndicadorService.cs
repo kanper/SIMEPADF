@@ -116,8 +116,7 @@ namespace Services
             {
                 var indicador = _context.Indicador.Include(m => m.Meta).Single(i => i.CodigoIndicador == id);
                 indicador.NombreIndicador = "N/A";
-                indicador.Meta.ValorMeta = 0;
-                _context.Indicador.Update(indicador);
+                indicador.Meta.ValorMeta = 0;                
                 _context.SaveChanges();
                 return true;
             }
