@@ -22,17 +22,19 @@ namespace DatabaseContext
         {
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Pw230$poll2455!;Encrypt=false;Connection Timeout=30;");
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Pw230$poll2455!;Encrypt=false;Connection Timeout=30;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+            modelBuilder.Entity<UsuarioRol>().HasKey(sc => new { sc.UsuarioId, sc.RolId });
             modelBuilder.Entity<ProyectoOrganizacion>().HasKey(sc => new { sc.OrganizacionId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoPais>().HasKey(sc => new { sc.PaisId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoSocio>().HasKey(sc => new { sc.SocioId, sc.ProyectoId });
@@ -53,9 +55,10 @@ namespace DatabaseContext
             new IndicadorConfig(modelBuilder.Entity<Indicador>());
             new MetaConfig(modelBuilder.Entity<Meta>());
         }
-        
+
         public DbSet<Usuario> Usuario { get; set; }
-        public DbSet<Rol> Rol { get; set; }      
+        public DbSet<Rol> Rol { get; set; }
+        public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Proyecto> Proyecto { get; set; }
         public DbSet<SocioInternacional> SocioInternacional { get; set; }
         public DbSet<EstadoProyecto> EstadoProyecto { get; set; }

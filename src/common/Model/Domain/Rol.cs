@@ -6,6 +6,6 @@ namespace Model.Domain
     public class Rol : IdentityRole
     {
         public bool Enabled { get; set; }
-        //public List<UsuarioRol> UsuarioRols { get; set; }
+        public ICollection<UsuarioRol> UsuarioRols { get; set; }
     }
 }

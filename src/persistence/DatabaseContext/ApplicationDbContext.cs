@@ -128,6 +128,7 @@
 //            modelBuilder.Entity<Resultado>().HasQueryFilter(x => !x.Deleted);
 //            modelBuilder.Entity<Actividad>().HasQueryFilter(x => !x.Deleted);
 //            modelBuilder.Entity<Indicador>().HasQueryFilter(x => !x.Deleted);
+//            modelBuilder.Entity<Meta>().HasQueryFilter(x => !x.Deleted);
 //            modelBuilder.Entity<Proyecto>().HasQueryFilter(x => !x.Deleted);
 //            modelBuilder.Entity<SocioInternacional>().HasQueryFilter(x => !x.Deleted);
 //            modelBuilder.Entity<OrganizacionResponsable>().HasQueryFilter(x => !x.Deleted);

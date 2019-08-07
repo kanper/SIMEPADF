@@ -7,6 +7,7 @@ namespace Model.Domain
 {
     public class Usuario : IdentityUser, ISoftDeleted
     {
+        
         public string NombrePersonal { get; set; }
         public string ApellidoPersonal { get; set; }
         public string Cargo { get; set; }
@@ -15,12 +16,10 @@ namespace Model.Domain
 
         public bool Deleted { get; set; }
 
-        //public List<UsuarioRol> UsuarioRols { get; set; }
+        public ICollection<UsuarioRol> UsuarioRols { get; set; }
 
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 
-        public int PaisId { get; set; }
-        public Pais Pais { get; set; }
 
     }
 

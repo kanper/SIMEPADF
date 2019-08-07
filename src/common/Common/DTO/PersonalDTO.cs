@@ -14,6 +14,7 @@ namespace DTO.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
+        public bool estado { get; set; }
 
         //pais
         public string NombrePais { get; set; }
