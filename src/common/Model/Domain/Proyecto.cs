@@ -6,12 +6,27 @@ namespace Model.Domain
 {
     public class Proyecto: AudityEntity, ISoftDeleted
     {
+        public Proyecto()
+        {
+        }
+
+        public Proyecto(string nombreProyecto, DateTime fechaAprobacion, DateTime fechaInicio, DateTime fechaFin, double montoProyecto, int beneficiarios)
+        {
+            NombreProyecto = nombreProyecto;
+            FechaAprobacion = fechaAprobacion;
+            FechaInicio = fechaInicio;
+            FechaFin = fechaFin;
+            MontoProyecto = montoProyecto;
+            Beneficiarios = beneficiarios;            
+        }
+
         public string CodigoProyecto { get; set; }
         public string NombreProyecto { get; set; }
         public DateTime FechaAprobacion { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
-        public float MontoProyecto { get; set; }
+        public double MontoProyecto { get; set; }
+        public int Beneficiarios { get; set; }
 
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 

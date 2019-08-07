@@ -12,5 +12,10 @@ namespace Model.Domain
         public ICollection<ProyectoOrganizacion> ProyectoOrganizaciones { get; set; }
 
         public bool Deleted { get; set; }
+
+        public void AddProyecto(Proyecto proyecto)
+        {
+            ProyectoOrganizaciones.Add(new ProyectoOrganizacion(this, proyecto));
+        }
     }
 }

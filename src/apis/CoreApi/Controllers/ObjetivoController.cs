@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Model.Domain;
+﻿using DTO.DTO;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace CoreApi.Controllers
@@ -19,6 +19,12 @@ namespace CoreApi.Controllers
             return Ok(_service.GetAll());
         }
 
+        [HttpGet("objetivo/{id}/resultados")]
+        public IActionResult GetAll(int id)
+        {
+            return Ok(_service.GetAll(id));
+        }
+
         [HttpGet("objetivo/{id}")]
         public IActionResult Get(int id)
         {
@@ -26,15 +32,15 @@ namespace CoreApi.Controllers
         }
 
         [HttpPost("objetivo")]
-        public IActionResult Post([FromBody] Objetivo model)
+        public IActionResult Post([FromBody] ObjetivoDTO model)
         {           
             return Ok(_service.Add(model));
         }
 
         [HttpPut("objetivo/{id}")]
-        public IActionResult Put([FromBody] Objetivo model)
+        public IActionResult Put([FromBody] ObjetivoDTO model, int id)
         {
-            return Ok(_service.Update(model));
+            return Ok(_service.Update(model, id));
         }
         
         [HttpDelete("objetivo-{id}")]

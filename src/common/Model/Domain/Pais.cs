@@ -15,5 +15,11 @@ namespace Model.Domain
 
         public string UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
+
+        public void AddProyecto(Proyecto proyecto)
+        {
+            ProyectoPaises.Add(new ProyectoPais(this, proyecto));            
+        }
+
     }
 }

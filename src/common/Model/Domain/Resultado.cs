@@ -5,6 +5,15 @@ namespace Model.Domain
 {
     public class Resultado: AudityEntity, ISoftDeleted
     {
+        public Resultado()
+        {
+        }
+
+        public Resultado(string nombreResultado)
+        {
+            NombreResultado = nombreResultado;
+        }
+
         public int CodigoResultado { get; set; }
         public string NombreResultado { get; set; }
 

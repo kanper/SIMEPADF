@@ -1,11 +1,9 @@
 ﻿using System;
-using DatabaseContext;
-using Model.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using DatabaseContext;
 using DTO.DTO;
-using Microsoft.EntityFrameworkCore;
+using Model.Domain;
 
 namespace Services
 {
@@ -13,27 +11,91 @@ namespace Services
     public interface IObjetivoService
     {
         IEnumerable<ObjetivoDTO> GetAll();
-        Objetivo Get(int id);
-        bool Add(Objetivo model);
-        bool Update(Objetivo model);
+        IEnumerable<ResultadoDTO> GetAll(int id);
+        ObjetivoDTO Get(int id);
+        bool Add(ObjetivoDTO model);
+        bool Update(ObjetivoDTO model, int id);
         bool Delete(int id);
     }
 
     public class ObjetivoService : IObjetivoService
     {
-        private readonly ApplicationDbContext _databaseContext;
+        private readonly simepadfContext _context;
 
-        public ObjetivoService(ApplicationDbContext databaseContext)
+        public ObjetivoService(simepadfContext context)
         {
-            _databaseContext = databaseContext;
+            _context = context;
         }
-
-        public bool Add(Objetivo model) 
+        
+        public ObjetivoDTO Get(int id)
         {
             try
             {
-                _databaseContext.Add(model);
-                _databaseContext.SaveChanges();
+                return (from o in _context.Objetivo                   
+                    where o.CodigoObjetivo == id
+                    select new ObjetivoDTO()
+                    {
+                        Id = o.CodigoObjetivo,
+                        Nombre = o.NombreObjetivo,                       
+                    }).Single();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public IEnumerable<ResultadoDTO> GetAll(int id)
+        {
+            try
+            {
+                return (from o in _context.Objetivo
+                    join r in _context.Resultado
+                        on o equals r.Objetivo                   
+                    where o.CodigoObjetivo == id
+                    select new ResultadoDTO()
+                    {
+                        Id = r.CodigoResultado,
+                        CodigoObjetivo = o.CodigoObjetivo,
+                        NombreObjetivo = o.NombreObjetivo,
+                        NombreResultado = r.NombreResultado,
+                        Actividades = _context.Actividad.Count(a => a.Resultado == r)
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ResultadoDTO>();
+            }
+        }
+
+        public IEnumerable<ObjetivoDTO> GetAll()
+        {
+            try
+            {               
+                return (from o in _context.Objetivo                    
+                    select new ObjetivoDTO()
+                    {
+                        Id = o.CodigoObjetivo,
+                        Nombre = o.NombreObjetivo,
+                        Resultados = _context.Resultado.Count(r => r.Objetivo == o)
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ObjetivoDTO>();
+            }
+        }
+
+        public bool Add(ObjetivoDTO model) 
+        {
+            try
+            {
+                var objetivo = new Objetivo(model.Nombre);
+                _context.Objetivo.Add(objetivo);
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -47,8 +109,8 @@ namespace Services
         {
             try
             {
-                _databaseContext.Objetivo.Single(x => x.CodigoObjetivo == id).Deleted = true;
-                _databaseContext.SaveChanges();
+                _context.Objetivo.Single(x => x.CodigoObjetivo == id).Deleted = true;
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -58,48 +120,13 @@ namespace Services
             }           
         }
 
-        public Objetivo Get(int id)
+        public bool Update(ObjetivoDTO model, int id)
         {
             try
             {
-                return _databaseContext.Objetivo.Single(x => x.CodigoObjetivo == id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
-        }
-
-        public IEnumerable<ObjetivoDTO> GetAll()
-        {
-            try
-            {               
-                return (from o in _databaseContext.Objetivo
-                    join r in _databaseContext.Resultado
-                        on o equals r.Objetivo into oResult
-                    select new ObjetivoDTO()
-                    {
-                        Id = o.CodigoObjetivo,
-                        Nombre = o.NombreObjetivo,
-                        Resultados = oResult.Count()
-                    }).DefaultIfEmpty();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new List<ObjetivoDTO>();
-            }
-        }
-
-        public bool Update(Objetivo model)
-        {
-            try
-            {
-                var originalModel = _databaseContext.Objetivo.Single(x =>x.CodigoObjetivo == model.CodigoObjetivo);
-                originalModel.NombreObjetivo = model.NombreObjetivo;
-                _databaseContext.Update(originalModel);
-                _databaseContext.SaveChanges();
+                var originalModel = _context.Objetivo.Single(x =>x.CodigoObjetivo == id);
+                originalModel.NombreObjetivo = model.Nombre;               
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)

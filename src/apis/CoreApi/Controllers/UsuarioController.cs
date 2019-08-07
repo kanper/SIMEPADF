@@ -14,23 +14,23 @@ namespace CoreApi.Controllers
             _usuarioService = usuarioService;
         }
 
-        // GET api/values
-        [HttpGet("usuario")]
-        public IActionResult Get()
-        {
-            return Ok(
-                _usuarioService.GetAll()
-            );
-        }
+        //// GET api/values
+        //[HttpGet("usuario")]
+        //public IActionResult Get()
+        //{
+        //    return Ok(
+        //        _usuarioService.GetAll()
+        //    );
+        //}
 
-        // GET api/values/5
-        [HttpGet("usuario/{id}")]
-        public IActionResult Get(string id)
-        {
-            return Ok(
-                _usuarioService.Get(id)
-            );
-        }
+        //// GET api/values/5
+        //[HttpGet("usuario/{id}")]
+        //public IActionResult Get(string id)
+        //{
+        //    return Ok(
+        //        _usuarioService.Get(id)
+        //    );
+        //}
 
         // POST api/values
         [HttpPost("usuario")]

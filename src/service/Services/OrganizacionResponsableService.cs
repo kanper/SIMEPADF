@@ -19,9 +19,9 @@ namespace Services
 
     public class OrganizacionResponsableService : IOrganizacionResponsableService
     {
-        private readonly ApplicationDbContext _databaseContext;
+        private readonly simepadfContext _databaseContext;
 
-        public OrganizacionResponsableService(ApplicationDbContext databaseContext)
+        public OrganizacionResponsableService(simepadfContext databaseContext)
         {
             _databaseContext = databaseContext;
         }

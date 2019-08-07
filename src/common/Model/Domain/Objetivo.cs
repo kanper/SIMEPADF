@@ -6,6 +6,15 @@ namespace Model.Domain
 {
     public class Objetivo : AudityEntity, ISoftDeleted
     {
+        public Objetivo()
+        {
+        }
+
+        public Objetivo(string nombreObjetivo)
+        {
+            NombreObjetivo = nombreObjetivo;
+        }
+
         public int CodigoObjetivo { get; set; }
         public string NombreObjetivo { get; set; }
 
