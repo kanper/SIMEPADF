@@ -18,5 +18,10 @@ namespace Model.Domain
 
         public string ProyectoId { get; set; }
         public Proyecto Proyecto { get; set; }
+
+        public bool Equals(int pais, string proyecto)
+        {
+            return PaisId == pais && ProyectoId == proyecto;
+        }
     }
 }

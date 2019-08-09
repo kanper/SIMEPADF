@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190808202232_ModificaIdentificadoresTablaIntermediSocioProyecto")]
+    partial class ModificaIdentificadoresTablaIntermediSocioProyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -629,11 +631,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("NormalizedName");
 
-                    b.Property<string>("UsuarioId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Rol");
                 });
@@ -702,6 +700,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool>("Estado");
+
                     b.Property<DateTime>("FechaAfilacion");
 
                     b.Property<bool>("LockoutEnabled");
@@ -715,10 +715,6 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("NormalizedEmail");
 
                     b.Property<string>("NormalizedUserName");
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(50);
 
                     b.Property<string>("PasswordHash")
                         .IsRequired();
@@ -1045,13 +1041,6 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Model.Domain.Rol", b =>
-                {
-                    b.HasOne("Model.Domain.Usuario", "Usuario")
-                        .WithMany("Rols")
-                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("Model.Domain.SocioInternacional", b =>

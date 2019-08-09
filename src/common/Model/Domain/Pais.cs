@@ -18,6 +18,5 @@ namespace Model.Domain
         {
             ProyectoPaises.Add(new ProyectoPais(this, proyecto));            
         }
-
     }
 }

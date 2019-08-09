@@ -6,6 +6,7 @@ using DatabaseContext.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Model;
 using Model.Domain;
 using Model.Domain.DbHelper;
 
@@ -34,11 +35,13 @@ namespace DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
-            //modelBuilder.Entity<UsuarioRol>().HasKey(sc => new { sc.UsuarioId, sc.RolId });
-            modelBuilder.Entity<ProyectoOrganizacion>().HasKey(sc => new { sc.OrganizacionId, sc.ProyectoId });
+            modelBuilder.Entity<ProyectoOrganizacion>().HasKey(sc => new { sc.OrganizacionResponsableId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoPais>().HasKey(sc => new { sc.PaisId, sc.ProyectoId });
-            modelBuilder.Entity<ProyectoSocio>().HasKey(sc => new { sc.SocioId, sc.ProyectoId });
+            modelBuilder.Entity<ProyectoSocio>().HasKey(sc => new { sc.SocioInternacionalId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoUsuario>().HasKey(sc => new { sc.UsuarioId, sc.ProyectoId });
+            modelBuilder.Entity<PlanMonitoreoEvaluacion>().HasKey(sc => new {sc.ProyectoId, sc.IndicadorId});
+            modelBuilder.Entity<PlanDesagregacion>().HasKey(sc => new
+                {sc.DesagregacionId, sc.PlanProyectoId, sc.PlanIndicadorId});
 
             AddMyFilters(ref modelBuilder);
 
@@ -54,6 +57,12 @@ namespace DatabaseContext
             new ActividadConfig(modelBuilder.Entity<Actividad>());
             new IndicadorConfig(modelBuilder.Entity<Indicador>());
             new MetaConfig(modelBuilder.Entity<Meta>());
+            new PlanMonitoreoEvaluacionConfig(modelBuilder.Entity<PlanMonitoreoEvaluacion>());
+            new FuenteDatoConfig(modelBuilder.Entity<FuenteDato>());
+            new FrecuenciaMedicionConfig(modelBuilder.Entity<FrecuenciaMedicion>());
+            new NivelImpactoConfig(modelBuilder.Entity<NivelImpacto>());
+            new DesagregacionConfig(modelBuilder.Entity<Desagregacion>());
+            
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -73,6 +82,18 @@ namespace DatabaseContext
         public DbSet<Actividad> Actividad { get; set; }
         public DbSet<Indicador> Indicador { get; set; }
         public DbSet<Meta> Meta { get; set; }
+
+        public DbSet<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluacion { get; set; }
+
+        public DbSet<FuenteDato> FuenteDato { get; set; }
+
+        public DbSet<FrecuenciaMedicion> FrecuenciaMedicion { get; set; }
+
+        public DbSet<NivelImpacto> NivelImpacto { get; set; }
+
+        public DbSet<Desagregacion> Desagregacion { get; set; }
+
+        public DbSet<PlanDesagregacion> PlanDesagregacion { get; set; }
 
         public override int SaveChanges()
         {
@@ -139,11 +160,14 @@ namespace DatabaseContext
             modelBuilder.Entity<Resultado>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Actividad>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Indicador>().HasQueryFilter(x => !x.Deleted);
-            modelBuilder.Entity<Meta>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Proyecto>().HasQueryFilter(x => !x.Deleted);
-            modelBuilder.Entity<SocioInternacional>().HasQueryFilter(x => !x.Deleted);
-            modelBuilder.Entity<OrganizacionResponsable>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Pais>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<OrganizacionResponsable>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<SocioInternacional>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<FuenteDato>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<NivelImpacto>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Desagregacion>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Meta>().HasQueryFilter(x => !x.Deleted);
             #endregion
         }
 

@@ -45,7 +45,7 @@ namespace CoreApi.Controllers
             return Ok(_service.Update(model, id));
         }
 
-        [HttpDelete("actividad")]
+        [HttpDelete("actividad/{id}")]
         public IActionResult Delete(int id)
         {
             return Ok(_service.Delete(id));
