@@ -44,7 +44,7 @@ namespace CoreApi
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            //services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<IOrganizacionResponsableService, OrganizacionResponsableService>();
             services.AddTransient<IPaisService, PaisService>();
             services.AddTransient<IRolService, RolService>();

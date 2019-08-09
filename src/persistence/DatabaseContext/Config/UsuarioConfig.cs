@@ -14,7 +14,7 @@ namespace DatabaseContext.Config
             entityBuilder.Property(x => x.Email).IsRequired().HasMaxLength(50);
             entityBuilder.Property(x => x.UserName).IsRequired().HasMaxLength(50);
             entityBuilder.Property(x => x.PasswordHash).IsRequired();
-            entityBuilder.Property(x => x.Estado).IsRequired();
+            entityBuilder.Property(x => x.Pais).IsRequired().HasMaxLength(50);
             entityBuilder.Property(x => x.FechaAfilacion).IsRequired();
         }
     }

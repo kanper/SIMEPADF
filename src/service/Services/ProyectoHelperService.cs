@@ -12,6 +12,7 @@ namespace Services
         IEnumerable<MapDTO> GetOrganizacionMap();
         IEnumerable<MapDTO> GetSocioMap();
         IEnumerable<MapDTO> GetEstadoMap();
+        IEnumerable<MapingDTO> GetRolMap();
     }
     
     public class ProyectoHelperService : IProyectoHelperService
@@ -93,6 +94,24 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapingDTO> GetRolMap()
+        {
+            try
+            {
+                return (from r in _context.Rol
+                        select new MapingDTO()
+                        {
+                            Id = r.Id,
+                            Nombre = r.Name
+                        }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapingDTO>();
             }
         }
     }

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DTO.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Model.Domain;
 using Services;
 
 namespace CoreApi.Controllers
@@ -14,27 +13,27 @@ namespace CoreApi.Controllers
             _usuarioService = usuarioService;
         }
 
-        //// GET api/values
-        //[HttpGet("usuario")]
-        //public IActionResult Get()
-        //{
-        //    return Ok(
-        //        _usuarioService.GetAll()
-        //    );
-        //}
+        // GET api/values
+        [HttpGet("usuario")]
+        public IActionResult Get()
+        {
+            return Ok(
+                _usuarioService.GetAll()
+            );
+        }
 
-        //// GET api/values/5
-        //[HttpGet("usuario/{id}")]
-        //public IActionResult Get(string id)
-        //{
-        //    return Ok(
-        //        _usuarioService.Get(id)
-        //    );
-        //}
+        // GET api/values/5
+        [HttpGet("usuario/{id}")]
+        public IActionResult Get(string id)
+        {
+            return Ok(
+                _usuarioService.Get(id)
+            );
+        }
 
         // POST api/values
         [HttpPost("usuario")]
-        public IActionResult Post([FromBody] Usuario model)
+        public IActionResult Post([FromBody] PersonalDTO model)
         {
             return Ok(
                 _usuarioService.Add(model)
@@ -43,7 +42,7 @@ namespace CoreApi.Controllers
 
         // PUT api/values/5
         [HttpPut("usuario/{id}")]
-        public IActionResult Put([FromBody] Usuario model)
+        public IActionResult Put([FromBody] PersonalDTO model)
         {
             return Ok(
                 _usuarioService.Add(model)

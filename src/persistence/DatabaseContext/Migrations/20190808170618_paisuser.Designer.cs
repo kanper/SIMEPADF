@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190808170618_paisuser")]
+    partial class paisuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -423,11 +425,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("NormalizedName");
 
-                    b.Property<string>("UsuarioId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Rol");
                 });
@@ -532,6 +530,19 @@ namespace DatabaseContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuario");
+                });
+
+            modelBuilder.Entity("Model.Domain.UsuarioRol", b =>
+                {
+                    b.Property<string>("UsuarioId");
+
+                    b.Property<string>("RolId");
+
+                    b.HasKey("UsuarioId", "RolId");
+
+                    b.HasIndex("RolId");
+
+                    b.ToTable("UsuarioRol");
                 });
 
             modelBuilder.Entity("Model.Domain.Actividad", b =>
@@ -728,13 +739,6 @@ namespace DatabaseContext.Migrations
                         .HasForeignKey("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Model.Domain.Rol", b =>
-                {
-                    b.HasOne("Model.Domain.Usuario", "Usuario")
-                        .WithMany("Rols")
-                        .HasForeignKey("UsuarioId");
-                });
-
             modelBuilder.Entity("Model.Domain.SocioInternacional", b =>
                 {
                     b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
@@ -748,6 +752,19 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.UsuarioRol", b =>
+                {
+                    b.HasOne("Model.Domain.Rol", "Rol")
+                        .WithMany("UsuarioRols")
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario", "Usuario")
+                        .WithMany("UsuarioRols")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

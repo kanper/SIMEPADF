@@ -3,6 +3,7 @@ using DTO.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Model.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +15,13 @@ namespace Services
     {
         IEnumerable<PersonalDTO> GetAll();
         PersonalDTO Get(string id);
-        bool Add(Usuario model);
+        bool Add(PersonalDTO model);
         bool Update(Usuario model);
         bool Delete(string id);
 
     }
 
-    public class UsuarioService //: IUsuarioService
+    public class UsuarioService : IUsuarioService
     {
         private readonly simepadfContext _databaseContext;
         //private Rol _roleManager => HttpContext.GetOwinContext().Get<Rol>();
@@ -30,75 +31,78 @@ namespace Services
             _databaseContext = databaseContext;
         }
 
-        //public IEnumerable<PersonalDTO> GetAll()
-        //{
-        //    var result = new List<PersonalDTO>();
-        //    try
-        //    {
-        //        result = (
-        //            from u in _databaseContext.Usuario
-        //            from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
-        //            from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
-        //            from p in _databaseContext.Pais.Where(x => x.Id == u.PaisId)
-        //            select new PersonalDTO
-        //            {
-        //                Id = u.Id,
-        //                NombrePersonal = u.NombrePersonal,
-        //                ApellidoPersonal = u.ApellidoPersonal,
-        //                Cargo = u.Cargo,
-        //                FechaAfilacion = u.FechaAfilacion,
-        //                Email = u.Email,
-        //                PhoneNumber = u.PhoneNumber,
-        //                Password = u.PasswordHash,
-        //                NombrePais = p.NombrePais,
-        //                Name = r.Name
-        //            }
-        //           ).ToList();
-        //    }
-        //    catch (System.Exception)
-        //    {
-                
-        //    }
-        //    return result;
-        //}
+        public IEnumerable<PersonalDTO> GetAll()
+        {
+            var result = new List<PersonalDTO>();
+            try
+            {
+                return (from r in _databaseContext.Rol
+                        join u in _databaseContext.Usuario
+                            on r.Usuario equals u
+                        select new PersonalDTO
+                        {
+                            Id = u.Id,
+                            NombrePersonal = u.NombrePersonal,
+                            ApellidoPersonal = u.ApellidoPersonal,
+                            Cargo = u.Cargo,
+                            FechaAfilacion = u.FechaAfilacion,
+                            Email = u.Email,
+                            PhoneNumber = u.PhoneNumber,
+                            Password = u.PasswordHash,
+                            Pais = u.Pais,
+                            estado = u.Deleted,
+                            Name = r.Name
+                        }
+                   ).ToList();
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<PersonalDTO>();
+            }
+        }
 
-        //public PersonalDTO Get(string id)
-        //{
-        //    var result = new PersonalDTO();
-        //    try
-        //    {
-        //        result = (
-        //            from u in _databaseContext.Usuario.Where(x => x.Id == id)
-        //            from ur in _databaseContext.UserRoles.Where(x => x.UserId == u.Id)
-        //            from r in _databaseContext.Rol.Where(x => x.Id == ur.RoleId && x.Enabled)
-        //            from p in _databaseContext.Pais.Where(x => x.Id == u.PaisId)
-        //            select new PersonalDTO
-        //            {
-        //                Id = u.Id,
-        //                NombrePersonal = u.NombrePersonal,
-        //                ApellidoPersonal = u.ApellidoPersonal,
-        //                Cargo = u.Cargo,
-        //                FechaAfilacion = u.FechaAfilacion,
-        //                Email = u.Email,
-        //                PhoneNumber = u.PhoneNumber,
-        //                Password = u.PasswordHash,
-        //                NombrePais = p.NombrePais,
-        //                Name = r.Name
-        //            }
-        //           ).Single();
-        //    }
-        //    catch (System.Exception)
-        //    {
-             
-        //    }
-        //    return result;
-        //}
+        public PersonalDTO Get(string id)
+        {
+            var result = new PersonalDTO();
+            try
+            {
+                return (from r in _databaseContext.Rol
+                        join u in _databaseContext.Usuario
+                            on r.Usuario equals u
+                        where u.Id ==id
+                        select new PersonalDTO
+                    {
+                        Id = u.Id,
+                        NombrePersonal = u.NombrePersonal,
+                        ApellidoPersonal = u.ApellidoPersonal,
+                        Cargo = u.Cargo,
+                        FechaAfilacion = u.FechaAfilacion,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber,
+                        Password = u.PasswordHash,
+                        Pais = u.Pais,
+                        estado = u.Deleted,
+                        Name = r.Name
+                    }
+                   ).Single();
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
 
-        public bool Add(Usuario model)
+        public bool Add(PersonalDTO model)
         {
             try
             {
-                _databaseContext.Add(model);
+                var usuario = new Usuario(model.Id, model.NombrePersonal, model.ApellidoPersonal, model.Cargo, model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais, model.estado);
+                _databaseContext.Rol
+                    .Include(u => u.Usuario)
+                    .Single(r => r.Name == model.Name);
+                _databaseContext.Add(usuario);
                 _databaseContext.SaveChanges();
             }
             catch (System.Exception)
@@ -112,19 +116,7 @@ namespace Services
         {
             try
             {
-                var originalModel = _databaseContext.Usuario.Single(x =>
-                  x.Id == model.Id
-                );
 
-                originalModel.UserName = model.UserName;
-                originalModel.PasswordHash = model.PasswordHash;
-                originalModel.Email = model.Email;
-                originalModel.Estado = model.Estado;
-                originalModel.FechaAfilacion = model.FechaAfilacion;
-                //originalModel.UsuarioRols.RolId.Nombre = model.UsuarioRols.RolId.Nombre;
-
-                _databaseContext.Update(originalModel);
-                _databaseContext.SaveChanges();
             }
             catch (System.Exception)
             {
@@ -137,7 +129,7 @@ namespace Services
         {
             try
             {
-                _databaseContext.Entry(new Usuario { Id = id }).State = EntityState.Deleted;
+                _databaseContext.Usuario.Single(x => x.Id == id).Deleted = true;
                 _databaseContext.SaveChanges();
             }
             catch (System.Exception)

@@ -93,7 +93,7 @@ namespace Services
         {
             try
             {
-                _databaseContext.Entry(new Pais { Id = id }).State = EntityState.Deleted;
+                _databaseContext.Pais.Single(x => x.Id == id).Deleted = true;
                 _databaseContext.SaveChanges();
             }
             catch (System.Exception)

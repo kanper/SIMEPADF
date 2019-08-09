@@ -6,7 +6,6 @@ namespace Model.Domain
 {
     public class Pais: AudityEntity, ISoftDeleted
     {
-        [ForeignKey("Usuario")]
         public int Id { get; set; }
         public string NombrePais { get; set; }
         public string SiglaPais { get; set; }
@@ -14,7 +13,6 @@ namespace Model.Domain
         public ICollection<ProyectoPais> ProyectoPaises { get; set; }
 
         public bool Deleted { get; set; }
-
 
         public void AddProyecto(Proyecto proyecto)
         {

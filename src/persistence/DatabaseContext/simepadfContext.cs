@@ -34,7 +34,7 @@ namespace DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
-            modelBuilder.Entity<UsuarioRol>().HasKey(sc => new { sc.UsuarioId, sc.RolId });
+            //modelBuilder.Entity<UsuarioRol>().HasKey(sc => new { sc.UsuarioId, sc.RolId });
             modelBuilder.Entity<ProyectoOrganizacion>().HasKey(sc => new { sc.OrganizacionId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoPais>().HasKey(sc => new { sc.PaisId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoSocio>().HasKey(sc => new { sc.SocioId, sc.ProyectoId });
@@ -58,7 +58,7 @@ namespace DatabaseContext
 
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Rol> Rol { get; set; }
-        public DbSet<UsuarioRol> UsuarioRol { get; set; }
+        //public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Proyecto> Proyecto { get; set; }
         public DbSet<SocioInternacional> SocioInternacional { get; set; }
         public DbSet<EstadoProyecto> EstadoProyecto { get; set; }

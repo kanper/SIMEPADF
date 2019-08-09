@@ -19,6 +19,12 @@ namespace CoreApi.Controllers
             return Ok(_service.GetPaisMap());
         }
 
+        [HttpGet("proyecto/helper/rol")]
+        public IActionResult RolMap()
+        {
+            return Ok(_service.GetRolMap());
+        }
+
         [HttpGet("proyecto/helper/organizacion")]
         public IActionResult OrganizacionMap()
         {
