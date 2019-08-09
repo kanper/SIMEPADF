@@ -15,7 +15,7 @@ namespace Model.Domain
             Proyecto = proyecto;
         }
 
-        public int SocioId { get; set; }
+        public int SocioInternacionalId { get; set; }
         public SocioInternacional SocioInternacional { get; set; }
 
         public string ProyectoId { get; set; }

@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190807192305_AgregaModeloParaPlanMonitoreoEvaluacion")]
+    partial class AgregaModeloParaPlanMonitoreoEvaluacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -522,11 +524,15 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ProyectoOrganizacion", b =>
                 {
-                    b.Property<int>("OrganizacionResponsableId");
+                    b.Property<int>("OrganizacionId");
 
                     b.Property<string>("ProyectoId");
 
-                    b.HasKey("OrganizacionResponsableId", "ProyectoId");
+                    b.Property<int?>("OrganizacionResponsableId");
+
+                    b.HasKey("OrganizacionId", "ProyectoId");
+
+                    b.HasIndex("OrganizacionResponsableId");
 
                     b.HasIndex("ProyectoId");
 
@@ -548,13 +554,17 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ProyectoSocio", b =>
                 {
-                    b.Property<int>("SocioInternacionalId");
+                    b.Property<int>("SocioId");
 
                     b.Property<string>("ProyectoId");
 
-                    b.HasKey("SocioInternacionalId", "ProyectoId");
+                    b.Property<int?>("SocioInternacionalId");
+
+                    b.HasKey("SocioId", "ProyectoId");
 
                     b.HasIndex("ProyectoId");
+
+                    b.HasIndex("SocioInternacionalId");
 
                     b.ToTable("ProyectoSocio");
                 });
@@ -973,8 +983,7 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Model.Domain.OrganizacionResponsable", "OrganizacionResponsable")
                         .WithMany("ProyectoOrganizaciones")
-                        .HasForeignKey("OrganizacionResponsableId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrganizacionResponsableId");
 
                     b.HasOne("Model.Domain.Proyecto", "Proyecto")
                         .WithMany("ProyectoOrganizaciones")
@@ -1004,8 +1013,7 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.SocioInternacional", "SocioInternacional")
                         .WithMany("ProyectoSocios")
-                        .HasForeignKey("SocioInternacionalId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SocioInternacionalId");
                 });
 
             modelBuilder.Entity("Model.Domain.ProyectoUsuario", b =>

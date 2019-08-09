@@ -13,7 +13,7 @@ namespace Model.Domain
             Proyecto = proyecto;
         }
 
-        public int OrganizacionId { get; set; }
+        public int OrganizacionResponsableId { get; set; }
         public OrganizacionResponsable OrganizacionResponsable { get; set; }
 
         public string ProyectoId { get; set; }

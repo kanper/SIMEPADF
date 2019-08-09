@@ -27,6 +27,10 @@ namespace Model.Domain
         public DateTime FechaFin { get; set; }
         public double MontoProyecto { get; set; }
         public int Beneficiarios { get; set; }
+        
+        public EstadoProyecto EstadoProyecto { get; set; }
+        
+        public int EstadoId { get; set; }
 
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 
@@ -36,9 +40,27 @@ namespace Model.Domain
 
         public ICollection<ProyectoSocio> ProyectoSocios { get; set; }
 
-        public int EstadoId { get; set; }
-        public EstadoProyecto EstadoProyecto { get; set; }
-
+        public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }
         public bool Deleted { get; set; }
+
+        public void AddIndicador(Indicador indicador)
+        {
+            PlanMonitoreoEvaluaciones.Add(new PlanMonitoreoEvaluacion(this, indicador));
+        }
+
+        public void AddPais(Pais pais)
+        {
+            ProyectoPaises.Add(new ProyectoPais(pais, this));
+        }
+
+        public void AddSocio(SocioInternacional socio)
+        {
+            ProyectoSocios.Add(new ProyectoSocio(socio, this));
+        }
+
+        public void AddOrganizacion(OrganizacionResponsable organizacion)
+        {
+            ProyectoOrganizaciones.Add(new ProyectoOrganizacion(organizacion, this));
+        }
     }
 }
