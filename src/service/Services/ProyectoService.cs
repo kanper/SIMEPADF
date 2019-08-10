@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseContext;
 using DTO.DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Model.Domain;
 
 namespace Services
@@ -44,10 +46,34 @@ namespace Services
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
                         EstadoProyecto = e.TipoEstado,
-                        Paises = (from pais in _context.Pais join pp in _context.ProyectoPais on pais equals pp.Pais where pp.ProyectoId == p.CodigoProyecto select new MapDTO(){
-                            Id = pais.Id, 
-                            Nombre = pais.NombrePais
-                        }).ToArray()
+                        Paises = (from pais in _context.Pais 
+                            join pp in _context.ProyectoPais 
+                                on pais equals pp.Pais 
+                            where pp.ProyectoId == p.CodigoProyecto 
+                            select new MapDTO()
+                            {
+                                Id = pais.Id, 
+                                Nombre = pais.NombrePais
+                            }).ToArray(),
+                        Socios = (from socio in _context.SocioInternacional
+                            join ps in _context.ProyectoSocio
+                                on socio equals ps.SocioInternacional
+                            where ps.ProyectoId == p.CodigoProyecto
+                            select new MapDTO()
+                                {
+                                  Id = socio.Id,
+                                  Nombre = socio.NombreSocio
+                                }).ToArray(),
+                        Organizaciones = (from org in _context.OrganizacionResponsable
+                                join po in _context.ProyectoOrganizacion
+                                    on org equals po.OrganizacionResponsable
+                                where po.ProyectoId == p.CodigoProyecto
+                                  select new MapDTO()
+                                  {
+                                      Id = org.Id,
+                                      Nombre = org.NombreOrganizacion
+                                  }).ToArray()
+                        
                     }).Single();
             }
             catch (Exception e)
@@ -92,11 +118,15 @@ namespace Services
                     .Include(p => p.Proyecto)
                     .Single(e => e.TipoEstado == "INCOMPLETO")
                     .Proyecto.Add(proyecto);
+                /*
+                 * Por cada lista guarda uno por uno los elementos
+                 */
                 foreach (var dto in model.Paises)
                 {
                     _context.Pais
                         .Include(p => p.ProyectoPaises)
-                        .Single(p => p.Id == dto.Id).AddProyecto(proyecto);                    
+                        .Single(p => p.Id == dto.Id)
+                        .AddProyecto(proyecto);                    
                 }
 
                 foreach (var dto in model.Socios)
@@ -130,46 +160,35 @@ namespace Services
             {
                 var proyecto = _context.Proyecto
                     .Include(p => p.ProyectoPaises)
+                    .Include(o => o.ProyectoOrganizaciones)
+                    .Include(s => s.ProyectoSocios)
                     .Single(p => p.CodigoProyecto == id);
                 proyecto.NombreProyecto = model.NombreProyecto;
                 proyecto.MontoProyecto = model.MontoProyecto;
                 proyecto.Beneficiarios = model.Beneficiarios;
                 proyecto.FechaAprobacion = model.FechaAprobacion;
                 proyecto.FechaInicio = model.FechaInicio;
-                proyecto.FechaFin = model.FechaFin;               
-                
-                //Agrega todos los nuevos paises nuevos
+                proyecto.FechaFin = model.FechaFin;
+                proyecto.ProyectoPaises.Clear();
+                proyecto.ProyectoSocios.Clear();
+                proyecto.ProyectoOrganizaciones.Clear();
+                /*
+                 * Se agregan los nuevo elementos a cada lista
+                 */
                 foreach (var dto in model.Paises)
-                {                                        
-                    var isIncluded = false;
-                    foreach (var proyectoPais in proyecto.ProyectoPaises)
-                    {
-                        if (dto.Id == proyectoPais.PaisId)
-                        {
-                            isIncluded = true;
-                        }
-                    }
-
-                    if (isIncluded) continue;
-                    var pais = _context.Pais.Single(p => p.Id == dto.Id);
-                    proyecto.AddPais(pais);
+                {                                                                                                    
+                    proyecto.AddPais(GetPais(dto.Id));
                 }
 
-                //Elimina los paises que se removieron
-                foreach (var proyectoPais in proyecto.ProyectoPaises.ToList())
-                {
-                    var isIncluded = false;
-                    foreach (var dto in model.Paises)
-                    {
-                        if (proyectoPais.PaisId == dto.Id)
-                        {
-                            isIncluded = true;
-                        }
-                    }
-
-                    if (isIncluded) continue;
-                    proyecto.ProyectoPaises.Remove(proyectoPais);
+                foreach (var dto in model.Socios)
+                {                    
+                    proyecto.AddSocio(GetSocio(dto.Id));
                 }
+
+                foreach (var dto in model.Organizaciones)
+                {                   
+                    proyecto.AddOrganizacion(GetOrganizacion(dto.Id));
+                }                
                 
                 _context.SaveChanges();
                 return true;
@@ -194,6 +213,41 @@ namespace Services
                 Console.WriteLine(e);
                 return false;
             }
+        }
+
+        private Pais GetPais(int id)
+        {
+            return _context.Pais.Single(p => p.Id == id);
+        }
+
+        private SocioInternacional GetSocio(int id)
+        {
+            return _context.SocioInternacional.Single(s => s.Id == id);
+        }
+
+        private OrganizacionResponsable GetOrganizacion(int id)
+        {
+            return _context.OrganizacionResponsable.Single(o => o.Id == id);
+        }
+
+        private bool IsPaisIncluded(ICollection<ProyectoPais> collection, int idPais)
+        {
+            return collection.Any(pp => idPais == pp.PaisId);
+        }
+
+        private bool IsSocioIncluded(ICollection<ProyectoSocio> collection, int idSocio)
+        {
+            return collection.Any(ps => idSocio == ps.SocioInternacionalId);
+        }
+
+        private bool IsOrganizacionIncluded(ICollection<ProyectoOrganizacion> collection, int idOrg)
+        {
+            return collection.Any(po => idOrg == po.OrganizacionResponsableId);
+        }
+
+        private bool IsIncluded(MapDTO[] map, int idPais)
+        {
+            return map.Any(dto => idPais == dto.Id);
         }
     }
 }
