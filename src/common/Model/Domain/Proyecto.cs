@@ -62,5 +62,20 @@ namespace Model.Domain
         {
             ProyectoOrganizaciones.Add(new ProyectoOrganizacion(organizacion, this));
         }
+
+        public void RemovePais(ProyectoPais pais)
+        {
+            ProyectoPaises.Remove(pais);
+        }
+
+        public void RemoveSocio(ProyectoSocio socio)
+        {
+            ProyectoSocios.Remove(socio);
+        }
+
+        public void RemoveOrganizacion(ProyectoOrganizacion org)
+        {
+            ProyectoOrganizaciones.Remove(org);
+        }
     }
 }
