@@ -81,6 +81,8 @@ namespace Auth
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseIdentityServer();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

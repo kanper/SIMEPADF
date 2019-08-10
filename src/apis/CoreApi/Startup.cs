@@ -26,6 +26,14 @@ namespace CoreApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = Configuration["Auth:Url"];
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = Configuration["Auth:ApiName"];
+                });
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>
@@ -87,6 +95,7 @@ namespace CoreApi
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();
         }

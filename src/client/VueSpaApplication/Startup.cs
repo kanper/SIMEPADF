@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,13 +24,47 @@ namespace VueSpaApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = "oidc";
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+              .AddOpenIdConnect("oidc" ,options =>
+              {
+                  options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+                  options.Authority = Configuration["Auth:Url"];
+                  options.RequireHttpsMetadata = false;
+                  options.GetClaimsFromUserInfoEndpoint = true;
+
+                  options.ClientId = Configuration["Auth:ClientId"];
+                  options.ClientSecret = Configuration["Auth:SecretKey"];
+                  options.ResponseType = "code id_token";
+
+                  options.Scope.Add("CoreApi");
+
+                  options.SaveTokens = true;
+
+                  options.Events = new OpenIdConnectEvents
+                  {
+                      OnUserInformationReceived = async context =>
+                      {
+                          var claims = new List<Claim>();
+
+                          if (context.Properties.Items.Keys.Contains(".Token.access_token"))
+                          {
+                              var token = context.Properties.Items[".Token.access_token"].ToString();
+                              claims.Add(new Claim("access_token", token));
+
+                              var id = context.Principal.Identity as ClaimsIdentity;
+                              id.AddClaims(claims);
+                          }
+                          await Task.FromResult(0);
+                      }
+                  };
+              });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -52,6 +86,8 @@ namespace VueSpaApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            //app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

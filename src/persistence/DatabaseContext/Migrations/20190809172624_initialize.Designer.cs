@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    [Migration("20190808170618_paisuser")]
-    partial class paisuser
+    [Migration("20190809172624_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,6 +63,41 @@ namespace DatabaseContext.Migrations
                     b.ToTable("Actividad");
                 });
 
+            modelBuilder.Entity("Model.Domain.Desagregacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("TipoDesagregacion")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("Desagregacion");
+                });
+
             modelBuilder.Entity("Model.Domain.EstadoProyecto", b =>
                 {
                     b.Property<int>("Id")
@@ -76,6 +111,76 @@ namespace DatabaseContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EstadoProyecto");
+                });
+
+            modelBuilder.Entity("Model.Domain.FrecuenciaMedicion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreFrecuencia")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FrecuenciaMedicion");
+                });
+
+            modelBuilder.Entity("Model.Domain.FuenteDato", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreFuente")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("FuenteDato");
                 });
 
             modelBuilder.Entity("Model.Domain.Indicador", b =>
@@ -140,6 +245,41 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("UpdatedBy");
 
                     b.ToTable("Meta");
+                });
+
+            modelBuilder.Entity("Model.Domain.NivelImpacto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<string>("NombreNivelImpacto")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("NivelImpacto");
                 });
 
             modelBuilder.Entity("Model.Domain.Objetivo", b =>
@@ -258,6 +398,80 @@ namespace DatabaseContext.Migrations
                     b.ToTable("Pais");
                 });
 
+            modelBuilder.Entity("Model.Domain.PlanDesagregacion", b =>
+                {
+                    b.Property<int>("DesagregacionId");
+
+                    b.Property<string>("PlanProyectoId");
+
+                    b.Property<int>("PlanIndicadorId");
+
+                    b.Property<int?>("PlanMonitoreoEvaluacionIndicadorId");
+
+                    b.Property<string>("PlanMonitoreoEvaluacionProyectoId");
+
+                    b.HasKey("DesagregacionId", "PlanProyectoId", "PlanIndicadorId");
+
+                    b.HasIndex("PlanMonitoreoEvaluacionProyectoId", "PlanMonitoreoEvaluacionIndicadorId");
+
+                    b.ToTable("PlanDesagregacion");
+                });
+
+            modelBuilder.Entity("Model.Domain.PlanMonitoreoEvaluacion", b =>
+                {
+                    b.Property<string>("ProyectoId");
+
+                    b.Property<int>("IndicadorId");
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<string>("DeletedBy");
+
+                    b.Property<int>("FrecuenciaMedicionId");
+
+                    b.Property<int>("FuenteDatoId");
+
+                    b.Property<string>("MetodologiaRecoleccion")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("NivelImpactoId");
+
+                    b.Property<string>("ProyectoCodigoProyecto");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.Property<string>("ValorLineaBase")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("ProyectoId", "IndicadorId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("DeletedBy");
+
+                    b.HasIndex("FrecuenciaMedicionId");
+
+                    b.HasIndex("FuenteDatoId");
+
+                    b.HasIndex("IndicadorId");
+
+                    b.HasIndex("NivelImpactoId");
+
+                    b.HasIndex("ProyectoCodigoProyecto");
+
+                    b.HasIndex("UpdatedBy");
+
+                    b.ToTable("PlanMonitoreoEvaluacion");
+                });
+
             modelBuilder.Entity("Model.Domain.Proyecto", b =>
                 {
                     b.Property<string>("CodigoProyecto")
@@ -310,15 +524,11 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ProyectoOrganizacion", b =>
                 {
-                    b.Property<int>("OrganizacionId");
+                    b.Property<int>("OrganizacionResponsableId");
 
                     b.Property<string>("ProyectoId");
 
-                    b.Property<int?>("OrganizacionResponsableId");
-
-                    b.HasKey("OrganizacionId", "ProyectoId");
-
-                    b.HasIndex("OrganizacionResponsableId");
+                    b.HasKey("OrganizacionResponsableId", "ProyectoId");
 
                     b.HasIndex("ProyectoId");
 
@@ -340,17 +550,13 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ProyectoSocio", b =>
                 {
-                    b.Property<int>("SocioId");
+                    b.Property<int>("SocioInternacionalId");
 
                     b.Property<string>("ProyectoId");
 
-                    b.Property<int?>("SocioInternacionalId");
-
-                    b.HasKey("SocioId", "ProyectoId");
+                    b.HasKey("SocioInternacionalId", "ProyectoId");
 
                     b.HasIndex("ProyectoId");
-
-                    b.HasIndex("SocioInternacionalId");
 
                     b.ToTable("ProyectoSocio");
                 });
@@ -519,6 +725,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RolId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -529,20 +737,9 @@ namespace DatabaseContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
-                });
-
-            modelBuilder.Entity("Model.Domain.UsuarioRol", b =>
-                {
-                    b.Property<string>("UsuarioId");
-
-                    b.Property<string>("RolId");
-
-                    b.HasKey("UsuarioId", "RolId");
-
                     b.HasIndex("RolId");
 
-                    b.ToTable("UsuarioRol");
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Model.Domain.Actividad", b =>
@@ -559,6 +756,51 @@ namespace DatabaseContext.Migrations
                         .WithMany("Actividades")
                         .HasForeignKey("ResultadoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.Desagregacion", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.FrecuenciaMedicion", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.FuenteDato", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
 
                     b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
                         .WithMany()
@@ -592,6 +834,21 @@ namespace DatabaseContext.Migrations
                         .HasForeignKey("Model.Domain.Meta", "CodigoMeta")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.NivelImpacto", b =>
+                {
                     b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
                         .WithMany()
                         .HasForeignKey("CreatedBy");
@@ -650,6 +907,57 @@ namespace DatabaseContext.Migrations
                         .HasForeignKey("UpdatedBy");
                 });
 
+            modelBuilder.Entity("Model.Domain.PlanDesagregacion", b =>
+                {
+                    b.HasOne("Model.Domain.Desagregacion", "Desagregacion")
+                        .WithMany("PlanDesagregaciones")
+                        .HasForeignKey("DesagregacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.PlanMonitoreoEvaluacion", "PlanMonitoreoEvaluacion")
+                        .WithMany("PlanDesagregaciones")
+                        .HasForeignKey("PlanMonitoreoEvaluacionProyectoId", "PlanMonitoreoEvaluacionIndicadorId");
+                });
+
+            modelBuilder.Entity("Model.Domain.PlanMonitoreoEvaluacion", b =>
+                {
+                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy");
+
+                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
+                        .WithMany()
+                        .HasForeignKey("DeletedBy");
+
+                    b.HasOne("Model.Domain.FrecuenciaMedicion", "FrecuenciaMedicion")
+                        .WithMany("Planes")
+                        .HasForeignKey("FrecuenciaMedicionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.FuenteDato", "FuenteDato")
+                        .WithMany("Planes")
+                        .HasForeignKey("FuenteDatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Indicador", "Indicador")
+                        .WithMany("PlanMonitoreoEvaluaciones")
+                        .HasForeignKey("IndicadorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.NivelImpacto", "NivelImpacto")
+                        .WithMany("Planes")
+                        .HasForeignKey("NivelImpactoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Model.Domain.Proyecto", "Proyecto")
+                        .WithMany("PlanMonitoreoEvaluaciones")
+                        .HasForeignKey("ProyectoCodigoProyecto");
+
+                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
+                        .WithMany()
+                        .HasForeignKey("UpdatedBy");
+                });
+
             modelBuilder.Entity("Model.Domain.Proyecto", b =>
                 {
                     b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
@@ -673,7 +981,8 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Model.Domain.OrganizacionResponsable", "OrganizacionResponsable")
                         .WithMany("ProyectoOrganizaciones")
-                        .HasForeignKey("OrganizacionResponsableId");
+                        .HasForeignKey("OrganizacionResponsableId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Proyecto", "Proyecto")
                         .WithMany("ProyectoOrganizaciones")
@@ -703,7 +1012,8 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.SocioInternacional", "SocioInternacional")
                         .WithMany("ProyectoSocios")
-                        .HasForeignKey("SocioInternacionalId");
+                        .HasForeignKey("SocioInternacionalId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Model.Domain.ProyectoUsuario", b =>
@@ -754,17 +1064,11 @@ namespace DatabaseContext.Migrations
                         .HasForeignKey("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Model.Domain.UsuarioRol", b =>
+            modelBuilder.Entity("Model.Domain.Usuario", b =>
                 {
                     b.HasOne("Model.Domain.Rol", "Rol")
-                        .WithMany("UsuarioRols")
-                        .HasForeignKey("RolId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Model.Domain.Usuario", "Usuario")
-                        .WithMany("UsuarioRols")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("usuarios")
+                        .HasForeignKey("RolId");
                 });
 #pragma warning restore 612, 618
         }

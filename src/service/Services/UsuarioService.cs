@@ -16,7 +16,7 @@ namespace Services
         IEnumerable<PersonalDTO> GetAll();
         PersonalDTO Get(string id);
         bool Add(PersonalDTO model);
-        bool Update(Usuario model);
+        bool Update(PersonalDTO model, string id);
         bool Delete(string id);
 
     }
@@ -36,9 +36,9 @@ namespace Services
             var result = new List<PersonalDTO>();
             try
             {
-                return (from r in _databaseContext.Rol
-                        join u in _databaseContext.Usuario
-                            on r.Usuario equals u
+                return (from u in _databaseContext.Usuario
+                        join r in _databaseContext.Rol
+                            on u.Rol equals r
                         select new PersonalDTO
                         {
                             Id = u.Id,
@@ -67,9 +67,9 @@ namespace Services
             var result = new PersonalDTO();
             try
             {
-                return (from r in _databaseContext.Rol
-                        join u in _databaseContext.Usuario
-                            on r.Usuario equals u
+                return (from u in _databaseContext.Usuario
+                        join r in _databaseContext.Rol
+                            on u.Rol equals r
                         where u.Id ==id
                         select new PersonalDTO
                     {
@@ -100,23 +100,38 @@ namespace Services
             {
                 var usuario = new Usuario(model.Id, model.NombrePersonal, model.ApellidoPersonal, model.Cargo, model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais, model.estado);
                 _databaseContext.Rol
-                    .Include(u => u.Usuario)
-                    .Single(r => r.Name == model.Name);
-                _databaseContext.Add(usuario);
+                    .Include(u => u.usuarios)
+                    .Single(r => r.Name == model.Name)
+                    .usuarios.Add(usuario);
+                //_databaseContext.Add(usuario);
                 _databaseContext.SaveChanges();
+                return true;
             }
             catch (System.Exception)
             {
                 return false;
             }
-            return true;
         }
 
-        public bool Update(Usuario model)
+        public bool Update(PersonalDTO model, string id)
         {
             try
             {
+                //var usuario = _databaseContext.Usuario
+                //    .Include(u => u.Rols)
+                //    .Single(u => u.Id == id);
+                //usuario.NombrePersonal = model.NombrePersonal;
+                //usuario.ApellidoPersonal = model.ApellidoPersonal;
+                //usuario.Cargo = model.Cargo;
+                //usuario.FechaAfilacion = model.FechaAfilacion;
+                //usuario.Email = model.Email;
+                //usuario.PhoneNumber = model.PhoneNumber;
+                //usuario.PasswordHash = model.Password;
+                //usuario.Pais = model.Pais;
+                //usuario.Deleted = model.estado;
 
+                //_databaseContext.Add(usuario);
+                //_databaseContext.SaveChanges();
             }
             catch (System.Exception)
             {

@@ -629,11 +629,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("NormalizedName");
 
-                    b.Property<string>("UsuarioId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Rol");
                 });
@@ -727,6 +723,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RolId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -736,6 +734,8 @@ namespace DatabaseContext.Migrations
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuario");
                 });
@@ -1047,13 +1047,6 @@ namespace DatabaseContext.Migrations
                         .HasForeignKey("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Model.Domain.Rol", b =>
-                {
-                    b.HasOne("Model.Domain.Usuario", "Usuario")
-                        .WithMany("Rols")
-                        .HasForeignKey("UsuarioId");
-                });
-
             modelBuilder.Entity("Model.Domain.SocioInternacional", b =>
                 {
                     b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
@@ -1067,6 +1060,13 @@ namespace DatabaseContext.Migrations
                     b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
                         .WithMany()
                         .HasForeignKey("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Model.Domain.Usuario", b =>
+                {
+                    b.HasOne("Model.Domain.Rol", "Rol")
+                        .WithMany("usuarios")
+                        .HasForeignKey("RolId");
                 });
 #pragma warning restore 612, 618
         }

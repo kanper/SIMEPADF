@@ -7,7 +7,6 @@ namespace Model.Domain
     {
         public bool Enabled { get; set; }
 
-        public string UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public ICollection<Usuario> usuarios { get; set; }
     }
 }

@@ -43,8 +43,8 @@ namespace Auth.Config
                         new Secret(configuration.GetValue<string>("Client:SecretKey").Sha256())
                     },
 
-                    RedirectUris           = {$""},
-                    PostLogoutRedirectUris = {$""},
+                    RedirectUris           = {$"{configuration.GetValue<string>("Client:Url")}signin-oidc"},
+                    PostLogoutRedirectUris = {$"{configuration.GetValue<string>("Client:url")}signout-callback-oidc"},
 
                     AllowedScopes =
                     {
