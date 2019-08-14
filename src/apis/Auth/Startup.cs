@@ -33,7 +33,7 @@ namespace Auth
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            services.AddIdentity<Usuario, IdentityRole>(opts => {
+            services.AddIdentity<Usuario, Rol>(opts => {
                 opts.Password.RequireDigit = true;
                 opts.Password.RequiredLength = 8;
                 opts.Password.RequireNonAlphanumeric = false;

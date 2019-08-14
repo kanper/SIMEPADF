@@ -1,6 +1,4 @@
-﻿using Model.Domain;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace DTO.DTO
 {
@@ -14,7 +12,6 @@ namespace DTO.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
-        public bool estado { get; set; }
         public string Pais { get; set; }
 
         //rol

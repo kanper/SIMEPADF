@@ -42,10 +42,10 @@ namespace CoreApi.Controllers
 
         // PUT api/values/5
         [HttpPut("usuario/{id}")]
-        public IActionResult Put([FromBody] PersonalDTO model)
+        public IActionResult Put([FromBody] PersonalDTO model, string id)
         {
             return Ok(
-                _usuarioService.Add(model)
+                _usuarioService.Update(model, id)
             );
         }
 

@@ -50,7 +50,6 @@ namespace Services
                             PhoneNumber = u.PhoneNumber,
                             Password = u.PasswordHash,
                             Pais = u.Pais,
-                            estado = u.Deleted,
                             Name = r.Name
                         }
                    ).ToList();
@@ -82,7 +81,6 @@ namespace Services
                         PhoneNumber = u.PhoneNumber,
                         Password = u.PasswordHash,
                         Pais = u.Pais,
-                        estado = u.Deleted,
                         Name = r.Name
                     }
                    ).Single();
@@ -98,12 +96,12 @@ namespace Services
         {
             try
             {
-                var usuario = new Usuario(model.Id, model.NombrePersonal, model.ApellidoPersonal, model.Cargo, model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais, model.estado);
+                var usuario = new Usuario(model.Id, model.Email, model.NombrePersonal, model.ApellidoPersonal, model.Cargo, 
+                    model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais);
                 _databaseContext.Rol
                     .Include(u => u.usuarios)
                     .Single(r => r.Name == model.Name)
                     .usuarios.Add(usuario);
-                //_databaseContext.Add(usuario);
                 _databaseContext.SaveChanges();
                 return true;
             }
@@ -117,22 +115,31 @@ namespace Services
         {
             try
             {
-                //var usuario = _databaseContext.Usuario
-                //    .Include(u => u.Rols)
-                //    .Single(u => u.Id == id);
-                //usuario.NombrePersonal = model.NombrePersonal;
-                //usuario.ApellidoPersonal = model.ApellidoPersonal;
-                //usuario.Cargo = model.Cargo;
-                //usuario.FechaAfilacion = model.FechaAfilacion;
-                //usuario.Email = model.Email;
-                //usuario.PhoneNumber = model.PhoneNumber;
-                //usuario.PasswordHash = model.Password;
-                //usuario.Pais = model.Pais;
-                //usuario.Deleted = model.estado;
 
-                //_databaseContext.Add(usuario);
-                //_databaseContext.SaveChanges();
+                var usuario = _databaseContext.Usuario
+                    .Include(u => u.Rol)
+                    .Single(u => u.Id == id);
+                usuario.UserName = model.Email;
+                usuario.NombrePersonal = model.NombrePersonal;
+                usuario.ApellidoPersonal = model.ApellidoPersonal;
+                usuario.Cargo = model.Cargo;
+                usuario.FechaAfilacion = model.FechaAfilacion;
+                usuario.Email = model.Email;
+                usuario.PhoneNumber = model.PhoneNumber;
+                usuario.PasswordHash = model.Password;
+                usuario.Pais = model.Pais;
+
+                var rol = _databaseContext.Rol.Single(r => r.Name == model.Name);
+
+                usuario.RolId = rol.Id;
+
+
+                _databaseContext.Update(usuario);
+                _databaseContext.SaveChanges();
             }
+
+                
+
             catch (System.Exception)
             {
                 return false;

@@ -11,8 +11,9 @@ namespace Model.Domain
         {
         }
 
-        public Usuario(string userName, string nombrePersonal, string apellidoPersonal, string cargo, DateTime fechaAfilacion, string email, string phoneNumber, string passwordHash, string pais, bool deleted)
+        public Usuario(string id, string username, string nombrePersonal, string apellidoPersonal, string cargo, DateTime fechaAfilacion, string email, string phoneNumber, string passwordHash, string pais)
         {
+            UserName = username;
             NombrePersonal = nombrePersonal;
             ApellidoPersonal = apellidoPersonal;
             Cargo = cargo;
@@ -21,7 +22,6 @@ namespace Model.Domain
             PhoneNumber = phoneNumber;
             PasswordHash = passwordHash;
             Pais = pais;
-            Deleted = deleted;
         }
 
         public string NombrePersonal { get; set; }
@@ -29,7 +29,6 @@ namespace Model.Domain
         public string Cargo { get; set; }
         public DateTime FechaAfilacion { get; set; }
         public string Pais { get; set; }
-        //private new string PasswordHash;
 
         public bool Deleted { get; set; }
 

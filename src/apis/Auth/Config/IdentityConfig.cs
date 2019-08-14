@@ -33,7 +33,7 @@ namespace Auth.Config
                 new Client
                 {
                     ClientId = configuration.GetValue<string>("Client:ClientId"),
-                    ClientName = "",
+                    ClientName = "Back-office client",
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
                     RequireConsent = false,
