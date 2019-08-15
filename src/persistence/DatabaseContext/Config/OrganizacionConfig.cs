@@ -8,8 +8,8 @@ namespace DatabaseContext.Config
         public OrganizacionConfig(EntityTypeBuilder<OrganizacionResponsable> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.Property(x => x.NombreOrganizacion).IsRequired().HasMaxLength(70);
-            entityBuilder.Property(x => x.SiglasOrganizacion).IsRequired().HasMaxLength(8);
+            entityBuilder.Property(x => x.NombreOrganizacion).IsRequired().HasMaxLength(100);
+            entityBuilder.Property(x => x.SiglasOrganizacion).IsRequired().HasMaxLength(20);
         }
     }
 }

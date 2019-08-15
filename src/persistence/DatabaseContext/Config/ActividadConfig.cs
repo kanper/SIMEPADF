@@ -8,7 +8,7 @@ namespace DatabaseContext.Config
         public ActividadConfig(EntityTypeBuilder<Actividad> builder)
         {
             builder.HasKey(x => x.CodigoActividad);
-            builder.Property(x => x.NombreActividad).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.NombreActividad).IsRequired().HasMaxLength(1000);
             builder.HasIndex(x => x.NombreActividad).IsUnique();
         }
     }

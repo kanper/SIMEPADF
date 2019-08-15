@@ -8,7 +8,7 @@ namespace DatabaseContext.Config
         public DesagregacionConfig(EntityTypeBuilder<Desagregacion> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.TipoDesagregacion).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.TipoDesagregacion).IsRequired().HasMaxLength(100);
         }
     }
 }

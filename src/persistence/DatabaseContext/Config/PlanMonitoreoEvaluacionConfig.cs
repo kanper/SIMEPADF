@@ -7,8 +7,8 @@ namespace DatabaseContext.Config
     {
         public PlanMonitoreoEvaluacionConfig(EntityTypeBuilder<PlanMonitoreoEvaluacion> builder)
         {
-            builder.Property(x => x.MetodologiaRecoleccion).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.ValorLineaBase).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.MetodologiaRecoleccion).IsRequired().HasMaxLength(1000);
+            builder.Property(x => x.ValorLineaBase).IsRequired().HasMaxLength(1000);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DatabaseContext.Config
         public FuenteDatoConfig(EntityTypeBuilder<FuenteDato> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.NombreFuente).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.NombreFuente).IsRequired().HasMaxLength(500);
         }
     }
 }

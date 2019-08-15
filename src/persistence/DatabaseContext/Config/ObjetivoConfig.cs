@@ -8,7 +8,7 @@ namespace DatabaseContext.Config
         public ObjetivoConfig (EntityTypeBuilder<Objetivo> builder)
         {
             builder.HasKey(x => x.CodigoObjetivo);
-            builder.Property(x => x.NombreObjetivo).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.NombreObjetivo).IsRequired().HasMaxLength(1000);
             builder.HasIndex(x => x.NombreObjetivo).IsUnique();
         }
     }

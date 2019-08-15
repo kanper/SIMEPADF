@@ -9,7 +9,7 @@ namespace DatabaseContext.Config
         public ResultadoConfig(EntityTypeBuilder<Resultado> builder)
         {
             builder.HasKey(x => x.CodigoResultado);
-            builder.Property(x => x.NombreResultado).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.NombreResultado).IsRequired().HasMaxLength(1000);
             builder.HasIndex(x => x.NombreResultado).IsUnique();
         }
     }
