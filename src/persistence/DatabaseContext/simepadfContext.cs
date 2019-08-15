@@ -38,7 +38,7 @@ namespace DatabaseContext
             modelBuilder.Entity<ProyectoPais>().HasKey(sc => new { sc.PaisId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoSocio>().HasKey(sc => new { sc.SocioInternacionalId, sc.ProyectoId });
             modelBuilder.Entity<ProyectoUsuario>().HasKey(sc => new { sc.UsuarioId, sc.ProyectoId });
-            modelBuilder.Entity<PlanMonitoreoEvaluacion>().HasKey(sc => new {sc.ProyectoId, sc.IndicadorId});
+            modelBuilder.Entity<PlanMonitoreoEvaluacion>().HasKey(sc => new {sc.ProyectoCodigoProyecto, sc.IndicadorId});
             modelBuilder.Entity<PlanDesagregacion>().HasKey(sc => new
                 {sc.DesagregacionId, sc.PlanProyectoId, sc.PlanIndicadorId});
             

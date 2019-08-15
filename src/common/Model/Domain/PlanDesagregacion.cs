@@ -14,7 +14,7 @@ namespace Model.Domain
 
         public PlanMonitoreoEvaluacion PlanMonitoreoEvaluacion { get; set; }
         public string PlanProyectoId {
-            get { return PlanMonitoreoEvaluacion.ProyectoId; }
+            get { return PlanMonitoreoEvaluacion.ProyectoCodigoProyecto; }
             set { }
         }
 

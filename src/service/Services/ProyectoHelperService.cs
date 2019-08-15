@@ -12,6 +12,13 @@ namespace Services
         IEnumerable<MapDTO> GetOrganizacionMap();
         IEnumerable<MapDTO> GetSocioMap();
         IEnumerable<MapDTO> GetEstadoMap();
+        IEnumerable<IndicadorDTO> GetIndicadores();
+        IEnumerable<IndicadorDTO> GetIndicadores(string proyectoId);
+        IEnumerable<MapDTO> GetFuenteMap();
+        IEnumerable<MapDTO> GetFrecuenciaMap();
+        IEnumerable<MapDTO> GetNivelMap();
+        IEnumerable<MapDTO> GetDesagregacionMap();
+
     }
     
     public class ProyectoHelperService : IProyectoHelperService
@@ -87,6 +94,135 @@ namespace Services
                     {
                         Id = e.Id,
                         Nombre = e.TipoEstado
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<IndicadorDTO> GetIndicadores()
+        {
+            try
+            {
+                return (from i in _context.Indicador                   
+                    join a in _context.Actividad
+                        on i.Actividad equals a
+                    join r in _context.Resultado
+                        on a.Resultado equals r
+                    join o in _context.Objetivo
+                        on r.Objetivo equals o                    
+                    select new IndicadorDTO()
+                    {
+                        Id = i.CodigoIndicador,
+                        NombreIndicador = i.NombreIndicador,
+                        NombreActividad = a.NombreActividad,
+                        NombreResultado = r.NombreResultado,
+                        NombreObjetivo = o.NombreObjetivo
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<IndicadorDTO>();
+            }
+        }
+
+        public IEnumerable<IndicadorDTO> GetIndicadores(string proyectoId)
+        {
+            try
+            {
+                return (from i in _context.Indicador
+                    join p in _context.PlanMonitoreoEvaluacion
+                        on i equals p.Indicador
+                    join a in _context.Actividad
+                        on i.Actividad equals a
+                    join r in _context.Resultado
+                        on a.Resultado equals r
+                    join o in _context.Objetivo
+                        on r.Objetivo equals o
+                        where p.ProyectoCodigoProyecto != proyectoId
+                    select new IndicadorDTO()
+                    {
+                        Id = i.CodigoIndicador,
+                        NombreIndicador = i.NombreIndicador,
+                        NombreActividad = a.NombreActividad,
+                        NombreResultado = r.NombreResultado,
+                        NombreObjetivo = o.NombreObjetivo
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<IndicadorDTO>();
+            }
+        }       
+
+        public IEnumerable<MapDTO> GetFuenteMap()
+        {
+            try
+            {
+                return (from f in _context.FuenteDato
+                    select new MapDTO()
+                    {
+                        Id = f.Id,
+                        Nombre = f.NombreFuente
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetFrecuenciaMap()
+        {
+            try
+            {
+                return (from f in _context.FrecuenciaMedicion
+                    select new MapDTO()
+                    {
+                        Id = f.Id,
+                        Nombre = f.NombreFrecuencia
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetNivelMap()
+        {
+            try
+            {
+                return (from n in _context.NivelImpacto
+                    select new MapDTO()
+                    {
+                        Id = n.Id,
+                        Nombre = n.NombreNivelImpacto
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetDesagregacionMap()
+        {
+            try
+            {
+                return (from d in _context.Desagregacion
+                    select new MapDTO()
+                    {
+                        Id = d.Id,
+                        Nombre = d.TipoDesagregacion
                     }).ToList();
             }
             catch (Exception e)

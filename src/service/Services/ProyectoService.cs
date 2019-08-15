@@ -17,6 +17,7 @@ namespace Services
         bool Add(ProyectoDTO model);
         bool Update(ProyectoDTO model, string id);
         bool Delete(string id);
+        bool ChangeStatus(string id, string status);
     }
     
     public class ProyectoService : IProyectoService
@@ -205,6 +206,24 @@ namespace Services
             try
             {
                 _context.Proyecto.Single(p => p.CodigoProyecto == id).Deleted = true;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool ChangeStatus(string id, string status)
+        {
+            try
+            {
+                var proyecto = _context.Proyecto
+                    .Include(s => s.EstadoProyecto)
+                    .Single(p => p.CodigoProyecto == id);
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == status);
                 _context.SaveChanges();
                 return true;
             }

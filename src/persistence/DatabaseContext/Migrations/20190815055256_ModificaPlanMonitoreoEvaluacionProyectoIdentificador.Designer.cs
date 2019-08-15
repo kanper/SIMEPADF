@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190815055256_ModificaPlanMonitoreoEvaluacionProyectoIdentificador")]
+    partial class ModificaPlanMonitoreoEvaluacionProyectoIdentificador
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -421,15 +423,17 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("IndicadorId");
 
-                    b.Property<int?>("FrecuenciaMedicionId");
+                    b.Property<int>("FrecuenciaMedicionId");
 
-                    b.Property<int?>("FuenteDatoId");
+                    b.Property<int>("FuenteDatoId");
 
                     b.Property<string>("MetodologiaRecoleccion")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("NivelImpactoId");
+                    b.Property<int>("NivelImpactoId");
+
+                    b.Property<string>("ProyectoCodigoProyecto1");
 
                     b.Property<string>("ValorLineaBase")
                         .IsRequired()
@@ -444,6 +448,8 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("IndicadorId");
 
                     b.HasIndex("NivelImpactoId");
+
+                    b.HasIndex("ProyectoCodigoProyecto1");
 
                     b.ToTable("PlanMonitoreoEvaluacion");
                 });
@@ -891,11 +897,13 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Model.Domain.FrecuenciaMedicion", "FrecuenciaMedicion")
                         .WithMany("Planes")
-                        .HasForeignKey("FrecuenciaMedicionId");
+                        .HasForeignKey("FrecuenciaMedicionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.FuenteDato", "FuenteDato")
                         .WithMany("Planes")
-                        .HasForeignKey("FuenteDatoId");
+                        .HasForeignKey("FuenteDatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Indicador", "Indicador")
                         .WithMany("PlanMonitoreoEvaluaciones")
@@ -904,12 +912,12 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.NivelImpacto", "NivelImpacto")
                         .WithMany("Planes")
-                        .HasForeignKey("NivelImpactoId");
+                        .HasForeignKey("NivelImpactoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Proyecto", "Proyecto")
                         .WithMany("PlanMonitoreoEvaluaciones")
-                        .HasForeignKey("ProyectoCodigoProyecto")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProyectoCodigoProyecto1");
                 });
 
             modelBuilder.Entity("Model.Domain.Proyecto", b =>

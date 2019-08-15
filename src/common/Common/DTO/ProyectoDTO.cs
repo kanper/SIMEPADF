@@ -16,5 +16,45 @@ namespace DTO.DTO
         public MapDTO[] Organizaciones { get; set; }
         public MapDTO[] Socios { get; set; }
 
+        public bool IsCancelled
+        {
+            get
+            {
+                return EstadoProyecto.Equals("CANCELADO", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        public bool IsCompleted
+        {
+            get
+            {
+                return EstadoProyecto.Equals("FINALIZADO", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        public bool IsIncomplete
+        {
+            get
+            {
+                return EstadoProyecto.Equals("INCOMPLETO", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        public bool IsInProcess
+        {
+            get
+            {
+                return EstadoProyecto.Equals("EN PROCESO", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        public bool IsVerified
+        {
+            get
+            {
+                return EstadoProyecto.Equals("VERIFICAR", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
     }
 }

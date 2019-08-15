@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190815054131_ModificaPlanMonitoreoEvaluacionAudit")]
+    partial class ModificaPlanMonitoreoEvaluacionAudit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,36 +408,38 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int?>("PlanMonitoreoEvaluacionIndicadorId");
 
-                    b.Property<string>("PlanMonitoreoEvaluacionProyectoCodigoProyecto");
+                    b.Property<string>("PlanMonitoreoEvaluacionProyectoId");
 
                     b.HasKey("DesagregacionId", "PlanProyectoId", "PlanIndicadorId");
 
-                    b.HasIndex("PlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanMonitoreoEvaluacionIndicadorId");
+                    b.HasIndex("PlanMonitoreoEvaluacionProyectoId", "PlanMonitoreoEvaluacionIndicadorId");
 
                     b.ToTable("PlanDesagregacion");
                 });
 
             modelBuilder.Entity("Model.Domain.PlanMonitoreoEvaluacion", b =>
                 {
-                    b.Property<string>("ProyectoCodigoProyecto");
+                    b.Property<string>("ProyectoId");
 
                     b.Property<int>("IndicadorId");
 
-                    b.Property<int?>("FrecuenciaMedicionId");
+                    b.Property<int>("FrecuenciaMedicionId");
 
-                    b.Property<int?>("FuenteDatoId");
+                    b.Property<int>("FuenteDatoId");
 
                     b.Property<string>("MetodologiaRecoleccion")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("NivelImpactoId");
+                    b.Property<int>("NivelImpactoId");
+
+                    b.Property<string>("ProyectoCodigoProyecto");
 
                     b.Property<string>("ValorLineaBase")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.HasKey("ProyectoCodigoProyecto", "IndicadorId");
+                    b.HasKey("ProyectoId", "IndicadorId");
 
                     b.HasIndex("FrecuenciaMedicionId");
 
@@ -444,6 +448,8 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("IndicadorId");
 
                     b.HasIndex("NivelImpactoId");
+
+                    b.HasIndex("ProyectoCodigoProyecto");
 
                     b.ToTable("PlanMonitoreoEvaluacion");
                 });
@@ -465,7 +471,9 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("DeletedBy");
 
-                    b.Property<int>("EstadoProyectoId");
+                    b.Property<int>("EstadoId");
+
+                    b.Property<int?>("EstadoProyectoId");
 
                     b.Property<DateTime>("FechaAprobacion");
 
@@ -884,18 +892,20 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.PlanMonitoreoEvaluacion", "PlanMonitoreoEvaluacion")
                         .WithMany("PlanDesagregaciones")
-                        .HasForeignKey("PlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanMonitoreoEvaluacionIndicadorId");
+                        .HasForeignKey("PlanMonitoreoEvaluacionProyectoId", "PlanMonitoreoEvaluacionIndicadorId");
                 });
 
             modelBuilder.Entity("Model.Domain.PlanMonitoreoEvaluacion", b =>
                 {
                     b.HasOne("Model.Domain.FrecuenciaMedicion", "FrecuenciaMedicion")
                         .WithMany("Planes")
-                        .HasForeignKey("FrecuenciaMedicionId");
+                        .HasForeignKey("FrecuenciaMedicionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.FuenteDato", "FuenteDato")
                         .WithMany("Planes")
-                        .HasForeignKey("FuenteDatoId");
+                        .HasForeignKey("FuenteDatoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Indicador", "Indicador")
                         .WithMany("PlanMonitoreoEvaluaciones")
@@ -904,12 +914,12 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.NivelImpacto", "NivelImpacto")
                         .WithMany("Planes")
-                        .HasForeignKey("NivelImpactoId");
+                        .HasForeignKey("NivelImpactoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Proyecto", "Proyecto")
                         .WithMany("PlanMonitoreoEvaluaciones")
-                        .HasForeignKey("ProyectoCodigoProyecto")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProyectoCodigoProyecto");
                 });
 
             modelBuilder.Entity("Model.Domain.Proyecto", b =>
@@ -924,8 +934,7 @@ namespace DatabaseContext.Migrations
 
                     b.HasOne("Model.Domain.EstadoProyecto", "EstadoProyecto")
                         .WithMany("Proyecto")
-                        .HasForeignKey("EstadoProyectoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EstadoProyectoId");
 
                     b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
                         .WithMany()
