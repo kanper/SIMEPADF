@@ -136,14 +136,15 @@ namespace Services
             {
                 return (from i in _context.Indicador
                     join p in _context.PlanMonitoreoEvaluacion
-                        on i equals p.Indicador
+                        on i equals p.Indicador into Plan
+                    from PlanIndicador in Plan.DefaultIfEmpty() 
                     join a in _context.Actividad
                         on i.Actividad equals a
                     join r in _context.Resultado
                         on a.Resultado equals r
                     join o in _context.Objetivo
                         on r.Objetivo equals o
-                        where p.ProyectoCodigoProyecto != proyectoId
+                        where PlanIndicador == null || PlanIndicador.ProyectoCodigoProyecto != proyectoId
                     select new IndicadorDTO()
                     {
                         Id = i.CodigoIndicador,

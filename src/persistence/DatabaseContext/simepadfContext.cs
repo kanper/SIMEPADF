@@ -40,7 +40,7 @@ namespace DatabaseContext
             modelBuilder.Entity<ProyectoUsuario>().HasKey(sc => new { sc.UsuarioId, sc.ProyectoId });
             modelBuilder.Entity<PlanMonitoreoEvaluacion>().HasKey(sc => new {sc.ProyectoCodigoProyecto, sc.IndicadorId});
             modelBuilder.Entity<PlanDesagregacion>().HasKey(sc => new
-                {sc.DesagregacionId, sc.PlanProyectoId, sc.PlanIndicadorId});
+                {sc.DesagregacionId, sc.PlanMonitoreoEvaluacionIndicadorId, sc.PlanMonitoreoEvaluacionProyectoCodigoProyecto});
             
             AddMyFilters(ref modelBuilder);
             

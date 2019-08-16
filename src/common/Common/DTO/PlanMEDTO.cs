@@ -7,13 +7,10 @@ namespace DTO.DTO
         public string NombreProyecto { get; set; }
         public string NombreIndicador { get; set; }
         public string Metodologia { get; set; }
-        public string LineaBase { get; set; }
-        public int FuenteDatoId { get; set; }
-        public string NombreFuenteDato { get; set; }
-        public int FrecuenciaMedicionId { get; set; }
-        public string NombreFrecuenciaMedicion { get; set; }
-        public int NivelImpactoId { get; set; }
-        public string NombreNivelImpacto { get; set; }
+        public string LineaBase { get; set; }        
+        public MapDTO FuenteDato { get; set; }
+        public MapDTO FrecuenciaMedicion { get; set; }
+        public MapDTO NivelImpacto { get; set; }
         public MapDTO[] Desagregaciones { get; set; }
     }
 }

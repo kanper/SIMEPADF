@@ -55,17 +55,26 @@ namespace Services
                         NombreIndicador = i.NombreIndicador,
                         LineaBase = pme.ValorLineaBase,
                         Metodologia = pme.MetodologiaRecoleccion,
-                        FuenteDatoId = PlanFuente == null ? 0 : PlanFuente.Id ,
-                        NombreFuenteDato = PlanFuente == null ? string.Empty : PlanFuente.NombreFuente,
-                        FrecuenciaMedicionId = PlanFrecuencia == null ? 0 : PlanFrecuencia.Id,
-                        NombreFrecuenciaMedicion = PlanFrecuencia == null ? string.Empty : PlanFrecuencia.NombreFrecuencia,
-                        NivelImpactoId = PlanNivel == null ? 0 : PlanNivel.Id,
-                        NombreNivelImpacto = PlanNivel == null ? string.Empty : PlanNivel.NombreNivelImpacto,
+                        FuenteDato = new MapDTO()
+                        {
+                            Id = PlanFuente == null ? 0 : PlanFuente.Id,
+                            Nombre = PlanFuente == null ? string.Empty : PlanFuente.NombreFuente
+                        },
+                        FrecuenciaMedicion = new MapDTO()
+                        {
+                            Id = PlanFrecuencia == null ? 0 : PlanFrecuencia.Id,
+                            Nombre = PlanFrecuencia == null ? string.Empty : PlanFrecuencia.NombreFrecuencia
+                        },
+                        NivelImpacto = new MapDTO()
+                        {
+                            Id = PlanNivel == null ? 0 : PlanNivel.Id,
+                            Nombre = PlanNivel == null ? string.Empty : PlanNivel.NombreNivelImpacto
+                        },                      
                         Desagregaciones = (
                             from pd in _context.PlanDesagregacion
                             join d in _context.Desagregacion
                                 on pd.Desagregacion equals d
-                            where pd.PlanProyectoId == p.CodigoProyecto && pd.PlanIndicadorId == i.CodigoIndicador
+                            where pd.PlanMonitoreoEvaluacionProyectoCodigoProyecto == p.CodigoProyecto && pd.PlanMonitoreoEvaluacionIndicadorId == i.CodigoIndicador
                             select new MapDTO()
                             {
                                 Id = d.Id,
@@ -138,9 +147,9 @@ namespace Services
                     .Single(p => p.IndicadorId == model.IndicadorId && p.ProyectoCodigoProyecto == model.ProyectoId);
                 plan.MetodologiaRecoleccion = model.Metodologia;
                 plan.ValorLineaBase = model.LineaBase;
-                plan.FuenteDato = _context.FuenteDato.Single(f => f.Id == model.FuenteDatoId);
-                plan.FrecuenciaMedicion = _context.FrecuenciaMedicion.Single(f => f.Id == model.FrecuenciaMedicionId);
-                plan.NivelImpacto = _context.NivelImpacto.Single(n => n.Id == model.NivelImpactoId);
+                plan.FuenteDato = _context.FuenteDato.Single(f => f.Id == model.FuenteDato.Id);
+                plan.FrecuenciaMedicion = _context.FrecuenciaMedicion.Single(f => f.Id == model.FrecuenciaMedicion.Id);
+                plan.NivelImpacto = _context.NivelImpacto.Single(n => n.Id == model.NivelImpacto.Id);
                 plan.PlanDesagregaciones.Clear();
                 foreach (var dto in model.Desagregaciones)
                 {
