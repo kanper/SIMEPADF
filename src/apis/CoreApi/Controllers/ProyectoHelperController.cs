@@ -42,6 +42,41 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.GetEstadoMap());
         }
-        
+
+        [HttpGet("proyecto/{id}/helper/indicador")]
+        public IActionResult IndicadoresList(string id)
+        {
+            return Ok(_service.GetIndicadores(id));
+        }
+
+        [HttpGet("proyecto/helper/indicador")]
+        public IActionResult IndicadoresList()
+        {
+            return Ok(_service.GetIndicadores());
+        }
+    
+        [HttpGet("proyecto/helper/fuente")]
+        public IActionResult FuenteMap()
+        {
+            return Ok(_service.GetFuenteMap());
+        }
+
+        [HttpGet("proyecto/helper/frecuencia")]
+        public IActionResult FrecuenciaMap()
+        {
+            return Ok(_service.GetFrecuenciaMap());
+        }
+
+        [HttpGet("proyecto/helper/nivel")]
+        public IActionResult NivelMap()
+        {
+            return Ok(_service.GetNivelMap());
+        }
+
+        [HttpGet("proyecto/helper/desagregacion")]
+        public IActionResult DesagregacionMap()
+        {
+            return Ok(_service.GetDesagregacionMap());
+        }
     }
 }

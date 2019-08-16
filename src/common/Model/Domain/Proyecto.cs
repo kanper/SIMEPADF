@@ -30,7 +30,7 @@ namespace Model.Domain
         
         public EstadoProyecto EstadoProyecto { get; set; }
         
-        public int EstadoId { get; set; }
+        public int EstadoProyectoId { get; set; }
 
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 

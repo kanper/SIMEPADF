@@ -66,6 +66,7 @@ namespace CoreApi
             services.AddTransient<IFuenteDatoService, FuenteDatoService>();
             services.AddTransient<IDesagregacionService, DesagregacionService>();
             services.AddTransient<INivelImpactoService, NivelImpactoService>();
+            services.AddTransient<IPlanMonitoreoEvaluacionService, PlanMonitoreoEvaluacionService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

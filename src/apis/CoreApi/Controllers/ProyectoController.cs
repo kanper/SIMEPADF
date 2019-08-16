@@ -42,8 +42,12 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.Delete(id));
         }
-        
-        
+
+        [HttpGet("proyecto/{id}/estado/{status}")]
+        public IActionResult ChangeStatus(string id, string status)
+        {
+            return Ok(_service.ChangeStatus(id, status));
+        }                
         
     }
 }

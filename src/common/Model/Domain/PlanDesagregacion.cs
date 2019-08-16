@@ -11,18 +11,13 @@ namespace Model.Domain
             PlanMonitoreoEvaluacion = planMonitoreoEvaluacion;
             Desagregacion = desagregacion;
         }
-
+       
         public PlanMonitoreoEvaluacion PlanMonitoreoEvaluacion { get; set; }
-        public string PlanProyectoId {
-            get { return PlanMonitoreoEvaluacion.ProyectoId; }
-            set { }
-        }
 
-        public int PlanIndicadorId
-        {
-            get { return PlanMonitoreoEvaluacion.IndicadorId; }
-            set { }
-        }
+        public string PlanMonitoreoEvaluacionProyectoCodigoProyecto { get; set; }
+
+        public int PlanMonitoreoEvaluacionIndicadorId { get; set; }
+
 
         public int DesagregacionId { get; set; }
         public Desagregacion Desagregacion { get; set; }

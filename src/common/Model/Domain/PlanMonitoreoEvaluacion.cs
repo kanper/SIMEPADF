@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Model.Domain.DbHelper;
 
 namespace Model.Domain
 {
-    public class PlanMonitoreoEvaluacion : AudityEntity
+    public class PlanMonitoreoEvaluacion
     {
         public PlanMonitoreoEvaluacion()
         {
@@ -11,8 +13,13 @@ namespace Model.Domain
 
         public PlanMonitoreoEvaluacion(Proyecto proyecto, Indicador indicador)
         {
-            Proyecto = proyecto;
+            Proyecto = proyecto;            
             Indicador = indicador;
+            MetodologiaRecoleccion = "N/A";
+            ValorLineaBase = "N/A";
+            FrecuenciaMedicion = null;
+            FuenteDato = null;
+            NivelImpacto = null;
         }
 
         public PlanMonitoreoEvaluacion(Proyecto proyecto, Indicador indicador, string metodologiaRecoleccion, string valorLineaBase)
@@ -23,8 +30,9 @@ namespace Model.Domain
             ValorLineaBase = valorLineaBase;
         }
 
+        [ForeignKey("ProyectoCodigoProyecto")]
         public Proyecto Proyecto { get; set; }
-        public string ProyectoId { get; set; }
+        public string ProyectoCodigoProyecto { get; set; }
 
         public Indicador Indicador { get; set; }
         public int IndicadorId { get; set; }
@@ -33,13 +41,13 @@ namespace Model.Domain
         public string ValorLineaBase { get; set; }
 
         public FuenteDato FuenteDato { get; set; }
-        public int FuenteDatoId { get; set; }
+        public int? FuenteDatoId { get; set; }
 
         public FrecuenciaMedicion FrecuenciaMedicion { get; set; }
-        public int FrecuenciaMedicionId { get; set; }
+        public int? FrecuenciaMedicionId { get; set; }
 
         public NivelImpacto NivelImpacto { get; set; }
-        public int NivelImpactoId { get; set; }
+        public int? NivelImpactoId { get; set; }
 
         public ICollection<PlanDesagregacion> PlanDesagregaciones { get; set; }
 
