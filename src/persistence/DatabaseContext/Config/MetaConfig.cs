@@ -7,8 +7,7 @@ namespace DatabaseContext.Config
     {
         public MetaConfig(EntityTypeBuilder<Meta> builder)
         {
-            builder.HasKey(x => x.CodigoMeta);
-            builder.Property(x => x.ValorMeta).IsRequired();
+            builder.HasKey(x => x.CodigoMeta);            
         }
     }
 }

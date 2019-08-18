@@ -49,7 +49,8 @@ namespace Services
                         CodigoActividad = a.CodigoActividad,
                         NombreActividad = a.NombreActividad,
                         NombreIndicador = i.NombreIndicador,
-                        ValorMeta = m.ValorMeta
+                        ValorMeta = m.ValorMeta,
+                        PorcentajeMeta = m.Porcentaje
                     }).Single();
             }
             catch (Exception e)
@@ -82,7 +83,8 @@ namespace Services
                         CodigoActividad = a.CodigoActividad,
                         NombreActividad = a.NombreActividad,
                         NombreIndicador = i.NombreIndicador,
-                        ValorMeta = m.ValorMeta
+                        ValorMeta = m.ValorMeta,
+                        PorcentajeMeta = m.Porcentaje
                     }).ToList();
 
             }
@@ -100,6 +102,7 @@ namespace Services
                 var indicador = _context.Indicador.Include(m => m.Meta).Single(i => i.CodigoIndicador == id);
                 indicador.NombreIndicador = model.NombreIndicador;
                 indicador.Meta.ValorMeta = model.ValorMeta;
+                indicador.Meta.Porcentaje = model.PorcentajeMeta;
                 _context.SaveChanges();
                 return true;
             }
@@ -116,7 +119,8 @@ namespace Services
             {
                 var indicador = _context.Indicador.Include(m => m.Meta).Single(i => i.CodigoIndicador == id);
                 indicador.NombreIndicador = "N/A";
-                indicador.Meta.ValorMeta = 0;                
+                indicador.Meta.ValorMeta = 0;
+                indicador.Meta.Porcentaje = 0;
                 _context.SaveChanges();
                 return true;
             }

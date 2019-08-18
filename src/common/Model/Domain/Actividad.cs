@@ -13,6 +13,12 @@ namespace Model.Domain
             NombreActividad = nombreActividad;
             Indicador = new Indicador(nombreIndicador,meta);
         }
+        
+        public Actividad(string nombreActividad, string nombreIndicador, int meta, float porcentaje)
+        {
+            NombreActividad = nombreActividad;
+            Indicador = new Indicador(nombreIndicador,meta, porcentaje);
+        }
 
         public int CodigoActividad { get; set; }
         public string NombreActividad { get; set; }

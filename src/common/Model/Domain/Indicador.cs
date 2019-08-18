@@ -16,6 +16,12 @@ namespace Model.Domain
             Meta = new Meta(meta);
         }
 
+        public Indicador(string nombreIndicador, int valorMeta, float porcentajeMeta)
+        {
+            NombreIndicador = nombreIndicador;
+            Meta = new Meta(valorMeta, porcentajeMeta);
+        }
+
         [ForeignKey("Actividad")]
         public int CodigoIndicador { get; set; }
         public string NombreIndicador { get; set; }

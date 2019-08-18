@@ -109,7 +109,7 @@ namespace Services
             try
             {
                 var resultado = _context.Resultado.Include(a => a.Actividades).Single(r => r.CodigoResultado == id);
-                var actividad = new Actividad(model.NombreActividad, "N/A", 0);
+                var actividad = new Actividad(model.NombreActividad, "N/A", 0, 0);
                 resultado.Actividades.Add(actividad);
                 _context.SaveChanges();
                 return true;

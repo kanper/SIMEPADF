@@ -11,5 +11,7 @@ namespace DTO.DTO
         public string NombreActividad { get; set; }       
         public string NombreIndicador { get; set; }
         public int ValorMeta { get; set; }
+
+        public float PorcentajeMeta { get; set; }
     }
 }
