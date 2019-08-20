@@ -3,16 +3,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseContext.Config;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Model;
 using Model.Domain;
 using Model.Domain.DbHelper;
 
 namespace DatabaseContext
 {
-    public partial class simepadfContext : DbContext
+    public partial class simepadfContext : IdentityDbContext<Usuario>
     {
         public simepadfContext()
         {
@@ -43,6 +43,10 @@ namespace DatabaseContext
             modelBuilder.Entity<PlanDesagregacion>().HasKey(sc => new 
                 {sc.DesagregacionId, sc.PlanMonitoreoEvaluacionIndicadorId, sc.PlanMonitoreoEvaluacionProyectoCodigoProyecto});
 
+            modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.UserId, p.ProviderKey });
+            modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId});
+            modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId });
+
             AddMyFilters(ref modelBuilder);
 
             new UsuarioConfig(modelBuilder.Entity<Usuario>());
@@ -67,7 +71,6 @@ namespace DatabaseContext
 
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Rol> Rol { get; set; }
-        //public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Proyecto> Proyecto { get; set; }
         public DbSet<SocioInternacional> SocioInternacional { get; set; }
         public DbSet<EstadoProyecto> EstadoProyecto { get; set; }

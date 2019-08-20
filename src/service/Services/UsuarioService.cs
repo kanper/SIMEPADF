@@ -1,6 +1,6 @@
 ﻿using DatabaseContext;
 using DTO.DTO;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Model.Domain;
 using System;
@@ -16,7 +16,7 @@ namespace Services
         IEnumerable<PersonalDTO> GetAll();
         PersonalDTO Get(string id);
         bool Add(PersonalDTO model);
-        bool Update(PersonalDTO model, string id);
+        Task<bool> UpdateAsync(PersonalDTO model, string id);
         bool Delete(string id);
 
     }
@@ -24,11 +24,12 @@ namespace Services
     public class UsuarioService : IUsuarioService
     {
         private readonly simepadfContext _databaseContext;
-        //private Rol _roleManager => HttpContext.GetOwinContext().Get<Rol>();
+        private readonly UserManager<Usuario> _userManager;
 
-        public UsuarioService(simepadfContext databaseContext)
+        public UsuarioService(simepadfContext databaseContext, UserManager<Usuario> userManager)
         {
             _databaseContext = databaseContext;
+            _userManager = userManager;
         }
 
         public IEnumerable<PersonalDTO> GetAll()
@@ -95,13 +96,13 @@ namespace Services
         public bool Add(PersonalDTO model)
         {
             try
-            {
-                var usuario = new Usuario(model.Id, model.Email, model.NombrePersonal, model.ApellidoPersonal, model.Cargo, 
-                    model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais);
+            { 
+                var user = _databaseContext.Usuario.Single(x => x.Email == model.Email);
+
                 _databaseContext.Rol
                     .Include(u => u.usuarios)
                     .Single(r => r.Name == model.Name)
-                    .usuarios.Add(usuario);
+                    .usuarios.Add(user);
                 _databaseContext.SaveChanges();
                 return true;
             }
@@ -111,7 +112,7 @@ namespace Services
             }
         }
 
-        public bool Update(PersonalDTO model, string id)
+        public async Task<bool> UpdateAsync(PersonalDTO model, string id)
         {
             try
             {
@@ -119,32 +120,29 @@ namespace Services
                 var usuario = _databaseContext.Usuario
                     .Include(u => u.Rol)
                     .Single(u => u.Id == id);
-                usuario.UserName = model.Email;
-                usuario.NombrePersonal = model.NombrePersonal;
-                usuario.ApellidoPersonal = model.ApellidoPersonal;
-                usuario.Cargo = model.Cargo;
-                usuario.FechaAfilacion = model.FechaAfilacion;
-                usuario.Email = model.Email;
-                usuario.PhoneNumber = model.PhoneNumber;
-                usuario.PasswordHash = model.Password;
-                usuario.Pais = model.Pais;
 
-                var rol = _databaseContext.Rol.Single(r => r.Name == model.Name);
-
-                usuario.RolId = rol.Id;
-
-
-                _databaseContext.Update(usuario);
-                _databaseContext.SaveChanges();
+                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+                var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
+                if (cambio.Succeeded)
+                {
+                    usuario.UserName = model.Email;
+                    usuario.NombrePersonal = model.NombrePersonal;
+                    usuario.ApellidoPersonal = model.ApellidoPersonal;
+                    usuario.Cargo = model.Cargo;
+                    usuario.Email = model.Email;
+                    usuario.PhoneNumber = model.PhoneNumber;
+                    usuario.Pais = model.Pais;
+                 
+                    var result = await _userManager.UpdateAsync(usuario);
+                    _databaseContext.SaveChanges();
+                    return true;
+                }
+                return false;
             }
-
-                
-
             catch (System.Exception)
             {
                 return false;
             }
-            return true;
         }
 
         public bool Delete(string id)
@@ -161,20 +159,4 @@ namespace Services
             return true;
         }
     }
-
-    //public async Task CreateRoles()
-    //{
-    //    var roles = new List<Rol>
-    //    {
-    //        new Rol { Name = "" },
-    //    };
-
-    //    foreach (var r in roles)
-    //    {
-    //        if (!await _roleManager.RoleExistsAsync(r.Name))
-    //        {
-    //            await _roleManager.CreateAsync(r);
-    //        }
-    //    }
-    //}
 }

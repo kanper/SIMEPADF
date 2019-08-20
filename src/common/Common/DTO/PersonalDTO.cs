@@ -13,6 +13,7 @@ namespace DTO.DTO
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string Pais { get; set; }
+        public string newPassword { get; set; }
 
         //rol
         public string Name { get; set; }

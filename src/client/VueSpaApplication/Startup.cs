@@ -3,12 +3,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VueSpaApplication.Config;
 
 namespace VueSpaApplication
 {
@@ -24,6 +26,7 @@ namespace VueSpaApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Identity Server
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services.AddAuthentication(opts =>
@@ -31,7 +34,7 @@ namespace VueSpaApplication
                 opts.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 opts.DefaultChallengeScheme = "oidc";
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-              .AddOpenIdConnect("oidc" ,options =>
+              .AddOpenIdConnect("oidc", options =>
               {
                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
@@ -46,6 +49,14 @@ namespace VueSpaApplication
                   options.Scope.Add("CoreApi");
 
                   options.SaveTokens = true;
+
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Name, ClaimTypes.Name, ClaimTypes.Name));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Surname, ClaimTypes.Surname, ClaimTypes.Surname));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Country, ClaimTypes.Country, ClaimTypes.Country));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Email, ClaimTypes.Email, ClaimTypes.Email));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Actor, ClaimTypes.Actor, ClaimTypes.Actor));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.MobilePhone, ClaimTypes.MobilePhone, ClaimTypes.MobilePhone));
+                  options.ClaimActions.Add(new JsonKeyClaimAction(ClaimTypes.Role, ClaimTypes.Role, ClaimTypes.Role));
 
                   options.Events = new OpenIdConnectEvents
                   {
@@ -65,6 +76,9 @@ namespace VueSpaApplication
                       }
                   };
               });
+            #endregion
+
+            services.AddMyDependecies(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -85,9 +99,9 @@ namespace VueSpaApplication
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
-            //app.UseAuthentication();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

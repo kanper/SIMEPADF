@@ -1,12 +1,13 @@
 ﻿using DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Model.Domain;
 using Newtonsoft.Json;
 using Services;
 
@@ -26,6 +27,17 @@ namespace CoreApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<Usuario, Rol>(opts =>
+            {
+                opts.Password.RequireDigit = false;
+                opts.Password.RequiredLength = 4;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<simepadfContext>()
+                .AddDefaultTokenProviders();
+
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
@@ -95,7 +107,7 @@ namespace CoreApi
             {               
                 app.UseHsts();
             }
-
+         
             app.UseAuthentication();
             app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();

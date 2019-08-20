@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Auth.Config;
+﻿using Auth.Config;
+using Auth.Services;
 using DatabaseContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,13 +29,7 @@ namespace Auth
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
-            services.AddIdentity<Usuario, Rol>(opts => {
-                opts.Password.RequireDigit = true;
-                opts.Password.RequiredLength = 8;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireUppercase = true;
-                opts.Password.RequireLowercase = true;
-                })
+            services.AddIdentity<Usuario, Rol>()
                 .AddEntityFrameworkStores<simepadfContext>()
                 .AddDefaultTokenProviders();
 
@@ -50,7 +40,8 @@ namespace Auth
                     .AddInMemoryClients(IdentityConfig.GetClients(
                         Configuration
                     ))
-                    .AddAspNetIdentity<Usuario>();
+                    .AddAspNetIdentity<Usuario>()
+                    .AddProfileService<ProfileService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -79,7 +70,7 @@ namespace Auth
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             app.UseIdentityServer();
 

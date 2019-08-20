@@ -3,10 +3,10 @@
 
 
 using Auth.Models;
+using DatabaseContext;
 using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
-using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Test;
@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Model.Domain;
 using System;
 using System.Linq;
@@ -33,6 +34,8 @@ namespace Auth.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
+        private readonly simepadfContext _simepadf;
+        private readonly IConfiguration _configuration;
         private readonly TestUserStore _users;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -46,7 +49,9 @@ namespace Auth.Controllers
             IEventService events,
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager,
-        TestUserStore users = null
+            simepadfContext simepadf,
+            IConfiguration configuration,
+            TestUserStore users = null
         )
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
@@ -59,6 +64,8 @@ namespace Auth.Controllers
             _events = events;
             _userManager = userManager;
             _signInManager = signInManager;
+            _simepadf = simepadf;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -86,25 +93,30 @@ namespace Auth.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
-
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(model.Username);
+                var user = await _userManager.FindByNameAsync(model.Username); 
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberLogin, true);
-
-                if (result.Succeeded)
+                if (user == null)
                 {
-                    if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-
-                    return Redirect("~/");
+                    ModelState.AddModelError("", AccountOptions.InvalidCredentialsErrorMessage);
                 }
-                ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
-            }
+                else
+                {
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberLogin, true);
 
+                    if (result.Succeeded)
+                    {
+                        if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+                        return Redirect("~/");
+                    }
+                    ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
+                }
+
+            }
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);

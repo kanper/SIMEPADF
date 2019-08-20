@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SimpleCrypto.NetCore" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\common\Common\DTO.csproj" />
     <ProjectReference Include="..\..\common\Model\Model.csproj" />
     <ProjectReference Include="..\..\persistence\DatabaseContext\DatabaseContext.csproj" />
