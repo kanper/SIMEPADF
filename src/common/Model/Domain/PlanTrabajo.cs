@@ -24,6 +24,11 @@ namespace Model.Domain
         public Proyecto Proyecto { get; set; }        
 
         public ICollection<ActividadPT> ActividadPTs { get; set; }
+
+        public void AddActividad(ActividadPT pt)
+        {
+            ActividadPTs.Add(pt);           
+        }
         public bool Deleted { get; set; }
     }
 }

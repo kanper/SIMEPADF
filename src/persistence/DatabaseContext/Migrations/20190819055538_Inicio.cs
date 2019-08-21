@@ -1,10 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseContext.Migrations
 {
-    public partial class Init : Migration
+    public partial class Inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -653,7 +656,7 @@ namespace DatabaseContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActividadRt",
+                name: "ActividadPT",
                 columns: table => new
                 {
                     CodigoActividadPT = table.Column<int>(nullable: false)
@@ -672,27 +675,27 @@ namespace DatabaseContext.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActividadRt", x => x.CodigoActividadPT);
+                    table.PrimaryKey("PK_ActividadPT", x => x.CodigoActividadPT);
                     table.ForeignKey(
-                        name: "FK_ActividadRt_Usuario_CreatedBy",
+                        name: "FK_ActividadPT_Usuario_CreatedBy",
                         column: x => x.CreatedBy,
                         principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ActividadRt_Usuario_DeletedBy",
+                        name: "FK_ActividadPT_Usuario_DeletedBy",
                         column: x => x.DeletedBy,
                         principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ActividadRt_PlanTrabajo_PlanTrabajoCodigoPlanTrabajo",
+                        name: "FK_ActividadPT_PlanTrabajo_PlanTrabajoCodigoPlanTrabajo",
                         column: x => x.PlanTrabajoCodigoPlanTrabajo,
                         principalTable: "PlanTrabajo",
                         principalColumn: "CodigoPlanTrabajo",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ActividadRt_Usuario_UpdatedBy",
+                        name: "FK_ActividadPT_Usuario_UpdatedBy",
                         column: x => x.UpdatedBy,
                         principalTable: "Usuario",
                         principalColumn: "Id",
@@ -762,9 +765,9 @@ namespace DatabaseContext.Migrations
                 {
                     table.PrimaryKey("PK_Producto", x => x.codigoProducto);
                     table.ForeignKey(
-                        name: "FK_Producto_ActividadRt_ActividadPTId",
+                        name: "FK_Producto_ActividadPT_ActividadPTId",
                         column: x => x.ActividadPTId,
-                        principalTable: "ActividadRt",
+                        principalTable: "ActividadPT",
                         principalColumn: "CodigoActividadPT",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -930,23 +933,23 @@ namespace DatabaseContext.Migrations
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActividadRt_CreatedBy",
-                table: "ActividadRt",
+                name: "IX_ActividadPT_CreatedBy",
+                table: "ActividadPT",
                 column: "CreatedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActividadRt_DeletedBy",
-                table: "ActividadRt",
+                name: "IX_ActividadPT_DeletedBy",
+                table: "ActividadPT",
                 column: "DeletedBy");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActividadRt_PlanTrabajoCodigoPlanTrabajo",
-                table: "ActividadRt",
+                name: "IX_ActividadPT_PlanTrabajoCodigoPlanTrabajo",
+                table: "ActividadPT",
                 column: "PlanTrabajoCodigoPlanTrabajo");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActividadRt_UpdatedBy",
-                table: "ActividadRt",
+                name: "IX_ActividadPT_UpdatedBy",
+                table: "ActividadPT",
                 column: "UpdatedBy");
 
             migrationBuilder.CreateIndex(
@@ -1265,7 +1268,7 @@ namespace DatabaseContext.Migrations
                 name: "PlanMonitoreoEvaluacion");
 
             migrationBuilder.DropTable(
-                name: "ActividadRt");
+                name: "ActividadPT");
 
             migrationBuilder.DropTable(
                 name: "OrganizacionResponsable");

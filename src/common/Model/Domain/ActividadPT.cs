@@ -27,6 +27,11 @@ namespace Model.Domain
 
         public ICollection<Producto> Productos { get; set; }
 
+        public void AddProducto(Producto producto)
+        {
+            Productos.Add(producto);
+        }
+
         public bool Deleted { get; set; }
     }
 }
