@@ -66,7 +66,10 @@ namespace DatabaseContext
             new FrecuenciaMedicionConfig(modelBuilder.Entity<FrecuenciaMedicion>());
             new NivelImpactoConfig(modelBuilder.Entity<NivelImpacto>());
             new DesagregacionConfig(modelBuilder.Entity<Desagregacion>());
-            
+            new PlanTrabajoConfig(modelBuilder.Entity<PlanTrabajo>());
+            new ActividadPtConfig(modelBuilder.Entity<ActividadPT>());
+            new ProductoConfig(modelBuilder.Entity<Producto>());
+
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -97,6 +100,12 @@ namespace DatabaseContext
         public DbSet<Desagregacion> Desagregacion { get; set; }
 
         public DbSet<PlanDesagregacion> PlanDesagregacion { get; set; }
+
+        public DbSet<PlanTrabajo> PlanTrabajo { get; set; }
+
+        public DbSet<ActividadPT> ActividadPT { get; set; }
+
+        public DbSet<Producto> Producto { get; set; }
 
         public override int SaveChanges()
         {
@@ -171,6 +180,9 @@ namespace DatabaseContext
             modelBuilder.Entity<NivelImpacto>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Desagregacion>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Meta>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<PlanTrabajo>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<ActividadPT>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<Producto>().HasQueryFilter(x => !x.Deleted);
             #endregion
         }
 

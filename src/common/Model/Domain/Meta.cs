@@ -14,9 +14,16 @@ namespace Model.Domain
             ValorMeta = valorMeta;
         }
 
+        public Meta(int valorMeta, float porcentaje)
+        {
+            ValorMeta = valorMeta;
+            Porcentaje = porcentaje;
+        }
+
         [ForeignKey("Indicador")]
         public int CodigoMeta { get; set; }
         public int ValorMeta { get; set; }
+        public float Porcentaje { get; set; }
         public bool Deleted { get; set; }
        
         public virtual Indicador Indicador { get; set; }

@@ -41,6 +41,8 @@ namespace Model.Domain
         public ICollection<ProyectoSocio> ProyectoSocios { get; set; }
 
         public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }
+
+        public PlanTrabajo PlanTrabajo { get; set; }
         public bool Deleted { get; set; }
 
         public void AddIndicador(Indicador indicador)
@@ -61,6 +63,13 @@ namespace Model.Domain
         public void AddOrganizacion(OrganizacionResponsable organizacion)
         {
             ProyectoOrganizaciones.Add(new ProyectoOrganizacion(organizacion, this));
+        }
+
+        public void AddPlanTrabajo()
+        {
+            var plan = new PlanTrabajo();
+            plan.FechaCreacion = DateTime.Now;
+            plan.Proyecto = this;
         }
 
         public void RemovePais(ProyectoPais pais)

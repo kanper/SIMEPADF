@@ -14,6 +14,12 @@ namespace Model.Domain
         {
             NombreIndicador = nombreIndicador;
             Meta = new Meta(meta);
+        }        
+
+        public Indicador(string nombreIndicador, int valorMeta, float porcentajeMeta)
+        {
+            NombreIndicador = nombreIndicador;
+            Meta = new Meta(valorMeta, porcentajeMeta);
         }
 
         [ForeignKey("Actividad")]
@@ -24,7 +30,7 @@ namespace Model.Domain
 
         public virtual Meta Meta { get; set; }
 
-        public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }
+        public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }       
 
         public bool Deleted { get; set; }       
     }
