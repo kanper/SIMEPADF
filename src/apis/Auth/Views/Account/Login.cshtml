@@ -2,29 +2,31 @@
 
 <div class="login-page">
     <div class="page-header">
-        <h1>Login</h1>
+        <h1>Sistema Informatico de Monitoreo y Evaluacion</h1>
     </div>
 
     <partial name="_ValidationSummary" />
 
     <div class="row">
-
         @if (Model.EnableLocalLogin)
         {
             <div class="col-sm-6">
+                <h1 class="imagen img-responsive">
+                    <img class="imagen" src="~/logo.png" width="500" height="160" alt="Logo de PADF" title="Logo de PADF">
+                </h1>
+            </div>
+            <div class="col-sm-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Local Login</h3>
+                        <h3 class="panel-title">Login</h3>
                     </div>
                     <div class="panel-body">
-
                         <form asp-route="Login">
                             <input type="hidden" asp-for="ReturnUrl" />
-
                             <fieldset>
                                 <div class="form-group">
-                                    <label asp-for="Username"></label>
-                                    <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+                                    <label asp-for="Username">Email</label>
+                                    <input class="form-control" placeholder="Email" asp-for="Username" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="Password"></label>
@@ -49,7 +51,6 @@
                 </div>
             </div>
         }
-
         @if (Model.VisibleExternalProviders.Any())
         {
             <div class="col-md-6 col-sm-6 external-providers">
@@ -76,7 +77,6 @@
                 </div>
             </div>
         }
-
         @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
         {
             <div class="alert alert-warning">

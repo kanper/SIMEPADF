@@ -134,7 +134,7 @@ namespace Services
                     usuario.Pais = model.Pais;
                  
                     var result = await _userManager.UpdateAsync(usuario);
-                    _databaseContext.SaveChanges();
+                    await _databaseContext.SaveChangesAsync();
                     return true;
                 }
                 return false;
