@@ -1,7 +1,7 @@
 <template>
     <v-toolbar app class="blue-grey darken-4" dark>
         <v-toolbar-side-icon @click="changedrawer"></v-toolbar-side-icon>
-        <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="logo1.png"></v-img>
+        <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png"></v-img>
         <v-spacer></v-spacer>
         <v-icon @click="editar()" x-large color="orange darken-2" text='Usuario'>mdi-account-box</v-icon>
         <v-icon large>mdi-logout</v-icon>

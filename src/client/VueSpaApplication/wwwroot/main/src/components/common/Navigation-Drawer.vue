@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer absolute app dark temporary v-model="navigation">
-    <v-toolbar class="transparent" flat>
+    <v-toolbar class="transparent" flat v-if="this.user.RolId == '1'">
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
@@ -8,27 +8,153 @@
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title>Administrador Sistema</v-list-tile-title>
+            <v-list-tile-title>Administrador del Sistema</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-toolbar>
-    <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in items">
-      <v-divider light></v-divider>
-      <v-list-group :prepend-icon="item.icon">
-        <template v-slot:activator>
-          <v-list-tile>
-            <v-list-tile-title>{{item.title}}</v-list-tile-title>
-          </v-list-tile>
-        </template>
-        <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
-          <v-list-tile-action>
-            <v-icon>{{ite.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+    <v-toolbar class="transparent" flat v-else-if="this.user.RolId == '2'">
+      <v-list class="pa-0">
+        <v-list-tile avatar>
+          <v-list-tile-avatar>
+            <v-icon>mdi-account</v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Monitoreo y Evaluacion</v-list-tile-title>
+          </v-list-tile-content>
         </v-list-tile>
-      </v-list-group>
-    </v-list>
+      </v-list>
+    </v-toolbar>
+    <v-toolbar class="transparent" flat v-else-if="this.user.RolId == '3'">
+      <v-list class="pa-0">
+        <v-list-tile avatar>
+          <v-list-tile-avatar>
+            <v-icon>mdi-account</v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Director de Pais</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-toolbar>
+    <v-toolbar class="transparent" flat v-else-if="this.user.RolId == '4'">
+      <v-list class="pa-0">
+        <v-list-tile avatar>
+          <v-list-tile-avatar>
+            <v-icon>mdi-account</v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Coordinador</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-toolbar>
+    <v-toolbar class="transparent" flat v-else-if="this.user.RolId == '5'">
+      <v-list class="pa-0">
+        <v-list-tile avatar>
+          <v-list-tile-avatar>
+            <v-icon>mdi-account</v-icon>
+          </v-list-tile-avatar>
+
+          <v-list-tile-content>
+            <v-list-tile-title>Director de Finanzas</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-toolbar>
+    <div v-if="this.user.RolId == '1'">
+      <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in sysadmin">
+        <v-divider light></v-divider>
+        <v-list-group :prepend-icon="item.icon">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
+            <v-list-tile-action>
+              <v-icon>{{ite.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
+      </v-list>
+    </div>
+    <div v-else-if="this.user.RolId == '2'">
+      <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in monitoreo">
+        <v-divider light></v-divider>
+        <v-list-group :prepend-icon="item.icon">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
+            <v-list-tile-action>
+              <v-icon>{{ite.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
+      </v-list>
+    </div>
+    <div v-else-if="this.user.RolId == '3'">
+      <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in director">
+        <v-divider light></v-divider>
+        <v-list-group :prepend-icon="item.icon">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
+            <v-list-tile-action>
+              <v-icon>{{ite.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
+      </v-list>
+    </div>
+    <div v-else-if="this.user.RolId == '4'">
+      <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in coordinador">
+        <v-divider light></v-divider>
+        <v-list-group :prepend-icon="item.icon">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
+            <v-list-tile-action>
+              <v-icon>{{ite.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
+      </v-list>
+    </div>
+    <div v-else-if="this.user.RolId == '5'">
+      <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in finanzas">
+        <v-divider light></v-divider>
+        <v-list-group :prepend-icon="item.icon">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>{{item.title}}</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
+            <v-list-tile-action>
+              <v-icon>{{ite.icon}}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-title>{{ite.title}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list-group>
+      </v-list>
+    </div>
   </v-navigation-drawer>
 </template>
 
@@ -40,7 +166,7 @@ export default {
     data() {
             return {
                 user: window.User,
-                items: [
+                sysadmin: [
                     {
                         title: 'Usuarios',
                         icon: 'mdi-account-circle',
@@ -70,14 +196,30 @@ export default {
                             {icon: 'mdi-checkbox-marked-circle-outline', title: 'Objetivos', path: '/objetivos'},
                         ]
                     },
-                    {
-                        title: 'Proyecto',
-                        icon: 'mdi-briefcase',
-                        children: [
-                            {icon: 'mdi-format-list-bulleted', title: 'Listar', path:'/proyectos'},
-                            {icon: 'mdi-drawing', title: 'Plan de trabajo', path:'/planes-trabajo'},
-                        ]
-                    },
+                ],
+                monitoreo: [
+                  {
+                    title: 'Proyecto',
+                    icon: 'mdi-briefcase',
+                    children: [
+                      {icon: 'mdi-format-list-bulleted', title: 'Listar', path:'/proyectos'},
+                      {icon: 'mdi-drawing', title: 'Plan de trabajo', path:'/planes-trabajo'},
+                    ]
+                  },
+                ],
+                director: [
+                  {
+                    title: 'Proyecto',
+                    icon: 'mdi-briefcase',
+                    children: [
+                      {icon: 'mdi-format-list-bulleted', title: 'Listar', path:'/proyectos'},
+                      {icon: 'mdi-drawing', title: 'Plan de trabajo', path:'/planes-trabajo'},
+                    ]
+                  },
+                ],
+                coordinador: [
+                ],
+                finanzas: [
                 ],
             }
         },
