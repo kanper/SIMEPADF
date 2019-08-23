@@ -1,15 +1,22 @@
 class UsuarioService {
     axios
     baseUrl
+    ApiUrl
 
-    constructor(axios, apiUrl) {
+    constructor(axios, apiUrl, authUrl) {
         this.axios = axios
         this.baseUrl = `${apiUrl}usuario`
+        this.ApiUrl = `${authUrl}logout`
     }
 
     get(id) {
         let self = this
         return self.axios.get(`${self.baseUrl}/${id}`)
+    }
+
+    logout() {
+        let self = this
+        return self.axios.get(`${self.ApiUrl}`)
     }
 
     getAll() {

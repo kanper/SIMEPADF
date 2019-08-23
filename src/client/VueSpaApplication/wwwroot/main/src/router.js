@@ -38,7 +38,7 @@ const routes = [
     {path: '/actividades/', name: 'actividad-index', component: ActividadIndex},
     {path: '/indicadores/', name: 'indicador-index', component: IndicadorIndex},
     {path: '/proyectos/', name: 'proyecto-index', component: ProyectoIndex},
-    { path: '/usuarios/', name: 'usuario-index', component: UsuarioIndex},
+    {path: '/usuarios/', name: 'usuario-index', component: UsuarioIndex},
     {path: '/fuente-datos/', name: 'fuente-dato-index', component: FuenteDatoIndex},
     {path: '/desagregaciones/', name: 'desagregacion-index', component: DesagreacionIndex},
     {path: '/niveles-impacto/', name: 'nivel-impacto-index', component: NivelImpactoIndex},

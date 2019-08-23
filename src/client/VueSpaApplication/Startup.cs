@@ -16,6 +16,8 @@ namespace VueSpaApplication
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -80,6 +82,16 @@ namespace VueSpaApplication
 
             services.AddMyDependecies(Configuration);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -100,6 +112,7 @@ namespace VueSpaApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookiePolicy();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
 

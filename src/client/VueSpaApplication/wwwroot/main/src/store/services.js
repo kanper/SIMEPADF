@@ -24,6 +24,7 @@ import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
 let apiUrl = 'http://localhost:5000/';
+let authUrl = 'http://localhost:53153/';
 
 
 // Axios Configuration
@@ -51,5 +52,5 @@ export default {
     productoService: new productoService(Axios, apiUrl),
     proyectoInfoService: new proyectoInfoService(Axios, apiUrl),
     actividadProductoService: new actividadProductoService(Axios, apiUrl),
-    usuarioService: new usuarioService(Axios, apiUrl)
+    usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }

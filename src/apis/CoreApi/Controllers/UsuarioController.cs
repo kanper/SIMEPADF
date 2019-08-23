@@ -23,7 +23,7 @@ namespace CoreApi.Controllers
 
         // GET api/values
         [HttpGet("usuario")]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             return Ok(
                 _usuarioService.GetAll()
@@ -63,6 +63,7 @@ namespace CoreApi.Controllers
                 _usuarioService.UpdateAsync(model, id)
             );
         }
+
 
         // DELETE api/values/5
         [HttpDelete("usuario-{id}")]

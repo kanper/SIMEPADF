@@ -121,23 +121,36 @@ namespace Services
                     .Include(u => u.Rol)
                     .Single(u => u.Id == id);
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
-                if (cambio.Succeeded)
+                if(model.Email != null)
                 {
-                    usuario.UserName = model.Email;
-                    usuario.NombrePersonal = model.NombrePersonal;
-                    usuario.ApellidoPersonal = model.ApellidoPersonal;
-                    usuario.Cargo = model.Cargo;
                     usuario.Email = model.Email;
+                    usuario.UserName = model.Email;
+                }
+
+                if (model.NombrePersonal != null)
+                    usuario.NombrePersonal = model.NombrePersonal;
+
+                if (model.ApellidoPersonal != null)
+                    usuario.ApellidoPersonal = model.ApellidoPersonal;
+
+                if (model.Cargo != null)
+                    usuario.Cargo = model.Cargo;
+
+                if (model.PhoneNumber != null)
                     usuario.PhoneNumber = model.PhoneNumber;
+
+                if (model.Pais != null)
                     usuario.Pais = model.Pais;
+
+                if(model.newPassword != null)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+                    var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
+                }
                  
                     var result = await _userManager.UpdateAsync(usuario);
                     await _databaseContext.SaveChangesAsync();
                     return true;
-                }
-                return false;
             }
             catch (System.Exception)
             {
