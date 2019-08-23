@@ -85,7 +85,7 @@
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [
-                    {
+                    /*{
                         text: 'Información',                //Texto que se muestra para el boton
                         type: 'info',                       //Tipo de boton [info|new|edit|delete|redirect]
                         icon: 'mdi-information-outline',    //Icono que se muestra para el boton
@@ -93,7 +93,8 @@
                         class: 'mr-2',                      //Clase a agregar
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
-                    },
+                    },*/
+                    {text: 'Información', type: 'redirect', icon: 'mdi-information-outline', action: '', class: 'mr-2', route: 'proyecto-info-index', show: (row) => {return true}},
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete}},

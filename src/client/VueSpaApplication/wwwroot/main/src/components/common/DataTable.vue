@@ -51,23 +51,33 @@
             ...mapActions(['loadDataTable']),
             buildTableCell(item, format) {
                 let value = item[format['value']];
-                switch (format['type']) {
-                    case 'text':
-                        return this.resumeLargeText(value);
-                    case 'number':
-                        return value;
-                    case 'date':
-                        return this.formatDate(value);
-                    case 'datetime':
-                        return this.formatDateTime(value);
-                    case 'money':
-                        return '$ ' + value;
-                    case 'time':
-                        return this.formatTime(value);
-                    case 'option':
-                        return null;
-                    default:
-                        return '';
+                if(value !== undefined){
+                    switch (format['type']) {
+                        case 'text':
+                            return value;
+                        case 'number':
+                            return this.numberWithCommas(value);
+                        case 'date':
+                            return this.formatDate(value);
+                        case 'datetime':
+                            return this.formatDateTime(value);
+                        case 'money':
+                            return '$ ' + this.numberWithCommas(value);
+                        case 'percent':
+                            return value + ' %';
+                        case 'time':
+                            return this.formatTime(value);
+                        case 'boolean':
+                            return value;
+                        case 'array':
+                            return value.map(function (item) {
+                                return item['nombre'];
+                            }).join(', ');
+                        case 'obj':
+                            return value.nombre;
+                        default:
+                            return value;
+                    }
                 }
             },
             resumeLargeText(text) {
@@ -79,18 +89,17 @@
                 return text;
             },
             formatDate(text){
-                if(text !== undefined)
                 return text.split('T')[0];
             },
             formatTime(text){
-                if(text !== undefined)
                 return text.split('T')[1];
             },
             formatDateTime(text){
-                if(text !== undefined){
-                    let datetime = text.split('T');
-                    return datetime[0] + ' ' + datetime[1];
-                }
+                let datetime = text.split('T');
+                return datetime[0] + ' ' + datetime[1];
+            },
+            numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
 
         },

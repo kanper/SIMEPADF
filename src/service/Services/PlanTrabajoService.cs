@@ -27,7 +27,7 @@ namespace Services
             _context = context;
         }
 
-        public PlanTrabajoDTO Get(string id)
+        public PlanTrabajoDTO Get(string id)            
         {
             try
             {
@@ -42,7 +42,11 @@ namespace Services
                         FechaCreacion = planTrabajo == null ? DateTime.Now : planTrabajo.FechaCreacion,
                         ProyectoId = p.CodigoProyecto,
                         NombreProyecto = p.NombreProyecto,
-                        IsPlanTrabajo = planTrabajo != null                        
+                        IsPlanTrabajo = planTrabajo != null,
+                        MontoOriginal = p.MontoProyecto,
+                        AcumuladoActividad = (from a in _context.ActividadPT
+                            where a.PlanTrabajoCodigoPlanTrabajo == p.CodigoProyecto
+                            select a.Monto).ToArray()
                     }).Single();
             }
             catch (Exception e)
@@ -66,7 +70,11 @@ namespace Services
                         FechaCreacion = planTrabajo == null ? DateTime.Now : planTrabajo.FechaCreacion,
                         ProyectoId = p.CodigoProyecto,
                         NombreProyecto = p.NombreProyecto,
-                        IsPlanTrabajo = planTrabajo != null
+                        IsPlanTrabajo = planTrabajo != null,
+                        MontoOriginal = p.MontoProyecto,
+                        AcumuladoActividad = (from a in _context.ActividadPT
+                                where a.PlanTrabajoCodigoPlanTrabajo == p.CodigoProyecto
+                                      select a.Monto).ToArray()
                     }).ToList();
             }
             catch (Exception e)
