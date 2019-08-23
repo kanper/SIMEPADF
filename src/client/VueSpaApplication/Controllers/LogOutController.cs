@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Controllers
 {
@@ -12,11 +10,14 @@ namespace Auth.Controllers
 
         //logout
         [HttpGet("logout")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return Ok();
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+            return SignOut("Cookies", "oidc");
         }
 
     }

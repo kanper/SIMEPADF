@@ -20,6 +20,7 @@ export default {
             return {
                 user: window.User,
                 fab: false,
+                allCookies: document.cookie.split(';'),
             }
         },
     methods: {
@@ -31,10 +32,10 @@ export default {
             this.$store.state.services.usuarioService
             .logout()
             .then(r => {
-
+                this.$router.push(`/usuarios/${this.user.UserId}/editar`)
             })
             .catch(r => {
-
+                console.error(r.toString());
             });
         },
     }
