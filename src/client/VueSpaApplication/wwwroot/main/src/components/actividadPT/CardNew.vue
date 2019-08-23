@@ -8,6 +8,10 @@
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
+                            <v-chip color="primary" text-color="white">
+                                $ {{montoActual}}
+                                <v-icon right>mdi-check</v-icon>
+                            </v-chip>
                             <form>
                                 <v-text-field
                                         v-model="newModel.nombreActividad"
@@ -20,7 +24,7 @@
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="newModel.monto"
-                                        v-validate="'required|decimal:2'"
+                                        v-validate="fieldRules"
                                         :error-messages="errors.collect('monto')"
                                         label="Monto"
                                         data-vv-name="monto"
@@ -75,11 +79,20 @@
                     fechaLimite: new Date().toISOString().substr(0, 10),
                     monto: 0.0
                 },
+                montoActual: 0.0,
                 datePick: false
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services'])
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services']),
+            fieldRules () {
+                return {
+                    required: true,
+                    decimal: 2,
+                    min_value: 0.1,
+                    max_value: this.montoActual
+                }
+            }
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
@@ -125,7 +138,21 @@
                 this.newModel.monto = 0.0;
                 this.newModel.fechaCreacion = new Date().toISOString().substr(0, 10);
                 this.$validator.reset();
+                this.getCurrentMount();
+            },
+            getCurrentMount()
+            {
+                this.services.planTrabajoService.get(this.$route.params.id)
+                    .then(r => {
+                        this.montoActual = r.data.montoRestante;
+                    })
+                    .catch(e => {
+                        this.showInfo(e.toString());
+                    });
             }
+        },
+        created() {
+            this.getCurrentMount();
         }
     }
 </script>

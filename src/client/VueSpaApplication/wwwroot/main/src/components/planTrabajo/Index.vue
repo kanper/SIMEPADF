@@ -66,6 +66,8 @@
                         width: '50%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
+                    {text: 'Monto original', align: 'center', value: 'montoOriginal', type: 'money'},
+                    {text: 'Monto restante', align: 'center', value: 'montoRestante', type: 'money'},
                     {text: 'Plan trabajo', align: 'center', value: 'fecha', type: 'date'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
@@ -82,7 +84,7 @@
                     },
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return row.isPlanTrabajo}},
                     {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', route: '',class: 'mr-2', show: (row) => {return row.isPlanTrabajo}},
-                    {text: 'Resultados', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}}
+                    {text: 'Actividades', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}}
                 ],
             }
         },

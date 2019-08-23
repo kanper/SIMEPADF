@@ -20,6 +20,7 @@ import ActividadPTIndex from './components/actividadPT/Index'
 import PlanActividadIndex from './components/actividadPT/IndexPt'
 import ProductoIndex from './components/producto/Index'
 import ActividadProductoIndex from './components/producto/IndexAP'
+import ProyectoInfoIndex from './components/proyectoInfo/IndexPI'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
 
@@ -47,6 +48,7 @@ const routes = [
     {path: '/planes-trabajo/:id/actividades', name: 'plan-trabajo-actividad-index', component: PlanActividadIndex},
     {path: '/productos', name: 'producto-index', component: ProductoIndex},
     {path: '/actividad/:id/productos', name: 'actividad-producto-index', component: ActividadProductoIndex},
+    {path: '/proyecto/:id/info', name: 'proyecto-info-index', component: ProyectoInfoIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar}
 ];

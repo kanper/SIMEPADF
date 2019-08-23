@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Sysadmin.jpg"></v-img>
+          <v-img src="/Sysadmin.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -32,7 +32,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Monitor.jpg"></v-img>
+          <v-img src="/Monitor.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -61,7 +61,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/director.jpg"></v-img>
+          <v-img src="/director.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -90,7 +90,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Coordinador.jpg"></v-img>
+          <v-img src="/Coordinador.png"></v-img>
           <v-card-title>Coordinador de Pais</v-card-title>
           <v-card-text>
 
@@ -117,7 +117,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/finanzas.jpg"></v-img>
+          <v-img src="/finanzas.png"></v-img>
           <v-card-title>
 
           </v-card-title>
