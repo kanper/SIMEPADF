@@ -72,7 +72,7 @@
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
                     {text: 'Resultado', align: 'left', value: 'nombreResultado', width: '25%', type: 'text'},
-                    {text: 'Actividad', align: 'left', value: 'nombreActividad', width: '25%', type: 'text'},
+                    {text: 'Actividad', align: 'left', value: 'nombreActividad', width: '25%', type: 'text', style: 'active-column'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [

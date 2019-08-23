@@ -24,7 +24,7 @@
                             <v-text-field
                                     :error-messages="errors.collect('montoObjetivo')"
                                     data-vv-name="monto"
-                                    label="Monto"
+                                    label="Monto en USD"
                                     required
                                     v-model="newModel.montoProyecto"
                                     v-validate="'required|min_value:0|decimal:2'"
@@ -32,7 +32,7 @@
                             <v-text-field
                                     :error-messages="errors.collect('beneficiarios')"
                                     data-vv-name="beneficiarios"
-                                    label="Beneficiarios"
+                                    label="Numero de Beneficiarios"
                                     required
                                     v-model="newModel.beneficiarios"
                                     v-validate="'required|min_value:0|numeric'"
