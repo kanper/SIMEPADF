@@ -64,14 +64,6 @@ namespace CoreApi.Controllers
             );
         }
 
-        // PUT api/values/5
-        //[HttpPut("usuario-{id}")]
-        //public IActionResult Put([FromBody] PersonalDTO model, string id)
-        //{
-        //    return Ok(
-        //        _usuarioService.UpdateAsync(model, id)
-        //    );
-        //}
 
         // DELETE api/values/5
         [HttpDelete("usuario-{id}")]

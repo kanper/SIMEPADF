@@ -3,15 +3,12 @@
         <v-toolbar-side-icon @click="changedrawer"></v-toolbar-side-icon>
         <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/logo1.png"></v-img>
         <v-spacer></v-spacer>
-        <v-btn fab dark small color="green" >
+        <v-btn fab dark small color="indigo" >
             <v-icon @click="editar()">mdi-account-edit</v-icon>
         </v-btn>
-        <v-btn fab dark small color="indigo">
-            <v-icon>mdi-account-key</v-icon>
+        <v-btn fab dark small color="red" >
+            <v-icon @click="logout()">mdi-account-off</v-icon>
         </v-btn>
-        <template>
-            <v-icon large @click="logout()">mdi-logout</v-icon>
-        </template>
     </v-toolbar>
 </template>
 
@@ -32,7 +29,7 @@ export default {
         },
         logout() {
             this.$store.state.services.usuarioService
-            .get()
+            .logout()
             .then(r => {
 
             })

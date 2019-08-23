@@ -14,7 +14,7 @@ class UsuarioService {
         return self.axios.get(`${self.baseUrl}/${id}`)
     }
 
-    get() {
+    logout() {
         let self = this
         return self.axios.get(`${self.ApiUrl}`)
     }

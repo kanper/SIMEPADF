@@ -59,8 +59,24 @@
             </v-flex>
           </v-layout>
         </v-container>
-        <small>* Indica que el campo es requerido</small>
       </v-card-text>
+    </v-container>
+    <v-container>
+      <v-card-text>
+          <h3>Cambio de Contraseña</h3>
+      </v-card-text>
+      <v-text-field
+      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="show1 ? 'text' : 'password'"
+      hint="al menos 8 caracteres"
+      label="Contraseña Nueva *"
+      required
+      @click:append="show1 = !show1"
+      v-model="form.newPassword"
+      ></v-text-field>
+      <small>* Indica que el campo es requerido</small>
+    </v-container>
+    <v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn @click="$router.push(`/`)" color="gray darken-1" flat>Cancelar</v-btn>
@@ -96,6 +112,7 @@ export default {
     return {
       snackbar: false,
       paises: [],
+      show1: false,
       user: window.User,
       form: {
           nombrePersonal: null,
@@ -103,7 +120,8 @@ export default {
           cargo: null,
           phoneNumber: null,
           email: null,
-          pais: null
+          pais: null,
+          newPassword: null
       },
       emailRules: [
         v => !!v || "E-mail es Obligatorio",
@@ -120,7 +138,7 @@ export default {
   computed: {
     pais: {
       get: function() {
-        return this.user.pais;
+        return this.user.Pais;
       },
       set: function(newValue) {
         this.form.pais = newValue;
