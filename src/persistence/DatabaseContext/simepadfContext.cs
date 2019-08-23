@@ -27,8 +27,8 @@ namespace DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Pw230$poll2455!;Encrypt=false;Connection Timeout=30;");
+                //optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Pw230$poll2455!;Encrypt=false;Connection Timeout=30;");
             }
         }
 

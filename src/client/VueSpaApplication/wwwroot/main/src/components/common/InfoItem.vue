@@ -13,6 +13,7 @@
         </v-card-title>
         <v-card-text v-show="show">
             {{buildCardContent(value,itemType)}}
+            <ul v-if="itemType === 'list'"><li v-for="item in CRUDModel[value]">{{item.nombre}}</li></ul>
         </v-card-text>
     </v-card>
 </template>
@@ -81,6 +82,8 @@
                             return value.map(function (item) {
                                 return item['nombre'];
                             }).join(', ');
+                        case 'list':
+                            return '';
                         case 'obj':
                             this.icon = 'mdi-package-variant-closed';
                             return value.nombre;

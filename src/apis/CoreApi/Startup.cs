@@ -61,7 +61,7 @@ namespace CoreApi
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
@@ -82,6 +82,7 @@ namespace CoreApi
             services.AddTransient<IPlanTrabajoService, PlanTrabajoService>();
             services.AddTransient<IActividadPtService, ActividadPtService>();
             services.AddTransient<IProductoService, ProductoService>();
+            services.AddTransient<IProyectoInfoService, ProyectoInfoService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
