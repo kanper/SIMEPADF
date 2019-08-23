@@ -17,6 +17,7 @@ namespace Services
         PersonalDTO Get(string id);
         bool Add(PersonalDTO model);
         Task<bool> UpdateAsync(PersonalDTO model, string id);
+        Task<bool> UpdatePasswordAsync(PersonalDTO model, string id);
         bool Delete(string id);
 
     }
@@ -120,11 +121,6 @@ namespace Services
                 var usuario = _databaseContext.Usuario
                     .Include(u => u.Rol)
                     .Single(u => u.Id == id);
-
-                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
-                if (cambio.Succeeded)
-                {
                     usuario.UserName = model.Email;
                     usuario.NombrePersonal = model.NombrePersonal;
                     usuario.ApellidoPersonal = model.ApellidoPersonal;
@@ -133,6 +129,29 @@ namespace Services
                     usuario.PhoneNumber = model.PhoneNumber;
                     usuario.Pais = model.Pais;
                  
+                    var result = await _userManager.UpdateAsync(usuario);
+                    await _databaseContext.SaveChangesAsync();
+                    return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdatePasswordAsync(PersonalDTO model, string id)
+        {
+            try
+            {
+
+                var usuario = _databaseContext.Usuario
+                    .Include(u => u.Rol)
+                    .Single(u => u.Id == id);
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
+                var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
+                if (cambio.Succeeded)
+                {
                     var result = await _userManager.UpdateAsync(usuario);
                     await _databaseContext.SaveChangesAsync();
                     return true;
