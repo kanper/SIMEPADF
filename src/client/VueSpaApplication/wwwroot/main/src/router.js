@@ -23,6 +23,7 @@ import ActividadProductoIndex from './components/producto/IndexAP'
 import ProyectoInfoIndex from './components/proyectoInfo/IndexPI'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
+import usuarioChange from './components/usuarios/Change'
 
 Vue.use(Router);
 
@@ -50,7 +51,8 @@ const routes = [
     {path: '/actividad/:id/productos', name: 'actividad-producto-index', component: ActividadProductoIndex},
     {path: '/proyecto/:id/info', name: 'proyecto-info-index', component: ProyectoInfoIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
-    {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar}
+    {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
+    { path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange}
 ];
 
 export default new Router({
