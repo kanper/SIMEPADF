@@ -171,14 +171,14 @@ export default {
                         title: 'Usuarios',
                         icon: 'mdi-account-circle',
                         children: [
-                            {icon: 'mdi-format-list-bulleted', title: 'Listar', path: '/usuarios'},
+                            {icon: 'mdi-format-list-bulleted', title: 'Listar Usuarios', path: '/usuarios'},
                         ]
                     },
                     {
                         title: 'Administración de Catalogos',
                         icon: 'mdi-view-dashboard',
                         children: [
-                            {icon: 'mdi-city', title: 'Organizaciones', path: '/organizaciones'},
+                            {icon: 'mdi-city', title: 'Organizaciones Responsables', path: '/organizaciones'},
                             {icon: 'mdi-account-multiple-outline', title: 'Socios', path: '/socios'},
                             {icon: 'mdi-map-marker-radius', title: 'País', path: '/paises'},
                             {icon: 'mdi-open-in-app', title: 'Fuentes de datos', path: '/fuente-datos'},
@@ -189,11 +189,11 @@ export default {
                     {
                         title: 'Plan de Monitoreo y Evaluación',
                         icon: 'mdi-compass-outline',
-                        children: [
-                            {icon: 'mdi-flag-variant', title: 'Indicadores', path: '/indicadores'},
-                            {icon: 'mdi-calendar-multiple-check', title: 'Actividades', path: '/actividades'},
-                            {icon: 'mdi-lightbulb', title: 'Resultados', path: '/resultados'},
+                        children: [                                      
                             {icon: 'mdi-checkbox-marked-circle-outline', title: 'Objetivos', path: '/objetivos'},
+                            {icon: 'mdi-lightbulb', title: 'Resultados', path: '/resultados'},
+                            {icon: 'mdi-calendar-multiple-check', title: 'Actividades', path: '/actividades'},
+                            {icon: 'mdi-flag-variant', title: 'Indicadores', path: '/indicadores'},
                         ]
                     },
                 ],
@@ -202,7 +202,7 @@ export default {
                     title: 'Proyecto',
                     icon: 'mdi-briefcase',
                     children: [
-                      {icon: 'mdi-format-list-bulleted', title: 'Listar', path:'/proyectos'},
+                      {icon: 'mdi-format-list-bulleted', title: 'Listar Proyectos', path:'/proyectos'},
                       {icon: 'mdi-drawing', title: 'Plan de trabajo', path:'/planes-trabajo'},
                     ]
                   },
@@ -212,7 +212,7 @@ export default {
                     title: 'Proyecto',
                     icon: 'mdi-briefcase',
                     children: [
-                      {icon: 'mdi-format-list-bulleted', title: 'Listar', path:'/proyectos'},
+                      {icon: 'mdi-format-list-bulleted', title: 'Listar Proyectos', path:'/proyectos'},
                       {icon: 'mdi-drawing', title: 'Plan de trabajo', path:'/planes-trabajo'},
                     ]
                   },
