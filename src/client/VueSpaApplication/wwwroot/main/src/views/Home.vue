@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Sysadmin.png"></v-img>
+          <v-img src="/dist/Sysadmin.png" width="400" height="400" align="center" ></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -45,7 +45,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Monitor.png"></v-img>
+          <v-img src="/dist/Monitoreo.png" width="400" height="400" align="center"  ></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -87,7 +87,7 @@ Trabajo, regionales y por país.</h4>
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/director.png"></v-img>
+          <v-img src="/dist/director.png" width="400" height="400" align="center"  ></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -126,7 +126,7 @@ Trabajo, por país.</h4>
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/Coordinador.png"></v-img>
+          <v-img src="/dist/Coordinador.png" width="400" height="400" align="center" ></v-img>
           <v-card-title>Coordinador de Pais</v-card-title>
           <v-card-text>
 
@@ -159,7 +159,7 @@ Trabajo, por país.</h4>
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/finanzas.png"></v-img>
+          <v-img src="/dist/finanzas.png" width="400" height="400" align="center" ></v-img>
           <v-card-title>
 
           </v-card-title>
