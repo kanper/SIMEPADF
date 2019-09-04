@@ -17,6 +17,7 @@
                 label="Nombres *"
                 required
                 v-model="form.nombrePersonal"
+                :rules="NameRules"
                 outlined
               ></v-text-field>
               <v-spacer></v-spacer>
@@ -25,6 +26,7 @@
                 label="Cargo *"
                 required
                 v-model="form.cargo"
+                :rules="CargoRules"
               ></v-text-field>
               <v-text-field
                 label="Telefono (###) ####-####*"
@@ -40,12 +42,7 @@
                 label="Apellidos *"
                 required
                 v-model="form.apellidoPersonal"
-              ></v-text-field>
-              <v-text-field
-                label="Correo *"
-                required
-                v-model="form.email"
-                :rules="emailRules"
+                :rules="SurnameRules"
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-combobox
@@ -60,21 +57,6 @@
           </v-layout>
         </v-container>
       </v-card-text>
-    </v-container>
-    <v-container>
-      <v-card-text>
-          <h3>Cambio de Contraseña</h3>
-      </v-card-text>
-      <v-text-field
-      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="show1 ? 'text' : 'password'"
-      hint="al menos 8 caracteres"
-      label="Contraseña Nueva *"
-      required
-      @click:append="show1 = !show1"
-      v-model="form.newPassword"
-      ></v-text-field>
-      <small>* Indica que el campo es requerido</small>
     </v-container>
     <v-container>
       <v-card-actions>
@@ -112,27 +94,32 @@ export default {
     return {
       snackbar: false,
       paises: [],
-      show1: false,
       user: window.User,
       form: {
           nombrePersonal: null,
           apellidoPersonal: null,
           cargo: null,
           phoneNumber: null,
-          email: null,
           pais: null,
-          newPassword: null
       },
-      emailRules: [
-        v => !!v || "E-mail es Obligatorio",
-        v => /.+@.+\..+/.test(v) || "E-mail debe ser valido"
-      ],
       phoneRules: [
         v => !!v || "Telefono es Obligatorio",
         v =>
           /\(([0-9]{3})\)([ ])([0-9]{4})+-.+[0-9]{3}/.test(v) ||
           "Telefono debe ser valido"
-      ]
+      ],
+      NameRules: [
+        v => !!v || 'El Nombre es Obligatorio',
+        v => (v && v.length <= 50) || 'El Nombre debe tener menos de 50 caracteres',
+      ],
+      SurnameRules: [
+        v => !!v || 'El Apellido es Obligatorio',
+        v => (v && v.length <= 50) || 'El Apellido debe tener menos de 50 caracteres',
+      ],
+      CargoRules: [
+        v => !!v || 'El Cargo es Obligatorio',
+        v => (v && v.length <= 50) || 'El Cargo debe tener menos de 50 caracteres',
+      ],
     };
   },
   computed: {
@@ -154,7 +141,6 @@ export default {
         this.form.apellidoPersonal = r.data.apellidoPersonal;
         this.form.cargo = r.data.cargo;
         this.form.phoneNumber = r.data.phoneNumber;
-        this.form.email = r.data.email;
       })
       .catch(r => {
 

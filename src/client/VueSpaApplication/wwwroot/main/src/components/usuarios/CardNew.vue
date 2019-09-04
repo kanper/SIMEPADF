@@ -52,7 +52,7 @@
               <v-text-field
                 :error-messages="errors.collect('phoneNumber')"
                 data-vv-name="phoneNumber"
-                label="Telefono *"
+                label="Telefono (###) ####-#### *"
                 required
                 v-model="newModel.phoneNumber"
                 :rules="phoneRules"
