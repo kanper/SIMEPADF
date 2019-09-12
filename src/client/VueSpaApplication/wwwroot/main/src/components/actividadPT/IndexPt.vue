@@ -59,6 +59,7 @@
                             value: 'nombreActividad',
                             type: 'text'
                         },
+                        {name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
                         {name: 'Fecha limite', value: 'fechaLimite', type: 'date'},
                         {name: 'Monto', value: 'monto', type: 'money'}
                     ],
@@ -74,6 +75,7 @@
                         width: '45%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
+                    {text: 'Fecha inicio', align: 'center', value: 'fechaInicio', type: 'date'},
                     {text: 'Fecha limite', align: 'center', value: 'fechaLimite', type: 'date'},
                     {text: 'Monto', align: 'center', value: 'monto', type: 'money'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}

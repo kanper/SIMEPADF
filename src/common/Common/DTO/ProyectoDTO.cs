@@ -6,6 +6,7 @@ namespace DTO.DTO
     {       
         public string Id { get; set; }
         public string NombreProyecto { get; set; }
+        public bool Regional { get; set; }
         public DateTime FechaAprobacion { get; set; }       
         public DateTime FechaInicio { get; set; }       
         public DateTime FechaFin { get; set; }       

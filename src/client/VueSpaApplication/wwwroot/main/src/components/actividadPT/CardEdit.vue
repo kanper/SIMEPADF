@@ -38,6 +38,28 @@
                                 >
                                     <template v-slot:activator="{ on }">
                                         <v-text-field
+                                                label="Fecha inicio"
+                                                prepend-icon="mdi-calendar"
+                                                readonly
+                                                v-model="startDate"
+                                                v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker @input="datePick = false" locale="es-es"
+                                                   v-model="startDate"></v-date-picker>
+                                </v-menu>
+                                <v-menu
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        full-width
+                                        lazy
+                                        min-width="290px"
+                                        offset-y
+                                        transition="scale-transition"
+                                        v-model="datePick"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
                                                 label="Fecha limite"
                                                 prepend-icon="mdi-calendar"
                                                 readonly
@@ -74,6 +96,17 @@
         },
         computed: {
             ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            startDate: {
+                get: function () {
+                    if (this.CRUDModel.fechaInicio === undefined){
+                        return new Date().toISOString().substr(0, 10);
+                    }
+                    return this.CRUDModel.fechaInicio.split('T')[0];
+                },
+                set: function (newValue) {
+                    this.CRUDModel.fechaInicio = newValue;
+                }
+            },
             limitDate: {
                 get: function () {
                     if (this.CRUDModel.fechaLimite === undefined){

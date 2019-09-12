@@ -71,8 +71,7 @@
               
               <h4>-Aprobar los proyectos por país.</h4>
               
-              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de
-Trabajo, regionales y por país.</h4>
+              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de Trabajo, regionales y por país.</h4>
               
               <h4>-Cambiar estado de proyectos.</h4>
           </v-card-text>
@@ -100,7 +99,7 @@ Trabajo, regionales y por país.</h4>
         <v-card>
           <v-img></v-img>
           <v-card-title>
-<h1>Director Nacional</h1>
+            <h1>Director Nacional</h1>
           </v-card-title>
           <v-card-text>
               <h2>Funciones:</h2>
@@ -111,8 +110,7 @@ Trabajo, regionales y por país.</h4>
               
               <h4>-Crear Plan de Trabajo por país.</h4>
                     
-              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de
-Trabajo, por país.</h4>
+              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de Trabajo, por país.</h4>
               
           </v-card-text>
           <v-card-actions>
@@ -127,7 +125,7 @@ Trabajo, por país.</h4>
       <v-flex xs12 sm6>
         <v-card>
           <v-img src="/dist/Coordinador.png" width="400" height="400" align="center" ></v-img>
-          <v-card-title>Coordinador de Pais</v-card-title>
+          <v-card-title></v-card-title>
           <v-card-text>
 
           </v-card-text>
@@ -137,15 +135,14 @@ Trabajo, por país.</h4>
         <v-card>
           <v-img></v-img>
           <v-card-title>
-<h1>Coordinador Nacional</h1>
+            <h1>Coordinador Nacional</h1>
           </v-card-title>
           <v-card-text>
               <h2>Funciones:</h2>
               
               <h4>-Encargado del seguimiento del Plan de Monitoreo y Evaluación.</h4>
               
-              <h4>-Encargado de subir las evidencias correspondientes del Plan de Trabajo.
-(Documentos, Facturas, etc.).</h4>
+              <h4>-Encargado de subir las evidencias correspondientes del Plan de Trabajo. (Documentos, Facturas, etc.).</h4>
               
               </v-card-text>
           <v-card-actions>
@@ -172,13 +169,12 @@ Trabajo, por país.</h4>
         <v-card>
           <v-img></v-img>
           <v-card-title>
-<h1>Director de Finanzas</h1>
+            <h1>Director de Finanzas</h1>
           </v-card-title>
           <v-card-text>
-<h2>Funciones:</h2>
+            <h2>Funciones:</h2>
               
-              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de
-Trabajo, regionales y por país.</h4>
+              <h4>-Verificar y validar el cumplimiento del Plan de Monitoreo y Evaluación y Plan de Trabajo, regionales y por país.</h4>
               
           </v-card-text>
           <v-card-actions>

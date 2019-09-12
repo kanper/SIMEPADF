@@ -9,7 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <v-chip color="primary" text-color="white">
-                                $ {{montoActual}}
+                                $ {{montoActual}} Monto restante
                                 <v-icon right>mdi-check</v-icon>
                             </v-chip>
                             <form>
@@ -30,6 +30,28 @@
                                         data-vv-name="monto"
                                         required
                                 ></v-text-field>
+                                <v-menu
+                                        :close-on-content-click="false"
+                                        :nudge-right="40"
+                                        full-width
+                                        lazy
+                                        min-width="290px"
+                                        offset-y
+                                        transition="scale-transition"
+                                        v-model="datePick"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                                label="Fecha inicio"
+                                                prepend-icon="mdi-calendar"
+                                                readonly
+                                                v-model="newModel.fechaInicio"
+                                                v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker @input="datePick = false" locale="es-es"
+                                                   v-model="newModel.fechaInicio"></v-date-picker>
+                                </v-menu>
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
@@ -76,6 +98,7 @@
                 newModel: {
                     id: 0,
                     nombreActividad: '',
+                    fechaInicio: new Date().toISOString().substr(0, 10),
                     fechaLimite: new Date().toISOString().substr(0, 10),
                     monto: 0.0
                 },

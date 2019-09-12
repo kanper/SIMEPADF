@@ -19,6 +19,7 @@
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="newModel.nombreProyecto" v-validate="'required|max:500'"
                             ></v-textarea>
+                            <v-switch v-model="newModel.regional" label="Regional"></v-switch>
                         </v-flex>
                         <v-flex xs6>
                             <v-text-field
@@ -108,11 +109,18 @@
                             </v-menu>
                         </v-flex>
                         <v-flex xs6>
-                            <v-combobox
+                            <v-combobox v-if="this.newModel.regional == true"
                                     :items="paises"
                                     item-text="nombre"
                                     label="Seleccione uno o varios paises"
                                     multiple
+                                    required
+                                    v-model="newModel.paises"
+                            ></v-combobox>
+                            <v-combobox v-if="newModel.regional == false"
+                                    :items="paises"
+                                    item-text="nombre"
+                                    label="Seleccione un pais"
                                     required
                                     v-model="newModel.paises"
                             ></v-combobox>
@@ -154,6 +162,7 @@
             return {
                 newModel: {
                     codigoProyecto: '',
+                    regional: false,
                     nombreProyecto: '',
                     montoProyecto: 0.0,
                     beneficiarios: 0,

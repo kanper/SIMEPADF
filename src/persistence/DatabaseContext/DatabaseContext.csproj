@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\common\Common\DTO.csproj" />
     <ProjectReference Include="..\..\common\Model\Model.csproj" />
   </ItemGroup>
 

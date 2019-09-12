@@ -19,6 +19,7 @@
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="CRUDModel.nombreProyecto" v-validate="'required|max:500'"
                             ></v-textarea>
+                            <v-switch v-model="CRUDModel.regional" label="Regional"></v-switch>
                         </v-flex>
                         <v-flex xs6>
                             <v-text-field

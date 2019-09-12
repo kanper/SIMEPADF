@@ -9,6 +9,8 @@ namespace DatabaseContext.Config
         {
             builder.HasKey(a => a.CodigoActividadPT);
             builder.Property(a => a.NombreActividad).IsRequired().HasMaxLength(100);
+            builder.Property(a => a.FechaInicio).IsRequired();
+            builder.Property(a => a.FechaLimite).IsRequired();
         }
     }
 }

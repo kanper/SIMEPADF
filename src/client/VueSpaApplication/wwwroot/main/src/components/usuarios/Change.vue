@@ -119,16 +119,24 @@ export default {
             this.$store.state.services.usuarioService
             .logout()
             .then(r => {
+              this.$router.push('/');
+              //location.reload();
             })
             .catch(r => {
                 console.error(r.toString());
             });
-            this.$router.push('/');
+            //location.reload();
           }
         })
         .catch(e => {
         });
-    }
+        this.load();
+    },
+    load() {
+            setTimeout(function (){
+                location.reload();
+            }, 300);
+        }
   },
   created() {
     this.get(this.user.UserId);

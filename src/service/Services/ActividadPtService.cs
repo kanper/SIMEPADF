@@ -44,6 +44,7 @@ namespace Services
                         NombreProyecto = p.NombreProyecto,
                         NombreActividad = a.NombreActividad,
                         Monto = a.Monto,
+                        FechaInicio = a.FechaInicio,
                         FechaLimite = a.FechaLimite,
                         FechaCreacion = pt.FechaCreacion
                     }).Single();
@@ -70,6 +71,7 @@ namespace Services
                         NombreProyecto = p.NombreProyecto,
                         NombreActividad = a.NombreActividad,
                         Monto = a.Monto,
+                        FechaInicio = a.FechaInicio,
                         FechaLimite = a.FechaLimite,
                         FechaCreacion = pt.FechaCreacion
                     }).ToList();
@@ -92,6 +94,7 @@ namespace Services
                         Id = a.CodigoActividadPT,
                         NombreActividad = a.NombreActividad,
                         Monto = a.Monto,
+                        FechaInicio = a.FechaInicio,
                         FechaLimite = a.FechaLimite
                     }).ToList();
             }
@@ -109,7 +112,7 @@ namespace Services
                 _context.PlanTrabajo
                     .Include(a => a.ActividadPTs)
                     .Single(p => p.CodigoPlanTrabajo == proyectoId)
-                    .AddActividad(new ActividadPT(model.NombreActividad,model.FechaLimite,model.Monto));                
+                    .AddActividad(new ActividadPT(model.NombreActividad,model.FechaInicio, model.FechaLimite,model.Monto));                
                 _context.SaveChanges();
                 return true;
             }
@@ -126,6 +129,7 @@ namespace Services
             {
                 var actividadPt = _context.ActividadPT.Single(p => p.CodigoActividadPT == id);
                 actividadPt.FechaLimite = model.FechaLimite;
+                actividadPt.FechaInicio = model.FechaInicio;
                 actividadPt.Monto = model.Monto;
                 actividadPt.NombreActividad = model.NombreActividad;
                 _context.SaveChanges();

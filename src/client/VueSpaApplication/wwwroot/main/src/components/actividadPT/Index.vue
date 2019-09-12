@@ -56,6 +56,7 @@
                             value: 'nombreActividad',
                             type: 'text'
                         },
+                        {name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
                         {name: 'Fecha limite', value: 'fechaLimite', type: 'date'},
                         {name: 'Monto', value: 'monto', type: 'money'}
                     ],
@@ -73,6 +74,7 @@
                     },
                     {text: 'Actividad', align: 'left', value: 'nombreActividad', type: 'text'},
                     {text: 'Plan trabajo', align: 'center', value: 'fechaCreacion', type: 'date'},
+                    {text: 'Fecha inicio', align: 'center', value: 'fechaInicio', type: 'date'},
                     {text: 'Fecha limite', align: 'center', value: 'fechaLimite', type: 'date'},
                     {text: 'Monto', align: 'center', value: 'monto', type: 'money'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}

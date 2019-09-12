@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Sendgrid" Version="9.12.0" />
     <PackageReference Include="SimpleCrypto.NetCore" Version="1.0.0" />
   </ItemGroup>
 
@@ -12,6 +13,12 @@
     <ProjectReference Include="..\..\common\Common\DTO.csproj" />
     <ProjectReference Include="..\..\common\Model\Model.csproj" />
     <ProjectReference Include="..\..\persistence\DatabaseContext\DatabaseContext.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Identity.UI">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.identity.ui\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Identity.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -10,15 +10,17 @@ namespace Model.Domain
         {
         }
 
-        public ActividadPT(string nombreActividad, DateTime fechaLimite, double monto)
+        public ActividadPT(string nombreActividad, DateTime fechaInicio, DateTime fechaLimite, double monto)
         {
             NombreActividad = nombreActividad;
+            FechaInicio = fechaInicio;
             FechaLimite = fechaLimite;
             Monto = monto;
         }
 
         public int CodigoActividadPT { get; set; }
         public string NombreActividad { get; set; }
+        public DateTime FechaInicio { get; set; }
         public DateTime FechaLimite { get; set; }
         public double Monto { get; set; }
 

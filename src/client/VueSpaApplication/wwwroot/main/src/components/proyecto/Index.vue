@@ -56,6 +56,7 @@
                             value: 'nombreProyecto',
                             type: 'text'
                         },
+                        { name: 'Regional', value: 'regional',type: 'boolean'},
                         { name: 'Estado', value: 'estadoProyecto',type: 'text'},
                         { name: 'Fecha Aprobación', value: 'fechaAprobacion', type: 'date'},
                         { name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
@@ -78,10 +79,8 @@
                         width: '35%',                        //Tamaño de la columna
                         type: 'text'                         //Tipo del contenido a mostrar en la columna
                     },
+                    {text: 'Clasificacion',align: 'center', value: 'regional', type: 'text'},
                     {text: 'Estado', align: 'center', value: 'estadoProyecto', type: 'text'},
-                    {text: 'Aprobación', align: 'center', value: 'fechaAprobacion', type: 'date'},
-                    {text: 'Inicio', align: 'center', value: 'fechaInicio', type: 'date'},
-                    {text: 'Final', align: 'center', value: 'fechaFin', type: 'date'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [
@@ -94,12 +93,12 @@
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
                     },*/
-                    {text: 'Información', type: 'redirect', icon: 'mdi-information-outline', action: '', class: 'mr-2', route: 'proyecto-info-index', show: (row) => {return true}},
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
+                    {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
+                    {text: 'Plan de Trabajo', type: 'redirect', icon: 'mdi-drawing', action: '', class: 'mr-2', route: 'proyecto-info-index', show: (row) => {return true}},
                     {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete}},
                     {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return !row.isCancelled}},
-                    {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return row.isCancelled}}
                 ],
             }
         },

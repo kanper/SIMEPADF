@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseContext.Config;
+using DTO.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,17 @@ namespace DatabaseContext
 {
     public partial class simepadfContext : IdentityDbContext<Usuario>
     {
+        private readonly ICurrentUserDTO _currentUser;
+
         public simepadfContext()
         {
+            
         }
 
-        public simepadfContext(DbContextOptions<simepadfContext> options)
+        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser = null )
             : base(options)
         {
+            _currentUser = currentUser;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -135,14 +140,21 @@ namespace DatabaseContext
                 )
             );
 
+            var user = new CurrentUser();
+
+            if (_currentUser != null)
+            {
+                user = _currentUser.Get;
+            }
+
             foreach (var entry in modifiedEntries)
             {
                 var entity = entry.Entity as AudityEntity;
 
                 if (entity != null)
                 {
-                    var date = DateTime.UtcNow;
-                    string userId = null;
+                    var date = DateTime.Now;
+                    string userId = user.UserId;
 
                     if (entry.State == EntityState.Added)
                     {

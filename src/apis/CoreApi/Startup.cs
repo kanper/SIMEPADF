@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ namespace CoreApi
                 opts.Password.RequireNonAlphanumeric = false;
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireLowercase = false;
+                opts.SignIn.RequireConfirmedEmail = true;
             })
                 .AddEntityFrameworkStores<simepadfContext>()
                 .AddDefaultTokenProviders();
@@ -60,6 +62,10 @@ namespace CoreApi
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
+
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddDbContext<simepadfContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
@@ -113,6 +119,7 @@ namespace CoreApi
             }
          
             app.UseAuthentication();
+            app.UseIdentity();
             app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();
         }

@@ -10,9 +10,10 @@ namespace Model.Domain
         {
         }
 
-        public Proyecto(string nombreProyecto, DateTime fechaAprobacion, DateTime fechaInicio, DateTime fechaFin, double montoProyecto, int beneficiarios)
+        public Proyecto(string nombreProyecto, bool regional, DateTime fechaAprobacion, DateTime fechaInicio, DateTime fechaFin, double montoProyecto, int beneficiarios)
         {
             NombreProyecto = nombreProyecto;
+            Regional = regional;
             FechaAprobacion = fechaAprobacion;
             FechaInicio = fechaInicio;
             FechaFin = fechaFin;
@@ -22,6 +23,7 @@ namespace Model.Domain
 
         public string CodigoProyecto { get; set; }
         public string NombreProyecto { get; set; }
+        public bool Regional { get; set; }
         public DateTime FechaAprobacion { get; set; }
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }

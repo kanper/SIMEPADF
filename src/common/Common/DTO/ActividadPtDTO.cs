@@ -10,6 +10,7 @@ namespace DTO.DTO
         public string NombreActividad { get; set; }
 
         public DateTime FechaCreacion { get; set; }
+        public DateTime FechaInicio { get; set; }
         public DateTime FechaLimite { get; set; }
         public double Monto { get; set; }
     }

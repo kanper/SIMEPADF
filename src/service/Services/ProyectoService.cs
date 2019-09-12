@@ -41,6 +41,7 @@ namespace Services
                     {
                         Id = p.CodigoProyecto,
                         NombreProyecto = p.NombreProyecto,
+                        Regional = p.Regional,
                         MontoProyecto = p.MontoProyecto,
                         FechaAprobacion = p.FechaAprobacion,
                         FechaInicio = p.FechaInicio,
@@ -95,6 +96,7 @@ namespace Services
                     {
                         Id = p.CodigoProyecto,
                         NombreProyecto = p.NombreProyecto,
+                        Regional = p.Regional,
                         MontoProyecto = p.MontoProyecto,
                         FechaAprobacion = p.FechaAprobacion,
                         FechaInicio = p.FechaInicio,
@@ -114,7 +116,7 @@ namespace Services
         {
             try
             {
-                var proyecto = new Proyecto(model.NombreProyecto,model.FechaAprobacion,model.FechaInicio,model.FechaFin,model.MontoProyecto,model.Beneficiarios);
+                var proyecto = new Proyecto(model.NombreProyecto, model.Regional, model.FechaAprobacion,model.FechaInicio,model.FechaFin,model.MontoProyecto,model.Beneficiarios);
                 _context.EstadoProyecto
                     .Include(p => p.Proyecto)
                     .Single(e => e.TipoEstado == "INCOMPLETO")
@@ -165,6 +167,7 @@ namespace Services
                     .Include(s => s.ProyectoSocios)
                     .Single(p => p.CodigoProyecto == id);
                 proyecto.NombreProyecto = model.NombreProyecto;
+                proyecto.Regional = model.Regional;
                 proyecto.MontoProyecto = model.MontoProyecto;
                 proyecto.Beneficiarios = model.Beneficiarios;
                 proyecto.FechaAprobacion = model.FechaAprobacion;
