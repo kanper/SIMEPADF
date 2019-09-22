@@ -17,12 +17,7 @@ namespace DatabaseContext
     {
         private readonly ICurrentUserDTO _currentUser;
 
-        public simepadfContext()
-        {
-            
-        }
-
-        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser = null )
+        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser )
             : base(options)
         {
             _currentUser = currentUser;
@@ -51,6 +46,7 @@ namespace DatabaseContext
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.UserId, p.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId});
             modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId });
+            modelBuilder.Entity<ActividadPTPais>().HasKey(sc => new { sc.ActividadPTId, sc.PaisId });
 
             AddMyFilters(ref modelBuilder);
 
@@ -112,6 +108,8 @@ namespace DatabaseContext
 
         public DbSet<Producto> Producto { get; set; }
 
+        public DbSet<ActividadPTPais> ActividadPTPais { get; set; }
+
         public override int SaveChanges()
         {
             MakeAudit();
@@ -141,7 +139,6 @@ namespace DatabaseContext
             );
 
             var user = new CurrentUser();
-
             if (_currentUser != null)
             {
                 user = _currentUser.Get;

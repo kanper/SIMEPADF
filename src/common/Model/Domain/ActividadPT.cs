@@ -28,10 +28,16 @@ namespace Model.Domain
         public string PlanTrabajoCodigoPlanTrabajo { get; set; }
 
         public ICollection<Producto> Productos { get; set; }
+        public ICollection<ActividadPTPais> ActividadPTPaises { get; set; }
 
         public void AddProducto(Producto producto)
         {
             Productos.Add(producto);
+        }
+
+        public void AddPais(Pais pais)
+        {
+            ActividadPTPaises.Add(new ActividadPTPais(pais, this));
         }
 
         public bool Deleted { get; set; }

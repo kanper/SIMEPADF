@@ -30,6 +30,14 @@
                                         data-vv-name="monto"
                                         required
                                 ></v-text-field>
+                                <v-combobox
+                                    :items="paises"
+                                    item-text="nombre"
+                                    label="Seleccione el pais o paises"
+                                    multiple
+                                    required
+                                    v-model="newModel.paises"
+                                ></v-combobox>
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
@@ -60,7 +68,7 @@
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
-                                        v-model="datePick"
+                                        v-model="datePick1"
                                 >
                                     <template v-slot:activator="{ on }">
                                         <v-text-field
@@ -71,7 +79,7 @@
                                                 v-on="on"
                                         ></v-text-field>
                                     </template>
-                                    <v-date-picker @input="datePick = false" locale="es-es"
+                                    <v-date-picker @input="datePick1 = false" locale="es-es"
                                                    v-model="newModel.fechaLimite"></v-date-picker>
                                 </v-menu>
                             </form>
@@ -100,10 +108,13 @@
                     nombreActividad: '',
                     fechaInicio: new Date().toISOString().substr(0, 10),
                     fechaLimite: new Date().toISOString().substr(0, 10),
-                    monto: 0.0
+                    monto: 0.0,
+                    paises: []
                 },
+                paises: [],
                 montoActual: 0.0,
-                datePick: false
+                datePick: false,
+                datePick1: false,
             }
         },
         computed: {
@@ -176,6 +187,13 @@
         },
         created() {
             this.getCurrentMount();
+            this.services.proyectoHelperService.getPaises(this.$route.params.id)
+                .then(r => {
+                    this.paises = r.data;
+                    this.newModel.paises = r.data;
+                }).catch(e => {
+                this.showInfo(e.toString());
+            });
         }
     }
 </script>

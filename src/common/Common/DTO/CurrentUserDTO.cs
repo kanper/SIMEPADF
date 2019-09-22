@@ -8,6 +8,8 @@ namespace DTO.DTO
     {
         CurrentUser Get { get; }
     }
+
+
     public class CurrentUserDTO : ICurrentUserDTO
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

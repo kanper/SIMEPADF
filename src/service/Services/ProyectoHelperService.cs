@@ -9,6 +9,7 @@ namespace Services
     public interface IProyectoHelperService
     {
         IEnumerable<MapDTO> GetPaisMap();
+        IEnumerable<MapDTO> GetPaisMap(string proyectoId);
         IEnumerable<MapDTO> GetOrganizacionMap();
         IEnumerable<MapDTO> GetSocioMap();
         IEnumerable<MapDTO> GetEstadoMap();
@@ -41,6 +42,27 @@ namespace Services
                         Id = p.Id,
                         Nombre = p.NombrePais
                     }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetPaisMap(string proyectoId)
+        {
+            try
+            {
+                return (from p in _context.Pais
+                        join pa in _context.ProyectoPais
+                            on p equals pa.Pais
+                            where pa.ProyectoId == proyectoId
+                        select new MapDTO()
+                        {
+                            Id = p.Id,
+                            Nombre = p.NombrePais
+                        }).ToList();
             }
             catch (Exception e)
             {

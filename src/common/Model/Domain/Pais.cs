@@ -1,6 +1,5 @@
 ﻿using Model.Domain.DbHelper;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Domain
 {
@@ -12,11 +11,18 @@ namespace Model.Domain
 
         public ICollection<ProyectoPais> ProyectoPaises { get; set; }
 
+        public ICollection<ActividadPTPais> ActividadPTPaises { get; set; }
+
         public bool Deleted { get; set; }
 
         public void AddProyecto(Proyecto proyecto)
         {
             ProyectoPaises.Add(new ProyectoPais(this, proyecto));            
+        }
+
+        public void AddActividad(ActividadPT actividadPT)
+        {
+            ActividadPTPaises.Add(new ActividadPTPais(this, actividadPT));
         }
     }
 }

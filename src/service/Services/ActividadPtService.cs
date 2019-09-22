@@ -46,7 +46,16 @@ namespace Services
                         Monto = a.Monto,
                         FechaInicio = a.FechaInicio,
                         FechaLimite = a.FechaLimite,
-                        FechaCreacion = pt.FechaCreacion
+                        FechaCreacion = pt.FechaCreacion,
+                        Paises = (from pais in _context.Pais
+                                  join ap in _context.ActividadPTPais
+                                      on pais equals ap.Pais
+                                  where ap.ActividadPTId == a.CodigoActividadPT
+                                  select new MapDTO()
+                                  {
+                                      Id = pais.Id,
+                                      Nombre = pais.NombrePais
+                                  }).DefaultIfEmpty().ToArray()
                     }).Single();
             }
             catch (Exception e)
@@ -109,10 +118,23 @@ namespace Services
         {
             try
             {
+                var actividadPT = new ActividadPT(model.NombreActividad, model.FechaInicio, model.FechaLimite, model.Monto);
                 _context.PlanTrabajo
                     .Include(a => a.ActividadPTs)
                     .Single(p => p.CodigoPlanTrabajo == proyectoId)
-                    .AddActividad(new ActividadPT(model.NombreActividad,model.FechaInicio, model.FechaLimite,model.Monto));                
+                    .AddActividad(actividadPT);
+
+                /*
+                 * Por cada lista guarda uno por uno los elementos
+                 */
+                foreach (var dto in model.Paises)
+                {
+                    _context.Pais
+                        .Include(p => p.ActividadPTPaises)
+                        .Single(p => p.Id == dto.Id)
+                        .AddActividad(actividadPT);
+                }
+
                 _context.SaveChanges();
                 return true;
             }
@@ -127,11 +149,23 @@ namespace Services
         {
             try
             {
-                var actividadPt = _context.ActividadPT.Single(p => p.CodigoActividadPT == id);
+                var actividadPt = _context.ActividadPT
+                    .Include(ap => ap.ActividadPTPaises)
+                    .Single(p => p.CodigoActividadPT == id);
                 actividadPt.FechaLimite = model.FechaLimite;
                 actividadPt.FechaInicio = model.FechaInicio;
                 actividadPt.Monto = model.Monto;
                 actividadPt.NombreActividad = model.NombreActividad;
+                actividadPt.ActividadPTPaises.Clear();
+
+                /*
+                 * Se agregan los nuevo elementos a cada lista
+                 */
+                foreach (var dto in model.Paises)
+                {
+                    actividadPt.AddPais(GetPais(dto.Id));
+                }
+
                 _context.SaveChanges();
                 return true;
             }
@@ -155,6 +189,11 @@ namespace Services
                 Console.WriteLine(e);
                 return false;
             }
+        }
+
+        private Pais GetPais(int id)
+        {
+            return _context.Pais.Single(p => p.Id == id);
         }
     }
 }

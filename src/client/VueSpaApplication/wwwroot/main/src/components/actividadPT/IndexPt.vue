@@ -61,7 +61,8 @@
                         },
                         {name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
                         {name: 'Fecha limite', value: 'fechaLimite', type: 'date'},
-                        {name: 'Monto', value: 'monto', type: 'money'}
+                        {name: 'Monto', value: 'monto', type: 'money'},
+                        {name: 'Paises', value: 'paises', type: 'text'}
                     ],
                     modelParams: {                                         //Parametros para el modelo
                         idPlan: this.$route.params.id

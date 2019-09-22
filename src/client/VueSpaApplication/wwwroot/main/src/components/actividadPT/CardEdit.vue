@@ -26,6 +26,14 @@
                                         data-vv-name="monto"
                                         required
                                 ></v-text-field>
+                                <v-combobox
+                                    :items="paises"
+                                    item-text="nombre"
+                                    label="Seleccione el pais o paises"
+                                    multiple
+                                    required
+                                    v-model="CRUDModel.paises"
+                                ></v-combobox>
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
@@ -56,7 +64,7 @@
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
-                                        v-model="datePick"
+                                        v-model="datePick1"
                                 >
                                     <template v-slot:activator="{ on }">
                                         <v-text-field
@@ -67,7 +75,7 @@
                                                 v-on="on"
                                         ></v-text-field>
                                     </template>
-                                    <v-date-picker @input="datePick = false" locale="es-es"
+                                    <v-date-picker @input="datePick1 = false" locale="es-es"
                                                    v-model="limitDate"></v-date-picker>
                                 </v-menu>
                             </form>
@@ -91,7 +99,9 @@
     export default {
         data() {
             return {
-                datePick: false
+                datePick: false,
+                datePick1: false,
+                paises: [],
             }
         },
         computed: {
@@ -157,6 +167,14 @@
                         this.showInfo(e.toString());
                     });
             }
+        },
+        created() {
+            this.services.proyectoHelperService.getPaises(this.$route.params.id)
+                .then(r => {
+                    this.paises = r.data;
+                }).catch(e => {
+                this.showInfo(e.toString());
+            });
         }
     }
 </script>

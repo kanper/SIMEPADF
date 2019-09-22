@@ -13,5 +13,7 @@ namespace DTO.DTO
         public DateTime FechaInicio { get; set; }
         public DateTime FechaLimite { get; set; }
         public double Monto { get; set; }
+
+        public MapDTO[] Paises { get; set; }
     }
 }

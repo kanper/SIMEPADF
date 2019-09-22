@@ -1,6 +1,7 @@
 ﻿using Auth.Config;
 using Auth.Services;
 using DatabaseContext;
+using DTO.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,7 @@ namespace Auth
             });
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

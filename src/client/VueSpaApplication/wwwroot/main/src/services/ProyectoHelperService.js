@@ -12,6 +12,10 @@ export default class ProyectoHelperService {
         return this.Axios.get(`${this.BaseUrl}/helper/pais`);
     }
 
+    getPaises(idProyecto){
+        return this.Axios.get(`${this.BaseUrl}/${idProyecto}/helper/pais`);
+    }
+
     getEstados(){
         return this.Axios.get(`${this.BaseUrl}/helper/estado`);
     }

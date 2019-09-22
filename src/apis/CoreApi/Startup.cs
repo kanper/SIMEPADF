@@ -1,4 +1,5 @@
 ﻿using DatabaseContext;
+using DTO.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -89,6 +90,7 @@ namespace CoreApi
             services.AddTransient<IActividadPtService, ActividadPtService>();
             services.AddTransient<IProductoService, ProductoService>();
             services.AddTransient<IProyectoInfoService, ProyectoInfoService>();
+            services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
