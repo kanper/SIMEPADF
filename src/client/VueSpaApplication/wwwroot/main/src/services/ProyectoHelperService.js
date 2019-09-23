@@ -12,7 +12,7 @@ export default class ProyectoHelperService {
         return this.Axios.get(`${this.BaseUrl}/helper/pais`);
     }
 
-    getPaises(idProyecto){
+    getPais(idProyecto){
         return this.Axios.get(`${this.BaseUrl}/${idProyecto}/helper/pais`);
     }
 

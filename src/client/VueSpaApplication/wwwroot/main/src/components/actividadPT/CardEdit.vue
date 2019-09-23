@@ -169,7 +169,7 @@
             }
         },
         created() {
-            this.services.proyectoHelperService.getPaises(this.$route.params.id)
+            this.services.proyectoHelperService.getPais(this.$route.params.id)
                 .then(r => {
                     this.paises = r.data;
                 }).catch(e => {

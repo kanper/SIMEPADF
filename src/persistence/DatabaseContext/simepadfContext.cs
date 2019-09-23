@@ -17,6 +17,8 @@ namespace DatabaseContext
     {
         private readonly ICurrentUserDTO _currentUser;
 
+        public simepadfContext() { }
+
         public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser )
             : base(options)
         {
