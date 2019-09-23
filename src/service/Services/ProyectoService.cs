@@ -14,6 +14,7 @@ namespace Services
     {
         ProyectoDTO Get(string id);
         IEnumerable<ProyectoDTO> GetAll();
+        IEnumerable<ProyectoDTO> GetAll(string estado);
         bool Add(ProyectoDTO model);
         bool Update(ProyectoDTO model, string id);
         bool Delete(string id);
@@ -104,6 +105,35 @@ namespace Services
                         Beneficiarios = p.Beneficiarios,
                         EstadoProyecto = e.TipoEstado
                     }).ToList();               
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ProyectoDTO>();
+            }
+        }
+
+        public IEnumerable<ProyectoDTO> GetAll(string estado)
+        {
+            string[] estados = estado.Split('$');
+            try
+            {
+                return (from p in _context.Proyecto
+                    join e in _context.EstadoProyecto
+                        on p.EstadoProyecto equals e
+                    where estados.Contains(e.TipoEstado)    
+                    select new ProyectoDTO()
+                    {
+                        Id = p.CodigoProyecto,
+                        NombreProyecto = p.NombreProyecto,
+                        Regional = p.Regional,
+                        MontoProyecto = p.MontoProyecto,
+                        FechaAprobacion = p.FechaAprobacion,
+                        FechaInicio = p.FechaInicio,
+                        FechaFin = p.FechaFin,
+                        Beneficiarios = p.Beneficiarios,
+                        EstadoProyecto = e.TipoEstado
+                    }).ToList();
             }
             catch (Exception e)
             {

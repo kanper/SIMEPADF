@@ -90,6 +90,7 @@
                             this.services[this.modelSpecification.modelService].update(this.CRUDModel, this.CRUDModel[this.modelSpecification.modelPK], this.modelSpecification.modelParams)
                                 .then(r => {
                                     this.loadDataTable();
+                                    this.resetSlider();
                                     if (r.data) {
                                         this.addAlert({
                                             value: true,
@@ -133,6 +134,10 @@
                 } else {
                     this.CRUDModel.porcentajeMeta = 0.0;
                 }
+            },
+            resetSlider(){
+                this.slider = 0.0;
+                this.usePercent = false;
             }
         }
     }

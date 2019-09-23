@@ -98,7 +98,8 @@
                     });
             },
             clearForm(){
-                this.newModel.nombre = '';
+                this.newModel.nombreSocio = '';
+                this.newModel.siglasSocio = '';
                 this.$validator.reset();
             }
         }

@@ -20,14 +20,14 @@
 
 <script>
     import {mapMutations} from 'vuex'
-    import InfoSnackbar from '../common/SnackbarInfo'
-    import TitleBar from '../common/NavbarTitle'
-    import DeleteDialog from '../common/DialogDelete'
+    import InfoSnackbar from '../../common/SnackbarInfo'
+    import TitleBar from '../../common/NavbarTitle'
+    import DeleteDialog from '../../common/DialogDelete'
     import FormEdit from './CardEdit'
-    import DataInfo from '../common/CardInfo'
-    import AppAlert from '../common/Alert'
-    import DataTable from '../common/DataTable'
-    import Confirmation from '../common/ConfirmationDialog'
+    import DataInfo from '../../common/CardInfo'
+    import AppAlert from '../../common/Alert'
+    import DataTable from '../../common/DataTable'
+    import Confirmation from '../../common/ConfirmationDialog'
     import FormNew from './CardNew'
 
     export default {
@@ -42,15 +42,15 @@
             FormNew,
             Confirmation
         },
-        name: "objetivo-index",
+        name: "objetivo-gestion-index",
         data() {
             return {
                 model: {
                     modelName: 'proyecto',                              //Nombre del modelo actual
                     modelIcon: 'mdi-briefcase',                         //Icono que se muestra en representación del modelo
-                    modelTitle: 'Proyectos',                            //Nombre que se muestra en representación del modelo
+                    modelTitle: 'Gestión de Proyectos',                            //Nombre que se muestra en representación del modelo
                     modelPath: '',                                      //URL que junto a la BASE es la ruta al servidor
-                    modelService: 'proyectoService',                    //Nombre del servicio a utilizar
+                    modelService: 'proyectoManagementService',                    //Nombre del servicio a utilizar
                     modelPK: 'id',                                      //Llave primaria del modelo
                     modelStamp: 'nombreProyecto',                       //Valor único representativo del modelo
                     modelInfo: [                                        //Valores a mostrar para la información del modelo
@@ -59,8 +59,8 @@
                             value: 'nombreProyecto',
                             type: 'text'
                         },
-                        { name: 'Regional', value: 'clasificacion',type: 'text'},
-                        { name: 'Estado', value: 'estadoProyecto',type: 'text'},
+                        { name: 'Clasificación', value: 'clasificacion',type: 'text'},
+                        { name: 'Estado', value: 'estado',type: 'text'},
                         { name: 'Fecha Aprobación', value: 'fechaAprobacion', type: 'date'},
                         { name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
                         { name: 'Fecha Fin', value: 'fechaFin', type: 'date'},
@@ -71,7 +71,7 @@
                         { name: 'Organizaciones', value: 'organizaciones', type: 'array'},
                     ],
                     modelParams: {                                         //Parametros para el modelo
-
+                        status: ''           //Valores separados por el caracter de dolar '$'
                     }
                 },
                 dataTableHeaders: [
@@ -83,11 +83,11 @@
                         type: 'text'                         //Tipo del contenido a mostrar en la columna
                     },
                     {text: 'Clasificacion',align: 'center', value: 'clasificacion', type: 'text'},
-                    {text: 'Estado', align: 'center', value: 'estadoProyecto', type: 'text'},
+                    {text: 'Estado', align: 'center', value: 'estado', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [
-                    /*{
+                    {
                         text: 'Información',                //Texto que se muestra para el boton
                         type: 'info',                       //Tipo de boton [info|new|edit|delete|redirect]
                         icon: 'mdi-information-outline',    //Icono que se muestra para el boton
@@ -95,7 +95,7 @@
                         class: 'mr-2',                      //Clase a agregar
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
-                    },*/
+                    },
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
@@ -107,13 +107,26 @@
         },
         methods: {
             ...mapMutations(['defineModel','clearAlerts','emptyDataTable']),
+            setUserPermission() {
+                switch (window.User.RolId) {
+                    case '2':
+                        this.model.modelParams.status = 'INCOMPLETO$EN_PROCESO$VERIFICAR';
+                        break;
+                    case '3':
+                        this.model.modelParams.status = 'INCOMPLETO';
+                        break;
+                    default:
+                        this.model.modelParams.status = 'INVALID';
+                }
+            },
         },
         created() {
             this.clearAlerts();
+            this.setUserPermission();
             this.defineModel(this.model);
         },
         destroyed() {
             this.emptyDataTable();
-        }
+        },
     };
 </script>

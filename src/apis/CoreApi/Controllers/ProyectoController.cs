@@ -25,9 +25,15 @@ namespace CoreApi.Controllers
             return Ok(_service.GetAll());
         }
 
+        [HttpGet("proyecto/estado/{estado}")]
+        public IActionResult GetAll(string estado)
+        {
+            return Ok(_service.GetAll(estado));
+        }
+
         [HttpPost("proyecto")]
         public IActionResult Post([FromBody]ProyectoDTO model)
-        {
+        {           
             return Ok(_service.Add(model));
         }
 

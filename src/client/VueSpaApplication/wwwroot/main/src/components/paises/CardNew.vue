@@ -98,7 +98,8 @@
                     });
             },
             clearForm(){
-                this.newModel.nombre = '';
+                this.newModel.nombrePais = '';
+                this.newModel.siglaPais = '';
                 this.$validator.reset();
             }
         }
