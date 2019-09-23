@@ -98,7 +98,8 @@
                     });
             },
             clearForm(){
-                this.newModel.nombre = '';
+                this.newModel.nombreOrganizacion = '';
+                this.newModel.siglasOrganizacion = '';
                 this.$validator.reset();
             }
         }

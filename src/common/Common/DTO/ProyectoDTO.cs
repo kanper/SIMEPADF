@@ -12,7 +12,7 @@ namespace DTO.DTO
         public DateTime FechaFin { get; set; }       
         public double MontoProyecto { get; set; }
         public int Beneficiarios { get; set; }
-        public string EstadoProyecto { get; set; }
+        public string EstadoProyecto {get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }
         public MapDTO[] Socios { get; set; }
@@ -54,6 +54,42 @@ namespace DTO.DTO
             get
             {
                 return EstadoProyecto.Equals("VERIFICAR", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        public string Clasificacion
+        {
+            get
+            {
+                return Regional ? "Regional" : "Nacional";
+            }
+        }
+
+        public string Estado
+        {
+            get
+            {
+                switch (EstadoProyecto)
+                {
+                    case "INCOMPLETO":
+                        return "Datos Incompleto";
+                    case "EN_PROCESO":
+                        return "Proyecto en proceso";
+                    case "CANCELADO":
+                        return "Proyecto Cancelado";
+                    case "FINALIZADO":
+                        return "Proyecto Finalizado";
+                    case "VERIFICAR":
+                        return "Pendiente de verificación";
+                    case "1REVISION":
+                        return "Primera revisión";
+                    case "2REVISION":
+                        return "Segunda revisión";
+                    case "3REVISION":
+                        return "Tercera revisión";
+                    default:
+                        return "N/A";
+                }
             }
         }
 

@@ -13,6 +13,7 @@
         <FormEdit />
         <DeleteDialog/>
         <InfoSnackbar/>
+        <Confirmation />
     </div>
 </template>
 
@@ -24,6 +25,7 @@
     import FormEdit from './CardEdit'
     import DataInfo from '../common/CardInfo'
     import AppAlert from '../common/Alert'
+    import Confirmation from '../common/ConfirmationDialog'
     import DataTable from '../common/DataTable'
 
     export default {
@@ -34,7 +36,8 @@
             TitleBar,
             AppAlert,
             FormEdit,
-            DataInfo
+            DataInfo,
+            Confirmation
         },
         name: "plan-trabajo-index",
         data() {

@@ -16,10 +16,21 @@
                 :search="search"
         >
             <template v-slot:items="props">
-                <td :class="(at['align'] === 'center' ? 'text-xs-center': 'text-xs-left') + ' ' + (at['style'] !== undefined ? at['style'] : '')" v-for="at in headers">
+                <td
+                        :class="(at['align'] === 'center' ? 'text-xs-center': 'text-xs-left') + ' ' + (at['style'] !== undefined ? at['style'] : '')"
+                        v-for="at in headers">
+                    <v-icon v-if="at['type'] === 'boolean'">
+                        {{buildBooleanCell(props.item[at['value']])}}
+                    </v-icon>
                     {{buildTableCell(props.item,at)}}
-                    <TableOption :modelId="props.item[modelSpecification.modelPK]" v-bind:data="item" v-bind:key="item.text" :model="props.item"
-                                 v-for="item in options" v-if="at.value === 'action' && item.show(props.item)"/>
+                    <TableOption
+                            :modelId="props.item[modelSpecification.modelPK]"
+                            v-bind:data="item"
+                            v-bind:key="item.text"
+                            :model="props.item"
+                            v-for="item in options"
+                            v-if="at.value === 'action' && item.show(props.item)"
+                    />
                 </td>
             </template>
             <template v-slot:no-results>
@@ -41,6 +52,7 @@
         data() {
             return {
                 search: '',
+                cellIcon:''
             }
         },
         computed: {
@@ -68,7 +80,8 @@
                         case 'time':
                             return this.formatTime(value);
                         case 'boolean':
-                            return value;
+                            this.buildBooleanCell(value);
+                            return '';
                         case 'array':
                             return value.map(function (item) {
                                 return item['nombre'];
@@ -100,6 +113,13 @@
             },
             numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            buildBooleanCell(bool){
+                if(bool){
+                    return 'mdi-checkbox-marked-circle';
+                }else{
+                    return 'mdi-minus-circle';
+                }
             }
 
         },

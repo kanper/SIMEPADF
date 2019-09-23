@@ -63,11 +63,11 @@ namespace CoreApi
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
-            //services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();

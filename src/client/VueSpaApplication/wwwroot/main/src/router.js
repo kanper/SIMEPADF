@@ -11,6 +11,9 @@ import ResultadoActividadIndex from './components/actividad/IndexRA'
 import ActividadIndex from './components/actividad/Index'
 import IndicadorIndex from './components/indicador/Index'
 import ProyectoIndex from './components/proyecto/Index'
+import ProyectoGestionIndex from './components/proyecto/gestion/Index'
+import ProyectoProcesoIndex from './components/proyecto/proceso/Index'
+import ProyectoTerminadoIndex from './components/proyecto/terminado/Index'
 import FuenteDatoIndex from './components/fuenteDato/Index'
 import DesagreacionIndex from './components/desagregacion/Index'
 import NivelImpactoIndex from './components/nivelImpacto/Index'
@@ -39,6 +42,9 @@ const routes = [
     {path: '/actividades/', name: 'actividad-index', component: ActividadIndex},
     {path: '/indicadores/', name: 'indicador-index', component: IndicadorIndex},
     {path: '/proyectos/', name: 'proyecto-index', component: ProyectoIndex},
+    {path: '/proyectos/gestion', name: 'proyecto-gestion-index', component: ProyectoGestionIndex},
+    {path: '/proyectos/proceso', name: 'proyecto-proceso-index', component: ProyectoProcesoIndex},
+    {path: '/proyectos/finalizado', name: 'proyecto-finalizado-index', component: ProyectoTerminadoIndex},
     {path: '/usuarios/', name: 'usuario-index', component: UsuarioIndex},
     {path: '/fuente-datos/', name: 'fuente-dato-index', component: FuenteDatoIndex},
     {path: '/desagregaciones/', name: 'desagregacion-index', component: DesagreacionIndex},

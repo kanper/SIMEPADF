@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         services,
-        development: true,
+        development: false,
         drawer: false,
         modelTitle: '',
         modelSpecification:{},
@@ -17,6 +17,9 @@ export default new Vuex.Store({
         visibleEditDialog: false,
         visibleDeleteDialog: false,
         visibleInfoDialog: false,
+        visibleConfirmationDialog: false,
+        confirmationId: 0,
+        confirmationAction: '',
         extraDialog: [
             {visible: false},
             {visible: false},
@@ -31,7 +34,7 @@ export default new Vuex.Store({
         setModelName(state, name) {
             state.modelTitle = name;
         },
-        changedrawer(state) {
+        changeDrawer(state) {
             state.drawer = !state.drawer;
         },
         defineModel(state, model) {
@@ -59,6 +62,9 @@ export default new Vuex.Store({
         changeExtraDialogVisibility(state, dialogId) {
             state.extraDialog[dialogId].visible = !state.extraDialog[dialogId].visible;
         },
+        changeConfirmationDialogVisibility(state){
+            state.visibleConfirmationDialog = !state.visibleConfirmationDialog;
+        },
         closeAllDialogs(state) {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
@@ -75,6 +81,7 @@ export default new Vuex.Store({
             state.alerts.push(alert);
         },
         clearAlerts(state) {
+            state.drawer = false;
             state.snackbarInformationVisible = false;
             state.alerts = [];
         },
@@ -84,8 +91,15 @@ export default new Vuex.Store({
         setTableRow(state, row)
         {
             state.tableRow = row;
+        },
+        setConfirmationId(state, id){
+            state.confirmationId = id;
+        },
+        setConfirmationAction(state, action){
+            state.confirmationAction = action;
         }
-    },
+    }
+    ,
     actions: {
         loadDataTable: async function ({commit}) {
             services[this.state.modelSpecification.modelService].getAll(this.state.modelSpecification.modelParams)

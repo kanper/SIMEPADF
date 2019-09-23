@@ -10,6 +10,9 @@ import actividadService from '../services/ActividadService'
 import indicadorService from '../services/IndicadorService'
 import proyectoService from '../services/ProyectoService'
 import proyectoHelperService from '../services/ProyectoHelperService'
+import proyectoManagementService from '../services/ProyectoManagementService'
+import proyectoOnProcessService from '../services/ProyectoOnProcessService'
+import proyectoFinalizedService from '../services/ProyectoFinalizedService'
 import fuenteDatoService from '../services/FuenteDatoService'
 import desagregacionService from '../services/DesagregacionService'
 import nivelImpactoService from '../services/NivelImpactoService'
@@ -52,5 +55,8 @@ export default {
     productoService: new productoService(Axios, apiUrl),
     proyectoInfoService: new proyectoInfoService(Axios, apiUrl),
     actividadProductoService: new actividadProductoService(Axios, apiUrl),
+    proyectoManagementService: new proyectoManagementService(Axios, apiUrl),
+    proyectoOnProcessService: new proyectoOnProcessService(Axios, apiUrl),
+    proyectoFinalizedService: new proyectoFinalizedService(Axios, apiUrl),
     usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }
