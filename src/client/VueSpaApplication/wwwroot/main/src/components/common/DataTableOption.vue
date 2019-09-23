@@ -17,7 +17,19 @@
             ...mapState(['services', 'CRUDModel', 'modelSpecification'])
         },
         methods: {
-            ...mapMutations(['changeInfoDialogVisibility', 'changeEditDialogVisibility', 'changeDeleteDialogVisibility', 'closeAllDialogs', 'setCRUDModel', 'addAlert', 'changeExtraDialogVisibility','setTableRow']),
+            ...mapMutations([
+                'changeInfoDialogVisibility',
+                'changeEditDialogVisibility',
+                'changeDeleteDialogVisibility',
+                'changeConfirmationDialogVisibility',
+                'changeExtraDialogVisibility',
+                'closeAllDialogs',
+                'setCRUDModel',
+                'addAlert',
+                'setTableRow',
+                'setConfirmationId',
+                'setConfirmationAction'
+            ]),
             ...mapActions(['loadDataTable']),
             loadModel(id) {
                 this.services[this.modelSpecification.modelService].get(id, this.modelSpecification.modelParams)
@@ -71,24 +83,9 @@
                         });
                         break;
                     case 'link':
-                        this.services[this.modelSpecification.modelService].executeAction(this.modelId,this.data.action,this.modelSpecification.modelParams)
-                            .then(r => {
-                                this.loadDataTable();
-                                this.addAlert({
-                                    value: true,
-                                    color: 'info',
-                                    icon: 'mdi-alert-circle',
-                                    text: 'Los cambios se aplicaron correctamente.'
-                                });
-                            })
-                            .catch(e => {
-                                this.addAlert({
-                                    value: true,
-                                    color: 'danger',
-                                    icon: 'mdi-alert',
-                                    text: 'No se pudo realizar los cambios, Intente nuevamente más tarde o recarge la pagína.'
-                                });
-                            });
+                        this.setConfirmationId(this.modelId);
+                        this.setConfirmationAction(this.data.action);
+                        this.changeConfirmationDialogVisibility();
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');

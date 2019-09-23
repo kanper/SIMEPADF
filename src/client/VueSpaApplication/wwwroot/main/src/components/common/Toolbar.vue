@@ -1,7 +1,7 @@
 <template>
-    <v-toolbar app class="blue-grey darken-4" dark>
-        <v-toolbar-side-icon @click="changedrawer"></v-toolbar-side-icon>
-        <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png"></v-img>
+    <v-toolbar app :class="development ? '': 'blue-grey darken-4'" :dark="!development">
+        <v-toolbar-side-icon @click="changeDrawer()"></v-toolbar-side-icon>
+        <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png" alt="Logo" lazy-src srcset="https://images.squarespace-cdn.com/content/54073cece4b0bf6cd12bf4c9/1520284595344-N7KKICJ9JHY1SSJT0IZI/PADF+OAS.png?content-type=image%2Fpng"></v-img>
         <v-spacer></v-spacer>
         <v-tooltip>
            <template v-slot:activator="{ on }">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
     name: 'toolbar',
     data() {
@@ -41,8 +41,11 @@ export default {
                 allCookies: document.cookie.split(';'),
             }
         },
+    computed: {
+        ...mapState(["development"])
+    },
     methods: {
-        ...mapMutations(["changedrawer"]),
+        ...mapMutations(["changeDrawer"]),
         editar(){
             this.$router.push(`/usuarios/${this.user.UserId}/editar`)
         },

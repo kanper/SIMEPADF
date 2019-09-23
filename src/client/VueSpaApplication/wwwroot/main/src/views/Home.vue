@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/dist/Sysadmin.png" width="400" height="400" align="center" ></v-img>
+          <v-img src="/dist/Sysadmin.png" width="400" height="400" align="center" srcset="https://www.thermokingnortheast.com/wp-content/uploads/2019/04/default.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -45,7 +45,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/dist/Monitoreo.png" width="400" height="400" align="center"  ></v-img>
+          <v-img src="/dist/Monitoreo.png" width="400" height="400" align="center" srcset="https://www.thermokingnortheast.com/wp-content/uploads/2019/04/default.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -86,7 +86,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/dist/director.png" width="400" height="400" align="center"  ></v-img>
+          <v-img src="/dist/director.png" width="400" height="400" align="center" srcset="https://www.thermokingnortheast.com/wp-content/uploads/2019/04/default.png"></v-img>
           <v-card-title>
 
           </v-card-title>
@@ -124,7 +124,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/dist/Coordinador.png" width="400" height="400" align="center" ></v-img>
+          <v-img src="/dist/Coordinador.png" width="400" height="400" align="center" srcset="https://www.thermokingnortheast.com/wp-content/uploads/2019/04/default.png"></v-img>
           <v-card-title></v-card-title>
           <v-card-text>
 
@@ -156,7 +156,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6>
         <v-card>
-          <v-img src="/dist/finanzas.png" width="400" height="400" align="center" ></v-img>
+          <v-img src="/dist/finanzas.png" width="400" height="400" align="center" srcset="https://www.thermokingnortheast.com/wp-content/uploads/2019/04/default.png"></v-img>
           <v-card-title>
 
           </v-card-title>
