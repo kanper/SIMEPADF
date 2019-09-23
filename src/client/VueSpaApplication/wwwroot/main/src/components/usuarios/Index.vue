@@ -71,11 +71,12 @@
                         text: 'Nombre',   //Texto a mostrar en la cabecera de la columna
                         align: 'left',      //Alineación del contenido en la columna
                         value: 'nombrePersonal',    //Nombre del atributo que se colocara en la columna
-                        width: '25%',       //Tamaño de la columna
+                        width: '20%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
                     {text: 'Apellido', align: 'center', value: 'apellidoPersonal', type: 'text'},
                     {text: 'Cargo', align: 'center', value: 'cargo', type: 'text'},
+                    {text: 'Rol', align: 'center', value: 'name', type: 'text'},
                     {text: 'Telefono', align: 'center', value: 'phoneNumber', type: 'text'},
                     {text: 'Correo', align: 'center', value: 'email', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
@@ -85,6 +86,7 @@
                         text: 'Información',                //Texto que se muestra para el boton
                         type: 'info',                       //Tipo de boton [info|new|edit|delete|redirect]
                         icon: 'mdi-information-outline',    //Icono que se muestra para el boton
+                        
                         action: '',                         //Acción personalizada
                         class: 'mr-2',                      //Clase a agregar
                         route: '',                          //Ruta a redirigir
