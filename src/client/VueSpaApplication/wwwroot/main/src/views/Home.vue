@@ -2,7 +2,7 @@
   <v-container grid-list-md v-if="this.user.RolId == '1'">
     <v-card    class="mx-auto"  >
     <v-card-title class="blue-grey darken-2 white--text">
-      <span class="title">Administrador del Sistema</span>
+      <span class="title">Gestor del Sistema</span>
       
     </v-card-title>
     </v-card>
@@ -211,7 +211,7 @@
   <v-container grid-list-md v-else-if="this.user.RolId == '3'">
     <v-card    class="mx-auto"  >
     <v-card-title class="blue-grey darken-2 white--text">
-      <span class="title">Director Nacional</span>
+      <span class="title">Director de País</span>
       
     </v-card-title>
     </v-card>

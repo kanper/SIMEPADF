@@ -91,7 +91,7 @@
                         route: '',
                         show: (row) => {return true}
                     },
-                    {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Configurar Indicador', type: 'edit', icon: 'mdi-square-edit-outline', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', route: '',class: 'mr-2', show: (row) => {return true}},
                 ],
                 bannerText: ''
