@@ -46,7 +46,7 @@
         data() {
             return {
                 userRoles: [
-                    {id: 1, rol: 'Administrador del Sistema', icon:'mdi-account',menu:[
+                    {id: 1, rol: 'Gestor del Sistema', icon:'mdi-account',menu:[
                             {
                                 title: 'Usuarios',
                                 icon: 'mdi-account-circle',
