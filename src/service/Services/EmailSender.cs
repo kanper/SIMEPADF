@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class EmailSender : IEmailSender
+    /*public class EmailSender : IEmailSender
     {
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
@@ -38,5 +38,5 @@ namespace Services
 
             return client.SendEmailAsync(msg);
         }
-    }
+    }*/
 }

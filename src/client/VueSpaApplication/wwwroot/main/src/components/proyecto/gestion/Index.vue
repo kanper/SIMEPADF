@@ -97,10 +97,10 @@
                         show: (row) => {return true},       //Mostrar opción sí
                     },
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
+                    {text: 'Agregar Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
-                    {text: 'Plan de Trabajo', type: 'redirect', icon: 'mdi-drawing', action: '', class: 'mr-2', route: 'proyecto-info-index', show: (row) => {return true}},
-                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete}},
+                    {text: 'Actividades', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}},
+                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isPlanTrabajo && row.isIndicador}},
                     {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return !row.isCancelled}},
                 ],
             }
@@ -110,7 +110,7 @@
             setUserPermission() {
                 switch (window.User.RolId) {
                     case '2':
-                        this.model.modelParams.status = 'INCOMPLETO$EN_PROCESO$VERIFICAR';
+                        this.model.modelParams.status = 'INCOMPLETO$VERIFICAR';
                         break;
                     case '3':
                         this.model.modelParams.status = 'INCOMPLETO';

@@ -22,18 +22,21 @@
                                         :items="fuentes"
                                         item-text="nombre"
                                         label="Seleccionar la fuente de datos"
+                                        required
                                 ></v-combobox>
                                 <v-combobox
                                         v-model="CRUDModel.frecuenciaMedicion"
                                         :items="frecuencias"
                                         item-text="nombre"
                                         label="Seleccionar la frecuencia de medición"
+                                        required
                                 ></v-combobox>
                                 <v-combobox
                                         v-model="CRUDModel.nivelImpacto"
                                         :items="niveles"
                                         item-text="nombre"
                                         label="Seleccionar el nivel de impacto"
+                                        required
                                 ></v-combobox>
                                 <v-combobox
                                         v-model="CRUDModel.desagregaciones"
@@ -42,6 +45,7 @@
                                         item-value="id"
                                         label="Seleccione una o varias desagregaciones"
                                         multiple
+                                        required
                                 ></v-combobox>
                             </form>
                         </v-flex>
