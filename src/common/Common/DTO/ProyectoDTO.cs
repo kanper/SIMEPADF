@@ -13,6 +13,10 @@ namespace DTO.DTO
         public double MontoProyecto { get; set; }
         public int Beneficiarios { get; set; }
         public string EstadoProyecto {get; set; }
+
+        public bool IsPlanTrabajo { get; set; }
+
+        public bool IsIndicador { get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }
         public MapDTO[] Socios { get; set; }

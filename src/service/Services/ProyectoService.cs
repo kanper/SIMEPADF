@@ -103,7 +103,7 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
-                        EstadoProyecto = e.TipoEstado
+                        EstadoProyecto = e.TipoEstado,                       
                     }).ToList();               
             }
             catch (Exception e)
@@ -132,7 +132,15 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
-                        EstadoProyecto = e.TipoEstado
+                        EstadoProyecto = e.TipoEstado,
+                        IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
+                            where pl.CodigoPlanTrabajo == p.CodigoProyecto 
+                            select pl).Any(),
+                        IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
+                            where i.ProyectoCodigoProyecto == p.CodigoProyecto &&
+                                  i.MetodologiaRecoleccion != "N/A" &&
+                                  i.ValorLineaBase != "N/A"                                 
+                            select i).Any(),
                     }).ToList();
             }
             catch (Exception e)

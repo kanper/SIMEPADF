@@ -201,7 +201,7 @@
             save() {
                 this.$validator.validateAll()
                     .then(v => {
-                        if(this.newModel.regional){
+                        if(!this.newModel.regional){
                             this.newModel.paises.push(this.regionPais);
                         }
                         if (v) {
