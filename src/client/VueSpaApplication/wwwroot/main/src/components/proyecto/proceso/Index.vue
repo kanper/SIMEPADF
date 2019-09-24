@@ -99,13 +99,13 @@
                         this.model.modelParams.status = '3REVISION';
                         break;
                     case '3':
-                        this.model.modelParams.status = 'EN_PROCESO';
+                        this.model.modelParams.status = '2REVISION';
                         break;
                     case '4':
-                        this.model.modelParams.status = '1REVISION';
+                        this.model.modelParams.status = 'EN_PROCESO';
                         break;
                     case '5':
-                        this.model.modelParams.status = '2REVISION';
+                        this.model.modelParams.status = '1REVISION';
                         break;
                     default:
                         this.model.modelParams.status = 'INVALID';
