@@ -15,7 +15,7 @@ export default class ProyectoManagementService extends AbstractService {
             case 'create':
                 return this.create(id);
             case 'active':
-                return this.changeProjectStatus(id,'EN PROCESO');
+                return this.changeProjectStatus(id,'EN_PROCESO');
             case 'cancel':
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'check':
