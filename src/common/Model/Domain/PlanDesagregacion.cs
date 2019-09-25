@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace Model.Domain
 {
     public class PlanDesagregacion
@@ -15,7 +17,7 @@ namespace Model.Domain
         public PlanMonitoreoEvaluacion PlanMonitoreoEvaluacion { get; set; }
 
         public string PlanMonitoreoEvaluacionProyectoCodigoProyecto { get; set; }
-
+               
         public int PlanMonitoreoEvaluacionIndicadorId { get; set; }
 
 
