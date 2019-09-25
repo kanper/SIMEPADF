@@ -87,7 +87,9 @@
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
                     },
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Subir Archivos', type: '', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return true}},     
                 ],
             }
         },
