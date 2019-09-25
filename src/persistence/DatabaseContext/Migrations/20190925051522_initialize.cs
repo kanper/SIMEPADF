@@ -827,18 +827,17 @@ namespace DatabaseContext.Migrations
                 columns: table => new
                 {
                     PaisId = table.Column<int>(nullable: false),
-                    ActividadPTId = table.Column<int>(nullable: false),
-                    ActividadPTCodigoActividadPT = table.Column<int>(nullable: true)
+                    ActividadPTCodigoActividadPT = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActividadPTPais", x => new { x.ActividadPTId, x.PaisId });
+                    table.PrimaryKey("PK_ActividadPTPais", x => new { x.PaisId, x.ActividadPTCodigoActividadPT });
                     table.ForeignKey(
                         name: "FK_ActividadPTPais_ActividadPT_ActividadPTCodigoActividadPT",
                         column: x => x.ActividadPTCodigoActividadPT,
                         principalTable: "ActividadPT",
                         principalColumn: "CodigoActividadPT",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ActividadPTPais_Pais_PaisId",
                         column: x => x.PaisId,
@@ -1058,11 +1057,6 @@ namespace DatabaseContext.Migrations
                 name: "IX_ActividadPTPais_ActividadPTCodigoActividadPT",
                 table: "ActividadPTPais",
                 column: "ActividadPTCodigoActividadPT");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ActividadPTPais_PaisId",
-                table: "ActividadPTPais",
-                column: "PaisId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Desagregacion_CreatedBy",

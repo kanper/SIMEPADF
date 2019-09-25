@@ -1,4 +1,6 @@
-﻿namespace Model.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Model.Domain
 {
     public class ActividadPTPais
     {
@@ -16,7 +18,7 @@
         public int PaisId { get; set; }
         public Pais Pais { get; set; }
 
-        public int ActividadPTId { get; set; }
+        public int ActividadPTCodigoActividadPT { get; set; }
         public ActividadPT ActividadPT { get; set; }
 
     }

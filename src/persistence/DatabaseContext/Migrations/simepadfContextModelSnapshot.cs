@@ -207,17 +207,13 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ActividadPTPais", b =>
                 {
-                    b.Property<int>("ActividadPTId");
-
                     b.Property<int>("PaisId");
 
-                    b.Property<int?>("ActividadPTCodigoActividadPT");
+                    b.Property<int>("ActividadPTCodigoActividadPT");
 
-                    b.HasKey("ActividadPTId", "PaisId");
+                    b.HasKey("PaisId", "ActividadPTCodigoActividadPT");
 
                     b.HasIndex("ActividadPTCodigoActividadPT");
-
-                    b.HasIndex("PaisId");
 
                     b.ToTable("ActividadPTPais");
                 });
@@ -979,7 +975,8 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Model.Domain.ActividadPT", "ActividadPT")
                         .WithMany("ActividadPTPaises")
-                        .HasForeignKey("ActividadPTCodigoActividadPT");
+                        .HasForeignKey("ActividadPTCodigoActividadPT")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Pais", "Pais")
                         .WithMany("ActividadPTPaises")

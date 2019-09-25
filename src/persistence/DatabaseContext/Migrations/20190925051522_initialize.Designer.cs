@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    [Migration("20190923170041_initialize")]
+    [Migration("20190925051522_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -209,17 +209,13 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.ActividadPTPais", b =>
                 {
-                    b.Property<int>("ActividadPTId");
-
                     b.Property<int>("PaisId");
 
-                    b.Property<int?>("ActividadPTCodigoActividadPT");
+                    b.Property<int>("ActividadPTCodigoActividadPT");
 
-                    b.HasKey("ActividadPTId", "PaisId");
+                    b.HasKey("PaisId", "ActividadPTCodigoActividadPT");
 
                     b.HasIndex("ActividadPTCodigoActividadPT");
-
-                    b.HasIndex("PaisId");
 
                     b.ToTable("ActividadPTPais");
                 });
@@ -981,7 +977,8 @@ namespace DatabaseContext.Migrations
                 {
                     b.HasOne("Model.Domain.ActividadPT", "ActividadPT")
                         .WithMany("ActividadPTPaises")
-                        .HasForeignKey("ActividadPTCodigoActividadPT");
+                        .HasForeignKey("ActividadPTCodigoActividadPT")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.Pais", "Pais")
                         .WithMany("ActividadPTPaises")
