@@ -81,7 +81,7 @@
                         route: '',
                         show: (row) => {return true}
                     },
-                    {text: 'Editar', type: 'edit', icon: 'mdi-flag-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Agregar Indicador y Meta', type: 'edit', icon: 'mdi-flag-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                 ],
             }
