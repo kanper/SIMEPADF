@@ -50,7 +50,7 @@ namespace Services
                         Paises = (from pais in _context.Pais
                                   join ap in _context.ActividadPTPais
                                       on pais equals ap.Pais
-                                  where ap.ActividadPTId == a.CodigoActividadPT
+                                  where ap.ActividadPTCodigoActividadPT == a.CodigoActividadPT
                                   select new MapDTO()
                                   {
                                       Id = pais.Id,

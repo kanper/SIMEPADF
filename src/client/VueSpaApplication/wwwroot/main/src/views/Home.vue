@@ -1,30 +1,28 @@
 <template>
   <v-container grid-list-md v-if="this.user.RolId == '1'">
     <v-card    class="mx-auto"  >
-    <v-card-title class="blue-grey darken-2 white--text">
-      <span class="title">Gestor del Sistema</span>
-      
-    </v-card-title>
+      <v-card-title class="blue-grey darken-2 white--text">
+        <span class="title">Gestor del Sistema</span>
+      </v-card-title>
     </v-card>
-       <v-card class="elevation">
-         <v-timeline dense>
-      
-          <v-timeline-item color="blue-grey darken-1" fill-dot right>
-            <v-card>
-              <v-card-title small class="blue-grey darken-1">
-                <v-icon dark size="30" class="mr1"> mdi-account-circle </v-icon>
-                <h2 class="tittle white--text"> &nbsp; Gestión de Usuarios</h2>
-              </v-card-title>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" md="10">Encargado realizar mantenimientos de usuarios. 
+    <v-card class="elevation">
+      <v-timeline dense>
+        <v-timeline-item color="blue-grey darken-1" fill-dot right>
+          <v-card>
+            <v-card-title small class="blue-grey darken-1">
+              <v-icon dark size="30" class="mr1"> mdi-account-circle </v-icon>
+              <h2 class="tittle white--text"> &nbsp; Gestión de Usuarios</h2>
+            </v-card-title>
+            <v-container>
+              <v-row>
+                <v-col cols="12" md="10">Encargado realizar mantenimientos de usuarios. 
                     Es capaz de Crear nuevos usuarios, Editar usuarios existentes, Consultar 
                     y Elimiar usuarios segun las necesidades requeridas por PADF</v-col>
-                  <v-col class="hidden-sm-and-down text-right" md="2"> </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
-          </v-timeline-item>
+                <v-col class="hidden-sm-and-down text-right" md="2"> </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-timeline-item>
   
           <v-timeline-item color="blue-grey darken-1" fill-dot left>
             <v-card>
@@ -65,39 +63,33 @@
             </v-card>
           </v-timeline-item>
       </v-timeline>
-      </v-card>
-    </v-container>
-
-
-
-
-  <v-container grid-list-md v-else-if="this.user.RolId == '2'">
-       <v-card    class="mx-auto"  >
-    <v-card-title class="blue-grey darken-2 white--text">
-      <span class="title">Monitoreo y Evaluacion</span>
-      
-    </v-card-title>
     </v-card>
-       <v-card class="elevation">
-         <v-timeline dense>
-      
-          <v-timeline-item color="blue-grey darken-1" fill-dot right>
-            <v-card>
-              <v-card-title small class="blue-grey darken-1">
-                <v-icon dark size="30" class="mr1"> mdi-book </v-icon>
-                <h2 class="tittle white--text"> &nbsp; Gestión de Proyectos Regionales y/o Nacionales</h2>
-              </v-card-title>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" md="10">Encargado realizar mantenimientos a proyectos tanto 
+  </v-container>
+  <v-container grid-list-md v-else-if="this.user.RolId == '2'">
+    <v-card    class="mx-auto"  >
+      <v-card-title class="blue-grey darken-2 white--text">
+      <span class="title">Monitoreo y Evaluacion</span>
+      </v-card-title>
+    </v-card>
+    <v-card class="elevation">
+      <v-timeline dense>
+        <v-timeline-item color="blue-grey darken-1" fill-dot right>
+          <v-card>
+            <v-card-title small class="blue-grey darken-1">
+              <v-icon dark size="30" class="mr1"> mdi-book </v-icon>
+              <h2 class="tittle white--text"> &nbsp; Gestión de Proyectos Regionales y/o Nacionales</h2>
+            </v-card-title>
+            <v-container>
+              <v-row>
+                <v-col cols="12" md="10">Encargado realizar mantenimientos a proyectos tanto 
                     Regionales como Nacionales. Es capaz de Crear nuevos proyectos, Editar 
                     proyectos existentes, Activar proyectos, Consultar y Cancelar proyectos
                     segun las necesidades requeridas por PADF</v-col>
-                  <v-col class="hidden-sm-and-down text-right" md="2"> </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
-          </v-timeline-item>
+                <v-col class="hidden-sm-and-down text-right" md="2"> </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-timeline-item>
   
           <v-timeline-item color="blue-grey darken-1" fill-dot left>
             <v-card>
@@ -179,7 +171,7 @@
             </v-card>
           </v-timeline-item>
 
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+          <v-timeline-item color="blue-grey darken-1" fill-dot right>
             <v-card>
               <v-card-title small class="blue-grey darken-1">
                 <v-icon dark size="30" class="mr1"> mdi-arrow-up-bold-box-outline </v-icon>
@@ -201,13 +193,8 @@
         </v-timeline-item>
 
       </v-timeline>
-      </v-card>
-    </v-container>
-
-
-
-
-
+    </v-card>
+  </v-container>
   <v-container grid-list-md v-else-if="this.user.RolId == '3'">
     <v-card    class="mx-auto"  >
     <v-card-title class="blue-grey darken-2 white--text">
@@ -324,9 +311,6 @@
       </v-timeline>
       </v-card>
   </v-container>
-
-
-
   <v-container grid-list-md v-else-if="this.user.RolId == '4'">
     <v-card    class="mx-auto"  >
     <v-card-title class="blue-grey darken-2 white--text">
@@ -377,9 +361,6 @@
       </v-timeline>
       </v-card>
   </v-container>
-
-
-
   <v-container grid-list-md v-else-if="this.user.RolId == '5'">
       <v-card    class="mx-auto"  >
     <v-card-title class="blue-grey darken-2 white--text">

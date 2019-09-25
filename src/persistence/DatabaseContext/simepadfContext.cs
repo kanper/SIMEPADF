@@ -48,7 +48,7 @@ namespace DatabaseContext
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.UserId, p.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId});
             modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId });
-            modelBuilder.Entity<ActividadPTPais>().HasKey(sc => new { sc.ActividadPTId, sc.PaisId });
+            modelBuilder.Entity<ActividadPTPais>().HasKey(sc => new { sc.PaisId, sc.ActividadPTCodigoActividadPT });
 
             AddMyFilters(ref modelBuilder);
 
