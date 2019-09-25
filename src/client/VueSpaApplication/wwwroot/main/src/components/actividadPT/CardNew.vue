@@ -13,15 +13,16 @@
                                 <v-icon right>mdi-check</v-icon>
                             </v-chip>
                             <form>
-                                <v-text-field
+                                <v-textarea
                                         v-model="newModel.nombreActividad"
-                                        v-validate="'required|max:100'"
-                                        :counter="100"
+                                        auto-grow box clearable
+                                        v-validate="'required|max:1000'"
+                                        :counter="1000"
                                         :error-messages="errors.collect('nombre actividad')"
                                         label="Nombre actividad"
                                         data-vv-name="nombreActividad"
                                         required
-                                ></v-text-field>
+                                ></v-textarea>
                                 <v-text-field
                                         v-model="newModel.monto"
                                         v-validate="fieldRules"
