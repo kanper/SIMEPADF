@@ -8,7 +8,7 @@ namespace DatabaseContext.Config
         public ProductoConfig(EntityTypeBuilder<Producto> builder)
         {
             builder.HasKey(p => p.codigoProducto);
-            builder.Property(p => p.NombreProducto).IsRequired().HasMaxLength(100);
+            builder.Property(p => p.NombreProducto).IsRequired().HasMaxLength(500);
         }
     }
 }
