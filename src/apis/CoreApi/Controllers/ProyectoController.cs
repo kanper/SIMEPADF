@@ -34,7 +34,13 @@ namespace CoreApi.Controllers
         [HttpPost("proyecto")]
         public IActionResult Post([FromBody]ProyectoDTO model)
         {           
-            return Ok(_service.Add(model));
+            return Ok(_service.Add(model, "INCOMPLETO"));
+        }
+        
+        [HttpPost("proyecto/estado/{estadoInicial}")]
+        public IActionResult PostBy([FromBody]ProyectoDTO model, string estadoInicial)
+        {           
+            return Ok(_service.Add(model, estadoInicial));
         }
 
         [HttpPut("proyecto/{id}")]

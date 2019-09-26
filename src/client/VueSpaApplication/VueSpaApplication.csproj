@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -14,6 +14,38 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\common\Common\DTO.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\dist\Coordinador.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\css\app.7b298819.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\css\chunk-vendors.c3be7436.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\director.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\favicon.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\finanzas.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\fonts\materialdesignicons-webfont.541e65fb.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\fonts\materialdesignicons-webfont.c61b9c12.woff2" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\fonts\materialdesignicons-webfont.fc03f7f1.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\fonts\materialdesignicons-webfont.ff13d121.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\imonitor.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\index-build.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\app.e3e44ff8.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\app.e3e44ff8.js.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\chunk-vendors.2fec8480.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\js\chunk-vendors.2fec8480.js.map" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\logo.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\logo1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\Monitoreo.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\padf.ico" />
+    <_ContentIncludedByDefault Remove="wwwroot\dist\Sysadmin.png" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\main\dist\css" />
+    <Folder Include="wwwroot\main\dist\fonts" />
   </ItemGroup>
 
 </Project>

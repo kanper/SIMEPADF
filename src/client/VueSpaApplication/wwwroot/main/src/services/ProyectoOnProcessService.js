@@ -12,11 +12,13 @@ export default class ProyectoOnProcessService extends AbstractService {
 
     executeAction(id, action, params) {
         switch (action) {
+            case 'active':
+                return this.changeProjectStatus(id,'EN_PROCESO');
             case 'cancel':
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'finalize':
                 return this.changeProjectStatus(id,'FINALIZADO');
-            case '1Review':
+            case '1review':
                 return this.changeProjectStatus(id,'1REVISION');
             case '2review':
                 return this.changeProjectStatus(id,'2REVISION');

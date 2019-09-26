@@ -15,7 +15,7 @@ namespace Services
         ProyectoDTO Get(string id);
         IEnumerable<ProyectoDTO> GetAll();
         IEnumerable<ProyectoDTO> GetAll(string estado);
-        bool Add(ProyectoDTO model);
+        bool Add(ProyectoDTO model, string estadoInicial);              
         bool Update(ProyectoDTO model, string id);
         bool Delete(string id);
         bool ChangeStatus(string id, string status);
@@ -137,9 +137,7 @@ namespace Services
                             where pl.CodigoPlanTrabajo == p.CodigoProyecto 
                             select pl).Any(),
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
-                            where i.ProyectoCodigoProyecto == p.CodigoProyecto &&
-                                  i.MetodologiaRecoleccion != "N/A" &&
-                                  i.ValorLineaBase != "N/A"                                 
+                            where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
                             select i).Any(),
                     }).ToList();
             }
@@ -150,14 +148,14 @@ namespace Services
             }
         }
 
-        public bool Add(ProyectoDTO model)
+        public bool Add(ProyectoDTO model, string estadoInicial)
         {
             try
             {
                 var proyecto = new Proyecto(model.NombreProyecto, model.Regional, model.FechaAprobacion,model.FechaInicio,model.FechaFin,model.MontoProyecto,model.Beneficiarios);
                 _context.EstadoProyecto
                     .Include(p => p.Proyecto)
-                    .Single(e => e.TipoEstado == "INCOMPLETO")
+                    .Single(e => e.TipoEstado == estadoInicial)
                     .Proyecto.Add(proyecto);
                 /*
                  * Por cada lista guarda uno por uno los elementos

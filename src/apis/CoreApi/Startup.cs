@@ -64,11 +64,11 @@ namespace CoreApi
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
-            services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
@@ -119,7 +119,7 @@ namespace CoreApi
             {               
                 app.UseHsts();
             }
-         
+           
             app.UseAuthentication();
             app.UseIdentity();
             app.UseCors(MyAllowSpecificOrigins);           

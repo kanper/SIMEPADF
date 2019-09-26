@@ -89,7 +89,12 @@
                     },
                     {text: 'Subir Archivos', type: '', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return true}},     
+                    {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '3review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "3"}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '1review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "4"}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '2review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "5"}},
+                    {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
+                    {text: 'Finalizar proyecto', type: 'link', icon: 'mdi-sync-off', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
                 ],
             }
         },

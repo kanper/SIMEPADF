@@ -10,6 +10,10 @@ export default class ProyectoManagementService extends AbstractService {
         return this.axios.get(`${this.baseUrl}/estado/${params.status}`);
     }
 
+    add(model, params) {
+        return this.axios.post(`${this.baseUrl}/estado/${params.defaultStatus}`, model)
+    }
+
     executeAction(id, action, params) {
         switch (action) {
             case 'create':
@@ -19,7 +23,7 @@ export default class ProyectoManagementService extends AbstractService {
             case 'cancel':
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'check':
-                return this.changeProjectStatus(id,'VERIFICAR');
+                return this.changeProjectStatus(id,'INCOMPLETO');
             case 'finalize':
                 return this.changeProjectStatus(id,'FINALIZADO');
             default:

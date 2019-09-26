@@ -28,7 +28,7 @@ namespace Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
 
             services.AddIdentity<Usuario, Rol>(config =>
