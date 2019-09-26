@@ -26,7 +26,7 @@ import proyectoInfoService from '../services/ProyectoInfoService'
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
-let apiUrl = 'http://localhost:5000/';
+let apiUrl = 'https://localhost:5001/';
 let authUrl = 'http://localhost:53153/';
 
 

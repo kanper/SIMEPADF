@@ -79,7 +79,7 @@
                         ]},
                     {id: 2, rol: 'Monitoreo y Evaluación', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos de monitoreo',
+                                title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
@@ -90,7 +90,7 @@
                         ]},
                     {id: 3, rol: 'Director de País', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos de director',
+                                title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
@@ -101,7 +101,7 @@
                         ]},
                     {id: 4, rol: 'Coordinador', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos de coordinador',
+                                title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
@@ -110,7 +110,7 @@
                         ]},
                     {id: 5, rol: 'Director de Finanzas', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos de finanzas',
+                                title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Proyectos en proceso', path:'/proyectos/proceso'},

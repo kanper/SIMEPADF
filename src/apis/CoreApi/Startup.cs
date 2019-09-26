@@ -119,7 +119,7 @@ namespace CoreApi
             {               
                 app.UseHsts();
             }
-         
+           
             app.UseAuthentication();
             app.UseIdentity();
             app.UseCors(MyAllowSpecificOrigins);           

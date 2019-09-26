@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         services,
-        development: true,
+        development: false,
         drawer: false,
         modelTitle: '',
         modelSpecification:{},

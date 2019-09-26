@@ -71,7 +71,8 @@
                         { name: 'Organizaciones', value: 'organizaciones', type: 'array'},
                     ],
                     modelParams: {                                         //Parametros para el modelo
-                        status: ''           //Valores separados por el caracter de dolar '$'
+                        status: '',           //Valores separados por el caracter de dolar '$'
+                        defaultStatus: ''
                     }
                 },
                 dataTableHeaders: [
@@ -100,8 +101,9 @@
                     {text: 'Agregar Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
                     {text: 'Actividades', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}},
-                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isPlanTrabajo && row.isIndicador}},
-                    {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return !row.isCancelled}},
+                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && row.isPlanTrabajo && row.isIndicador}},
+                    {text: 'Solicitar verificación del proyecto', type: 'link', icon: 'mdi-reply-all', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isVerified && row.isPlanTrabajo && row.isIndicador}},
+                    {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && !row.isCancelled}},
                 ],
             }
         },
@@ -110,19 +112,32 @@
             setUserPermission() {
                 switch (window.User.RolId) {
                     case '2':
-                        this.model.modelParams.status = 'INCOMPLETO$VERIFICAR';
+                        this.model.modelParams.status = 'INCOMPLETO';
                         break;
                     case '3':
-                        this.model.modelParams.status = 'INCOMPLETO';
+                        this.model.modelParams.status = 'VERIFICAR';
                         break;
                     default:
                         this.model.modelParams.status = 'INVALID';
                 }
             },
+            setDefaultStatusByUserRol(){
+                switch (window.User.RolId) {
+                    case '2':
+                        this.model.modelParams.defaultStatus = 'INCOMPLETO';
+                        break;
+                    case '3':
+                        this.model.modelParams.defaultStatus = 'VERIFICAR';
+                        break;
+                    default:
+                        this.model.modelParams.defaultStatus = 'INVALID';
+                }
+            }
         },
         created() {
             this.clearAlerts();
             this.setUserPermission();
+            this.setDefaultStatusByUserRol();
             this.defineModel(this.model);
         },
         destroyed() {

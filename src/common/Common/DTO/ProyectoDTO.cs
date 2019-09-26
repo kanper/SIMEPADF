@@ -49,7 +49,7 @@ namespace DTO.DTO
         {
             get
             {
-                return EstadoProyecto.Equals("EN PROCESO", StringComparison.OrdinalIgnoreCase);
+                return EstadoProyecto.Equals("EN_PROCESO", StringComparison.OrdinalIgnoreCase);
             }
         }
 

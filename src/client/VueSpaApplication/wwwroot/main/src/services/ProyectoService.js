@@ -9,7 +9,7 @@ export default class ProyectoService extends AbstractService {
     executeAction(id, action, params) {
         switch (action) {
             case 'active':
-                return this.changeProjectStatus(id,'EN PROCESO');
+                return this.changeProjectStatus(id,'EN_PROCESO');
             case 'cancel':
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'check':
