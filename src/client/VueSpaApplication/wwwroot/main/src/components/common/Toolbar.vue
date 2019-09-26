@@ -3,6 +3,7 @@
         <v-toolbar-side-icon @click="changeDrawer()"></v-toolbar-side-icon>
         <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png" alt="Logo" ></v-img>
         <v-spacer></v-spacer>
+        <h3>{{ this.user.Email }}</h3>
         <v-tooltip bottom>
            <template v-slot:activator="{ on }">
                <v-btn fab dark small color="indigo" v-on="on">

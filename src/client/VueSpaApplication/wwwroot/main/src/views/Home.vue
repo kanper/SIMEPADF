@@ -78,7 +78,7 @@
             </v-card>
             <v-card class="elevation">
               <v-timeline dense>
-                <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                   <v-card>
                     <v-card-title small class="blue-grey darken-1">
                       <v-icon dark size="30" class="mr1"> mdi-book </v-icon>
@@ -95,7 +95,7 @@
                   </v-card>
                 </v-timeline-item>
           
-                  <v-timeline-item color="blue-grey darken-1" fill-dot left>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot left>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-flag-variant </v-icon>
@@ -115,7 +115,7 @@
                     </v-card>
                   </v-timeline-item>
           
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-compass-outline</v-icon>
@@ -134,7 +134,7 @@
                     </v-card>
                   </v-timeline-item>
 
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-thumb-up</v-icon>
@@ -155,7 +155,7 @@
                     </v-card>
                   </v-timeline-item>
 
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-format-list-bulleted-square</v-icon>
@@ -171,7 +171,7 @@
                     </v-card>
                   </v-timeline-item>
 
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title small class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-arrow-up-bold-box-outline </v-icon>
@@ -204,7 +204,7 @@
               <v-card class="elevation">
                 <v-timeline dense>
               
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title small class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-book </v-icon>
@@ -221,7 +221,7 @@
                     </v-card>
                   </v-timeline-item>
           
-                  <v-timeline-item color="blue-grey darken-1" fill-dot left>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot left>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-flag-variant </v-icon>
@@ -241,7 +241,7 @@
                     </v-card>
                   </v-timeline-item>
           
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-compass-outline</v-icon>
@@ -260,7 +260,7 @@
                     </v-card>
                   </v-timeline-item>
 
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-thumb-up</v-icon>
@@ -282,7 +282,7 @@
                     </v-card>
                   </v-timeline-item>
 
-                <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title small class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-arrow-up-bold-box-outline </v-icon>
@@ -315,7 +315,7 @@
               <v-card class="elevation">
                 <v-timeline dense>
               
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title small class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-book </v-icon>
@@ -333,7 +333,7 @@
                     </v-card>
                   </v-timeline-item>
           
-                  <v-timeline-item color="blue-grey darken-1" fill-dot left>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot left>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-arrow-up-bold-box-outline </v-icon>
@@ -363,7 +363,7 @@
               <v-card class="elevation">
                 <v-timeline dense>
               
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title class="blue-grey darken-1">
                         <v-icon class="mr1" dark size="30"> mdi-thumb-up</v-icon>
@@ -384,7 +384,7 @@
                       </v-container>
                     </v-card>
                   </v-timeline-item>
-                  <v-timeline-item color="blue-grey darken-1" fill-dot right>
+                  <v-timeline-item color="blue-grey darken-1" class="mr-5" fill-dot right>
                     <v-card>
                       <v-card-title small class="blue-grey darken-1">
                         <v-icon dark size="30" class="mr1"> mdi-arrow-up-bold-box-outline </v-icon>

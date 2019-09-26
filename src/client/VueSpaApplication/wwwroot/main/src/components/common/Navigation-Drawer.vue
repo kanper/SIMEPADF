@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer absolute app fixed :dark="!development" temporary :value="navigation">
+    <v-navigation-drawer app fixed :dark="!development" temporary :value="navigation">
         <v-toolbar class="transparent" flat>
             <v-list class="pa-0">
                 <v-list-tile avatar>
