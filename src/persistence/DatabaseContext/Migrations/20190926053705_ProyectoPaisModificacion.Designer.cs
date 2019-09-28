@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190926053705_ProyectoPaisModificacion")]
+    partial class ProyectoPaisModificacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -742,6 +744,10 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("ProyectoId");
 
+                    b.Property<DateTime>("FechaRevisado");
+
+                    b.Property<bool>("Revisado");
+
                     b.HasKey("PaisId", "ProyectoId");
 
                     b.HasIndex("ProyectoId");
@@ -773,57 +779,6 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("ProyectoId");
 
                     b.ToTable("ProyectoUsuario");
-                });
-
-            modelBuilder.Entity("Model.Domain.RegistroRevision", b =>
-                {
-                    b.Property<int>("RegistroRevisionId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("DeletedBy");
-
-                    b.Property<DateTime>("FechaRevisado");
-
-                    b.Property<string>("NumeroRevision")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<int?>("ProyectoPaisPaisId");
-
-                    b.Property<string>("ProyectoPaisProyectoId");
-
-                    b.Property<bool>("Revisado");
-
-                    b.Property<bool>("RevisionCompleta");
-
-                    b.Property<string>("Trimestre")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.HasKey("RegistroRevisionId");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.HasIndex("ProyectoPaisPaisId", "ProyectoPaisProyectoId");
-
-                    b.ToTable("RegistroRevision");
                 });
 
             modelBuilder.Entity("Model.Domain.Resultado", b =>
@@ -1328,25 +1283,6 @@ namespace DatabaseContext.Migrations
                         .WithMany("ProyectoUsuarios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Model.Domain.RegistroRevision", b =>
-                {
-                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
-                    b.HasOne("Model.Domain.ProyectoPais", "ProyectoPais")
-                        .WithMany("RegistroRevisiones")
-                        .HasForeignKey("ProyectoPaisPaisId", "ProyectoPaisProyectoId");
                 });
 
             modelBuilder.Entity("Model.Domain.Resultado", b =>

@@ -30,6 +30,12 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.GetAll(estado));
         }
+        
+        [HttpGet("proyecto/estado/{estado}/pais/{pais}")]
+        public IActionResult GetAll(string estado, string pais)
+        {
+            return Ok(pais.Equals("all") ? _service.GetAll(estado) : _service.GetAll(estado,pais));
+        }
 
         [HttpPost("proyecto")]
         public IActionResult Post([FromBody]ProyectoDTO model)
@@ -59,7 +65,13 @@ namespace CoreApi.Controllers
         public IActionResult ChangeStatus(string id, string status)
         {
             return Ok(_service.ChangeStatus(id, status));
-        }                
+        }
+
+        [HttpGet("proyecto/{id}/pais/{pais}/check")]
+        public IActionResult CheckProject()
+        {
+            return Ok();
+        }
         
     }
 }

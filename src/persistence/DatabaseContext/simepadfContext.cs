@@ -72,6 +72,7 @@ namespace DatabaseContext
             new PlanTrabajoConfig(modelBuilder.Entity<PlanTrabajo>());
             new ActividadPtConfig(modelBuilder.Entity<ActividadPT>());
             new ProductoConfig(modelBuilder.Entity<Producto>());
+            new RegistroRevisionConfig(modelBuilder.Entity<RegistroRevision>());
 
         }
 
@@ -111,6 +112,8 @@ namespace DatabaseContext
         public DbSet<Producto> Producto { get; set; }
 
         public DbSet<ActividadPTPais> ActividadPTPais { get; set; }
+
+        public DbSet<RegistroRevision> RegistroRevision { get; set; }
 
         public override int SaveChanges()
         {

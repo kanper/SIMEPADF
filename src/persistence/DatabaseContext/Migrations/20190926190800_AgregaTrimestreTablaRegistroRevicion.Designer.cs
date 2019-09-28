@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190926190800_AgregaTrimestreTablaRegistroRevicion")]
+    partial class AgregaTrimestreTablaRegistroRevicion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -781,21 +783,9 @@ namespace DatabaseContext.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("DeletedBy");
-
                     b.Property<DateTime>("FechaRevisado");
 
-                    b.Property<string>("NumeroRevision")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                    b.Property<int>("NumeroRevision");
 
                     b.Property<int?>("ProyectoPaisPaisId");
 
@@ -803,23 +793,9 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("Revisado");
 
-                    b.Property<bool>("RevisionCompleta");
-
-                    b.Property<string>("Trimestre")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<string>("UpdatedBy");
+                    b.Property<int>("Trimestre");
 
                     b.HasKey("RegistroRevisionId");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("UpdatedBy");
 
                     b.HasIndex("ProyectoPaisPaisId", "ProyectoPaisProyectoId");
 
@@ -1332,18 +1308,6 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.RegistroRevision", b =>
                 {
-                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
                     b.HasOne("Model.Domain.ProyectoPais", "ProyectoPais")
                         .WithMany("RegistroRevisiones")
                         .HasForeignKey("ProyectoPaisPaisId", "ProyectoPaisProyectoId");

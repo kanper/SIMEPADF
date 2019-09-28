@@ -6,6 +6,7 @@ using DatabaseContext;
 using DTO.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Model.Domain;
 
 namespace Services
@@ -14,11 +15,13 @@ namespace Services
     {
         ProyectoDTO Get(string id);
         IEnumerable<ProyectoDTO> GetAll();
-        IEnumerable<ProyectoDTO> GetAll(string estado);
+        IEnumerable<ProyectoDTO> GetAll(string estado);       
+        IEnumerable<ProyectoDTO> GetAll(string estado, string pais);
         bool Add(ProyectoDTO model, string estadoInicial);              
         bool Update(ProyectoDTO model, string id);
         bool Delete(string id);
         bool ChangeStatus(string id, string status);
+        bool Check(string id, string estado, string pais);
     }
     
     public class ProyectoService : IProyectoService
@@ -113,6 +116,46 @@ namespace Services
             }
         }
 
+        public IEnumerable<ProyectoDTO> GetAll(string estado, string pais)
+        {
+            string[] estados = estado.Split('$');
+            try
+            {
+                return (from p in _context.Proyecto
+                    join e in _context.EstadoProyecto
+                        on p.EstadoProyecto equals e
+                    join pp in _context.ProyectoPais
+                        on p equals pp.Proyecto
+                    join ps in _context.Pais
+                        on pp.Pais equals ps
+                    where estados.Contains(e.TipoEstado) &&
+                          ps.NombrePais.Contains(pais) 
+                    select new ProyectoDTO()
+                    {
+                        Id = p.CodigoProyecto,
+                        NombreProyecto = p.NombreProyecto,
+                        Regional = p.Regional,
+                        MontoProyecto = p.MontoProyecto,
+                        FechaAprobacion = p.FechaAprobacion,
+                        FechaInicio = p.FechaInicio,
+                        FechaFin = p.FechaFin,
+                        Beneficiarios = p.Beneficiarios,
+                        EstadoProyecto = e.TipoEstado,
+                        IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
+                            where pl.CodigoPlanTrabajo == p.CodigoProyecto 
+                            select pl).Any(),
+                        IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
+                            where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
+                            select i).Any(),                        
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<ProyectoDTO>();
+            }
+        }
+        
         public IEnumerable<ProyectoDTO> GetAll(string estado)
         {
             string[] estados = estado.Split('$');
@@ -147,6 +190,7 @@ namespace Services
                 return new List<ProyectoDTO>();
             }
         }
+
 
         public bool Add(ProyectoDTO model, string estadoInicial)
         {
@@ -259,12 +303,35 @@ namespace Services
         {
             try
             {
+                CreateReviewSet(id, status);
                 var proyecto = _context.Proyecto
                     .Include(s => s.EstadoProyecto)
                     .Single(p => p.CodigoProyecto == id);
-                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == status);
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == status);                
                 _context.SaveChanges();
                 return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool Check(string id, string estado, string pais)
+        {
+            try
+            {
+                var revisiones = _context.ProyectoPais
+                    .Include(pp => pp.Pais)
+                    .Include(pp => pp.RegistroRevisiones)
+                    .Where(pp => pp.ProyectoId == id && pp.Pais.NombrePais == pais)
+                    .ToList();                
+                {
+                    
+                }
+                return true;
+
             }
             catch (Exception e)
             {
@@ -306,6 +373,17 @@ namespace Services
         private bool IsIncluded(MapDTO[] map, int idPais)
         {
             return map.Any(dto => idPais == dto.Id);
+        }
+
+        private void CreateReviewSet(string id, string status)
+        {
+            if (status.Equals("EN_PROCESO"))
+            {
+                foreach (var proyectoPais in _context.ProyectoPais.Where(p => p.ProyectoId == id).ToList())
+                {
+                    proyectoPais.AddProcesoRevision();
+                }
+            }
         }
     }
 }

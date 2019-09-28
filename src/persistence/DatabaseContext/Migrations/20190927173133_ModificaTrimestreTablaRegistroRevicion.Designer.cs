@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20190927173133_ModificaTrimestreTablaRegistroRevicion")]
+    partial class ModificaTrimestreTablaRegistroRevicion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -793,17 +795,13 @@ namespace DatabaseContext.Migrations
 
                     b.Property<DateTime>("FechaRevisado");
 
-                    b.Property<string>("NumeroRevision")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                    b.Property<int>("NumeroRevision");
 
                     b.Property<int?>("ProyectoPaisPaisId");
 
                     b.Property<string>("ProyectoPaisProyectoId");
 
                     b.Property<bool>("Revisado");
-
-                    b.Property<bool>("RevisionCompleta");
 
                     b.Property<string>("Trimestre")
                         .IsRequired()
