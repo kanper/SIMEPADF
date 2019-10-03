@@ -322,14 +322,23 @@ namespace Services
         {
             try
             {
-                var revisiones = _context.ProyectoPais
-                    .Include(pp => pp.Pais)
-                    .Include(pp => pp.RegistroRevisiones)
-                    .Where(pp => pp.ProyectoId == id && pp.Pais.NombrePais == pais)
-                    .ToList();                
+                var registroRevision = (from proy in _context.Proyecto
+                    join pp in _context.ProyectoPais
+                        on proy equals pp.Proyecto
+                    join e in _context.EstadoProyecto 
+                        on proy.EstadoProyecto equals e
+                    join p in _context.Pais
+                        on pp.Pais equals p
+                    join r in _context.RegistroRevision
+                        on pp equals r.ProyectoPais
+                    where proy.CodigoProyecto == id && e.TipoEstado == estado && p.NombrePais == pais && r.RevisionCompleta == false
+                    select r).Single();
+                if (registroRevision != null)
                 {
-                    
+                    registroRevision.Revisado = true;
                 }
+                _context.SaveChanges();
+                CheckIfAllCountryWasReviewed(id, estado);
                 return true;
 
             }
@@ -337,6 +346,45 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return false;
+            }
+        }
+
+        private void CheckIfAllCountryWasReviewed(string id, string estado)
+        {
+            var registroRevisiones = (from proy in _context.Proyecto
+                join pp in _context.ProyectoPais
+                    on proy equals pp.Proyecto
+                join e in _context.EstadoProyecto 
+                    on proy.EstadoProyecto equals e
+                join p in _context.Pais
+                    on pp.Pais equals p
+                join r in _context.RegistroRevision
+                    on pp equals r.ProyectoPais
+                where proy.CodigoProyecto == id && e.TipoEstado == estado && r.RevisionCompleta == false
+                select r).ToList();
+            if (registroRevisiones.All(r => r.Revisado))
+            {
+                foreach (var revision in registroRevisiones)
+                {
+                    revision.RevisionCompleta = true;
+                }
+                MoveToNextStatus(id);
+                _context.SaveChanges();
+            }            
+        }
+        
+        private void MoveToNextStatus(string id)
+        {
+            var proyecto = _context.Proyecto
+                .Include(p => p.EstadoProyecto)
+                .Single(P => P.CodigoProyecto == id);
+            if (proyecto.EstadoProyecto.TipoEstado.Equals("3REVISION"))
+            {
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado.Equals("EN_PROCESO"));
+            }
+            else
+            {
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
             }
         }
 

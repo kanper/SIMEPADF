@@ -24,7 +24,7 @@
     import TitleBar from '../../common/NavbarTitle'
     import DeleteDialog from '../../common/DialogDelete'
     import FormEdit from './CardEdit'
-    import DataInfo from '../../common/CardInfo'
+    import DataInfo from '../CardInfo'
     import AppAlert from '../../common/Alert'
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
@@ -124,10 +124,10 @@
             setDefaultStatusByUserRol(){
                 switch (window.User.RolId) {
                     case '2':
-                        this.model.modelParams.defaultStatus = 'INCOMPLETO';
+                        this.model.modelParams.defaultStatus = 'INCOMPLETO$VERIFICAR';
                         break;
                     case '3':
-                        this.model.modelParams.defaultStatus = 'VERIFICAR';
+                        this.model.modelParams.defaultStatus = 'PRE_VERIFICAR';
                         break;
                     default:
                         this.model.modelParams.defaultStatus = 'INVALID';

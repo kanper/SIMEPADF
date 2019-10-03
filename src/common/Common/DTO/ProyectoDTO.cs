@@ -54,6 +54,8 @@ namespace DTO.DTO
                     case "FINALIZADO":
                         return "Proyecto Finalizado";
                     case "VERIFICAR":
+                        return "Enviado para verificación";
+                    case "PRE_VERIFICAR":
                         return "Pendiente de verificación";
                     case "1REVISION":
                         return "Primera revisión";
