@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer absolute app fixed :dark="!development" temporary :value="navigation">
+    <v-navigation-drawer app fixed :dark="!development" temporary :value="navigation">
         <v-toolbar class="transparent" flat>
             <v-list class="pa-0">
                 <v-list-tile avatar>
@@ -63,7 +63,7 @@
                                     {icon: 'mdi-map-marker-radius', title: 'País', path: '/paises'},
                                     {icon: 'mdi-open-in-app', title: 'Fuentes de datos', path: '/fuente-datos'},
                                     {icon: 'mdi-chart-line', title: 'Nivel de impacto', path: '/niveles-impacto'},
-                                    {icon: 'mdi-arrange-send-backward', title: 'Desagregaciones', path: '/desagregaciones'}
+                                    {icon: 'mdi-account-group', title: 'Desagregaciones', path: '/desagregaciones'}
                                 ]
                             },
                             {
@@ -83,8 +83,17 @@
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
-                                    {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
+                                    {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
+                                ]
+                            },
+                            {
+                                title: 'Seguimiento de Indicadores',
+                                icon: 'mdi-flag-checkered',
+                                children: [
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/'},
+                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/'},
+                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/'},
                                 ]
                             },
                         ]},
@@ -94,8 +103,15 @@
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
-                                    {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
+                                    {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
+                                ]
+                            },
+                            {
+                                title: 'Seguimiento de Indicadores',
+                                icon: 'mdi-flag-checkered',
+                                children: [
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/'},
                                 ]
                             },
                         ]},
@@ -104,7 +120,7 @@
                                 title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
-                                    {icon: 'mdi-format-list-bulleted', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
+                                    {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
                                 ]
                             },
                         ]},
@@ -113,7 +129,7 @@
                                 title: 'Proyectos',
                                 icon: 'mdi-briefcase',
                                 children: [
-                                    {icon: 'mdi-format-list-bulleted', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
+                                    {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
                                 ]
                             },
                         ]},

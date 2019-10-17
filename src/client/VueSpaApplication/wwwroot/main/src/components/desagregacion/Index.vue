@@ -44,7 +44,7 @@
             return {
                 model: {
                     modelName: 'desagregacion',                              //Nombre del modelo actual
-                    modelIcon: 'mdi-arrange-send-backward',                         //Icono que se muestra en representación del modelo
+                    modelIcon: 'mdi-account-group',                         //Icono que se muestra en representación del modelo
                     modelTitle: 'Desagregaciones',                       //Nombre que se muestra en representación del modelo
                     modelPath: '',                                        //URL que junto a la BASE es la ruta al servidor
                     modelService: 'desagregacionService',                    //Nombre del servicio a utilizar
