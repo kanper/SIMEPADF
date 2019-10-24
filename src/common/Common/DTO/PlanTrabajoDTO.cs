@@ -5,16 +5,12 @@ namespace DTO.DTO
 {
     public class PlanTrabajoDTO
     {
-        private string fecha;
-       
-        private double montoRestante;
         public string Id { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string ProyectoId { get; set; }
         public string NombreProyecto { get; set; }
-
         public double MontoOriginal { get; set; }
-
+        private string fecha;
         public string Fecha
         {
             get
@@ -28,7 +24,7 @@ namespace DTO.DTO
             }
             set => fecha = value;
         }
-
+        private double montoRestante;
         public double MontoRestante
         {
         get { return AcumuladoActividad != null ? Math.Round(MontoOriginal - AcumuladoActividad.Sum(),2) : 0.0; }

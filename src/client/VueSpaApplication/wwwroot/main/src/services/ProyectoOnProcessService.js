@@ -13,7 +13,7 @@ export default class ProyectoOnProcessService extends AbstractService {
     executeAction(id, action, params) {
         switch (action) {
             case 'mark':
-                return this.axios.get(`${this.baseUrl}/${id}/pais/${params.country}`);
+                return this.axios.get(`${this.baseUrl}/${id}/estado/${params.status}/pais/${params.country}/check`);
             case 'active':
                 return this.changeProjectStatus(id,'EN_PROCESO');
             case 'cancel':

@@ -67,10 +67,10 @@ namespace CoreApi.Controllers
             return Ok(_service.ChangeStatus(id, status));
         }
 
-        [HttpGet("proyecto/{id}/pais/{pais}/check")]
-        public IActionResult CheckProject()
+        [HttpGet("proyecto/{id}/estado/{estado}/pais/{pais}/check")]
+        public IActionResult CheckProject(string id, string estado, string pais)
         {
-            return Ok();
+            return Ok(_service.Check(id, estado, pais));
         }
         
     }

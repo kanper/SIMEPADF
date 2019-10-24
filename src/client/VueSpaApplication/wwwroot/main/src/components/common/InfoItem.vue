@@ -13,7 +13,7 @@
         </v-card-title>
         <v-card-text v-show="show">
             {{buildCardContent(value,itemType)}}
-            <ul v-if="itemType === 'list'"><li v-for="item in CRUDModel[value]">{{item.nombre}}</li></ul>
+            <ul v-if="itemType === 'list'"><li v-for="(item,index) in CRUDModel[value]" v-bind:key="index">{{item.nombre}}</li></ul>
         </v-card-text>
     </v-card>
 </template>

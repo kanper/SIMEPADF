@@ -18,7 +18,7 @@
             <template v-slot:items="props">
                 <td
                         :class="(at['align'] === 'center' ? 'text-xs-center': 'text-xs-left') + ' ' + (at['style'] !== undefined ? at['style'] : '')"
-                        v-for="at in headers">
+                        v-for="(at,index) in headers" v-bind:key="index">
                     <v-icon v-if="at['type'] === 'boolean'">
                         {{buildBooleanCell(props.item[at['value']])}}
                     </v-icon>
@@ -56,7 +56,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'services', 'dataTable'])
+            ...mapState(['modelSpecification', 'services', 'dataTable']),            
         },
         methods: {
             ...mapMutations(['showInfo', 'changeNewDialogVisibility', 'closeAllDialogs']),

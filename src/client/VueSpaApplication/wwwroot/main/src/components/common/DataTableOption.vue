@@ -28,9 +28,10 @@
                 'addAlert',
                 'setTableRow',
                 'setConfirmationId',
-                'setConfirmationAction'
+                'setConfirmationAction',
+                'changeReviewLogListVisibility'
             ]),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','loadReviewLogList']),
             loadModel(id) {
                 this.services[this.modelSpecification.modelService].get(id, this.modelSpecification.modelParams)
                     .then(r => {
@@ -60,6 +61,11 @@
                 this.closeAllDialogs();
                 this.changeExtraDialogVisibility(dialogId);
             },
+            showReviewLogList(id, status) {
+                this.loadReviewLogList({id,status});
+                this.closeAllDialogs();
+                this.changeReviewLogListVisibility();                
+            },
             doAction() {
                 switch (this.data.type) {
                     case 'info':
@@ -86,6 +92,9 @@
                         this.setConfirmationId(this.modelId);
                         this.setConfirmationAction(this.data.action);
                         this.changeConfirmationDialogVisibility();
+                        break;
+                    case 'review-list':
+                        this.showReviewLogList(this.modelId,"EN_PROCESO");
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');

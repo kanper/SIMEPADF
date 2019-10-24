@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20191020175530_AgregaAttrComentarioRegistroRevision")]
+    partial class AgregaAttrComentarioRegistroRevision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,46 +218,6 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("ActividadPTCodigoActividadPT");
 
                     b.ToTable("ActividadPTPais");
-                });
-
-            modelBuilder.Entity("Model.Domain.ArchivoDescripcion", b =>
-                {
-                    b.Property<int>("CodigoArchivo");
-
-                    b.Property<DateTime?>("CreatedAt");
-
-                    b.Property<string>("CreatedBy");
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<DateTime?>("DeletedAt");
-
-                    b.Property<string>("DeletedBy");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("NombreArchivo")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("TipoContenido")
-                        .IsRequired()
-                        .HasMaxLength(5);
-
-                    b.Property<DateTime?>("UpdatedAt");
-
-                    b.Property<string>("UpdatedBy");
-
-                    b.HasKey("CodigoArchivo");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("DeletedBy");
-
-                    b.HasIndex("UpdatedBy");
-
-                    b.ToTable("ArchivoDescripcion");
                 });
 
             modelBuilder.Entity("Model.Domain.Desagregacion", b =>
@@ -836,13 +798,13 @@ namespace DatabaseContext.Migrations
 
                     b.Property<DateTime>("FechaRevisado");
 
-                    b.Property<int>("NumeroRevision");
+                    b.Property<string>("NumeroRevision")
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<int?>("ProyectoPaisPaisId");
 
                     b.Property<string>("ProyectoPaisProyectoId");
-
-                    b.Property<bool>("Retornado");
 
                     b.Property<bool>("Revisado");
 
@@ -1074,26 +1036,6 @@ namespace DatabaseContext.Migrations
                         .WithMany("ActividadPTPaises")
                         .HasForeignKey("PaisId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Model.Domain.ArchivoDescripcion", b =>
-                {
-                    b.HasOne("Model.Domain.Producto", "Producto")
-                        .WithOne("Archivo")
-                        .HasForeignKey("Model.Domain.ArchivoDescripcion", "CodigoArchivo")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Model.Domain.Usuario", "CreatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "DeletedUsuario")
-                        .WithMany()
-                        .HasForeignKey("DeletedBy");
-
-                    b.HasOne("Model.Domain.Usuario", "UpdatedUsuario")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
                 });
 
             modelBuilder.Entity("Model.Domain.Desagregacion", b =>

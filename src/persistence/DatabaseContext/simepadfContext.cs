@@ -29,8 +29,8 @@ namespace DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Sqlserver2017;Encrypt=false;Connection Timeout=30;");
+                //optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Sqlserver2017;Encrypt=false;Connection Timeout=30;");
             }
         }
 
@@ -73,6 +73,7 @@ namespace DatabaseContext
             new ActividadPtConfig(modelBuilder.Entity<ActividadPT>());
             new ProductoConfig(modelBuilder.Entity<Producto>());
             new RegistroRevisionConfig(modelBuilder.Entity<RegistroRevision>());
+            new ArchivoDescripcionConfig(modelBuilder.Entity<ArchivoDescripcion>());
 
         }
 
@@ -92,28 +93,18 @@ namespace DatabaseContext
         public DbSet<Actividad> Actividad { get; set; }
         public DbSet<Indicador> Indicador { get; set; }
         public DbSet<Meta> Meta { get; set; }
-
         public DbSet<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluacion { get; set; }
-
         public DbSet<FuenteDato> FuenteDato { get; set; }
-
         public DbSet<FrecuenciaMedicion> FrecuenciaMedicion { get; set; }
-
         public DbSet<NivelImpacto> NivelImpacto { get; set; }
-
         public DbSet<Desagregacion> Desagregacion { get; set; }
-
         public DbSet<PlanDesagregacion> PlanDesagregacion { get; set; }
-
         public DbSet<PlanTrabajo> PlanTrabajo { get; set; }
-
         public DbSet<ActividadPT> ActividadPT { get; set; }
-
         public DbSet<Producto> Producto { get; set; }
-
         public DbSet<ActividadPTPais> ActividadPTPais { get; set; }
-
         public DbSet<RegistroRevision> RegistroRevision { get; set; }
+        public DbSet<ArchivoDescripcion> ArchivoDescripcion { get; set; }
 
         public override int SaveChanges()
         {
@@ -197,6 +188,8 @@ namespace DatabaseContext
             modelBuilder.Entity<PlanTrabajo>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<ActividadPT>().HasQueryFilter(x => !x.Deleted);
             modelBuilder.Entity<Producto>().HasQueryFilter(x => !x.Deleted);
+            modelBuilder.Entity<ArchivoDescripcion>().HasQueryFilter(x => !x.Deleted);
+
             #endregion
         }
 

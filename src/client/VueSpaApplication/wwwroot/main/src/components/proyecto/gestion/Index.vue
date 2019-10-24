@@ -112,10 +112,10 @@
             setUserPermission() {
                 switch (window.User.RolId) {
                     case '2':
-                        this.model.modelParams.status = 'INCOMPLETO';
+                        this.model.modelParams.status = 'INCOMPLETO$VERIFICAR';
                         break;
                     case '3':
-                        this.model.modelParams.status = 'VERIFICAR';
+                        this.model.modelParams.status = 'PRE_VERIFICAR';
                         break;
                     default:
                         this.model.modelParams.status = 'INVALID';
@@ -124,7 +124,7 @@
             setDefaultStatusByUserRol(){
                 switch (window.User.RolId) {
                     case '2':
-                        this.model.modelParams.defaultStatus = 'INCOMPLETO$VERIFICAR';
+                        this.model.modelParams.defaultStatus = 'INCOMPLETO';
                         break;
                     case '3':
                         this.model.modelParams.defaultStatus = 'PRE_VERIFICAR';

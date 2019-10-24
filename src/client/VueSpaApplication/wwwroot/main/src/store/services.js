@@ -23,6 +23,7 @@ import planActividadService from '../services/PlanActividadService'
 import productoService from '../services/ProductoService'
 import actividadProductoService from '../services/ActividadProductoService'
 import proyectoInfoService from '../services/ProyectoInfoService'
+import registroRevisionService from '../services/RegistroRevisionService'
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
@@ -58,5 +59,6 @@ export default {
     proyectoManagementService: new proyectoManagementService(Axios, apiUrl),
     proyectoOnProcessService: new proyectoOnProcessService(Axios, apiUrl),
     proyectoFinalizedService: new proyectoFinalizedService(Axios, apiUrl),
+    registroRevisionService: new registroRevisionService(Axios, apiUrl),
     usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }

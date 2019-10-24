@@ -20,6 +20,8 @@ namespace DTO.DTO
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }
         public MapDTO[] Socios { get; set; }
+        public PlanMEDTO[] Indicadores { get; set; }
+        public ActividadPtDTO[] Planes { get; set; }
 
         public bool IsCancelled => EstadoProyecto.Equals("CANCELADO", StringComparison.OrdinalIgnoreCase);
 
@@ -29,6 +31,8 @@ namespace DTO.DTO
 
         public bool IsInProcess => EstadoProyecto.Equals("EN_PROCESO", StringComparison.OrdinalIgnoreCase);
 
+        public bool IsPreVerified => EstadoProyecto.Equals("PRE_VERIFICAR", StringComparison.OrdinalIgnoreCase);
+        
         public bool IsVerified => EstadoProyecto.Equals("VERIFICAR", StringComparison.OrdinalIgnoreCase);
 
         public bool Is1Review => EstadoProyecto.Equals("1REVISION", StringComparison.OrdinalIgnoreCase);

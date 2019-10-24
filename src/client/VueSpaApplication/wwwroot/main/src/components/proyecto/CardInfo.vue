@@ -1,26 +1,165 @@
 <template>
-    <v-dialog max-width="50%" persistent scrollable v-model="visibleInfoDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+    <v-dialog v-model="visibleInfoDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
         <v-card>
-            <v-card-title class="headline blue darken-3 white--text">Registro de {{modelSpecification.modelTitle}}:
-                Información
-            </v-card-title>
-            <v-card-text>
+            <v-toolbar class="headline blue darken-3 white--text">
+                <v-btn icon dark @click="changeInfoDialogVisibility">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-title>Registro de {{modelSpecification.modelTitle}}: Información</v-toolbar-title>                                
+            </v-toolbar>            
+            <v-tabs fixed-tabs>
+                <v-tab key="1">Datos generales</v-tab>
+                <v-tab key="2">Indicadores</v-tab>
+                <v-tab key="3">Plan de trabajo</v-tab>
+                <v-tab-item key="1">
+                <v-card-text>
                 <v-container fluid grid-list-lg>
                     <v-layout row wrap>
-                        <v-flex xs12
-                                v-for="item in modelSpecification.modelInfo"
-                                v-bind:key="item.name"
-                                v-bind:data="item"
-                        >
-                            <InfoItem
-                                    :name="item.name"
-                                    :value="item.value"
-                                    :itemType="item.type"
-                            />
+                        <v-flex xs12>
+                            <v-text-field
+                                :value="CRUDModel.nombreProyecto"  
+                                label="Nombre del proyecto"
+                                outline
+                                readonly
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs6>
+                            <v-text-field
+                                :value="numberWithCommas(CRUDModel.montoProyecto)"  
+                                label="Monto del proyecto"
+                                outline
+                                readonly
+                                prepend-inner-icon="mdi-cash-usd"
+                            ></v-text-field>
+                            <v-text-field
+                                :value="CRUDModel.estado"  
+                                label="Estado del proyecto"
+                                outline
+                                readonly
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs6>
+                            <v-text-field
+                                :value="numberWithCommas(CRUDModel.beneficiarios)"
+                                label="Beneficiarios"
+                                outline
+                                readonly
+                            ></v-text-field>
+                            <v-text-field
+                                :value="CRUDModel.clasificacion"
+                                label="Clasificación"
+                                outline
+                                readonly
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs4>
+                            <v-text-field
+                                :value="formatDate(CRUDModel.fechaAprobacion)"
+                                label="Fecha de aprobación"
+                                outline
+                                readonly
+                                prepend-inner-icon="mdi-calendar"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs4>
+                            <v-text-field
+                                :value="formatDate(CRUDModel.fechaInicio)"
+                                label="Fecha de inicio"
+                                outline
+                                readonly
+                                prepend-inner-icon="mdi-calendar"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs4>
+                            <v-text-field
+                                :value="formatDate(CRUDModel.fechaFin)"
+                                label="Fecha de finalización"
+                                outline
+                                readonly
+                                prepend-inner-icon="mdi-calendar"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-select
+                                v-model="CRUDModel.paises"
+                                :items="CRUDModel.paises"
+                                item-text="nombre"
+                                chips
+                                label="Paises"
+                                multiple
+                                outline
+                                readonly
+                            ></v-select>
+                            <v-select
+                                v-model="CRUDModel.organizaciones"
+                                :items="CRUDModel.organizaciones"
+                                item-text="nombre"
+                                chips
+                                label="Organizaciones"
+                                multiple
+                                outline
+                                readonly
+                            ></v-select>
+                            <v-select
+                                v-model="CRUDModel.socios"
+                                :items="CRUDModel.socios"
+                                item-text="nombre"
+                                chips
+                                label="Socios internacionales"
+                                multiple
+                                outline
+                                readonly
+                            ></v-select>
                         </v-flex>
                     </v-layout>
                 </v-container>
             </v-card-text>
+            </v-tab-item>            
+            <v-tab-item key="2">
+                <v-card-text>
+                    <v-container fluid grid-list-lg v-if="checkEmptyArray(CRUDModel.indicadores)">                        
+                        <ProyectoIndicador 
+                        v-for="(indicador,index) in CRUDModel.indicadores" 
+                        v-bind:key="indicador.indicadorId"
+                        :index="index"
+                        :indicador="indicador"
+                        />
+                    </v-container>
+                    <v-container v-else>
+                        <v-alert
+                        :value="true"
+                        color="error"
+                        icon="mdi-layers-off"
+                        outline
+                        >
+                        No se encontraron indicadores asociados al proyecto para mostrar. 
+                        </v-alert>
+                    </v-container>
+                </v-card-text>
+            </v-tab-item>
+            <v-tab-item key="3">
+                <v-card-text>
+                    <v-container fluid grid-list-lg v-if="checkEmptyArray(CRUDModel.planes)">
+                        <ProyectoPlan 
+                        v-for="(plan,index) in CRUDModel.planes"
+                        v-bind:key="plan.id"
+                        :index="index"
+                        :plan="plan"
+                        />
+                    </v-container>
+                    <v-container v-else>
+                        <v-alert
+                        :value="true"
+                        color="error"
+                        icon="mdi-layers-off"
+                        outline
+                        >
+                        No se encontraron planes de trabajo asociados al proyecto para mostrar. 
+                        </v-alert>
+                    </v-container>
+                </v-card-text>
+            </v-tab-item>                
+            </v-tabs>            
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeInfoDialogVisibility" color="gray darken-1" flat>Cerrar</v-btn>
@@ -31,10 +170,18 @@
 
 <script>
     import {mapMutations, mapState} from 'vuex'
-    import InfoItem from './InfoItem'
+    import ProyectoIndicador from './ProjectIndicador'
+    import ProyectoPlan from './ProjectPlan'
+   
     export default {
-        components:{
-          InfoItem
+        components: {
+            ProyectoIndicador,
+            ProyectoPlan
+        },
+        data() {
+            return {
+                emptyList: []                
+            }
         },
         computed: {
             ...mapState(['modelSpecification', 'visibleInfoDialog', 'CRUDModel'])
@@ -50,6 +197,32 @@
                     return 'N/A'
                 }
                 return text;
+            },
+            formatDate(text){
+                if(text != undefined)
+                return text.split('T')[0];
+            },
+            formatTime(text){
+                if(text != undefined)
+                return text.split('T')[1];
+            },
+            formatDateTime(text){
+                if (text != undefined){
+                    let datetime = text.split('T');
+                    return datetime[0] + ' ' + datetime[1];
+                }                
+            },
+            numberWithCommas(x) {
+                if(x != undefined)
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            checkEmptyArray(arr){
+                if(arr === undefined || arr === null){
+                    return false;
+                }else {
+                    if(arr.length === 0) return false;
+                    return true;
+                }                
             }
         }
     }

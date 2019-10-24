@@ -12,6 +12,7 @@
         <DataInfo/>
         <InfoSnackbar/>
         <Confirmation />
+        <ReviewCardList />
     </div>
 </template>
 
@@ -23,6 +24,7 @@
     import AppAlert from '../../common/Alert'
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
+    import ReviewCardList from '../../registroRevision/CardList'
 
     export default {
         components: {
@@ -31,7 +33,8 @@
             TitleBar,
             AppAlert,
             DataInfo,
-            Confirmation
+            Confirmation,
+            ReviewCardList
         },
         name: "objetivo-index",
         data() {
@@ -88,6 +91,7 @@
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
                     },
+                    {text: 'Lista de revisiones', type: 'review-list', icon: 'mdi-share-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Subir Archivos', type: '', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},

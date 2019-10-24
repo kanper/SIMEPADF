@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Model.Domain.DbHelper;
 
 namespace Model.Domain
 {
@@ -32,10 +33,9 @@ namespace Model.Domain
 
         public void AddProcesoRevision()
         {
-            var fullMonthName = new DateTime().ToString("MMMM", CultureInfo.CreateSpecificCulture("es"));
             for (var i = 1; i <= 3; i++)
             {
-                RegistroRevisiones.Add(new RegistroRevision(i + "REVISION", fullMonthName));
+                RegistroRevisiones.Add(new RegistroRevision(i , QuarterCalculator.GetQuarter(new DateTime())));
             }
         }
     }
