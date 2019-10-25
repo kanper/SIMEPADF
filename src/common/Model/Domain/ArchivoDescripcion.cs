@@ -10,6 +10,7 @@ namespace Model.Domain
         public string NombreArchivo { get; set; }
         public string Descripcion { get; set; }
         public string TipoContenido { get; set; }
+        public long TamanioArchivo { get; set; }
         public Producto Producto { get; set; }
         public bool Deleted { get; set; }
     }

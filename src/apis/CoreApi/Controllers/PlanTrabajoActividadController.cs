@@ -3,22 +3,22 @@ using Services;
 
 namespace CoreApi.Controllers
 {
-    public class PoryectoInfoController : ControllerBase
+    public class PlanTrabajoActividadController : ControllerBase
     {
-        private readonly IProyectoInfoService _service;
+        private readonly IPlanTrabajoActividadService _service;
 
-        public PoryectoInfoController(IProyectoInfoService service)
+        public PlanTrabajoActividadController(IPlanTrabajoActividadService service)
         {
             _service = service;
         }
 
-        [HttpGet("proyecto-info/{id}")]
+        [HttpGet("plan-trabajo/actividad/{id}/evidencia")]
         public IActionResult Get(int id)
         {
             return Ok(_service.Get(id));
         }
 
-        [HttpGet("proyecto-info/{id}/all")]
+        [HttpGet("plan-trabajo/{id}/actividad/evidencia")]
         public IActionResult GetAll(string id)
         {
             return Ok(_service.GetAll(id));

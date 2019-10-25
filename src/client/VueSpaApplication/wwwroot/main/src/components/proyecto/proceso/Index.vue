@@ -92,7 +92,7 @@
                         show: (row) => {return true},       //Mostrar opción sí
                     },
                     {text: 'Lista de revisiones', type: 'review-list', icon: 'mdi-share-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Subir Archivos', type: '', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Subir Archivos', type: 'redirect', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: 'plan-trabajo-evidencias', show: (row) => {return true}},
                     {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
                     {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '3review', class: 'mr-2', route: '', show: (row) => {return row.is2Review}},
