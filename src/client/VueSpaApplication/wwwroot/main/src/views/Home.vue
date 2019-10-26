@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md>
-    <v-container grid-list-md v-if="this.user.RolId == '1'">
+    <v-container grid-list-md v-if="user.RolId === '1'">
             <v-card    class="mx-auto"  >
               <v-card-title class="blue-grey darken-2 white--text">
                 <v-icon dark size="30" class="mr1"> mdi-account-outline </v-icon>
@@ -69,7 +69,7 @@
           </v-container>
     <v-layout row wrap>
       <v-flex md6>
-          <v-container grid-list-md v-if="this.user.RolId == '2'">
+          <v-container grid-list-md v-if="user.RolId === '2'">
             <v-card    class="mx-auto"  >
               <v-card-title class="blue-grey darken-2 white--text">
                 <v-icon dark size="30" class="mr1"> mdi-account-outline </v-icon>
@@ -194,7 +194,7 @@
               </v-timeline>
             </v-card>
           </v-container>
-          <v-container grid-list-md v-else-if="this.user.RolId == '3'">
+          <v-container grid-list-md v-else-if="user.RolId === '3'">
             <v-card    class="mx-auto"  >
             <v-card-title class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-account-outline </v-icon>
@@ -305,7 +305,7 @@
               </v-timeline>
               </v-card>
           </v-container>
-          <v-container grid-list-md v-else-if="this.user.RolId == '4'">
+          <v-container grid-list-md v-else-if="user.RolId === '4'">
             <v-card    class="mx-auto"  >
             <v-card-title class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-account-outline </v-icon>
@@ -353,7 +353,7 @@
               </v-timeline>
               </v-card>
           </v-container>
-          <v-container grid-list-md v-else-if="this.user.RolId == '5'">
+          <v-container grid-list-md v-else-if="user.RolId === '5'">
               <v-card    class="mx-auto"  >
             <v-card-title class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-account-outline </v-icon>
@@ -409,7 +409,7 @@
       </v-flex>
 
       <v-flex md6>
-        <v-container grid-list-md v-if="this.user.RolId == '2'">
+        <v-container grid-list-md v-if="user.RolId === '2'">
           <v-card class="mb-3">
             <v-card-title small class="teal darken-4">
               <v-icon dark size="30" class="mr1"> mdi-comment-text-multiple-outline </v-icon>
@@ -421,7 +421,7 @@
             </v-card-text>
           </v-card>
         </v-container>
-        <v-container grid-list-md v-else-if="this.user.RolId == '3'">
+        <v-container grid-list-md v-else-if="user.RolId === '3'">
           <v-card class="mb-3">
             <v-card-title small class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-comment-text-multiple-outline </v-icon>
@@ -433,7 +433,7 @@
             </v-card-text>
           </v-card>
         </v-container>
-        <v-container grid-list-md v-else-if="this.user.RolId == '4'">
+        <v-container grid-list-md v-else-if="user.RolId === '4'">
           <v-card class="mb-3">
             <v-card-title small class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-comment-text-multiple-outline </v-icon>
@@ -445,7 +445,7 @@
             </v-card-text>
           </v-card>
         </v-container>
-        <v-container grid-list-md v-else-if="this.user.RolId == '5'">
+        <v-container grid-list-md v-else-if="user.RolId === '5'">
           <v-card class="mb-3">
             <v-card-title small class="blue-grey darken-2 white--text">
               <v-icon dark size="30" class="mr1"> mdi-comment-text-multiple-outline </v-icon>
@@ -465,21 +465,11 @@
 <script>
 
   export default {
+    name: 'Home-user',
     data() {
       return {
         user: window.User,
-        pagination: {},
-        headers: [
-                    {
-                        text: 'Proyecto',   //Texto a mostrar en la cabecera de la columna
-                        align: 'left',      //Alineación del contenido en la columna
-                        value: 'nombrePersonal',    //Nombre del atributo que se colocara en la columna
-                        width: '20%',       //Tamaño de la columna
-                        type: 'text'        //Tipo del contenido a mostrar en la columna
-                    },
-                    {text: 'Estado', align: 'center', value: 'action', sortable: false, type: 'option'}
-                ],
       }
-    },
+    }
   }
 </script>

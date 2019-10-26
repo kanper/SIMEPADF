@@ -17,11 +17,5 @@
             toolbar,
             Navigation
         },
-        data() {
-            return {
-            }
-        },
-        methods: {
-        }
     };
 </script>

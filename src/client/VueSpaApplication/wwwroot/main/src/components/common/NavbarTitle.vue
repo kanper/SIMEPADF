@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar class="top-bar">
+    <v-toolbar>
         <v-icon large left>{{modelSpecification.modelIcon}}</v-icon>
         <v-toolbar-title>{{modelSpecification.modelTitle}}</v-toolbar-title>
 
@@ -38,9 +38,3 @@
         }
     }
 </script>
-
-<style>
-    .top-bar {
-        margin-top: 60px;
-    }
-</style>

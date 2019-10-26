@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar dark absolute>
+    <v-app-bar app dark>
         <v-app-bar-nav-icon @click="changeDrawer()"></v-app-bar-nav-icon>
         <v-toolbar-title>
             <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png" alt="Logo" srcset="https://www.fundaciondj.org/img/ca_padf_logo_01.png" ></v-img>
