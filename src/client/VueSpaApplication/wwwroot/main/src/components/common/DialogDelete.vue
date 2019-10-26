@@ -21,8 +21,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeDeleteDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="deleteSelectedElements" color="red darken-1" flat>Eliminar</v-btn>
+                <v-btn @click="changeDeleteDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="deleteSelectedElements" color="red darken-1" text>Eliminar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

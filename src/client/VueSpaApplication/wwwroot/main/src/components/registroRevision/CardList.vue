@@ -26,7 +26,7 @@
             </v-card-text>
             <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="grey darken-1" flat @click="changeReviewLogListVisibility">Cerrar</v-btn>            
+            <v-btn color="grey darken-1" text @click="changeReviewLogListVisibility">Cerrar</v-btn>            
             </v-card-actions>
         </v-card>
         </v-dialog>

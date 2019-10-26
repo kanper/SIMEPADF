@@ -10,3 +10,7 @@ Vue.use(Vuetify, {
     current: 'es'
   }
 });
+
+const opts = {}
+
+export default new Vuetify(opts)

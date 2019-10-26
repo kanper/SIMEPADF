@@ -23,7 +23,7 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeInfoDialogVisibility" color="gray darken-1" flat>Cerrar</v-btn>
+                <v-btn @click="changeInfoDialogVisibility" color="gray darken-1" text>Cerrar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

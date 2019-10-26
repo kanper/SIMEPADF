@@ -4,9 +4,9 @@
             <v-card-title class="headline justify-center">¿Desea realizar los cambios?</v-card-title>
 
             <v-card-actions>
-                <v-btn color="grey darken-1" flat="flat" @click="changeConfirmationDialogVisibility">Cancelar</v-btn>
+                <v-btn color="grey darken-1" text @click="changeConfirmationDialogVisibility">Cancelar</v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat="flat" @click="executeLink">Aceptar</v-btn>
+                <v-btn color="blue darken-1" text @click="executeLink">Aceptar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
