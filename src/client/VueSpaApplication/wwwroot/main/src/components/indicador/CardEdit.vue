@@ -9,14 +9,14 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
-                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow box
+                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="CRUDModel.nombreIndicador" v-validate="'required|max:1000'"
                                 ></v-textarea>
 
-                                <v-switch v-model="usePercent" label="Agregar porcentaje"></v-switch>
+                                <v-switch v-model="tipoMeta" label="Agregar porcentaje"></v-switch>
 
-                                <v-text-field :error-messages="errors.collect('meta')" v-if="!usePercent"
+                                <v-text-field :error-messages="errors.collect('meta')" v-if="!tipoMeta"
                                               clearable data-vv-name="meta" label="Meta *" required
                                               v-model="CRUDModel.valorMeta" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
                                 ></v-text-field>
@@ -24,13 +24,13 @@
                                 <v-flex text-xs-left>
                                   <span
                                           class="display-3 font-weight-light"
-                                          v-text="slider"
+                                          v-text="porcentajeMeta"
                                   ></span>
                                     <span class="subheading font-weight-light mr-1">%</span>
                                 </v-flex>
                                 <v-slider
-                                        v-if="usePercent"
-                                        v-model="slider"
+                                        v-if="tipoMeta"
+                                        v-model="porcentajeMeta"
                                         thumb-label
                                         min="0.0"
                                         max="100.0"
@@ -77,20 +77,44 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services'])
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            tipoMeta: {
+                get: function () {
+                    return this.CRUDModel.tipoBeneficiario === 'P';
+                },
+                set: function (newValue) {
+                    if(newValue){
+                        this.CRUDModel.tipoBeneficiario = 'P';
+                    }
+                    else{
+                        this.CRUDModel.tipoBeneficiario = 'N';
+                    }
+                }
+            },
+            porcentajeMeta: {
+                get: function () {
+                    if(this.CRUDModel.tipoBeneficiario === 'P'){
+                        return this.CRUDModel.valorMeta * 100;
+                    }
+                    else {
+                        return 0.0;
+                    }
+                },
+                set: function (newValue) {
+                    this.CRUDModel.valorMeta = newValue / 100;
+                }
+            }            
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
             ...mapActions(['loadDataTable']),
             update() {
                 this.$validator.validateAll()
-                    .then(v => {
-                        this.setModelSelectedValue();
+                    .then(v => {                        
                         if (v) {
                             this.services[this.modelSpecification.modelService].update(this.CRUDModel, this.CRUDModel[this.modelSpecification.modelPK], this.modelSpecification.modelParams)
                                 .then(r => {
-                                    this.loadDataTable();
-                                    this.resetSlider();
+                                    this.loadDataTable();                                    
                                     if (r.data) {
                                         this.addAlert({
                                             value: true,
@@ -120,25 +144,13 @@
                     });
             },
             increment() {
-                if(this.slider < 99.99)
-                this.slider += 0.1;
+                if(this.porcentajeMeta < 99.99)
+                this.porcentajeMeta += 0.1;
             },
             decrement() {
-                if(this.slider > 0.01)
-                this.slider -= 0.1;
-            },
-            setModelSelectedValue() {
-                if (this.usePercent) {
-                    this.CRUDModel.valorMeta = 0;
-                    this.CRUDModel.porcentajeMeta = this.slider;
-                } else {
-                    this.CRUDModel.porcentajeMeta = 0.0;
-                }
-            },
-            resetSlider(){
-                this.slider = 0.0;
-                this.usePercent = false;
-            }
+                if(this.porcentajeMeta > 0.01)
+                this.porcentajeMeta -= 0.1;
+            },                       
         }
     }
 </script>

@@ -13,4 +13,8 @@ export default class ProductoEvidenciaService extends AbstractService {
     getAll(params) {
         return this.axios.get(`${this.baseUrl}/${params.id}/producto/evidencia`)
     }
+
+    upload(id, model){
+        return this.axios.post(`${this.baseUrl}/${id}/producto/evidencia`,model)
+    }
 }

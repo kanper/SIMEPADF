@@ -12,7 +12,7 @@
                                 <v-textarea
                                         v-model="CRUDModel.nombreFuente"
                                         v-validate="'required|max:500'"
-                                        auto-grow box
+                                        auto-grow filled
                                         :counter="500"
                                         :error-messages="errors.collect('nombreFuente')"
                                         label="Nombre fuente de datos"

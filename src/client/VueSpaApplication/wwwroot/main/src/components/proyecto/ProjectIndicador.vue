@@ -5,20 +5,20 @@
             :value="true"
             color="info"
             icon="mdi-play"
-            outline
+            outlined
             >
             Indicador No. {{index + 1}}
             </v-alert>
         </v-flex>   
         <v-flex xs6>
             <v-textarea
-            outline
+            outlined
             readonly            
             label="Objetivo"
             :value="indicador.nombreObjetivo"
             ></v-textarea>
             <v-textarea
-            outline
+            outlined
             readonly            
             label="Actividad"
             :value="indicador.nombreActividad"
@@ -26,13 +26,13 @@
         </v-flex>
         <v-flex xs6>
             <v-textarea
-            outline
+            outlined
             readonly            
             label="Resultado"
             :value="indicador.nombreResultado"
             ></v-textarea>
             <v-textarea
-            outline
+            outlined
             readonly            
             label="Indicador"
             :value="indicador.nombreIndicador"
@@ -42,19 +42,19 @@
             <v-text-field
                 :value="indicador.metodologia"  
                 label="Metodologia"
-                outline
+                outlined
                 readonly
             ></v-text-field>
             <v-text-field
                 :value="indicador.lineaBase"  
                 label="Linea base"
-                outline
+                outlined
                 readonly
             ></v-text-field>
             <v-text-field
                 :value="getMapValue(indicador.fuenteDato)"  
                 label="Fuente de datos"
-                outline
+                outlined
                 readonly
             ></v-text-field>
         </v-flex>
@@ -62,13 +62,13 @@
             <v-text-field
                 :value="getMapValue(indicador.frecuenciaMedicion)"  
                 label="Frecuencia de medición"
-                outline
+                outlined
                 readonly
             ></v-text-field>
             <v-text-field
                 :value="getMapValue(indicador.nivelImpacto)"  
                 label="Nivel de impacto"
-                outline
+                outlined
                 readonly
             ></v-text-field>
             <v-select
@@ -78,7 +78,7 @@
                 chips
                 label="Desagregaciones"
                 multiple
-                outline
+                outlined
                 readonly
             ></v-select>            
         </v-flex>        

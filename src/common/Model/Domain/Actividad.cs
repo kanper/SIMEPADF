@@ -4,20 +4,12 @@ namespace Model.Domain
 {
     public class Actividad : AudityEntity, ISoftDeleted
     {
-        public Actividad()
-        {
-        }
+        public Actividad() {}
 
-        public Actividad(string nombreActividad, string nombreIndicador, int meta)
+        public Actividad(string nombreActividad, string nombreIndicador, double meta)
         {
             NombreActividad = nombreActividad;
             Indicador = new Indicador(nombreIndicador,meta);
-        }
-        
-        public Actividad(string nombreActividad, string nombreIndicador, int meta, float porcentaje)
-        {
-            NombreActividad = nombreActividad;
-            Indicador = new Indicador(nombreIndicador,meta, porcentaje);
         }
 
         public int CodigoActividad { get; set; }

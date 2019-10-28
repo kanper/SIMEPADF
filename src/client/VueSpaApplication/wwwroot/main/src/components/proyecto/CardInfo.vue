@@ -19,7 +19,7 @@
                             <v-text-field
                                 :value="CRUDModel.nombreProyecto"  
                                 label="Nombre del proyecto"
-                                outline
+                                outlined
                                 readonly
                             ></v-text-field>
                         </v-flex>
@@ -27,14 +27,14 @@
                             <v-text-field
                                 :value="numberWithCommas(CRUDModel.montoProyecto)"  
                                 label="Monto del proyecto"
-                                outline
+                                outlined
                                 readonly
                                 prepend-inner-icon="mdi-cash-usd"
                             ></v-text-field>
                             <v-text-field
                                 :value="CRUDModel.estado"  
                                 label="Estado del proyecto"
-                                outline
+                                outlined
                                 readonly
                             ></v-text-field>
                         </v-flex>
@@ -42,13 +42,13 @@
                             <v-text-field
                                 :value="numberWithCommas(CRUDModel.beneficiarios)"
                                 label="Beneficiarios"
-                                outline
+                                outlined
                                 readonly
                             ></v-text-field>
                             <v-text-field
                                 :value="CRUDModel.clasificacion"
                                 label="Clasificación"
-                                outline
+                                outlined
                                 readonly
                             ></v-text-field>
                         </v-flex>
@@ -56,7 +56,7 @@
                             <v-text-field
                                 :value="formatDate(CRUDModel.fechaAprobacion)"
                                 label="Fecha de aprobación"
-                                outline
+                                outlined
                                 readonly
                                 prepend-inner-icon="mdi-calendar"
                             ></v-text-field>
@@ -65,7 +65,7 @@
                             <v-text-field
                                 :value="formatDate(CRUDModel.fechaInicio)"
                                 label="Fecha de inicio"
-                                outline
+                                outlined
                                 readonly
                                 prepend-inner-icon="mdi-calendar"
                             ></v-text-field>
@@ -74,7 +74,7 @@
                             <v-text-field
                                 :value="formatDate(CRUDModel.fechaFin)"
                                 label="Fecha de finalización"
-                                outline
+                                outlined
                                 readonly
                                 prepend-inner-icon="mdi-calendar"
                             ></v-text-field>
@@ -87,7 +87,7 @@
                                 chips
                                 label="Paises"
                                 multiple
-                                outline
+                                outlined
                                 readonly
                             ></v-select>
                             <v-select
@@ -97,7 +97,7 @@
                                 chips
                                 label="Organizaciones"
                                 multiple
-                                outline
+                                outlined
                                 readonly
                             ></v-select>
                             <v-select
@@ -107,7 +107,7 @@
                                 chips
                                 label="Socios internacionales"
                                 multiple
-                                outline
+                                outlined
                                 readonly
                             ></v-select>
                         </v-flex>
@@ -130,7 +130,7 @@
                         :value="true"
                         color="error"
                         icon="mdi-layers-off"
-                        outline
+                        outlined
                         >
                         No se encontraron indicadores asociados al proyecto para mostrar. 
                         </v-alert>
@@ -152,7 +152,7 @@
                         :value="true"
                         color="error"
                         icon="mdi-layers-off"
-                        outline
+                        outlined
                         >
                         No se encontraron planes de trabajo asociados al proyecto para mostrar. 
                         </v-alert>

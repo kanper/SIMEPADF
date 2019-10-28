@@ -14,7 +14,7 @@
                                         v-validate="'required|max:500'"
                                         :counter="500"
                                         :error-messages="errors.collect('nombreFuente')"
-                                        auto-grow box
+                                        auto-grow filled
                                         label="Nombre fuente de datos"
                                         data-vv-name="nombreFuente"
                                         required

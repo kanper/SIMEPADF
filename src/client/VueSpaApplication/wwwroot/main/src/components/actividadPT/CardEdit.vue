@@ -12,7 +12,7 @@
                                 <v-textarea
                                         v-model="CRUDModel.nombreActividad"
                                         v-validate="'required|max:1000'"
-                                        auto-grow box clearable
+                                        auto-grow filled clearable
                                         :counter="1000"
                                         :error-messages="errors.collect('nombre actividad')"
                                         label="Nombre actividad"

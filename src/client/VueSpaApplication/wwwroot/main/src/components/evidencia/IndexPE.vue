@@ -52,7 +52,7 @@
                     modelPath: '',                                      //URL que junto a la BASE es la ruta al servidor
                     modelService: 'evidenciaService',                    //Nombre del servicio a utilizar
                     modelPK: 'id',                          //Llave primaria del modelo
-                    modelStamp: 'nombreActividad',                       //Valor único representativo del modelo
+                    modelStamp: 'nombreProducto',                       //Valor único representativo del modelo
                     modelInfo: [                                        //Valores a mostrar para la información del modelo                
                     ],
                     modelParams: {                                         //Parametros para el modelo

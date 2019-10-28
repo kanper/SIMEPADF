@@ -20,7 +20,7 @@
     import {mapMutations} from 'vuex'
     import InfoSnackbar from '../../common/SnackbarInfo'
     import TitleBar from '../../common/NavbarTitle'
-    import DataInfo from '../../common/CardInfo'
+    import DataInfo from '../CardInfo'
     import AppAlert from '../../common/Alert'
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'

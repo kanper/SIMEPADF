@@ -15,7 +15,7 @@
                             <form>
                                 <v-textarea
                                         v-model="newModel.nombreActividad"
-                                        auto-grow box clearable
+                                        auto-grow filled clearable
                                         v-validate="'required|max:1000'"
                                         :counter="1000"
                                         :error-messages="errors.collect('nombre actividad')"

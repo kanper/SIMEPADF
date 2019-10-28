@@ -11,11 +11,10 @@ namespace DTO.DTO
         public DateTime FechaInicio { get; set; }       
         public DateTime FechaFin { get; set; }       
         public double MontoProyecto { get; set; }
-        public int Beneficiarios { get; set; }
+        public double Beneficiarios { get; set; }
+        public string TipoBeneficiario { get; set; }
         public string EstadoProyecto {get; set; }
-
         public bool IsPlanTrabajo { get; set; }
-
         public bool IsIndicador { get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }

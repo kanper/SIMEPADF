@@ -14,6 +14,7 @@ namespace DatabaseContext.Config
             entityBuilder.Property(x => x.FechaInicio).IsRequired();
             entityBuilder.Property(x => x.FechaFin).IsRequired();
             entityBuilder.Property(x => x.MontoProyecto).IsRequired();
+            entityBuilder.Property(x => x.TipoBeneficiario).HasMaxLength(1);
         }
     }
 }

@@ -9,7 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
-                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow box
+                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="newModel.nombreResultado" v-validate="'required|max:1000'"
                                 ></v-textarea>

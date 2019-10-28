@@ -67,10 +67,10 @@
                         width: '35%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
-                    {text: 'Paises', align: 'left', value: 'paises', width: '30%', type: 'array'},
-                    {text: 'Fecha Inicio', align: 'left', value: 'fechaInicio', width: '5%', type: 'date'},
-                    {text: 'Fecha Fin', align: 'left', value: 'fechaFin', width: '5%', type: 'date'},
-                    {text: 'Fecha Limite', align: 'left', value: 'fechaLimite', width: '5%', type: 'date'},
+                    {text: 'Paises', align: 'left', value: 'paisesF', width: '30%', type: 'array'},
+                    {text: 'Fecha Inicio', align: 'left', value: 'fechaInicioF', width: '5%', type: 'date'},
+                    {text: 'Fecha Fin', align: 'left', value: 'fechaFinF', width: '5%', type: 'date'},
+                    {text: 'Fecha Limite', align: 'left', value: 'fechaLimiteF', width: '5%', type: 'date'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'},
                 ],
                 dataTableOptions: [

@@ -5,7 +5,7 @@
             :value="true"
             color="info"
             icon="mdi-play"
-            outline
+            outlined
             >
             Actividad No. {{index + 1}}
             </v-alert>
@@ -14,7 +14,7 @@
             <v-text-field
                 :value="plan.nombreActividad"  
                 label="Actividad"
-                outline
+                outlined
                 readonly
             ></v-text-field>            
         </v-flex>
@@ -22,7 +22,7 @@
             <v-text-field
                 :value="numberWithCommas(plan.monto)"  
                 label="Monto"
-                outline
+                outlined
                 readonly
                 prepend-inner-icon="mdi-cash-usd"
             ></v-text-field>            
@@ -31,7 +31,7 @@
             <v-text-field
                 :value="formatDate(plan.fechaInicio)"  
                 label="Fecha Inicio"
-                outline
+                outlined
                 readonly
                 prepend-inner-icon="mdi-calendar"
             ></v-text-field>            
@@ -40,7 +40,7 @@
             <v-text-field
                 :value="formatDate(plan.fechaLimite)"  
                 label="Fecha Fin"
-                outline
+                outlined
                 readonly
                 prepend-inner-icon="mdi-calendar"
             ></v-text-field>            
@@ -53,7 +53,7 @@
                 chips
                 label="Paises"
                 multiple
-                outline
+                outlined
                 readonly
             ></v-select>            
         </v-flex>
@@ -65,7 +65,7 @@
                 chips
                 label="Productos"
                 multiple
-                outline
+                outlined
                 readonly
             ></v-select>            
         </v-flex>

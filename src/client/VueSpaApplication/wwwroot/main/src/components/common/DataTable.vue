@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
     <v-card>
         <v-card-title>
             <h2 class="font-weight-light">Registro de {{modelSpecification.modelTitle}}</h2>
@@ -14,30 +14,17 @@
                 :headers="headers"
                 :items="dataTable"
                 :search="search"
+                :loading="isTableLoading"                
         >
-            <template v-slot:items="props">
-                <td
-                        :class="(at['align'] === 'center' ? 'text-xs-center': 'text-xs-left') + ' ' + (at['style'] !== undefined ? at['style'] : '')"
-                        v-for="(at,index) in headers" v-bind:key="index">
-                    <v-icon v-if="at['type'] === 'boolean'">
-                        {{buildBooleanCell(props.item[at['value']])}}
-                    </v-icon>
-                    {{buildTableCell(props.item,at)}}
-                    <TableOption
-                            :modelId="props.item[modelSpecification.modelPK]"
-                            v-bind:data="item"
-                            v-bind:key="item.text"
-                            :model="props.item"
-                            v-for="item in options"
-                            v-if="at.value === 'action' && item.show(props.item)"
+            <template v-slot:item.action="{ item }">                
+                <TableOption
+                            :modelId="item[modelSpecification.modelPK]"
+                            :model="item"
+                            v-bind:data="opt"
+                            v-bind:key="index"                            
+                            v-for="(opt,index) in visibleOptions(item)"
                     />
-                </td>
-            </template>
-            <template v-slot:no-results>
-                <v-alert :value="true" color="error" icon="mdi-alert">
-                    La busqueda de "{{ search }}" no tiene resultados.
-                </v-alert>
-            </template>
+            </template>            
         </v-data-table>
     </v-card>
 </template>
@@ -52,14 +39,14 @@
         data() {
             return {
                 search: '',
-                cellIcon:''
+                cellIcon:'',                
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'services', 'dataTable']),            
+            ...mapState(['modelSpecification', 'services', 'dataTable','isTableLoading'])                  
         },
         methods: {
-            ...mapMutations(['showInfo', 'changeNewDialogVisibility', 'closeAllDialogs']),
+            ...mapMutations(['showInfo', 'changeNewDialogVisibility', 'closeAllDialogs','resetTableLoader']),
             ...mapActions(['loadDataTable']),
             buildTableCell(item, format) {
                 let value = item[format['value']];
@@ -120,11 +107,19 @@
                 }else{
                     return 'mdi-minus-circle';
                 }
+            },            
+            visibleOptions(row){
+                return this.options.filter(function(o) {
+                    return o.show(row);
+                });
             }
 
         },
         created() {
             this.loadDataTable();
+        },
+        destroyed() {
+            this.resetTableLoader();
         }
     }
 </script>

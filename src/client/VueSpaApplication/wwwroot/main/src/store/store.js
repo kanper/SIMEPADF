@@ -34,7 +34,8 @@ export default new Vuex.Store({
         reviewLogList: [],
         visibleReviewLogList: false,
         reviewLog: {},
-        visibleReviewLog: false
+        visibleReviewLog: false,
+        isTableLoading: true
     },
     mutations: {
         setModelName(state, name) {
@@ -115,6 +116,12 @@ export default new Vuex.Store({
         },
         setReviewLog(state, data){
             state.reviewLog = data;
+        },
+        resetTableLoader(state){
+            state.isTableLoading = true;
+        },
+        stopTableLoading(state){
+            state.isTableLoading = false;
         }
     }
     ,
@@ -126,7 +133,8 @@ export default new Vuex.Store({
                 })
                 .catch(e => {
                     commit('showInfo', e.toString());
-                });
+                })
+                .finally(() => commit('stopTableLoading')); 
         },
         loadReviewLogList: async function ({commit}, obj) {
             services.registroRevisionService.findAllReview(obj.id, obj.status)

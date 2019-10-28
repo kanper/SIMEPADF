@@ -51,6 +51,7 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
+                        TipoBeneficiario = p.TipoBeneficiario,
                         EstadoProyecto = e.TipoEstado,
                         Paises = (from pais in _context.Pais 
                             join pp in _context.ProyectoPais 
@@ -174,6 +175,7 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
+                        TipoBeneficiario = p.TipoBeneficiario,
                         EstadoProyecto = e.TipoEstado,                       
                     }).ToList();               
             }

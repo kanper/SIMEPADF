@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20191028030009_AgregaTipoBeneficiariosAIndicadot&Proyecto")]
+    partial class AgregaTipoBeneficiariosAIndicadotProyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,7 +401,7 @@ namespace DatabaseContext.Migrations
                         .HasMaxLength(1000);
 
                     b.Property<string>("TipoBeneficiario")
-                        .HasMaxLength(1);
+                        .HasMaxLength(10);
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -430,11 +432,13 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("DeletedBy");
 
+                    b.Property<float>("Porcentaje");
+
                     b.Property<DateTime?>("UpdatedAt");
 
                     b.Property<string>("UpdatedBy");
 
-                    b.Property<double>("ValorMeta");
+                    b.Property<int>("ValorMeta");
 
                     b.HasKey("CodigoMeta");
 
@@ -721,7 +725,7 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("CodigoProyecto")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Beneficiarios");
+                    b.Property<int>("Beneficiarios");
 
                     b.Property<DateTime?>("CreatedAt");
 
@@ -747,10 +751,12 @@ namespace DatabaseContext.Migrations
                         .IsRequired()
                         .HasMaxLength(500);
 
+                    b.Property<float>("PorcentajeBeneficiarios");
+
                     b.Property<bool>("Regional");
 
                     b.Property<string>("TipoBeneficiario")
-                        .HasMaxLength(1);
+                        .HasMaxLength(10);
 
                     b.Property<DateTime?>("UpdatedAt");
 

@@ -9,11 +9,11 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
-                                <v-textarea :counter="50" :error-messages="errors.collect('metodología')" auto-grow box
+                                <v-textarea :counter="50" :error-messages="errors.collect('metodología')" auto-grow filled
                                             clearable data-vv-name="metodologia" label="Metodología *" required
                                             v-model="CRUDModel.metodologia" v-validate="'required|max:50'"
                                 ></v-textarea>
-                                <v-textarea :counter="50" :error-messages="errors.collect('linea base')" auto-grow box
+                                <v-textarea :counter="50" :error-messages="errors.collect('linea base')" auto-grow filled
                                             clearable data-vv-name="lineaBase" label="Linea Base *" required
                                             v-model="CRUDModel.lineaBase" v-validate="'required|max:50'"
                                 ></v-textarea>

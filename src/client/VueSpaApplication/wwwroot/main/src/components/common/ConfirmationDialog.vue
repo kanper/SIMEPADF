@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="visibleConfirmationDialog" max-width="350" persistent>
+    <v-dialog v-model="visibleConfirmationDialog" max-width="500" persistent>
         <v-card>
-            <v-card-title class="headline justify-center">¿Desea realizar los cambios?</v-card-title>
+            <v-card-title class="headline justify-center">¿Desea realizar los cambios solicitados?</v-card-title>
 
             <v-card-actions>
                 <v-btn color="grey darken-1" text @click="changeConfirmationDialogVisibility">Cancelar</v-btn>

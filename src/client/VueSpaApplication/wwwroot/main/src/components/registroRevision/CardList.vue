@@ -2,26 +2,21 @@
     <v-layout row justify-center>
         <v-dialog v-model="visibleReviewLogList" persistent width="750">        
         <v-card>
-            <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>
-            <v-card-text>
+            <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>                    
+            <v-card-text>                
                 <v-data-table
-                    :items="reviewLogList"
-                    class="elevation-1"
-                    hide-actions
-                    hide-headers
+                    :headers="headers"
+                    :items="reviewLogList"                    
+                    hide-default-footer
+                    class="elevation-1 mt-5"
                 >
-                    <template v-slot:items="props">
-                    <td class="text-xs-center">                        
-                        <v-icon v-if="!props.item.revisado">mdi-pause-circle-outline</v-icon>
-                        <v-icon v-if="props.item.revisado">mdi-checkbox-marked-circle-outline</v-icon>
-                        <v-icon v-if="props.item.retornado">mdi-alert-circle</v-icon>
-                    </td>
-                    <td class="text-xs-center">{{ props.item.revisado ? props.item.fecha : "---/--/---- --:--" }}</td>
-                    <td class="text-xs-right">{{ props.item.numero }}° Revisión</td>
-                    <td class="text-xs-right">Q{{ props.item.trimestre }}</td>
-                    <td class="text-xs-right">{{ props.item.pais }}</td>
-                    <td class="text-xs-right" v-bind:style="{color: props.item.revisado ? 'green' : 'red'}">{{ props.item.revisado ? "Revisado" : "Pendiente" }}</td>                    
-                    </template>
+                <template v-slot:item.revisado="{ item }">
+                  <v-chip :color="getColor(item.revisado)" dark>
+                    <v-icon v-if="!item.revisado">mdi-pause-circle-outline</v-icon>
+                    <v-icon v-if="item.revisado">mdi-checkbox-marked-circle-outline</v-icon>
+                    <v-icon v-if="item.retornado">mdi-alert-circle</v-icon>
+                  </v-chip>
+                </template>
                 </v-data-table>                
             </v-card-text>
             <v-card-actions>
@@ -30,7 +25,7 @@
             </v-card-actions>
         </v-card>
         </v-dialog>
-    </v-layout>    
+    </v-layout>        
 </template>
 
 <script>
@@ -40,7 +35,14 @@ export default {
 
     data () {
         return {
-
+            headers: [
+          {
+            text: 'Estado',align: 'left',sortable: false,value: 'revisado',},
+          { text: 'Número', value: 'numero' },
+          { text: 'Trimestre', value: 'trimestre' },
+          { text: 'País', value: 'pais' },
+          { text: 'Fecha revisión', value: 'fecha' },          
+        ],
         }
     },
     computed: {
@@ -48,8 +50,12 @@ export default {
     },
     methods: {
         ...mapMutations(['changeReviewLogListVisibility']),
-        buildData() {
-            
+        getColor(rev){
+            if(rev){
+                return 'green'
+            }else {
+                return 'red'
+            }
         }         
     }    
 }
