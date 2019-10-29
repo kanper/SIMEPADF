@@ -8,7 +8,7 @@ using Model.Domain;
 
 namespace Services
 {
-    public interface IActividadPtService
+    public interface IActividadPtService 
     {
         ActividadPtDTO Get(int id);
         ICollection<ActividadPtDTO> GetAll();
