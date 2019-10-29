@@ -1,40 +1,38 @@
 <template>
-    <v-navigation-drawer app fixed :dark="!development" temporary :value="navigation">
-        <v-toolbar class="transparent" flat>
-            <v-list class="pa-0">
-                <v-list-tile avatar>
-                    <v-list-tile-avatar>
-                        <v-icon>{{getRolIcon(user.RolId)}}</v-icon>
-                    </v-list-tile-avatar>
+    <v-navigation-drawer app fixed dark temporary width="350" :value="navigation">
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{getRolName(user.RolId)}}</v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                        <v-icon @click="changeDrawer">mdi-chevron-double-left</v-icon>
-                    </v-list-tile-action>
-                </v-list-tile>
-            </v-list>
-        </v-toolbar>
+        <v-list-item>
+            <v-list-item-icon>
+                <v-icon>{{getRolIcon(user.RolId)}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title class="title">
+                    {{getRolName(user.RolId)}}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                    {{getRolName(user.Email)}}
+                </v-list-item-subtitle>
+            </v-list-item-content>
 
-        <div>
-            <v-list :key="item.title" class="pt-0 pb-0" dense v-for="item in getRolMenu(user.RolId)" two-line>
-                <v-divider light></v-divider>
-                <v-list-group :prepend-icon="item.icon">
-                    <template v-slot:activator>
-                        <v-list-tile>
-                            <v-list-tile-title>{{item.title}}</v-list-tile-title>
-                        </v-list-tile>
-                    </template>
-                    <v-list-tile :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children">
-                        <v-list-tile-action>
-                            <v-icon>{{ite.icon}}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-title>{{ite.title}}</v-list-tile-title>
-                    </v-list-tile>
-                </v-list-group>
-            </v-list>
-        </div>
+            <v-list-item-action>
+                <v-icon @click="changeDrawer">mdi-chevron-double-left</v-icon>
+            </v-list-item-action>
+            <v-list-item-action-text>Cerrar menú</v-list-item-action-text>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
+        <v-list-group :key="item.title" class="pt-0 pb-0" dense v-for="item in getRolMenu(user.RolId)" two-line :prepend-icon="item.icon">
+            <template v-slot:activator>
+                <v-list-item-title>{{item.title}}</v-list-item-title>
+            </template>
+            <v-list-item :key="ite.title" @click="redirect(ite.path)" v-for="ite in item.children" link>
+                <v-list-item-title>{{ite.title}}</v-list-item-title>
+                <v-list-item-icon>
+                    <v-icon>{{ite.icon}}</v-icon>
+                </v-list-item-icon>
+            </v-list-item>
+        </v-list-group>
     </v-navigation-drawer>
 </template>
 

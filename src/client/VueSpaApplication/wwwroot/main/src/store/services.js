@@ -23,10 +23,14 @@ import planActividadService from '../services/PlanActividadService'
 import productoService from '../services/ProductoService'
 import actividadProductoService from '../services/ActividadProductoService'
 import proyectoInfoService from '../services/ProyectoInfoService'
+import registroRevisionService from '../services/RegistroRevisionService'
+import evidenciaService from '../services/ProductoEvidenciaService'
+import planTrabajoActividadService from '../services/PlanTrabajoActividadService'
+import simpleIdentificadorService from '../services/SimpleIdentificadorService'
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
-let apiUrl = 'https://localhost:5001/';
+let apiUrl = 'http://localhost:5000/';
 let authUrl = 'http://localhost:53153/';
 
 
@@ -58,5 +62,9 @@ export default {
     proyectoManagementService: new proyectoManagementService(Axios, apiUrl),
     proyectoOnProcessService: new proyectoOnProcessService(Axios, apiUrl),
     proyectoFinalizedService: new proyectoFinalizedService(Axios, apiUrl),
+    registroRevisionService: new registroRevisionService(Axios, apiUrl),
+    evidenciaService: new evidenciaService(Axios, apiUrl),
+    planTrabajoActividadService: new planTrabajoActividadService(Axios, apiUrl),
+    simpleIdentificadorService: new simpleIdentificadorService(Axios,apiUrl),
     usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }

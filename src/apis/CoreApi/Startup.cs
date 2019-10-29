@@ -68,7 +68,7 @@ namespace CoreApi
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("TemporalDatabase"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
@@ -91,6 +91,10 @@ namespace CoreApi
             services.AddTransient<IProductoService, ProductoService>();
             services.AddTransient<IProyectoInfoService, ProyectoInfoService>();
             services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
+            services.AddTransient<IRegistroRevisionService, RegistroRevisionService>();
+            services.AddTransient<ISimpleIdentificadorService, SimpleIdentificadorService>();
+            services.AddTransient<IPlanTrabajoActividadService, PlanTrabajoActividadService>();
+            services.AddTransient<IProductoEvidenciaService, ProductoEvidenciaService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

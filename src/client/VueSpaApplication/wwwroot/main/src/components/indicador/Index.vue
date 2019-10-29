@@ -68,7 +68,7 @@
                     {text: 'Resultado', align: 'left', value: 'nombreResultado', width: '20%', type: 'text', },
                     {text: 'Actividad', align: 'left', value: 'nombreActividad', width: '20%', type: 'text'},
                     {text: 'Indicador', align: 'left', value: 'nombreIndicador', width: '20%', type: 'text', style: 'active-column'},
-                    {text: 'Meta', align: 'center', value: 'meta', width: '10%', type: 'number'},
+                    {text: 'Meta', align: 'center', value: 'valorMetaF', width: '10%', type: 'number'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [

@@ -14,7 +14,7 @@
                                         v-validate="'required|max:500'"
                                         :counter="500"
                                         :error-messages="errors.collect('nombreFuente')"
-                                        auto-grow box
+                                        auto-grow filled
                                         label="Nombre fuente de datos"
                                         data-vv-name="nombreFuente"
                                         required
@@ -27,8 +27,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" flat>Guardar</v-btn>
+                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

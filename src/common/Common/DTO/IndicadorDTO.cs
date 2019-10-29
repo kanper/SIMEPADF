@@ -10,26 +10,10 @@ namespace DTO.DTO
         public int CodigoActividad { get; set; }
         public string NombreActividad { get; set; }       
         public string NombreIndicador { get; set; }
-        public int ValorMeta { get; set; }
-
-        private string meta;
-
-        public string Meta
-        {
-            get
-            {
-                if (ValorMeta > 0)
-                {
-                    return ValorMeta.ToString();
-                }
-                else
-                {
-                    return PorcentajeMeta.ToString() + " %";
-                }
-            }
-            set => meta = value;
-        }
-
-        public float PorcentajeMeta { get; set; }
+        public double ValorMeta { get; set; }
+        public string TipoBeneficiario { get; set; }
+        public string ValorMetaF => TipoBeneficiario.Equals("N")
+            ? DTOFormater.FormatNumber(ValorMeta)
+            : DTOFormater.FormatPercent(ValorMeta);
     }
 }

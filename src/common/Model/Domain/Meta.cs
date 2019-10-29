@@ -5,27 +5,17 @@ namespace Model.Domain
 {
     public class Meta : AudityEntity, ISoftDeleted
     {
-        public Meta()
-        {
-        }
+        public Meta() {}
 
-        public Meta(int valorMeta)
+        public Meta(double valorMeta)
         {
             ValorMeta = valorMeta;
-        }
-
-        public Meta(int valorMeta, float porcentaje)
-        {
-            ValorMeta = valorMeta;
-            Porcentaje = porcentaje;
         }
 
         [ForeignKey("Indicador")]
         public int CodigoMeta { get; set; }
-        public int ValorMeta { get; set; }
-        public float Porcentaje { get; set; }
+        public double ValorMeta { get; set; }
         public bool Deleted { get; set; }
-       
         public virtual Indicador Indicador { get; set; }
     }
 }

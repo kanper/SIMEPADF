@@ -8,14 +8,14 @@
                 <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Editar registro</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark flat @click="update()">Actualizar</v-btn>
+                    <v-btn dark text @click="update()">Actualizar</v-btn>
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout row wrap>
                         <v-flex xs12>
-                            <v-textarea :counter="500" :error-messages="errors.collect('nombre')" auto-grow box
+                            <v-textarea :counter="500" :error-messages="errors.collect('nombre')" auto-grow filled
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="CRUDModel.nombreProyecto" v-validate="'required|max:500'"
                             ></v-textarea>
@@ -140,8 +140,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" flat>Actualizar</v-btn>
+                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

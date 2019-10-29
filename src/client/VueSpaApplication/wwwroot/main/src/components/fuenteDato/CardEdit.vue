@@ -12,7 +12,7 @@
                                 <v-textarea
                                         v-model="CRUDModel.nombreFuente"
                                         v-validate="'required|max:500'"
-                                        auto-grow box
+                                        auto-grow filled
                                         :counter="500"
                                         :error-messages="errors.collect('nombreFuente')"
                                         label="Nombre fuente de datos"
@@ -27,8 +27,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" flat>Actualizar</v-btn>
+                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

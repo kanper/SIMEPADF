@@ -12,6 +12,7 @@
         <DataInfo/>
         <InfoSnackbar/>
         <Confirmation />
+        <ReviewCardList />
     </div>
 </template>
 
@@ -19,10 +20,11 @@
     import {mapMutations} from 'vuex'
     import InfoSnackbar from '../../common/SnackbarInfo'
     import TitleBar from '../../common/NavbarTitle'
-    import DataInfo from '../../common/CardInfo'
+    import DataInfo from '../CardInfo'
     import AppAlert from '../../common/Alert'
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
+    import ReviewCardList from '../../registroRevision/CardList'
 
     export default {
         components: {
@@ -31,7 +33,8 @@
             TitleBar,
             AppAlert,
             DataInfo,
-            Confirmation
+            Confirmation,
+            ReviewCardList
         },
         name: "objetivo-index",
         data() {
@@ -62,7 +65,8 @@
                         { name: 'Organizaciones', value: 'organizaciones', type: 'array'},
                     ],
                     modelParams: {                                         //Parametros para el modelo
-                        status:''
+                        status:'',
+                        country: ''
                     }
                 },
                 dataTableHeaders: [
@@ -87,14 +91,16 @@
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
                     },
-                    {text: 'Subir Archivos', type: '', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Lista de revisiones', type: 'review-list', icon: 'mdi-share-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Subir Archivos', type: 'redirect', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: 'plan-trabajo-evidencias', show: (row) => {return true}},
                     {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '3review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "3"}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '1review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "4"}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '2review', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "5"}},
-                    {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
-                    {text: 'Finalizar proyecto', type: 'link', icon: 'mdi-sync-off', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === "2"}},
+                    {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '3review', class: 'mr-2', route: '', show: (row) => {return row.is2Review}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '2review', class: 'mr-2', route: '', show: (row) => {return row.is1Review}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-reply', action: '1review', class: 'mr-2', route: '', show: (row) => {return row.isInProcess}},
+                    {text: 'Marcar como revisado', type: 'link', icon: 'mdi-check-all', action: 'mark', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
+                    {text: 'Finalizar proyecto', type: 'link', icon: 'mdi-sync-off', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
                 ],
             }
         },
@@ -118,10 +124,18 @@
                         this.model.modelParams.status = 'INVALID';
                 }
             },
+            setUserCountry(){
+                if(window.User.RolId === "2"){
+                    this.model.modelParams.country = "all"
+                }else {
+                    this.model.modelParams.country = window.User.Pais;
+                }
+            }
         },
         created() {
             this.clearAlerts();
             this.setUserPermission();
+            this.setUserCountry();
             this.defineModel(this.model);
         },
         destroyed() {
