@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import services from './services'
+import { sync } from 'glob';
+import { async } from 'q';
 
 Vue.use(Vuex);
 
@@ -28,7 +30,12 @@ export default new Vuex.Store({
         CRUDModel: {},
         dataTable: [],
         tableRow: {},
-        alerts: []
+        alerts: [],
+        reviewLogList: [],
+        visibleReviewLogList: false,
+        reviewLog: {},
+        visibleReviewLog: false,
+        isTableLoading: true
     },
     mutations: {
         setModelName(state, name) {
@@ -65,6 +72,12 @@ export default new Vuex.Store({
         changeConfirmationDialogVisibility(state){
             state.visibleConfirmationDialog = !state.visibleConfirmationDialog;
         },
+        changeReviewLogListVisibility(state) {
+            state.visibleReviewLogList = !state.visibleReviewLogList;
+        },
+        changeReviewLogVisibility(state) {
+            state.visibleReviewLog = !state.visibleReviewLog;
+        },
         closeAllDialogs(state) {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
@@ -97,6 +110,18 @@ export default new Vuex.Store({
         },
         setConfirmationAction(state, action){
             state.confirmationAction = action;
+        },
+        setReviewLogList(state, data){
+            state.reviewLogList = data;
+        },
+        setReviewLog(state, data){
+            state.reviewLog = data;
+        },
+        resetTableLoader(state){
+            state.isTableLoading = true;
+        },
+        stopTableLoading(state){
+            state.isTableLoading = false;
         }
     }
     ,
@@ -107,8 +132,27 @@ export default new Vuex.Store({
                     commit('updateDataTable', r.data);
                 })
                 .catch(e => {
-                    commit('showInfo', e.toString())
-                });
+                    commit('showInfo', e.toString());
+                })
+                .finally(() => commit('stopTableLoading')); 
+        },
+        loadReviewLogList: async function ({commit}, obj) {
+            services.registroRevisionService.findAllReview(obj.id, obj.status)
+            .then(r => {
+                commit('setReviewLogList',r.data);
+            })
+            .catch(e => {
+                commit('showInfo', e.toString);
+            });
+        },
+        loadReviewLog: async function ({commit}, id, status, country) {
+            services.registroRevisionService.findReview(id, status, country)
+            .then(r => {
+                commit('setReviewLog',r.data);
+            })
+            .catch(e => {
+                commit('showInfo', e.toString);
+            });
         }
     }
 })

@@ -4,25 +4,23 @@
             <v-card-title class="headline red darken-2 white--text">Eliminar {{modelSpecification.modelTitle}}
             </v-card-title>
             <v-card-text>
-                ¿Confirma eliminar los siguientes {{modelSpecification.modelTitle}} de la lista?
-                <v-list two-line>
-                    <v-list-tile avatar ripple>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Nombre</v-list-tile-title>
-                            <v-list-tile-sub-title>{{ CRUDModel[modelSpecification.modelStamp] }}
-                            </v-list-tile-sub-title>
-                        </v-list-tile-content>
-                        <v-list-tile-action>
-                            <v-icon color="grey lighten-1">mdi-delete-variant</v-icon>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                    <v-divider color="red"></v-divider>
-                </v-list>
+                <v-card-subtitle>
+                    ¿Confirma eliminar los siguientes {{modelSpecification.modelTitle}} de la lista?
+                </v-card-subtitle>                
+                <v-list-item three-line>
+                    <v-list-item-icon>
+                        <v-icon large color="grey lighten-1">mdi-delete-variant</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>Nombre:</v-list-item-title>
+                        <v-list-item-subtitle>{{ CRUDModel[modelSpecification.modelStamp] }}</v-list-item-subtitle>
+                    </v-list-item-content>                                        
+                </v-list-item>                
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeDeleteDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="deleteSelectedElements" color="red darken-1" flat>Eliminar</v-btn>
+                <v-btn @click="changeDeleteDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="deleteSelectedElements" color="red darken-1" text>Eliminar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

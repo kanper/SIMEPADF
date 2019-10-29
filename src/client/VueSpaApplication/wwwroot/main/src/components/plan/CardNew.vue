@@ -8,7 +8,7 @@
                 <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Plan de monitoreo y evaluación</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark flat @click="save()">Guardar</v-btn>
+                    <v-btn dark text @click="save()">Guardar</v-btn>
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
@@ -50,8 +50,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" flat>Guardar</v-btn>
+                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

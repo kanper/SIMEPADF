@@ -1,12 +1,21 @@
 <template>
-    <v-toolbar app :class="development ? '': 'blue-grey darken-4'" :dark="!development">
-        <v-toolbar-side-icon @click="changeDrawer()"></v-toolbar-side-icon>
-        <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png" alt="Logo" ></v-img>
+    <v-app-bar app dark>
+        <v-app-bar-nav-icon @click="changeDrawer()"></v-app-bar-nav-icon>
+        <v-toolbar-title>
+            <v-img @click="$router.push(`/`)" max-height="30" max-width="100" src="/dist/logo1.png" alt="Logo" srcset="https://www.fundaciondj.org/img/ca_padf_logo_01.png" ></v-img>
+        </v-toolbar-title>
+
         <v-spacer></v-spacer>
-        <h3>{{ this.user.Email }}</h3>
+
+        <v-toolbar-title>
+            <v-btn text small @click="toHome">{{ this.user.Email }}</v-btn>
+        </v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
         <v-tooltip bottom>
            <template v-slot:activator="{ on }">
-               <v-btn fab dark small color="indigo" v-on="on">
+               <v-btn class="mr-3" fab dark small color="indigo" v-on="on">
                     <v-icon @click="editar()">mdi-account-edit</v-icon>
                 </v-btn>
             </template>
@@ -14,7 +23,7 @@
         </v-tooltip>
         <v-tooltip bottom>
            <template v-slot:activator="{ on }">
-               <v-btn fab dark small color="green" v-on="on">
+               <v-btn class="mr-3" fab dark small color="green" v-on="on">
                     <v-icon @click="change()">mdi-account-key</v-icon>
                 </v-btn>
             </template>
@@ -22,13 +31,13 @@
         </v-tooltip>
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-                <v-btn fab dark small color="red" v-on="on">
+                <v-btn class="mr-3" fab dark small color="red" v-on="on">
                     <v-icon @click="logout()">mdi-account-off</v-icon>
                 </v-btn>
             </template>
             <span>Logout</span> 
         </v-tooltip>
-    </v-toolbar>
+    </v-app-bar>
 </template>
 
 <script>
@@ -67,6 +76,9 @@ export default {
             setTimeout(function (){
                 location.reload();
             }, 500);
+        },
+        toHome() {
+            return this.$router.push('/');
         }
     }
 }

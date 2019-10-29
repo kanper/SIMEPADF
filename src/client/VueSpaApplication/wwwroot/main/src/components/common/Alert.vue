@@ -4,7 +4,7 @@
             <v-flex>
                 <v-alert :color="alert.color" :icon="alert.icon" :value="alert.value"
                          dismissible
-                         outline
+                         outlined
                          transition="scale-transition"
                          v-bind:data="alert"
                          v-bind:key="index"

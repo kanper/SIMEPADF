@@ -9,7 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
-                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow box
+                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="newModel.nombreResultado" v-validate="'required|max:1000'"
                                 ></v-textarea>
@@ -21,8 +21,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" flat>Guardar</v-btn>
+                <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

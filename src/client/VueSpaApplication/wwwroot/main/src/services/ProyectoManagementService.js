@@ -23,7 +23,7 @@ export default class ProyectoManagementService extends AbstractService {
             case 'cancel':
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'check':
-                return this.changeProjectStatus(id,'INCOMPLETO');
+                return this.changeProjectStatus(id,'VERIFICAR');
             case 'finalize':
                 return this.changeProjectStatus(id,'FINALIZADO');
             default:

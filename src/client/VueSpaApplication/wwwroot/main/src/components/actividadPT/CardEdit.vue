@@ -12,7 +12,7 @@
                                 <v-textarea
                                         v-model="CRUDModel.nombreActividad"
                                         v-validate="'required|max:1000'"
-                                        auto-grow box clearable
+                                        auto-grow filled clearable
                                         :counter="1000"
                                         :error-messages="errors.collect('nombre actividad')"
                                         label="Nombre actividad"
@@ -87,8 +87,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" flat>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" flat>Actualizar</v-btn>
+                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

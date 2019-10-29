@@ -6,32 +6,23 @@ namespace Model.Domain
 {
     public class Indicador : AudityEntity, ISoftDeleted
     {
-        public Indicador()
-        {
-        }
+        public Indicador() {}
 
-        public Indicador(string nombreIndicador, int meta)
+        public Indicador(string nombreIndicador, double meta)
         {
             NombreIndicador = nombreIndicador;
             Meta = new Meta(meta);
-        }        
-
-        public Indicador(string nombreIndicador, int valorMeta, float porcentajeMeta)
-        {
-            NombreIndicador = nombreIndicador;
-            Meta = new Meta(valorMeta, porcentajeMeta);
+            TipoBeneficiario = "N";
         }
 
         [ForeignKey("Actividad")]
         public int CodigoIndicador { get; set; }
         public string NombreIndicador { get; set; }
-        
+        public string TipoBeneficiario { get; set; }
         public virtual Actividad Actividad { get; set; }
-
         public virtual Meta Meta { get; set; }
 
-        public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }       
-
+        public ICollection<PlanMonitoreoEvaluacion> PlanMonitoreoEvaluaciones { get; set; }
         public bool Deleted { get; set; }       
     }
 }

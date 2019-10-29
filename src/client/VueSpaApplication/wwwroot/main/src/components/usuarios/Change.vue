@@ -4,7 +4,7 @@
       <v-toolbar-title>Formulario de Usuarios: Editar Registro</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn dark flat  @click="update()">Actualizar</v-btn>
+        <v-btn dark text  @click="update()">Actualizar</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-container>
@@ -37,8 +37,8 @@
     <v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="$router.push(`/`)" color="gray darken-1" flat>Cancelar</v-btn>
-        <v-btn @click="update()" color="green darken-1" flat>Actualizar</v-btn>
+        <v-btn @click="$router.push(`/`)" color="gray darken-1" text>Cancelar</v-btn>
+        <v-btn @click="update()" color="green darken-1" text>Actualizar</v-btn>
       </v-card-actions>
     </v-container>
     <v-snackbar

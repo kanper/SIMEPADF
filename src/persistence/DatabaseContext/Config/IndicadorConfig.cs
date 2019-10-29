@@ -8,7 +8,8 @@ namespace DatabaseContext.Config
         public IndicadorConfig(EntityTypeBuilder<Indicador> builder)
         {
             builder.HasKey(x => x.CodigoIndicador);
-            builder.Property(x => x.NombreIndicador).IsRequired().HasMaxLength(1000);            
+            builder.Property(x => x.NombreIndicador).IsRequired().HasMaxLength(1000);
+            builder.Property(x => x.TipoBeneficiario).HasMaxLength(1);
         }
     }
 }

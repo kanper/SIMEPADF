@@ -1,7 +1,7 @@
 <template>
-    <v-snackbar :auto-height="true" :timeout="15000" :value="snackbarInformationVisible">
+    <v-snackbar :timeout="timeout" :value="snackbarInformationVisible">
         {{ snackbarInformationText }}
-        <v-btn @click="closeInfo" color="pink" flat>Cerrar</v-btn>
+        <v-btn @click="closeInfo" color="pink" text>Cerrar</v-btn>
     </v-snackbar>
 </template>
 
@@ -9,6 +9,11 @@
     import {mapMutations, mapState} from 'vuex'
 
     export default {
+        data () {
+            return {
+                timeout: 15000
+            }
+        },
         computed: {
             ...mapState(['snackbarInformationText', 'snackbarInformationVisible']),
         },
