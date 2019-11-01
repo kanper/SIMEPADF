@@ -95,6 +95,7 @@ namespace CoreApi
             services.AddTransient<ISimpleIdentificadorService, SimpleIdentificadorService>();
             services.AddTransient<IPlanTrabajoActividadService, PlanTrabajoActividadService>();
             services.AddTransient<IProductoEvidenciaService, ProductoEvidenciaService>();
+            services.AddTransient<IFileService, FileService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

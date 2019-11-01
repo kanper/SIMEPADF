@@ -81,6 +81,7 @@
                         show: (row) => {return true}
                     },
                     {text: 'Editar archivo', type: 'edit', icon: 'mdi-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Descargar archivo', type: 'download', icon: 'mdi-download', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
                     {text: 'Eliminar archivo', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return true}},                    
                 ],
                 bannerText: ''

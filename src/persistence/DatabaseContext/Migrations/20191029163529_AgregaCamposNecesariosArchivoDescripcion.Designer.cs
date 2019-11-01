@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20191029163529_AgregaCamposNecesariosArchivoDescripcion")]
+    partial class AgregaCamposNecesariosArchivoDescripcion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,21 +239,21 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("NombreArchivo")
                         .IsRequired()
-                        .HasMaxLength(250);
+                        .HasMaxLength(100);
 
                     b.Property<string>("NombreReal")
                         .IsRequired()
-                        .HasMaxLength(250);
+                        .HasMaxLength(100);
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(200);
 
                     b.Property<long>("TamanioArchivo");
 
                     b.Property<string>("TipoContenido")
                         .IsRequired()
-                        .HasMaxLength(10);
+                        .HasMaxLength(5);
 
                     b.Property<DateTime?>("UpdatedAt");
 

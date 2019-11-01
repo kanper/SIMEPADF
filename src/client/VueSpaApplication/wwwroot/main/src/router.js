@@ -59,10 +59,11 @@ const routes = [
     {path: '/actividad/:id/productos', name: 'actividad-producto-index', component: ActividadProductoIndex},
     {path: '/proyecto/:id/info', name: 'proyecto-info-index', component: ProyectoInfoIndex},
     {path: '/plan-trabajo/:id/actividades/evidencia', name: 'plan-trabajo-evidencias', component: EvidenciaActividadIndex},
-    {path: '/actividad-plan-trabajo/:id/productos/evidencias', name: 'producto-evidencias', component: EvidenciaProductoIndex},
+    {path: '/actividad-plan-trabajo/:id/productos/evidencias', name: 'producto-evidencias', component: EvidenciaProductoIndex},    
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
-    { path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange}
+    {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},
+
 ];
 
 export default new Router({

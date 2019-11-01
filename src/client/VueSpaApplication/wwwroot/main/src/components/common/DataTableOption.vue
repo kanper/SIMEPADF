@@ -96,6 +96,9 @@
                     case 'review-list':
                         this.showReviewLogList(this.modelId,"EN_PROCESO");
                         break;
+                    case 'download':
+                        this.services[this.modelSpecification.modelService].download(this.modelId);
+                        break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');
                 }

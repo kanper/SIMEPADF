@@ -8,7 +8,7 @@
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <form>
+                            <form enctype="multipart/form-data" method="post">
                                   <v-file-input 
                                     v-model="file" 
                                     label="Subir archivo..." 
@@ -55,41 +55,6 @@
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
             ...mapActions(['loadDataTable']),
-            update() {
-                this.$validator.validateAll()
-                    .then(v => {
-                        if (v) {
-                            this.services[this.modelSpecification.modelService].update(this.CRUDModel, this.CRUDModel[this.modelSpecification.modelPK], this.modelSpecification.modelParams)
-                                .then(r => {
-                                    this.loadDataTable();
-                                    if (r.data) {
-                                        this.addAlert({
-                                            value: true,
-                                            color: 'success',
-                                            icon: 'mdi-checkbox-marked-circle-outline',
-                                            text: 'El ' + this.modelSpecification.modelName + ' seleccionado se guardo correctamente.'
-                                        });
-                                    } else {
-                                        this.addAlert({
-                                            value: true,
-                                            color: 'error',
-                                            icon: 'mdi-close-circle-outline',
-                                            text: 'Ocurrio un problema al tratar de guardar el ' + this.modelSpecification.modelName + ' seleccionado.'
-                                        });
-                                    }
-                                })
-                                .catch(e => {
-                                    this.showInfo(e.toString());
-                                });
-                            this.closeAllDialogs();
-                        } else {
-                            this.showInfo(this.$validator.errors.all().toString());
-                        }
-                    })
-                    .catch(e => {
-                        this.showInfo(e.toString());
-                    });
-            },
             upload(){
                 let formData = new FormData();
                 formData.append('file',this.file,this.file.name);
