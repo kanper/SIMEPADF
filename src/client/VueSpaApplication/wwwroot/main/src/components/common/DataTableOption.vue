@@ -94,7 +94,7 @@
                         this.changeConfirmationDialogVisibility();
                         break;
                     case 'review-list':
-                        this.showReviewLogList(this.modelId,"EN_PROCESO");
+                        this.showReviewLogList(this.modelId,this.model.estadoProyecto);
                         break;
                     case 'download':
                         this.services[this.modelSpecification.modelService].download(this.modelId);

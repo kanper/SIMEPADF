@@ -1,6 +1,6 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog v-model="visibleReviewLogList" persistent width="750">        
+        <v-dialog v-model="visibleReviewLogList" width="750">        
         <v-card>
             <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>                    
             <v-card-text>                
@@ -36,12 +36,11 @@ export default {
     data () {
         return {
             headers: [
-          {
-            text: 'Estado',align: 'left',sortable: false,value: 'revisado',},
-          { text: 'Número', value: 'numero' },
-          { text: 'Trimestre', value: 'trimestre' },
+          { text: 'Estado',align: 'left',sortable: false,value: 'revisado',},
+          { text: 'Número revisión', value: 'numero' },
+          { text: 'Trimestre', value: 'trimestreF' },
           { text: 'País', value: 'pais' },
-          { text: 'Fecha revisión', value: 'fecha' },          
+          { text: 'Fecha revisión', value: 'fechaF' },
         ],
         }
     },

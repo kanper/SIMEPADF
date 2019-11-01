@@ -11,5 +11,7 @@ namespace DTO.DTO
         public string Pais { get; set; }
         public string Comentario { get; set; }
         public bool Retornado { get; set; }
+        public string FechaF => DTOFormater.FormatDateTime(Fecha);
+        public string TrimestreF => $"Q{Trimestre}";
     }
 }
