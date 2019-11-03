@@ -48,7 +48,7 @@
                     modelPK: 'id',                          //Llave primaria del modelo
                     modelStamp: 'nombreIndicador',                       //Valor único representativo del modelo
                     modelInfo: [                                         //Valores a mostrar para la información del modelo
-                        {name: 'Meta', value: 'meta', type: 'number'},
+                        {name: 'Meta', value: 'valorMeta', type: 'number'},
                         {name: 'Indicador', value: 'nombreIndicador', type: 'text'},
                         {name: 'Actividad', value: 'nombreActividad', type: 'text'},
                         {name: 'Resultado', value: 'nombreResultado', type: 'text'},

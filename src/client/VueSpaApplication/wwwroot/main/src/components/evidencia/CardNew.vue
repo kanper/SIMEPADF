@@ -1,15 +1,30 @@
 <template>
     <v-dialog max-width="50%" persistent v-model="visibleNewDialog">
         <v-card>
-            <v-card-title class="headline grey darken-3 white--text">Formulario de {{modelSpecification.modelTitle}}:
-                Agregar nuevo
+            <v-card-title class="headline grey darken-3 white--text">Almacenamiento de {{modelSpecification.modelTitle}}:
+                Cargar archivo
             </v-card-title>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <form>
-                                
+                            <form enctype="multipart/form-data" method="post">
+                                <v-file-input
+                                        v-model="file"
+                                        label="Subir archivo..."
+                                        autofocus
+                                        chips
+                                        show-size
+                                        accept=".doc,.docx,.pdf"
+                                ></v-file-input>
+
+                                <v-textarea
+                                        outlined
+                                        name="descripcion"
+                                        label="Descripción (Opcional)"
+                                        v-model="descripcion"
+                                        counter
+                                ></v-textarea>
                             </form>
                         </v-flex>
                     </v-layout>

@@ -1,19 +1,19 @@
 <template>
-    <v-card>
-        <v-card-title primary-title>
-            <v-icon large left>{{icon}}</v-icon>
-            <div>
-                <div class="headline">{{name}}</div>
-            </div>
-            <v-layout align-center justify-end>
-                <v-btn icon @click="show = !show">
+    <v-card outlined hover>
+        <v-card-title>
+            <v-icon left>{{icon}}</v-icon>
+            <span class="title font-weight-light">{{name}}</span>
+            <v-layout align-center="" justify-end="">
+                <v-btn @click="show = !show" icon>
                     <v-icon>{{ show ? 'mdi-menu-down' : 'mdi-menu-up' }}</v-icon>
                 </v-btn>
             </v-layout>
         </v-card-title>
         <v-card-text v-show="show">
             {{buildCardContent(value,itemType)}}
-            <ul v-if="itemType === 'list'"><li v-for="(item,index) in CRUDModel[value]" v-bind:key="index">{{item.nombre}}</li></ul>
+            <ul v-if="itemType === 'list'">
+                <li v-bind:key="index" v-for="(item,index) in CRUDModel[value]">{{item.nombre}}</li>
+            </ul>
         </v-card-text>
     </v-card>
 </template>
@@ -23,7 +23,7 @@
 
     export default {
         name: "InfoItem",
-        props:{
+        props: {
             name: {
                 type: String,
                 require: false
@@ -45,13 +45,13 @@
                 show: true
             }
         },
-        computed:{
+        computed: {
             ...mapState(['CRUDModel'])
         },
         methods: {
-            buildCardContent(nameValue, type){
+            buildCardContent(nameValue, type) {
                 let value = this.CRUDModel[nameValue];
-                if(value !== undefined){
+                if (value !== undefined) {
                     switch (type) {
                         case 'text':
                             this.icon = 'mdi-file-document-box';
@@ -92,13 +92,13 @@
                     }
                 }
             },
-            formatDate(text){
+            formatDate(text) {
                 return text.split('T')[0];
             },
-            formatTime(text){
+            formatTime(text) {
                 return text.split('T')[1];
             },
-            formatDateTime(text){
+            formatDateTime(text) {
                 let datetime = text.split('T');
                 return datetime[0] + ' ' + datetime[1];
             },
@@ -108,7 +108,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
