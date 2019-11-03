@@ -7,11 +7,12 @@
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout wrap>
+                        <v-chip color="primary" text-color="white">
+                            $ {{montoActual}} Monto restante
+                            <v-icon right>mdi-check</v-icon>
+                        </v-chip>
                         <v-flex xs12>
-                            <v-chip color="primary" text-color="white">
-                                $ {{montoActual}} Monto restante
-                                <v-icon right>mdi-check</v-icon>
-                            </v-chip>
+
                             <form>
                                 <v-textarea
                                         v-model="newModel.nombreActividad"

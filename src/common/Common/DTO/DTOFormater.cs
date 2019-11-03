@@ -41,7 +41,8 @@ namespace DTO.DTO
 
         public static string FormatArray(MapDTO[] map)
         {
-            return map.Length == 0 ? Empty : string.Join(",", Array.ConvertAll(map, m => m.Nombre));
+            if (map == null) return Empty;
+            return map.Length == 0 ? Empty : string.Join(", ", Array.ConvertAll(map, m => m.Nombre));
         }
     }
 }
