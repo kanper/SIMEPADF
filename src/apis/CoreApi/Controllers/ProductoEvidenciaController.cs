@@ -59,7 +59,7 @@ namespace CoreApi.Controllers
         }
 
         [HttpPut("/actividad/producto/{id}/archivo/update")]
-        public IActionResult Update(int id, ArchivoDTO dto)
+        public IActionResult Update(int id, [FromBody] ProductoEvidenciaDTO dto)
         {
             return Ok(_file.Update(id, dto));
         }

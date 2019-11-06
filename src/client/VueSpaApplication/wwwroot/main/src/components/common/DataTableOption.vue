@@ -48,8 +48,9 @@
                 this.changeInfoDialogVisibility();
             },
             showNewForm(id) {
+                this.loadModel(id);
                 this.closeAllDialogs();
-                this.showNewForm(id);
+                this.changeNewDialogVisibility();
             },
             showEditForm(id) {
                 this.loadModel(id);
@@ -86,7 +87,7 @@
                         this.changeConfirmationDialogVisibility();
                         break;
                     case 'new':
-
+                        this.showNewForm(this.modelId);
                         break;
                     case 'review-list':
                         this.showReviewLogList(this.modelId, this.model.estadoProyecto);

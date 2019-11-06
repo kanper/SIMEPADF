@@ -18,7 +18,7 @@ namespace Services
         ArchivoDTO Get(int id);
         Stream Download(int id);
         bool Save(int id, IFormFile file, string descripcion);
-        bool Update(int id, ArchivoDTO file);
+        bool Update(int id, ProductoEvidenciaDTO file);
         bool Remove(int id);
     }
     
@@ -95,13 +95,13 @@ namespace Services
             }
         }
 
-        public bool Update(int id, ArchivoDTO file)
+        public bool Update(int id, ProductoEvidenciaDTO file)
         {
             try
             {
                 var archivo = _context.ArchivoDescripcion.Single(f => f.CodigoArchivo == id);
-                archivo.Descripcion = file.Description;
-                archivo.NombreReal = file.Name;
+                archivo.Descripcion = file.DescripcionArchivo;
+                archivo.NombreReal = file.NombreArchivo;
                 _context.SaveChanges();
                 return true;
             }

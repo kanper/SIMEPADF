@@ -35,7 +35,7 @@ namespace Services
                     {
                         Id = p.codigoProducto,
                         NombreProducto = p.NombreProducto,
-                        NombreArchivo = des == null ? "" : des.NombreArchivo,
+                        NombreArchivo = des == null ? "" : des.NombreReal,
                         TamanioArchivo = des == null ? 0 : des.TamanioArchivo,
                         TipoArchivo = des == null ? "" : des.TipoContenido,
                         DescripcionArchivo = des == null ? "" : des.Descripcion

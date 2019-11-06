@@ -32,21 +32,11 @@ export default class ProductoEvidenciaService extends AbstractService {
     }
 
     updateFile(id, model){
-        this.axios.put(`${this.baseUrl}/producto/${id}/archivo/info`,model)
+        return this.axios.put(`${this.baseUrl}/producto/${id}/archivo/update`,model)
     }
 
     remove(id, params){
         return this.axios.delete(`${this.baseUrl}/producto/${id}/archivo/remove`)
     }
 
-    executeAction(id, action, params) {
-        console.log("In swith");
-        switch(action){
-            case 'download':                
-                return this.download(id);
-                break;                
-            default:
-                return null;
-        }
-    }
 }
