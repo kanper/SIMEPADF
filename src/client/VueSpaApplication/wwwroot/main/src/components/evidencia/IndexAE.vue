@@ -56,7 +56,8 @@
                     modelInfo: [                                        //Valores a mostrar para la información del modelo                
                     ],
                     modelParams: {                                         //Parametros para el modelo
-                        id: this.$route.params.id
+                        id: this.$route.params.id,
+                        pais: window.User.Pais
                     }
                 },
                 dataTableHeaders: [
@@ -81,8 +82,9 @@
                         action: '',                         //Acción personalizada
                         class: 'mr-2',                      //Clase a agregar
                         route: 'producto-evidencias',
-                        show: (row) => {return true}
-                    },                    
+                        show: (row) => {return window.User.RolId === '4'}
+                    },
+                    {text: 'Descargar archivo de esta actividad', type: 'redirect', icon: 'mdi-package-down', action: '', class: 'mr-2', route: 'producto-evidencias', show: (row) => {return window.User.RolId !== '4'}},
                 ],
                 bannerText: ''
             }   

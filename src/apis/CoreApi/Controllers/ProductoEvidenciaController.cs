@@ -24,7 +24,7 @@ namespace CoreApi.Controllers
         }
 
         [HttpGet("/actividad/{id}/producto/evidencia")]
-        public IActionResult GetAll(int id)
+        public IActionResult GetAll(int id, string country)
         {
             return Ok(_service.GetAll(id));
         }
@@ -56,6 +56,17 @@ namespace CoreApi.Controllers
                 return NotFound();
             }
             return File(stream, "application/pdf");
+        }
+        
+        [HttpGet("/actividad/producto/{id}/archivo/download/{fileName}")]
+        public IActionResult Download(int id, string fileName)
+        {
+            Stream stream = _file.Download(id);
+            if (stream == null)
+            {
+                return NotFound();
+            }
+            return File(stream, "application/pdf", fileName);
         }
 
         [HttpPut("/actividad/producto/{id}/archivo/update")]

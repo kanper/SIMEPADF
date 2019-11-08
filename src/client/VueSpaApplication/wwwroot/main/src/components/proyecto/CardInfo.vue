@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="visibleInfoDialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+    <v-dialog v-model="visibleInfoDialog" persistent fullscreen hide-overlay transition="dialog-bottom-transition" >
         <v-card>
             <v-toolbar class="headline blue darken-3 white--text">
                 <v-btn icon dark @click="changeInfoDialogVisibility">
@@ -188,10 +188,6 @@
         },
         methods: {
             ...mapMutations(['changeInfoDialogVisibility']),
-            formatDate(UtcDate) {
-                const date = new Date(UtcDate);
-                return date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
-            },
             verifyNotEmpty(text) {
                 if (text === undefined || text === null) {
                     return 'N/A'
@@ -199,29 +195,29 @@
                 return text;
             },
             formatDate(text){
-                if(text != undefined)
+                if(text !== undefined)
                 return text.split('T')[0];
             },
             formatTime(text){
-                if(text != undefined)
+                if(text !== undefined)
                 return text.split('T')[1];
             },
             formatDateTime(text){
-                if (text != undefined){
+                if (text !== undefined){
                     let datetime = text.split('T');
                     return datetime[0] + ' ' + datetime[1];
                 }                
             },
             numberWithCommas(x) {
-                if(x != undefined)
+                if(x !== undefined)
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             },
             checkEmptyArray(arr){
                 if(arr === undefined || arr === null){
                     return false;
                 }else {
-                    if(arr.length === 0) return false;
-                    return true;
+                    return arr.length !== 0;
+
                 }                
             }
         }
