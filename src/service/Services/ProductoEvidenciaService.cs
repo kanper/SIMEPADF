@@ -12,9 +12,6 @@ namespace Services
     {
         ProductoEvidenciaDTO Get(int id);
         IEnumerable<ProductoEvidenciaDTO> GetAll(int id);
-        bool Upload(int id);
-        bool Download(int id);
-        bool Delete(int id);
     }
     
     public class ProductoEvidenciaService : IProductoEvidenciaService
@@ -31,17 +28,17 @@ namespace Services
             try
             {
                 return (from p in _context.Producto
-                    join fl in _context.ArchivoDescripcion on p equals fl.Producto 
+                    join fl in _context.ArchivoDescripcion on p equals fl.Producto into FileDescp
+                    from des in FileDescp.DefaultIfEmpty()
                     where p.codigoProducto == id
                     select new ProductoEvidenciaDTO()
                     {
                         Id = p.codigoProducto,
                         NombreProducto = p.NombreProducto,
-                        ArchivoAdjunto = true,
-                        NombreArchivo = fl.NombreArchivo,
-                        TamanioArchivo = fl.TamanioArchivo,
-                        TipoArchivo = fl.TipoContenido,
-                        DescripcionArchivo = fl.Descripcion
+                        NombreArchivo = des == null ? "" : des.NombreReal,
+                        TamanioArchivo = des == null ? 0 : des.TamanioArchivo,
+                        TipoArchivo = des == null ? "" : des.TipoContenido,
+                        DescripcionArchivo = des == null ? "" : des.Descripcion
                     }).Single();
             }
             catch (Exception e)
@@ -56,45 +53,24 @@ namespace Services
             try
             {
                 return (from p in _context.Producto
+                    join fl in _context.ArchivoDescripcion on p equals fl.Producto into FileDescp
+                    from des in FileDescp.DefaultIfEmpty()
                     where p.ActividadPTId == id
                     select new ProductoEvidenciaDTO()
                     {
                         Id = p.codigoProducto,
                         NombreProducto = p.NombreProducto,
-                        ArchivoAdjunto = (from fl in _context.ArchivoDescripcion
-                            where fl.CodigoArchivo == p.codigoProducto
-                            select fl).Any()
+                        ArchivoAdjunto = des != null,
+                        NombreArchivo = des == null ? "Ningún archivo cargado..." : des.NombreReal,
+                        TamanioArchivo = des == null ? 0 : des.TamanioArchivo,
+                        TipoArchivo = des == null ? "" : des.TipoContenido,
+                        DescripcionArchivo = des == null ? "" : des.Descripcion
                     }).ToList();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return new List<ProductoEvidenciaDTO>();
-            }
-        }
-
-        public bool Upload(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Download(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            try
-            {
-                var file = _context.ArchivoDescripcion.Single(f => f.CodigoArchivo == id);
-                _context.Remove(file);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
             }
         }
     }

@@ -21,27 +21,16 @@ namespace DTO.DTO
         public MapDTO[] Socios { get; set; }
         public PlanMEDTO[] Indicadores { get; set; }
         public ActividadPtDTO[] Planes { get; set; }
-
         public bool IsCancelled => EstadoProyecto.Equals("CANCELADO", StringComparison.OrdinalIgnoreCase);
-
         public bool IsCompleted => EstadoProyecto.Equals("FINALIZADO", StringComparison.OrdinalIgnoreCase);
-
         public bool IsIncomplete => EstadoProyecto.Equals("INCOMPLETO", StringComparison.OrdinalIgnoreCase);
-
         public bool IsInProcess => EstadoProyecto.Equals("EN_PROCESO", StringComparison.OrdinalIgnoreCase);
-
         public bool IsPreVerified => EstadoProyecto.Equals("PRE_VERIFICAR", StringComparison.OrdinalIgnoreCase);
-        
         public bool IsVerified => EstadoProyecto.Equals("VERIFICAR", StringComparison.OrdinalIgnoreCase);
-
         public bool Is1Review => EstadoProyecto.Equals("1REVISION", StringComparison.OrdinalIgnoreCase);
-        
         public bool Is2Review => EstadoProyecto.Equals("2REVISION", StringComparison.OrdinalIgnoreCase);
-        
         public bool Is3Review => EstadoProyecto.Equals("3REVISION", StringComparison.OrdinalIgnoreCase);
-
         public string Clasificacion => Regional ? "Regional" : "Nacional";
-
         public string Estado
         {
             get

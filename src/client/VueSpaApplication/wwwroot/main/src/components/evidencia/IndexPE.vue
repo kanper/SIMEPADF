@@ -64,30 +64,33 @@
                         text: 'Producto',   //Texto a mostrar en la cabecera de la columna
                         align: 'left',      //Alineación del contenido en la columna
                         value: 'nombreProducto',    //Nombre del atributo que se colocara en la columna
-                        width: '50%',       //Tamaño de la columna
+                        width: '25%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
-                    {text: 'Evidencia', align: 'left', value: 'nombreArchivo', width: '30%', type: 'boolean'},                    
+                    {text: 'Evidencia', align: 'left', value: 'nombreArchivo', width: '15%', type: 'text'},
+                    {text: 'Tamaño', align: 'left', value: 'tamanioF', width: '10%', type: 'text'},
+                    {text: 'Descripción', align: 'left', value: 'descripcionArchivo', width: '30%', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'},
                 ],
                 dataTableOptions: [
                     {
                         text: 'Subir archivo',                //Texto que se muestra para el boton
-                        type: 'info',                       //Tipo de boton [info|new|edit|delete|redirect]
+                        type: 'new',                       //Tipo de boton [info|new|edit|delete|redirect]
                         icon: 'mdi-upload',    //Icono que se muestra para el boton
                         action: '',                         //Acción personalizada
                         class: 'mr-2',                      //Clase a agregar
                         route: '',
-                        show: (row) => {return true}
+                        show: (row) => {return !row.archivoAdjunto}
                     },
-                    {text: 'Editar archivo', type: 'edit', icon: 'mdi-download', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Eliminar archivo', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return true}},                    
+                    {text: 'Editar archivo', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
+                    {text: 'Descargar archivo', type: 'download', icon: 'mdi-download', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
+                    {text: 'Eliminar archivo', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
                 ],
                 bannerText: ''
             }
         },
         methods: {
-            ...mapMutations(['defineModel','clearAlerts','emptyDataTable']),
+            ...mapMutations(['defineModel','clearAlerts','emptyDataTable', 'showInfo']),
         },
         computed: {
             ...mapState(['services'])

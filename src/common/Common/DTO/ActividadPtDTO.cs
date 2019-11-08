@@ -13,36 +13,11 @@ namespace DTO.DTO
         public double Monto { get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Productos { get; set; }
-        
-        public string FechaCreacionF()
-        {
-            return DTOFormater.FormatDate(FechaCreacion);
-        }
-
-        public string FechaInicioF()
-        {
-            return DTOFormater.FormatDate(FechaInicio);
-        }
-
-        public string FechaLimiteF()
-        {
-            return DTOFormater.FormatDate(FechaLimite);
-        }
-
-        public string MontoF()
-        {
-            return DTOFormater.FormatMoney(Monto);
-        }
-
-        public string PaisesF()
-        {
-            return DTOFormater.FormatArray(Paises);
-        }
-
-        public string ProductosF()
-        {
-            return DTOFormater.FormatArray(Productos);
-        }
-
+        public string FechaCreacionF => DTOFormater.FormatDate(FechaCreacion);
+        public string FechaInicioF => DTOFormater.FormatDate(FechaInicio);
+        public string FechaLimiteF => DTOFormater.FormatDate(FechaLimite);
+        public string MontoF => DTOFormater.FormatMoney(Monto);
+        public string PaisesF => DTOFormater.FormatArray(Paises);
+        public string ProductosF => DTOFormater.FormatArray(Productos);
     }
 }

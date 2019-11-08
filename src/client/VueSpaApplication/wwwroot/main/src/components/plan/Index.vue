@@ -106,9 +106,9 @@
         created() {
             this.clearAlerts();
             this.defineModel(this.model);
-            this.services.proyectoService.get(this.$route.params.id)
+            this.services.simpleIdentificadorService.getProyecto(this.$route.params.id)
                 .then(r => {
-                    this.bannerText = r.data.nombreProyecto;
+                    this.bannerText = r.data.nombre;
                 })
                 .catch(e => {
                     this.showInfo(e.toString());

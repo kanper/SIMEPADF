@@ -25,27 +25,9 @@
                         :items="indicadores"
                         :search="search"
                         item-key="id"
-                        select-all
+                        show-select
                         class="elevation-1"
                 >
-                    <template v-slot:items="props">
-                        <td>
-                            <v-checkbox
-                                    v-model="props.selected"
-                                    primary
-                                    hide-details
-                            ></v-checkbox>
-                        </td>
-                        <td class="text-xs-left">{{ props.item.nombreObjetivo }}</td>
-                        <td class="text-xs-left">{{ props.item.nombreResultado }}</td>
-                        <td class="text-xs-left">{{ props.item.nombreActividad }}</td>
-                        <td class="text-xs-left">{{ props.item.nombreIndicador }}</td>
-                    </template>
-                    <template v-slot:no-results>
-                        <v-alert :value="true" color="error" icon="mdi-alert">
-                            La busqueda de "{{ search }}" no tiene resultados.
-                        </v-alert>
-                    </template>
                 </v-data-table>
             </v-card-text>
             <v-card-actions>

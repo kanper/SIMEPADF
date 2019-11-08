@@ -1,15 +1,22 @@
 <template>
     <v-dialog max-width="50%" persistent v-model="visibleNewDialog">
         <v-card>
-            <v-card-title class="headline grey darken-3 white--text">Formulario de {{modelSpecification.modelTitle}}:
-                Agregar nuevo
+            <v-card-title class="headline grey darken-3 white--text">Almacenamiento de {{modelSpecification.modelTitle}}:
+                Cargar archivo
             </v-card-title>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <form>
-                                
+                            <form enctype="multipart/form-data" method="post">
+                                <v-file-input
+                                        v-model="file"
+                                        label="Subir archivo..."
+                                        autofocus
+                                        chips
+                                        show-size
+                                        accept=".doc,.docx,.pdf"
+                                ></v-file-input>
                             </form>
                         </v-flex>
                     </v-layout>
@@ -19,7 +26,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Subir archivo</v-btn>
+                <v-btn @click="upload()" color="green darken-1" text>Subir archivo</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -31,56 +38,45 @@
     export default {
         data() {
             return {
-                newModel: {
-                    id: 0,
-                    nombreActividad: ''
-                }
+                file: null,
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services'])
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services', 'CRUDModel'])
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
             ...mapActions(['loadDataTable']),
-            save() {
-                this.$validator.validateAll()
-                    .then(v => {
-                        if (v) {
-                            this.services[this.modelSpecification.modelService].add(this.newModel, this.modelSpecification.modelParams)
-                                .then(r => {
-                                    this.loadDataTable();
-                                    this.clearForm();
-                                    if (r.data) {
-                                        this.addAlert({
-                                            value: true,
-                                            color: 'success',
-                                            icon: 'mdi-checkbox-marked-circle-outline',
-                                            text: 'El nuevo ' + this.modelSpecification.modelName + ' se guardo correctamente.'
-                                        });
-                                    } else {
-                                        this.addAlert({
-                                            value: true,
-                                            color: 'error',
-                                            icon: 'mdi-close-circle-outline',
-                                            text: 'Ocurrio un problema al tratar de guardar el ' + this.modelSpecification.modelName + ' seleccionado.'
-                                        });
-                                    }
-                                })
-                                .catch(e => {
-                                    this.showInfo(e.toString());
-                                });
-                            this.closeAllDialogs();
+            upload(){
+                let formData = new FormData();
+                formData.append('file',this.file,this.file.name);
+                this.services[this.modelSpecification.modelService].upload(this.CRUDModel[this.modelSpecification.modelPK], formData)
+                    .then(r => {
+                        this.loadDataTable();
+                        if (r.data) {
+                            this.addAlert({
+                                value: true,
+                                color: 'success',
+                                icon: 'mdi-checkbox-marked-circle-outline',
+                                text: 'El archivo fue guardado correctamente.'
+                            });
                         } else {
-                            this.showInfo(this.$validator.errors.all().toString());
+                            this.addAlert({
+                                value: true,
+                                color: 'error',
+                                icon: 'mdi-close-circle-outline',
+                                text: 'Ocurrio un problema al tratar de guardar el archivo seleccionado.'
+                            });
                         }
                     })
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+                this.closeAllDialogs();
+                this.clearForm();
             },
             clearForm(){
-                this.newModel.nombreActividad = '';
+                this.file = null;
                 this.$validator.reset();
             }
         }

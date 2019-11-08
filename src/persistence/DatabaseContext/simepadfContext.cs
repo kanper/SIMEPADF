@@ -44,11 +44,17 @@ namespace DatabaseContext
             modelBuilder.Entity<PlanMonitoreoEvaluacion>().HasKey(sc => new {sc.ProyectoCodigoProyecto, sc.IndicadorId});
             modelBuilder.Entity<PlanDesagregacion>().HasKey(sc => new 
                 {sc.DesagregacionId, sc.PlanMonitoreoEvaluacionIndicadorId, sc.PlanMonitoreoEvaluacionProyectoCodigoProyecto});
-
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(p => new { p.UserId, p.ProviderKey });
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(p => new { p.UserId, p.RoleId});
             modelBuilder.Entity<IdentityUserToken<string>>().HasKey(p => new { p.UserId });
             modelBuilder.Entity<ActividadPTPais>().HasKey(sc => new { sc.PaisId, sc.ActividadPTCodigoActividadPT });
+            modelBuilder.Entity<PlanSocioDesagregacion>().HasKey(p => new
+            {
+                p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto,
+                p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId,
+                p.ProyectoSocioSocioInternacionalId,
+                p.PlanDesagregacionDesagregacionId
+            });
 
             AddMyFilters(ref modelBuilder);
 
@@ -74,7 +80,6 @@ namespace DatabaseContext
             new ProductoConfig(modelBuilder.Entity<Producto>());
             new RegistroRevisionConfig(modelBuilder.Entity<RegistroRevision>());
             new ArchivoDescripcionConfig(modelBuilder.Entity<ArchivoDescripcion>());
-
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -105,6 +110,7 @@ namespace DatabaseContext
         public DbSet<ActividadPTPais> ActividadPTPais { get; set; }
         public DbSet<RegistroRevision> RegistroRevision { get; set; }
         public DbSet<ArchivoDescripcion> ArchivoDescripcion { get; set; }
+        public DbSet<PlanSocioDesagregacion> PlanSocioDesagregacion { get; set; }
 
         public override int SaveChanges()
         {
@@ -117,13 +123,11 @@ namespace DatabaseContext
             MakeAudit();
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             MakeAudit();
             return await base.SaveChangesAsync(cancellationToken);
         }
-
         private void MakeAudit()
         {
             var modifiedEntries = ChangeTracker.Entries().Where(

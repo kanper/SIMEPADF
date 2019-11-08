@@ -7,7 +7,9 @@ namespace Model.Domain
     {
         [ForeignKey("Producto")]
         public int CodigoArchivo { get; set; }
+        public string NombreReal { get; set; }
         public string NombreArchivo { get; set; }
+        public string Path { get; set; }
         public string Descripcion { get; set; }
         public string TipoContenido { get; set; }
         public long TamanioArchivo { get; set; }

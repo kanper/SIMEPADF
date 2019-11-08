@@ -1,39 +1,39 @@
 <template>
     <v-dialog max-width="50%" persistent v-model="visibleEditDialog">
         <v-card>
-            <v-card-title class="headline grey darken-3 white--text">Almacenamiento de {{modelSpecification.modelTitle}}:
-                Editar archivos
+            <v-card-title class="headline grey darken-3 white--text">Formulario de {{modelSpecification.modelTitle}}:
+                Editar registro
             </v-card-title>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <form>
-                                  <v-file-input 
-                                    v-model="file" 
-                                    label="Subir archivo..." 
-                                    autofocus 
-                                    chips 
-                                    show-size 
-                                    accept=".doc,.docx,.pdf"                                    
-                                    ></v-file-input>                             
-                                  
-                                  <v-textarea
+                            <v-text-field
+                                    v-model="nombre"
+                                    v-validate="'required|max:100'"
+                                    :counter="100"
+                                    :error-messages="errors.collect('nombreArchivo')"
+                                    label="Nombre archivo *"
+                                    data-vv-name="Nombre del archivo"
+                                    required
+                            ></v-text-field>
+                            <small>{{nombreCompleto}}</small>
+                            <v-textarea
                                     outlined
                                     name="descripcion"
-                                    label="Descripción (Opcional)"
-                                    v-model="descripcion"
+                                    label="Descripción"
+                                    v-model="CRUDModel.descripcionArchivo"
                                     counter
-                                    ></v-textarea>
-                            </form>
+                            ></v-textarea>
                         </v-flex>
                     </v-layout>
-                </v-container>            
+                </v-container>
+                <small>* Indica que el campo es requerido</small>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="upload()" color="blue darken-1" text>Subir archivo</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -45,12 +45,21 @@
     export default {
         data() {
             return {
-                file: null,
-                descripcion:''
+                tipoArchivo: '',
+                nombreCompleto: '',
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services'])
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            nombre: {
+                get: function () {
+                    this.nombreCompleto = this.CRUDModel.nombreArchivo;
+                    return this.splitFileName(this.CRUDModel.nombreArchivo);
+                },
+                set: function (newValue) {
+                    this.CRUDModel.nombreArchivo = newValue + '.' + this.tipoArchivo;
+                }
+            }
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
@@ -59,7 +68,7 @@
                 this.$validator.validateAll()
                     .then(v => {
                         if (v) {
-                            this.services[this.modelSpecification.modelService].update(this.CRUDModel, this.CRUDModel[this.modelSpecification.modelPK], this.modelSpecification.modelParams)
+                            this.services[this.modelSpecification.modelService].updateFile(this.CRUDModel[this.modelSpecification.modelPK],this.CRUDModel)
                                 .then(r => {
                                     this.loadDataTable();
                                     if (r.data) {
@@ -90,32 +99,12 @@
                         this.showInfo(e.toString());
                     });
             },
-            upload(){
-                let formData = new FormData();
-                formData.append('file',this.file,this.file.name);
-                this.services[this.modelSpecification.modelService].upload(this.CRUDModel[this.modelSpecification.modelPK], formData)
-                .then(r => {
-                    this.loadDataTable();
-                        if (r.data) {
-                            this.addAlert({
-                                value: true,
-                                color: 'success',
-                                icon: 'mdi-checkbox-marked-circle-outline',
-                                text: 'El archivo fue guardado correctamente.'
-                            });
-                        } else {
-                            this.addAlert({
-                                value: true,
-                                color: 'error',
-                                icon: 'mdi-close-circle-outline',
-                                text: 'Ocurrio un problema al tratar de guardar el archivo seleccionado.'
-                            });
-                        }                    
-                })
-                .catch(e => {
-                    this.showInfo(e.toString());
-                });
-                this.closeAllDialogs();
+            splitFileName(fileName) {
+                if(fileName === undefined || fileName === null) {
+                    return '';
+                }
+                this.tipoArchivo = fileName.split('.')[1];
+                return fileName.split('.')[0];
             }
         }
     }

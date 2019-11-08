@@ -8,17 +8,18 @@
 </template>
 
 <script>
-    import {mapMutations, mapState, mapActions} from 'vuex'
+    import {mapActions, mapMutations, mapState} from 'vuex'
 
     export default {
         name: "data-table-option",
-        props: ['data', 'modelId','model'],
+        props: ['data', 'modelId', 'model'],
         computed: {
             ...mapState(['services', 'CRUDModel', 'modelSpecification'])
         },
         methods: {
             ...mapMutations([
                 'changeInfoDialogVisibility',
+                'changeNewDialogVisibility',
                 'changeEditDialogVisibility',
                 'changeDeleteDialogVisibility',
                 'changeConfirmationDialogVisibility',
@@ -31,7 +32,7 @@
                 'setConfirmationAction',
                 'changeReviewLogListVisibility'
             ]),
-            ...mapActions(['loadDataTable','loadReviewLogList']),
+            ...mapActions(['loadDataTable', 'loadReviewLogList']),
             loadModel(id) {
                 this.services[this.modelSpecification.modelService].get(id, this.modelSpecification.modelParams)
                     .then(r => {
@@ -46,6 +47,11 @@
                 this.closeAllDialogs();
                 this.changeInfoDialogVisibility();
             },
+            showNewForm(id) {
+                this.loadModel(id);
+                this.closeAllDialogs();
+                this.changeNewDialogVisibility();
+            },
             showEditForm(id) {
                 this.loadModel(id);
                 this.closeAllDialogs();
@@ -56,23 +62,15 @@
                 this.closeAllDialogs();
                 this.changeDeleteDialogVisibility();
             },
-            showExtraDialog(dialogId, row) {
-                this.setTableRow(row);
-                this.closeAllDialogs();
-                this.changeExtraDialogVisibility(dialogId);
-            },
             showReviewLogList(id, status) {
-                this.loadReviewLogList({id,status});
+                this.loadReviewLogList({id, status});
                 this.closeAllDialogs();
-                this.changeReviewLogListVisibility();                
+                this.changeReviewLogListVisibility();
             },
             doAction() {
                 switch (this.data.type) {
                     case 'info':
                         this.showInfoDialog(this.modelId);
-                        break;
-                    case 'new':
-                        this.showExtraDialog(this.data.action, this.model);
                         break;
                     case 'edit':
                         this.showEditForm(this.modelId);
@@ -81,20 +79,21 @@
                         this.showDeleteConfirmation(this.modelId);
                         break;
                     case 'redirect':
-                        this.$router.push({
-                            name: this.data.route,
-                            params: {
-                                id: this.modelId
-                            }
-                        });
+                        this.$router.push({name: this.data.route, params: {id: this.modelId}});
                         break;
                     case 'link':
                         this.setConfirmationId(this.modelId);
                         this.setConfirmationAction(this.data.action);
                         this.changeConfirmationDialogVisibility();
                         break;
+                    case 'new':
+                        this.showNewForm(this.modelId);
+                        break;
                     case 'review-list':
-                        this.showReviewLogList(this.modelId,"EN_PROCESO");
+                        this.showReviewLogList(this.modelId, this.model.estadoProyecto);
+                        break;
+                    case 'download':
+                        this.services[this.modelSpecification.modelService].download(this.modelId);
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');
@@ -103,7 +102,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

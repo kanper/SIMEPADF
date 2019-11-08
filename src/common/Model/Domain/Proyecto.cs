@@ -18,7 +18,8 @@ namespace Model.Domain
             FechaInicio = fechaInicio;
             FechaFin = fechaFin;
             MontoProyecto = montoProyecto;
-            Beneficiarios = beneficiarios;            
+            Beneficiarios = beneficiarios;
+            TipoBeneficiario = "N";
         }
 
         public string CodigoProyecto { get; set; }

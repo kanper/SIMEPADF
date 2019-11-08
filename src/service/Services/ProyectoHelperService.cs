@@ -160,7 +160,8 @@ namespace Services
                         NombreIndicador = i.NombreIndicador,
                         NombreActividad = a.NombreActividad,
                         NombreResultado = r.NombreResultado,
-                        NombreObjetivo = o.NombreObjetivo
+                        NombreObjetivo = o.NombreObjetivo,
+                        TipoBeneficiario = i.TipoBeneficiario
                     }).ToList();
             }
             catch (Exception e)
@@ -191,7 +192,8 @@ namespace Services
                         NombreIndicador = i.NombreIndicador,
                         NombreActividad = a.NombreActividad,
                         NombreResultado = r.NombreResultado,
-                        NombreObjetivo = o.NombreObjetivo
+                        NombreObjetivo = o.NombreObjetivo,
+                        TipoBeneficiario = i.TipoBeneficiario
                     }).ToList();
             }
             catch (Exception e)

@@ -11,5 +11,6 @@ namespace DTO.DTO
         public string TipoArchivo { get; set; }
         public long TamanioArchivo { get; set; }
         public string DescripcionArchivo { get; set; }
+        public string TamanioF => $"{(TamanioArchivo/1024):N0} KB";
     }
 }

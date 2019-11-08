@@ -76,9 +76,9 @@
                         width: '45%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
-                    {text: 'Fecha inicio', align: 'center', value: 'fechaInicio', type: 'date'},
-                    {text: 'Fecha limite', align: 'center', value: 'fechaLimite', type: 'date'},
-                    {text: 'Monto', align: 'center', value: 'monto', type: 'money'},
+                    {text: 'Fecha inicio', align: 'center', value: 'fechaInicioF', type: 'date'},
+                    {text: 'Fecha limite', align: 'center', value: 'fechaLimiteF', type: 'date'},
+                    {text: 'Monto', align: 'center', value: 'montoF', type: 'money'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [
