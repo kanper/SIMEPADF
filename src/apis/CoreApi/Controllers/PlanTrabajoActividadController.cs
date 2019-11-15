@@ -18,10 +18,10 @@ namespace CoreApi.Controllers
             return Ok(_service.Get(id));
         }
 
-        [HttpGet("plan-trabajo/{id}/actividad/evidencia")]
-        public IActionResult GetAll(string id)
+        [HttpGet("plan-trabajo/{id}/actividad/evidencia/{country}")]
+        public IActionResult GetAll(string id, string country)
         {
-            return Ok(_service.GetAll(id));
+            return Ok(_service.GetAll(id, country));
         }
     }
 }

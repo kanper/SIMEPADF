@@ -93,7 +93,8 @@
                         this.showReviewLogList(this.modelId, this.model.estadoProyecto);
                         break;
                     case 'download':
-                        this.services[this.modelSpecification.modelService].download(this.modelId);
+                        console.log(this.model.nombreArchivo)
+                        this.services[this.modelSpecification.modelService].download(this.modelId, this.model.nombreArchivo);
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');

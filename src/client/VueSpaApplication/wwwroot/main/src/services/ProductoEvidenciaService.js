@@ -23,8 +23,8 @@ export default class ProductoEvidenciaService extends AbstractService {
         })
     }
 
-    download(id){
-        window.open(`${this.baseUrl}/producto/${id}/archivo/download`)
+    download(id, fileName){
+        window.open(`${this.baseUrl}/producto/${id}/archivo/download/${fileName}`)
     }
 
     getFile(id){

@@ -11,6 +11,6 @@ export default class PlanTrabajoActividadService extends AbstractService {
     }
 
     getAll(params) {
-        return this.axios.get(`${this.baseUrl}/${params.id}/actividad/evidencia`)
+        return this.axios.get(`${this.baseUrl}/${params.id}/actividad/evidencia/${params.pais}`)
     }
 }

@@ -80,11 +80,11 @@
                         action: '',                         //Acción personalizada
                         class: 'mr-2',                      //Clase a agregar
                         route: '',
-                        show: (row) => {return !row.archivoAdjunto}
+                        show: (row) => {return !row.archivoAdjunto && window.User.RolId === '4'}
                     },
-                    {text: 'Editar archivo', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
+                    {text: 'Editar archivo', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto && window.User.RolId === '4'}},
                     {text: 'Descargar archivo', type: 'download', icon: 'mdi-download', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
-                    {text: 'Eliminar archivo', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto}},
+                    {text: 'Eliminar archivo', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return row.archivoAdjunto && window.User.RolId === '4'}},
                 ],
                 bannerText: ''
             }
