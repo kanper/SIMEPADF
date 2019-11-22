@@ -1,14 +1,32 @@
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Model.Domain.DbHelper;
+
 namespace Model.Domain
 {
     public class PlanSocioDesagregacion
     {
+        public PlanSocioDesagregacion()
+        {
+        }
+
+        public PlanSocioDesagregacion(PlanDesagregacion planDesagregacion, SocioInternacional socioInternacional)
+        {
+            PlanDesagregacion = planDesagregacion;
+            SocioInternacional = socioInternacional;
+            Trimestre = QuarterCalculator.GetQuarter(new DateTime());
+            Valor = 0;
+        }
+
         public double Valor { get; set; }
         public int Trimestre { get; set; }
         public string PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto { get; set; }
         public int PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId { get; set; }
         public int PlanDesagregacionDesagregacionId { get; set; }
         public PlanDesagregacion PlanDesagregacion { get; set; }
-        public int ProyectoSocioSocioInternacionalId { get; set; }
-        public ProyectoSocio ProyectoSocio { get; set; }
+        public SocioInternacional SocioInternacional { get; set; }
+        [ForeignKey("SocioInternacional")]
+        public int SocioInternacionalId { get; set; }
     }
 }

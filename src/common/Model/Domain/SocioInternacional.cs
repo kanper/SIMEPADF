@@ -10,6 +10,8 @@ namespace Model.Domain
         public string SiglasSocio { get; set; }
 
         public ICollection<ProyectoSocio> ProyectoSocios { get; set; }
+        
+        public ICollection<PlanSocioDesagregacion> PlanDesagregaciones { get; set; }
 
         public bool Deleted { get; set; }
 

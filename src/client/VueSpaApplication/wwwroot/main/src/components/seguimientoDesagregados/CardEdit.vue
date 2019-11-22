@@ -9,10 +9,24 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
-                                <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
-                                            clearable data-vv-name="nombre" label="Nombre *" required
-                                            v-model="CRUDModel.nombreActividad" v-validate="'required|max:1000'"
-                                ></v-textarea>
+                                <v-text-field
+                                        v-model="CRUDModel.nombrePais"
+                                        v-validate="'required|max:50'"
+                                        :counter="50"
+                                        :error-messages="errors.collect('nombrePais')"
+                                        label="Nombre Pais*"
+                                        data-vv-name="nombrePais"
+                                        required
+                                ></v-text-field>
+                                <v-text-field
+                                        v-model="CRUDModel.siglaPais"
+                                        v-validate="'required|max:10'"
+                                        :counter="10"
+                                        :error-messages="errors.collect('siglaPais')"
+                                        label="Siglas Pais*"
+                                        data-vv-name="siglaPais"
+                                        required
+                                ></v-text-field>
                             </form>
                         </v-flex>
                     </v-layout>

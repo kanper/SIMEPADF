@@ -64,7 +64,7 @@
                         { name: 'Socios internacionales', value: 'socios', type: 'array'},
                         { name: 'Organizaciones', value: 'organizaciones', type: 'array'},
                     ],
-                    modelParams: {                                         //Parametros para el modelo
+                    modelParams: {
                         status:'',
                         country: ''
                     }
@@ -94,10 +94,10 @@
                     {text: 'Lista de revisiones', type: 'review-list', icon: 'mdi-share-variant', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Subir Archivos', type: 'redirect', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: 'plan-trabajo-evidencias', show: (row) => {return row.isInProcess}},
                     {text: 'Descarga de Archivos', type: 'redirect', icon: 'mdi-cloud-download', action: '', class: 'mr-2', route: 'plan-trabajo-evidencias', show: (row) => {return !row.isInProcess}},
-                    {text: 'Seguimiento de Proyecto', type: '', icon: 'mdi-cogs', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Seguimiento de Proyecto', type: 'redirect', icon: 'mdi-cogs', action: '', class: 'mr-2', route: 'proyecto-seguimiento-seleccion', show: (row) => {return true}},
                     {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '3review', class: 'mr-2', route: '', show: (row) => {return row.is2Review}},
-                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '2review', class: 'mr-2', route: '', show: (row) => {return row.is1Review}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '3review', class: 'mr-2', route: '', show: (row) => {return false}},
+                    {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '2review', class: 'mr-2', route: '', show: (row) => {return false}},
                     {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '1review', class: 'mr-2', route: '', show: (row) => {return row.isInProcess}},
                     {text: 'Marcar como revisado', type: 'link', icon: 'mdi-check-all', action: 'mark', class: 'mr-2', route: '', show: (row) => {return !row.isInProcess}},
                     {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},

@@ -139,6 +139,10 @@ namespace Services
         {
             try
             {
+                var socios = (from s in _context.SocioInternacional
+                        join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                        where  ps.ProyectoId == model.ProyectoId
+                        select s).ToList();
                 var plan = _context.PlanMonitoreoEvaluacion
                     .Include(f => f.FuenteDato)
                     .Include(f => f.FrecuenciaMedicion)
@@ -154,6 +158,15 @@ namespace Services
                 foreach (var dto in model.Desagregaciones)
                 {
                     plan.AddDesagregacion(_context.Desagregacion.Single(d => d.Id == dto.Id));
+                }
+                
+                foreach (var desagregado in plan.PlanDesagregaciones)
+                {
+                    desagregado.PlanSocios = new List<PlanSocioDesagregacion>();
+                    foreach (var socio in socios)
+                    {
+                        desagregado.AddPlanSocio(socio);
+                    }
                 }
                 _context.SaveChanges();
                 return true;

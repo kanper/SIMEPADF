@@ -1,6 +1,7 @@
 <template>
     <div>
-        <TitleBar/>
+        <TitleBar :enableAddBtn="false" :enableBackBtn="true"/>
+        <Banner color="grey" icon="mdi-clipboard-check" title="Proyecto" :text="bannerText"/>
         <AppAlert/>
         <v-container>
             <v-layout>
@@ -17,7 +18,7 @@
     </div>
 </template>
 <script>
-    import {mapMutations} from 'vuex'
+    import {mapState, mapMutations} from 'vuex'
     import InfoSnackbar from '../common/SnackbarInfo'
     import TitleBar from '../common/NavbarTitle'
     import DeleteDialog from '../common/DialogDelete'
@@ -26,6 +27,7 @@
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
     import FormNew from './CardNew'
+    import Banner from '../common/BannerCard'
 
     export default {
         components: {
@@ -36,52 +38,54 @@
             AppAlert,
             FormEdit,
             DataInfo,
-            FormNew
+            FormNew,
+            Banner
         },
-        name: "PaisIndex",
+        name: "SeguimientoDesagregadosIndex",
         data() {
             return {
                 model: {
-                    modelName: 'pais',
-                    modelIcon: 'mdi-map-marker-radius',
-                    modelTitle: 'Paises',
-                    modelService: 'paisService',
+                    modelName: 'proyectoSeguimiento',
+                    modelIcon: 'mdi-flag-variant',
+                    modelTitle: 'Seguimiento: Selección de indicador',
+                    modelService: 'proyectoSeguimientoIndicadorService',
                     modelPK: 'id',
-                    modelStamp: 'nombrePais',
-                    modelInfo: [
-                        {
-                            name: 'Nombre Pais',
-                            value: 'nombrePais',
-                            type: 'text'
-                        },
-                        {
-                            name: 'Siglas Pais',
-                            value: 'siglaPais',
-                            type: 'text'
-                        }
-                    ],
-                    modelParams: {}
+                    modelStamp: 'nombreIndicador',
+                    modelInfo: [],
+                    modelParams: {
+                        id: this.$route.params.id
+                    }
                 },
                 dataTableHeaders: [
                     {
-                        text: 'Pais',
-                        value: 'nombrePais',
+                        text: 'Indicador',
+                        value: 'nombreIndicador',
                         align: 'start',
                         sortable: true,
                         filterable: true,
                         divider: false,
                         class: [],
-                        width: '60%'
+                        width: '25%'
                     },
                     {
-                        text: 'Siglas',
-                        value: 'siglaPais',
+                        text: 'Objetivo',
+                        value: 'nombreObjetivo',
                         align: 'start',
                         sortable: true,
                         filterable: true,
                         divider: false,
                         class: [],
-                        width: ''
+                        width: '25%'
+                    },
+                    {
+                        text: 'Resultado',
+                        value: 'nombreResultado',
+                        align: 'start',
+                        sortable: true,
+                        filterable: true,
+                        divider: false,
+                        class: [],
+                        width: '25%'
                     },
                     {
                         text: 'Opciones',
@@ -96,46 +100,24 @@
                 ],
                 dataTableOptions: [
                     {
-                        text: 'Información',
-                        type: 'info',
-                        icon: 'mdi-information-outline',
+                        text: 'Adminstrar seguimientos',
+                        type: 'redirect',
+                        icon: 'mdi-table-edit',
                         color: '',
                         action: '',
                         class: 'mr-2',
-                        route: '',
-                        show: (row) => {
-                            return true
-                        },
-                        disabled: false
-                    },
-                    {
-                        text: 'Editar',
-                        type: 'edit',
-                        icon: 'mdi-pencil',
-                        color: '',
-                        action: '',
-                        class: 'mr-2',
-                        route: '',
-                        show: (row) => {
-                            return true
-                        },
-                        disabled: false
-                    },
-                    {
-                        text: 'Eliminar',
-                        type: 'delete',
-                        icon: 'mdi-delete',
-                        color: '',
-                        action: '',
-                        class: 'mr-2',
-                        route: '',
+                        route: 'proyecto-seguimiento-registro',
                         show: (row) => {
                             return true
                         },
                         disabled: false
                     },
                 ],
+                bannerText: ''
             }
+        },
+        computed: {
+            ...mapState(['services'])
         },
         methods: {
             ...mapMutations(['defineModel', 'clearAlerts', 'emptyDataTable']),
@@ -143,6 +125,13 @@
         created() {
             this.clearAlerts();
             this.defineModel(this.model);
+            this.services.simpleIdentificadorService.getProyecto(this.$route.params.id)
+                .then(r => {
+                    this.bannerText = r.data.nombre;
+                })
+                .catch(e => {
+                    this.showInfo(e.toString());
+                })
         },
         destroyed() {
             this.emptyDataTable();

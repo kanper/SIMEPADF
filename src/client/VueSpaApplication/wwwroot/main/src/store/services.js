@@ -27,6 +27,8 @@ import registroRevisionService from '../services/RegistroRevisionService'
 import evidenciaService from '../services/ProductoEvidenciaService'
 import planTrabajoActividadService from '../services/PlanTrabajoActividadService'
 import simpleIdentificadorService from '../services/SimpleIdentificadorService'
+import proyectoSeguimientoIndicadorService from '../services/ProyectoSeguimientoIndicadorService'
+import proyectoSeguimientoRegistroService from '../services/ProyectoSeguimientoRegistroService'
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
@@ -66,5 +68,7 @@ export default {
     evidenciaService: new evidenciaService(Axios, apiUrl),
     planTrabajoActividadService: new planTrabajoActividadService(Axios, apiUrl),
     simpleIdentificadorService: new simpleIdentificadorService(Axios,apiUrl),
+    proyectoSeguimientoIndicadorService: new proyectoSeguimientoIndicadorService(Axios, apiUrl),
+    proyectoSeguimientoRegistroService: new proyectoSeguimientoRegistroService(Axios, apiUrl),
     usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }

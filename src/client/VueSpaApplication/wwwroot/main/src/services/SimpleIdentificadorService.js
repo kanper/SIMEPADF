@@ -13,4 +13,8 @@ export default class SimpleIdentificadorService extends AbstractService {
     getActividadPT(id){
         return this.axios.get(`${this.baseUrl}/actividad-pt/${id}`)
     }
+
+    getIndicador(id){
+        return this.axios.get(`${this.baseUrl}/indicador/${id}`)
+    }
 }

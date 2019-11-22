@@ -26,6 +26,8 @@ import ActividadProductoIndex from './components/producto/IndexAP'
 import ProyectoInfoIndex from './components/proyectoInfo/IndexPI'
 import EvidenciaActividadIndex from './components/evidencia/IndexAE'
 import EvidenciaProductoIndex from './components/evidencia/IndexPE'
+import ProyectoSeguimientoIndicadorIndex from './components/seguimientoDesagregados/IndexPI'
+import ProyectoSeguimientoRegistroIndex from './components/seguimientoDesagregados/IndexPS'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
 import usuarioChange from './components/usuarios/Change'
@@ -58,8 +60,18 @@ const routes = [
     {path: '/productos', name: 'producto-index', component: ProductoIndex},
     {path: '/actividad/:id/productos', name: 'actividad-producto-index', component: ActividadProductoIndex},
     {path: '/proyecto/:id/info', name: 'proyecto-info-index', component: ProyectoInfoIndex},
-    {path: '/plan-trabajo/:id/actividades/evidencia', name: 'plan-trabajo-evidencias', component: EvidenciaActividadIndex},
-    {path: '/actividad-plan-trabajo/:id/productos/evidencias', name: 'producto-evidencias', component: EvidenciaProductoIndex},    
+    {
+        path: '/plan-trabajo/:id/actividades/evidencia',
+        name: 'plan-trabajo-evidencias',
+        component: EvidenciaActividadIndex
+    },
+    {
+        path: '/actividad-plan-trabajo/:id/productos/evidencias',
+        name: 'producto-evidencias',
+        component: EvidenciaProductoIndex
+    },
+    {path: '/proyecto/:id/seguimiento/seleccion-indicador', name: 'proyecto-seguimiento-seleccion', component: ProyectoSeguimientoIndicadorIndex},
+    {path: '/proyecto/:idProyecto/seguimiento/:idIndicador/registro', name: 'proyecto-seguimiento-registro', component: ProyectoSeguimientoRegistroIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
     {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},

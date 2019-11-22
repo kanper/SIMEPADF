@@ -52,7 +52,7 @@ namespace DatabaseContext
             {
                 p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto,
                 p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId,
-                p.ProyectoSocioSocioInternacionalId,
+                p.SocioInternacionalId,
                 p.PlanDesagregacionDesagregacionId
             });
 
