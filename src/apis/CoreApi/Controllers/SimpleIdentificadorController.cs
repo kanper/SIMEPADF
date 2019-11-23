@@ -23,5 +23,11 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.GetMapActividadPT(id));
         }
+
+        [HttpGet("identificador/indicador/{id}")]
+        public IActionResult GetNombreIndicador(int id)
+        {
+            return Ok(_service.GetMapIndicador(id));
+        }
     }
 }

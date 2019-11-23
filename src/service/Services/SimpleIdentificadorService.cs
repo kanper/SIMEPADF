@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using DatabaseContext;
 using DTO.DTO;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 
 namespace Services
 {
@@ -9,6 +10,7 @@ namespace Services
     {
         MapDTO GetMapProyecto(string id);
         MapDTO GetMapActividadPT(int id);
+        MapDTO GetMapIndicador(int id);
     }
 
     public class SimpleIdentificadorService : ISimpleIdentificadorService
@@ -48,6 +50,25 @@ namespace Services
                     {
                         Id = apt.CodigoActividadPT,
                         Nombre = apt.NombreActividad
+                    }).Single();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public MapDTO GetMapIndicador(int id)
+        {
+            try
+            {
+                return (from ind in _context.Indicador
+                    where ind.CodigoIndicador == id
+                    select new MapDTO()
+                    {
+                        Id = ind.CodigoIndicador,
+                        Nombre = ind.NombreIndicador
                     }).Single();
             }
             catch (Exception e)

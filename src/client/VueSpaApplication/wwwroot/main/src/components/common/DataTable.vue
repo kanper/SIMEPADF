@@ -15,6 +15,7 @@
                 :items="dataTable"
                 :loading="isTableLoading"
                 :search="search"
+                multi-sort
         >
             <template v-slot:item.action="{ item }">
                 <TableOption

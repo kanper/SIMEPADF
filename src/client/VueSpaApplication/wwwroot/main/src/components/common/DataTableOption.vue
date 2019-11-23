@@ -1,7 +1,9 @@
 <template>
     <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-            <v-icon :class="data.class" @click="doAction" v-on="on">{{data.icon}}</v-icon>
+            <v-btn @click="doAction" :class="data.class" tile large :color="data.color" icon v-on="on" :disabled="data.disabled">
+                <v-icon>{{data.icon}}</v-icon>
+            </v-btn>
         </template>
         <span>{{data.text}}</span>
     </v-tooltip>
@@ -79,7 +81,7 @@
                         this.showDeleteConfirmation(this.modelId);
                         break;
                     case 'redirect':
-                        this.$router.push({name: this.data.route, params: {id: this.modelId}});
+                        this.$router.push({name: this.data.route, params: this.model});
                         break;
                     case 'link':
                         this.setConfirmationId(this.modelId);
@@ -93,7 +95,6 @@
                         this.showReviewLogList(this.modelId, this.model.estadoProyecto);
                         break;
                     case 'download':
-                        console.log(this.model.nombreArchivo)
                         this.services[this.modelSpecification.modelService].download(this.modelId, this.model.nombreArchivo);
                         break;
                     default:

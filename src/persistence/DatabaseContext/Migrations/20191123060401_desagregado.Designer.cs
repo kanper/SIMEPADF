@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    [Migration("20191102034036_AgregaNuevoTablaEntrePlanDesagregacionSocio")]
-    partial class AgregaNuevoTablaEntrePlanDesagregacionSocio
+    [Migration("20191123060401_desagregado")]
+    partial class desagregado
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -662,21 +662,17 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId");
 
-                    b.Property<int>("ProyectoSocioSocioInternacionalId");
+                    b.Property<int>("SocioInternacionalId");
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
-
-                    b.Property<string>("ProyectoSocioProyectoId");
-
-                    b.Property<int?>("ProyectoSocioSocioInternacionalId1");
 
                     b.Property<int>("Trimestre");
 
                     b.Property<double>("Valor");
 
-                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "ProyectoSocioSocioInternacionalId", "PlanDesagregacionDesagregacionId");
+                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId");
 
-                    b.HasIndex("ProyectoSocioSocioInternacionalId1", "ProyectoSocioProyectoId");
+                    b.HasIndex("SocioInternacionalId");
 
                     b.HasIndex("PlanDesagregacionDesagregacionId", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto");
 
@@ -1324,12 +1320,13 @@ namespace DatabaseContext.Migrations
 
             modelBuilder.Entity("Model.Domain.PlanSocioDesagregacion", b =>
                 {
-                    b.HasOne("Model.Domain.ProyectoSocio", "ProyectoSocio")
-                        .WithMany()
-                        .HasForeignKey("ProyectoSocioSocioInternacionalId1", "ProyectoSocioProyectoId");
+                    b.HasOne("Model.Domain.SocioInternacional", "SocioInternacional")
+                        .WithMany("PlanDesagregaciones")
+                        .HasForeignKey("SocioInternacionalId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Model.Domain.PlanDesagregacion", "PlanDesagregacion")
-                        .WithMany()
+                        .WithMany("PlanSocios")
                         .HasForeignKey("PlanDesagregacionDesagregacionId", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

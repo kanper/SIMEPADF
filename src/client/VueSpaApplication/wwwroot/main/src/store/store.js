@@ -18,6 +18,7 @@ export default new Vuex.Store({
         visibleDeleteDialog: false,
         visibleInfoDialog: false,
         visibleConfirmationDialog: false,
+        visibleCellDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -28,7 +29,8 @@ export default new Vuex.Store({
         visibleReviewLogList: false,
         reviewLog: {},
         visibleReviewLog: false,
-        isTableLoading: true
+        isTableLoading: true,
+        tableCellValue: ''
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -46,6 +48,7 @@ export default new Vuex.Store({
         changeConfirmationDialogVisibility: (state) => state.visibleConfirmationDialog = !state.visibleConfirmationDialog,
         changeReviewLogListVisibility: (state) => state.visibleReviewLogList = !state.visibleReviewLogList,
         changeReviewLogVisibility: (state) => state.visibleReviewLog = !state.visibleReviewLog,
+        changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
@@ -68,6 +71,7 @@ export default new Vuex.Store({
         setReviewLog: (state, data) => state.reviewLog = data,
         resetTableLoader: (state) => state.isTableLoading = true,
         stopTableLoading: (state) => state.isTableLoading = false,
+        setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
     }
     ,
     actions: {
