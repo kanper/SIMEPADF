@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    [Migration("20191122070112_CambioTipoRelacionPlanSocioDesagregacion")]
-    partial class CambioTipoRelacionPlanSocioDesagregacion
+    [Migration("20191123151422_desagregado")]
+    partial class desagregado
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

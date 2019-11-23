@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseContext.Migrations
 {
-    public partial class CambioTipoRelacionPlanSocioDesagregacion : Migration
+    public partial class desagregado : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
