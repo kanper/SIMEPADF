@@ -89,7 +89,7 @@
                                 title: 'Seguimiento de Indicadores',
                                 icon: 'mdi-flag-checkered',
                                 children: [
-                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/'},
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
                                     {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/'},
                                     {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/'},
                                 ]

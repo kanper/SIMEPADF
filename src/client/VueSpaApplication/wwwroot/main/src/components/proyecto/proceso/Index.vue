@@ -79,6 +79,7 @@
                     },
                     {text: 'Clasificacion',align: 'center', value: 'clasificacion', type: 'text'},
                     {text: 'Estado', align: 'center', value: 'estado', type: 'text'},
+                    {text: 'Avance', align: 'center', value: 'avance', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [

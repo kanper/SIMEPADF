@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20191127001200_AgregaCampoProgresoProyecto")]
+    partial class AgregaCampoProgresoProyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,39 +218,6 @@ namespace DatabaseContext.Migrations
                     b.HasIndex("ActividadPTCodigoActividadPT");
 
                     b.ToTable("ActividadPTPais");
-                });
-
-            modelBuilder.Entity("Model.Domain.Alerta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Expira");
-
-                    b.Property<DateTime>("Inicio");
-
-                    b.Property<string>("Mensaje")
-                        .IsRequired()
-                        .HasMaxLength(150);
-
-                    b.Property<string>("Pais")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<bool>("Revisado");
-
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasMaxLength(6);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Alertas");
                 });
 
             modelBuilder.Entity("Model.Domain.ArchivoDescripcion", b =>
@@ -696,8 +665,6 @@ namespace DatabaseContext.Migrations
                     b.Property<int>("SocioInternacionalId");
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
-
-                    b.Property<string>("CodigoPais");
 
                     b.Property<int>("Trimestre");
 

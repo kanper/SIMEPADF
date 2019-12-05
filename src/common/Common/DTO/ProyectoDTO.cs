@@ -12,6 +12,7 @@ namespace DTO.DTO
         public DateTime FechaFin { get; set; }       
         public double MontoProyecto { get; set; }
         public double Beneficiarios { get; set; }
+        public double PorcentajeAvance { get; set; }
         public string TipoBeneficiario { get; set; }
         public string EstadoProyecto {get; set; }
         public bool IsPlanTrabajo { get; set; }
@@ -21,6 +22,8 @@ namespace DTO.DTO
         public MapDTO[] Socios { get; set; }
         public PlanMEDTO[] Indicadores { get; set; }
         public ActividadPtDTO[] Planes { get; set; }
+        public bool IsChecked { get; set; }
+        public string Avance => DTOFormater.FormatPercent(PorcentajeAvance / Beneficiarios);
         public bool IsCancelled => EstadoProyecto.Equals("CANCELADO", StringComparison.OrdinalIgnoreCase);
         public bool IsCompleted => EstadoProyecto.Equals("FINALIZADO", StringComparison.OrdinalIgnoreCase);
         public bool IsIncomplete => EstadoProyecto.Equals("INCOMPLETO", StringComparison.OrdinalIgnoreCase);

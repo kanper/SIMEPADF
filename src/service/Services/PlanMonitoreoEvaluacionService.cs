@@ -158,11 +158,19 @@ namespace Services
                 foreach (var dto in model.Desagregaciones)
                 {
                     plan.AddDesagregacion(_context.Desagregacion.Single(d => d.Id == dto.Id));
-                }
-                
+                }                
                 foreach (var desagregado in plan.PlanDesagregaciones)
                 {
-                    desagregado.PlanSocios = new List<PlanSocioDesagregacion>();
+                    desagregado.PlanSocios = _context.PlanSocioDesagregacion
+                        .Where(p =>
+                            p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == model.ProyectoId &&
+                            p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == model.IndicadorId).ToList();
+                    foreach (var planSocio in desagregado.PlanSocios)
+                    {
+                        _context.PlanSocioDesagregacion.Remove(planSocio);
+                    }
+                    desagregado.PlanSocios.Clear();
+                    _context.SaveChanges();
                     foreach (var socio in socios)
                     {
                         desagregado.AddPlanSocio(socio);

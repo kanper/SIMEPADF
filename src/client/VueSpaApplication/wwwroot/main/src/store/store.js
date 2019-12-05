@@ -30,7 +30,9 @@ export default new Vuex.Store({
         reviewLog: {},
         visibleReviewLog: false,
         isTableLoading: true,
-        tableCellValue: ''
+        tableCellValue: '',
+        optionPanelChecked: false,
+        tracingData: null
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -49,6 +51,7 @@ export default new Vuex.Store({
         changeReviewLogListVisibility: (state) => state.visibleReviewLogList = !state.visibleReviewLogList,
         changeReviewLogVisibility: (state) => state.visibleReviewLog = !state.visibleReviewLog,
         changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
+        changeOptionPanelCheck: (state) => state.optionPanelChecked = !state.optionPanelChecked,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
@@ -72,6 +75,7 @@ export default new Vuex.Store({
         resetTableLoader: (state) => state.isTableLoading = true,
         stopTableLoading: (state) => state.isTableLoading = false,
         setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
+        setTracingData: (state, data) => state.tracingData = data,
     }
     ,
     actions: {
@@ -102,6 +106,15 @@ export default new Vuex.Store({
                 .catch(e => {
                     commit('showInfo', e.toString);
                 });
+        },
+        loadTracingTable: async function ({commit}, params) {
+            services.seguimientoIndicadorService.seguimientoDesagregados(params.year, params.quarter)
+                .then(r => {
+                    commit('setTracingData', r.data)
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
         }
     }
 })

@@ -80,6 +80,7 @@ namespace DatabaseContext
             new ProductoConfig(modelBuilder.Entity<Producto>());
             new RegistroRevisionConfig(modelBuilder.Entity<RegistroRevision>());
             new ArchivoDescripcionConfig(modelBuilder.Entity<ArchivoDescripcion>());
+            new AlertConfig(modelBuilder.Entity<Alerta>());
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -111,6 +112,7 @@ namespace DatabaseContext
         public DbSet<RegistroRevision> RegistroRevision { get; set; }
         public DbSet<ArchivoDescripcion> ArchivoDescripcion { get; set; }
         public DbSet<PlanSocioDesagregacion> PlanSocioDesagregacion { get; set; }
+        public DbSet<Alerta> Alertas { get; set; }
 
         public override int SaveChanges()
         {

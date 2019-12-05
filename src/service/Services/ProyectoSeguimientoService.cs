@@ -149,12 +149,33 @@ namespace Services
                                  p.SocioInternacionalId == idSocio &&
                                  p.PlanDesagregacionDesagregacionId == idDesagregado).Valor = valor;
                 _context.SaveChanges();
+                updateProyectPercent(idProyecto);
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return false;
+            }
+        }
+
+        private void updateProyectPercent(string idProyect)
+        {
+            try
+            {
+                var proyecto = _context.Proyecto.Single(p => p.CodigoProyecto == idProyect);
+                var accumulated = 0.0;
+                foreach (var reg in _context.PlanSocioDesagregacion.Where(psd => psd.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyect))
+                {
+                    accumulated = accumulated + reg.Valor;
+                }
+                proyecto.PorcentajeAvence = accumulated;
+                _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

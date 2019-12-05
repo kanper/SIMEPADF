@@ -28,6 +28,7 @@ import EvidenciaActividadIndex from './components/evidencia/IndexAE'
 import EvidenciaProductoIndex from './components/evidencia/IndexPE'
 import ProyectoSeguimientoIndicadorIndex from './components/seguimientoDesagregados/IndexPI'
 import ProyectoSeguimientoRegistroIndex from './components/seguimientoDesagregados/IndexPS'
+import SeguimientoIndicadorDesagregadoIndex from './components/seguimientoIndicadores/IndexSID'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
 import usuarioChange from './components/usuarios/Change'
@@ -72,6 +73,7 @@ const routes = [
     },
     {path: '/proyecto/:id/seguimiento/seleccion-indicador', name: 'proyecto-seguimiento-seleccion', component: ProyectoSeguimientoIndicadorIndex},
     {path: '/proyecto/:idProyecto/seguimiento/:idIndicador/registro', name: 'proyecto-seguimiento-registro', component: ProyectoSeguimientoRegistroIndex},
+    {path: '/seguimiento-indicadores/desagregados', name: 'proyecto-seguimiento-indicador-desagregado', component: SeguimientoIndicadorDesagregadoIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
     {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},

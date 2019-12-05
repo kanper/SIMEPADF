@@ -29,5 +29,23 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.GetMapIndicador(id));
         }
+
+        [HttpGet("identificador/paises/codigos")]
+        public IActionResult GetAllPaisesCodes()
+        {
+            return Ok(_service.GetAllCountriesCodes());
+        }
+
+        [HttpGet("identificador/socios/codigos")]
+        public IActionResult GetAllSociosCodes()
+        {
+            return Ok(_service.GetAllSocioCodes());
+        }
+
+        [HttpGet("identificador/desagregados")]
+        public IActionResult GetAllDesagregados()
+        {
+            return Ok(_service.GetAllDesagregados());
+        }
     }
 }

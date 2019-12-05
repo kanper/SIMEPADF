@@ -29,6 +29,7 @@ import planTrabajoActividadService from '../services/PlanTrabajoActividadService
 import simpleIdentificadorService from '../services/SimpleIdentificadorService'
 import proyectoSeguimientoIndicadorService from '../services/ProyectoSeguimientoIndicadorService'
 import proyectoSeguimientoRegistroService from '../services/ProyectoSeguimientoRegistroService'
+import seguimientoIndicadorService from '../services/SeguimientoIndicadorService'
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
@@ -70,5 +71,6 @@ export default {
     simpleIdentificadorService: new simpleIdentificadorService(Axios,apiUrl),
     proyectoSeguimientoIndicadorService: new proyectoSeguimientoIndicadorService(Axios, apiUrl),
     proyectoSeguimientoRegistroService: new proyectoSeguimientoRegistroService(Axios, apiUrl),
+    seguimientoIndicadorService: new seguimientoIndicadorService(Axios, apiUrl),
     usuarioService: new usuarioService(Axios, apiUrl, authUrl)
 }

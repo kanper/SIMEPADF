@@ -210,13 +210,15 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
+                        PorcentajeAvance = p.PorcentajeAvence,
                         EstadoProyecto = e.TipoEstado,
                         IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
                             where pl.CodigoPlanTrabajo == p.CodigoProyecto 
                             select pl).Any(),
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
                             where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
-                            select i).Any(),                        
+                            select i).Any(),
+
                     }).ToList();
             }
             catch (Exception e)
@@ -455,7 +457,7 @@ namespace Services
             var proyecto = _context.Proyecto
                 .Include(p => p.EstadoProyecto)
                 .Single(P => P.CodigoProyecto == id);
-            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id - 1));
+            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado == "EN_PROCESO");
         }
 
         private Pais GetPais(int id)
