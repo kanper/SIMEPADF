@@ -1,3 +1,5 @@
+using System;
+using DTO.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -23,6 +25,12 @@ namespace CoreApi.Controllers
         public IActionResult CheckRead(int id)
         {
             return Ok(_service.MarkAsRead(id));
+        }
+
+        [HttpPost("/alerta")]
+        public IActionResult Add([FromBody] AlertaDTO model) 
+        {
+            return Ok(_service.CreateAlert(model));
         }
     }
 }

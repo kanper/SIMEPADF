@@ -66,7 +66,8 @@
                     ],
                     modelParams: {
                         status:'',
-                        country: ''
+                        country: '',
+                        model: null
                     }
                 },
                 dataTableHeaders: [

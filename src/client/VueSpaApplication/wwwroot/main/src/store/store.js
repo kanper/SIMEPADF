@@ -32,7 +32,8 @@ export default new Vuex.Store({
         isTableLoading: true,
         tableCellValue: '',
         optionPanelChecked: false,
-        tracingData: null
+        tracingData: null,
+        notifications: []
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -76,6 +77,7 @@ export default new Vuex.Store({
         stopTableLoading: (state) => state.isTableLoading = false,
         setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
         setTracingData: (state, data) => state.tracingData = data,
+        fillNotifications: (state, data) => state.notifications = data,
     }
     ,
     actions: {
@@ -110,7 +112,25 @@ export default new Vuex.Store({
         loadTracingTable: async function ({commit}, params) {
             services.seguimientoIndicadorService.seguimientoDesagregados(params.year, params.quarter)
                 .then(r => {
-                    commit('setTracingData', r.data)
+                    commit('setTracingData', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        findAllNotifications: async function ({commit}, params) {
+            services.alertaService.getAlerts(params.rol, params.country)
+                .then(r => {
+                    commit('fillNotifications', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        saveNotification: async function ({commit}, params) {
+            services.alertaService.add(params)
+                .then(r => {
+                    commit('fillNotifications', r.data);
                 })
                 .catch(e => {
                     commit('showInfo', e.toString);

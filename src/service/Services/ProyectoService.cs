@@ -218,6 +218,15 @@ namespace Services
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
                             where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
                             select i).Any(),
+                        Paises = (from pais2 in _context.Pais 
+                            join pp2 in _context.ProyectoPais 
+                                on pais2 equals pp2.Pais 
+                            where pp2.ProyectoId == p.CodigoProyecto 
+                            select new MapDTO()
+                            {
+                                Id = pais2.Id, 
+                                Nombre = pais2.NombrePais
+                            }).ToArray(),
 
                     }).ToList();
             }
@@ -254,6 +263,15 @@ namespace Services
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
                             where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
                             select i).Any(),
+                        Paises = (from pais2 in _context.Pais 
+                            join pp2 in _context.ProyectoPais 
+                                on pais2 equals pp2.Pais 
+                            where pp2.ProyectoId == p.CodigoProyecto 
+                            select new MapDTO()
+                            {
+                                Id = pais2.Id, 
+                                Nombre = pais2.NombrePais
+                            }).ToArray(),
                     }).ToList();
             }
             catch (Exception e)
@@ -299,7 +317,7 @@ namespace Services
                         .Single(o => o.Id == dto.Id)
                         .AddProyecto(proyecto);
                 }
-                _context.SaveChanges();                
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)

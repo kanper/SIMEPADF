@@ -156,6 +156,7 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import services from "../../../store/services";
 
     export default {
         data() {
@@ -180,7 +181,15 @@
                 regionPais: null,
                 datePickInicio: false,
                 datePickFin : false,
-                datePickApro: false
+                datePickApro: false,
+                notificationModel: {
+                    titulo: 'Nuevo proyecto',
+                    mensaje: null,
+                    tipo: 'info',
+                    rol: null,
+                    pais: null,
+                    nombreUsuario: null
+                }
             }
         },
         computed: {
@@ -229,6 +238,11 @@
                                     this.showInfo(e.toString());
                                 });
                             this.closeAllDialogs();
+                            this.buildNotification();
+                            this.services.alertaService.add(this.notificationModel)
+                                .catch(e => {
+                                    this.showInfo(e.toString());
+                                });
                         } else {
                             this.showInfo(this.$validator.errors.all().toString());
                         }
@@ -250,6 +264,14 @@
                 this.newModel.socios = [];
                 this.newModel.organizaciones = [];
                 this.$validator.reset();
+            },
+            buildNotification(){
+                this.notificationModel.mensaje = 'Se a creado un nuevo proyecto con nombre: "' + this.newModel.nombreProyecto + '"';
+                this.notificationModel.nombreUsuario = window.User.Nombre + ' ' + window.User.Apellido;
+                this.notificationModel.pais = this.newModel.paises.map(function (item) {
+                    return item.nombre;
+                }).join("$");
+                this.notificationModel.rol = "2$3"
             }
         },
         created() {

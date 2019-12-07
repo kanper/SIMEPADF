@@ -14,6 +14,9 @@
 
     export default {
         name: "data-table-option",
+        data () {
+            return {}
+        },
         props: ['data', 'modelId', 'model'],
         computed: {
             ...mapState(['services', 'CRUDModel', 'modelSpecification'])
@@ -34,7 +37,7 @@
                 'setConfirmationAction',
                 'changeReviewLogListVisibility'
             ]),
-            ...mapActions(['loadDataTable', 'loadReviewLogList']),
+            ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification']),
             loadModel(id) {
                 this.services[this.modelSpecification.modelService].get(id, this.modelSpecification.modelParams)
                     .then(r => {
@@ -84,6 +87,7 @@
                         this.$router.push({name: this.data.route, params: this.model});
                         break;
                     case 'link':
+                        this.modelSpecification.modelParams.model = this.model;
                         this.setConfirmationId(this.modelId);
                         this.setConfirmationAction(this.data.action);
                         this.changeConfirmationDialogVisibility();
@@ -100,7 +104,7 @@
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');
                 }
-            }
+            },
         }
     }
 </script>
