@@ -40,7 +40,7 @@
         methods: {
             ...mapMutations(['changeCellDialogVisibility','setTableCellValue','showInfo']),
             save(){
-                this.services.proyectoSeguimientoRegistroService.setValor(this.$route.params.idProyecto,this.$route.params.idIndicador,this.desagregado,this.socio.replace("S", ""),this.cellValue)
+                this.services.proyectoSeguimientoRegistroService.setValorByPais(this.$route.params.idProyecto,this.$route.params.idIndicador,this.desagregado,this.socio.replace("S", ""),this.cellValue, window.User.Pais)
                     .then(r => {
                         this.changeCellDialogVisibility();
                         this.showInfo("Datos guardados correctamente.");

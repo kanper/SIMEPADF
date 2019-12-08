@@ -5,6 +5,7 @@ namespace DTO.DTO
         public int Id { get; set; }
         public string NombreIndicador { get; set; }
         public string NombreActividad { get; set; }
+        public string Nivel { get; set; }
         public MapDTO[] OrganizacionesResponsables { get; set; }
         public MapDTO[] Desagregados { get; set; }
         public SeguimientoIndicadorTableDTO[] RegistroPaises { get; set; }

@@ -90,8 +90,8 @@
                                 icon: 'mdi-flag-checkered',
                                 children: [
                                     {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
-                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/'},
-                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/'},
+                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
+                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
                         ]},
@@ -109,7 +109,9 @@
                                 title: 'Seguimiento de Indicadores',
                                 icon: 'mdi-flag-checkered',
                                 children: [
-                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/'},
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
+                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
+                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
                         ]},
@@ -121,6 +123,15 @@
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
                                 ]
                             },
+                            {
+                                title: 'Seguimiento de Indicadores',
+                                icon: 'mdi-flag-checkered',
+                                children: [
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
+                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
+                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
+                                ]
+                            },
                         ]},
                     {id: 5, rol: 'Director de Finanzas', icon:'mdi-account',menu:[
                             {
@@ -128,6 +139,15 @@
                                 icon: 'mdi-briefcase',
                                 children: [
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
+                                ]
+                            },
+                            {
+                                title: 'Seguimiento de Indicadores',
+                                icon: 'mdi-flag-checkered',
+                                children: [
+                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
+                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
+                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
                         ]},

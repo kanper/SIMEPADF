@@ -32,7 +32,7 @@ export default new Vuex.Store({
         isTableLoading: true,
         tableCellValue: '',
         optionPanelChecked: false,
-        tracingData: null,
+        tracingData: [],
         notifications: []
     },
     mutations: {

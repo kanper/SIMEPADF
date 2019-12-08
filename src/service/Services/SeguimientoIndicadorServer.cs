@@ -39,7 +39,8 @@ namespace Services
                             join act in _context.Actividad on ind.Actividad equals act
                             join plan in _context.PlanMonitoreoEvaluacion on ind equals plan.Indicador
                             join proy in _context.Proyecto on plan.Proyecto equals proy 
-                            where act.Resultado == res
+                            where act.Resultado == res &&
+                                  proy.FechaInicio.Year == year
                                   select new SeguimientoIndicadorDTO()
                                   {
                                       Id = ind.CodigoIndicador,
@@ -77,7 +78,7 @@ namespace Services
                                   }).ToArray()
                     }).ToList();
             }
-            catch (Exception e)
+            catch (Exception e)             
             {
                 Console.WriteLine(e);
                 return new List<SeguimientoIndicadorWrapperDTO>();
@@ -86,7 +87,15 @@ namespace Services
 
         public IEnumerable<SeguimientoIndicadorWrapperDTO> ForPaises(int year, int quarter)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<SeguimientoIndicadorWrapperDTO>();
+            }
         }
 
         public IEnumerable<SeguimientoIndicadorWrapperDTO> ForRegiones(int year, int quarter)

@@ -6,7 +6,6 @@
             <v-layout>
                 <v-flex>
                     <OptionPanel/>
-                    <DataTable/>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -18,24 +17,22 @@
     import InfoSnackbar from '../common/SnackbarInfo'
     import TitleBar from '../common/NavbarTitle'
     import AppAlert from '../common/Alert'
-    import DataTable from './DataTable'
     import OptionPanel from "./OptionPanel";
 
     export default {
         components: {
             InfoSnackbar,
-            DataTable,
             TitleBar,
             AppAlert,
-            OptionPanel
+            OptionPanel,
         },
-        name: "seguimientoIndicadoresDesagregado",
+        name: "seguimientoIndicadoresPais",
         data() {
             return {
                 model: {
                     modelName: 'desagregado',
                     modelIcon: 'mdi-table-large',
-                    modelTitle: 'Seguimiento de indicadores: Desagregados',
+                    modelTitle: 'Seguimiento de indicadores: Información por País',
                     modelService: 'proyectoSeguimientoIndicadorService',
                     modelPK: 'id',
                     modelStamp: 'nombreDesagregado',

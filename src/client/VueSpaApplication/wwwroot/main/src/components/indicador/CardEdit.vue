@@ -14,11 +14,11 @@
                                             v-model="CRUDModel.nombreIndicador" v-validate="'required|max:1000'"
                                 ></v-textarea>
 
-                                <v-switch v-model="tipoMeta" label="Agregar porcentaje"></v-switch>
+                                <v-switch v-model="usePercent" label="Usar porcentaje"></v-switch>
 
-                                <v-text-field :error-messages="errors.collect('meta')" v-if="!tipoMeta"
+                                <v-text-field :error-messages="errors.collect('meta')"
                                               clearable data-vv-name="meta" label="Meta *" required
-                                              v-model="CRUDModel.valorMeta" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
+                                              v-model="valorBase" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
                                 ></v-text-field>
                                 <v-subheader class="pl-0">Porcetaje para la meta</v-subheader>
                                 <v-flex text-xs-left>
@@ -29,7 +29,7 @@
                                     <span class="subheading font-weight-light mr-1">%</span>
                                 </v-flex>
                                 <v-slider
-                                        v-if="tipoMeta"
+                                        v-if="usePercent"
                                         v-model="porcentajeMeta"
                                         thumb-label
                                         min="0.0"
@@ -73,37 +73,38 @@
         data() {
             return {
                 slider: 0.0,
-                usePercent: false
+                usePercent: false,
+                percentBase: 0
             }
         },
         computed: {
             ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
-            tipoMeta: {
-                get: function () {
-                    return this.CRUDModel.tipoBeneficiario === 'P';
-                },
-                set: function (newValue) {
-                    if(newValue){
-                        this.CRUDModel.tipoBeneficiario = 'P';
-                    }
-                    else{
-                        this.CRUDModel.tipoBeneficiario = 'N';
-                    }
-                }
-            },
             porcentajeMeta: {
                 get: function () {
-                    if(this.CRUDModel.tipoBeneficiario === 'P'){
-                        return this.CRUDModel.valorMeta * 100;
-                    }
-                    else {
-                        return 0.0;
-                    }
+                   if(this.percentBase === 0 || this.percentBase === undefined) {
+                       return 0.0;
+                   }else {
+                       return (this.CRUDModel.valorMeta * 100)/this.percentBase;
+                   }
                 },
                 set: function (newValue) {
-                    this.CRUDModel.valorMeta = newValue / 100;
+                    this.CRUDModel.valorMeta = ((newValue / 100) * this.percentBase).toFixed(0);
                 }
-            }            
+            },
+            valorBase: {
+                get: function () {
+                    return this.CRUDModel.valorMeta;
+                },
+                set: function (newValue) {
+                    if(newValue > 0 && newValue !== undefined){
+                        this.percentBase = newValue;
+                        this.CRUDModel.valorMeta = newValue;
+                        this.CRUDModel.tipoBeneficiario = 'N';
+                    }
+                    this.usePercent = false;
+                    this.slider = 0.0;
+                }
+            }
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
@@ -135,6 +136,7 @@
                                     this.showInfo(e.toString());
                                 });
                             this.closeAllDialogs();
+                            this.resetForm();
                         } else {
                             this.showInfo(this.$validator.errors.all().toString());
                         }
@@ -150,7 +152,12 @@
             decrement() {
                 if(this.porcentajeMeta > 0.01)
                 this.porcentajeMeta -= 0.1;
-            },                       
+            },
+            resetForm(){
+                this.percentBase = 0;
+                this.slider = 0.0;
+                this.usePercent = false;
+            }
         }
     }
 </script>

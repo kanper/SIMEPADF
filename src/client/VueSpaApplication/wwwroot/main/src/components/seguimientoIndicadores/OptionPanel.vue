@@ -27,12 +27,7 @@
                 <v-col cols="auto" class="text-center pl-0">
                     <v-row class="flex-column ma-0 fill-height" justify="center">
                         <v-col class="px-0">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <v-btn icon v-on="on"><v-icon color="red">mdi-file-pdf</v-icon></v-btn>
-                                </template>
-                                <span>Generar PDF</span>
-                            </v-tooltip>
+                            <PDFMaker />
                         </v-col>
                         <v-col class="px-0">
                             <v-tooltip bottom>
@@ -51,8 +46,14 @@
 
 <script>
     import {mapMutations, mapActions} from 'vuex'
+    import PDFMaker from "../pdf/PDFMaker";
+
     export default {
         name: "OptionPanel",
+        components: {PDFMaker},
+        component: {
+            PDFMaker
+        },
         data() {
             return {
                 quarters:[{text:'Q1',value:'1'}, {text:'Q2',value:'2'}, {text:'Q3',value:'3'}, {text:'Q4',value:'4'}],
