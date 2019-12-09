@@ -72,6 +72,12 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.Check(id, estado, pais));
         }
+
+        [HttpGet("proyecto/{id}/retornar/{observation}/usuario/{rejectBy}")]
+        public IActionResult RejectProject(string id, string observation, string rejectBy)
+        {
+            return Ok(_service.Reject(id, observation, rejectBy));
+        }
         
     }
 }

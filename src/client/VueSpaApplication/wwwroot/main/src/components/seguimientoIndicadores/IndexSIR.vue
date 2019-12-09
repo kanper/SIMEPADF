@@ -5,7 +5,8 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel tracing="seguimientoRegion"/>
+                    <OptionPanel tracing="seguimientoRegion" :hideQuarter="true"/>
+                    <DataTable />
                 </v-flex>
             </v-layout>
         </v-container>
@@ -17,14 +18,16 @@
     import InfoSnackbar from '../common/SnackbarInfo'
     import TitleBar from '../common/NavbarTitle'
     import AppAlert from '../common/Alert'
-    import OptionPanel from "./OptionPanel";
+    import OptionPanel from './OptionPanel';
+    import DataTable from './DataTableSIR'
 
     export default {
         components: {
             InfoSnackbar,
             TitleBar,
             AppAlert,
-            OptionPanel
+            OptionPanel,
+            DataTable
         },
         name: "seguimientoIndicadoresRegion",
         data() {

@@ -55,4 +55,8 @@ export default class ProyectoOnProcessService extends AbstractService {
         this.axios.post(`${this.baseUrl.replace('proyecto','')}alerta`, model);
     }
 
+    reject(id, observation, rejectBy){
+        return this.axios.get(`${this.baseUrl}/${id}/retornar/${observation}/usuario/${rejectBy}`)
+    }
+
 }

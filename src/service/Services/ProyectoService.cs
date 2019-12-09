@@ -22,6 +22,7 @@ namespace Services
         bool Delete(string id);
         bool ChangeStatus(string id, string status);
         bool Check(string id, string estado, string pais);
+        bool Reject(string id, string observation, string username);
     }
     
     public class ProyectoService : IProyectoService
@@ -470,12 +471,40 @@ namespace Services
             proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
         }
 
+        public bool Reject(string id, string observation, string username)
+        {
+            try
+            {
+                MoveToPrevious(id);
+                CreateRejectNotification(id, observation, username);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
         private void MoveToPrevious(string id)
         {
             var proyecto = _context.Proyecto
                 .Include(p => p.EstadoProyecto)
                 .Single(P => P.CodigoProyecto == id);
             proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado == "EN_PROCESO");
+        }
+
+        private void CreateRejectNotification(string id, string observation, string username)
+        {
+            var paises = (from p in _context.Pais
+                join pp in _context.ProyectoPais on p equals pp.Pais
+                where pp.ProyectoId == id
+                select p.NombrePais).ToArray();
+            foreach (var pais in paises)
+            {
+                _context.Alertas.Add(new Alerta("Proyecto Retornado",observation,"warnin","4",pais,username));
+                _context.SaveChanges();
+            }
         }
 
         private Pais GetPais(int id)

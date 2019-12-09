@@ -15,6 +15,6 @@ export default class SeguimientoIndicadorService extends AbstractService {
     }
 
     seguimientoRegion(year, quarter) {
-        return null;
+        return this.axios.get(`${this.baseUrl}region/anio/${year}`);
     }
 }

@@ -19,6 +19,7 @@ export default new Vuex.Store({
         visibleInfoDialog: false,
         visibleConfirmationDialog: false,
         visibleCellDialog: false,
+        visibleRejectDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -53,11 +54,15 @@ export default new Vuex.Store({
         changeReviewLogVisibility: (state) => state.visibleReviewLog = !state.visibleReviewLog,
         changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
         changeOptionPanelCheck: (state) => state.optionPanelChecked = !state.optionPanelChecked,
+        changeRejectDialogVisibility: (state) => state.visibleRejectDialog = !state.visibleRejectDialog,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
             state.visibleDeleteDialog = false;
             state.visibleInfoDialog = false;
+            state.visibleRejectDialog = false;
+            state.visibleReviewLog = false;
+            state.visibleReviewLogList = false;
         },
         setCRUDModel: (state, model) => state.CRUDModel = model,
         updateDataTable: (state, dataAction) => state.dataTable = dataAction,

@@ -13,17 +13,17 @@
                 v-show="!optionPanelChecked"
                 class="mx-4"
         >
-            Seleccione el Año de consulta y el Trimestre para comenzar.
+            Seleccione el Año de consulta para comenzar.
 
         </v-alert>
         <v-container v-show="optionPanelChecked">
-            <v-row v-for="item in tracingData" :key="item.id">
+            <v-row v-for="item in tracingData" :key="'Obj' + item.id">
                 <v-col cols="auto">
                     <v-card outlined >
                         <v-alert outlined class="my-0" dense type="success" icon="mdi-checkbox-marked-circle-outline"><strong>Objetivo: </strong>{{item.nombreObjetivo}}</v-alert>
                         <v-alert outlined class="my-0" dense type="info" icon="mdi-white-balance-incandescent"><strong>Resultado: </strong>{{item.nombreResultado}}</v-alert>
                         <v-alert v-if="item.indicadores.length === 0" outlined dense border="bottom" type="error" class="my-0">No se encontraron indicadores con registros para este objetivo/resultado</v-alert>
-                        <v-row v-for="ind in item.indicadores" :key="ind.id">
+                        <v-row v-for="ind in item.indicadores" :key="'Ind' + ind.id">
                             <v-col cols="auto">
                                 <v-divider></v-divider>
                                 <v-simple-table>
@@ -32,21 +32,26 @@
                                         <tr>
                                             <th>Indicador</th>
                                             <th>Nivel</th>
-                                            <th>Organización responsable</th>
                                             <th>Desagregados</th>
-                                            <th>Paises</th>
-                                            <th>Socios internacionales</th>
-                                            <th>TOTAL</th>
+                                            <th>Resultados 20xx</th>
+                                            <th>Q t1</th>
+                                            <th>Q t2</th>
+                                            <th>Q t3</th>
+                                            <th>Q t4</th>
+                                            <th>Total 20xx</th>
+                                            <th>Meta 20xx</th>
+                                            <th>Frecuencia</th>
+                                            <th>Metodologia de recolección de datos</th>
+                                            <th>Organizaciones responsables</th>
+                                            <th>Fuente de datos</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
                                             <td>{{ind.nombreIndicador}}</td>
                                             <td>{{ind.nivel}}</td>
-                                            <td>{{ind.listaOrganizaciones}}</td>
                                             <td>
                                                 <table>
-                                                    <thead><tr><th></th></tr></thead>
                                                     <tbody>
                                                     <tr v-for="des in ind.desagregados"><td>{{des.nombre}}</td></tr>
                                                     </tbody>
@@ -54,44 +59,51 @@
                                             </td>
                                             <td>
                                                 <table>
-                                                    <thead>
-                                                    <tr>
-                                                        <th v-for="pais in codigosPaises">{{pais.nombre}}</th>
-                                                    </tr>
-                                                    </thead>
                                                     <tbody>
-                                                        <tr v-for="des in ind.desagregados"><td v-for="pais in codigosPaises">
-                                                            {{getTableValueByCountry(pais.nombre,des.id,ind.registroSocios)}}
-                                                        </td></tr>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
-                                                    <thead>
-                                                    <tr>
-                                                        <th v-for="socio in codigosSocios">{{socio.nombre}}</th>
-                                                    </tr>
-                                                    </thead>
                                                     <tbody>
-                                                        <tr v-for="des in ind.desagregados">
-                                                            <td v-for="socio in codigosSocios">
-                                                                {{getTableValueByOrg(socio.id,des.id,ind.registroSocios)}}
-                                                            </td>
-                                                        </tr>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
-                                                    <thead><tr><th></th></tr></thead>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados">
-                                                        <td>{{getRowTotal(des.id, ind.registroSocios)}}</td>
-                                                    </tr>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>{{ind.meta}}</td>
+                                            <td>{{ind.frecuencia}}</td>
+                                            <td>{{ind.metodologia}}</td>
+                                            <td>{{ind.listaOrganizaciones}}</td>
+                                            <td>{{ind.fuente}}</td>
                                         </tr>
                                         </tbody>
                                     </template>

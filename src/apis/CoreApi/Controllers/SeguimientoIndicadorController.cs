@@ -25,10 +25,10 @@ namespace CoreApi.Controllers
             return Ok(_service.ForPaises(anio, trimestre));
         }
 
-        [HttpGet("/seguimiento/indicadores/region/anio/{anio}/trimestre/{trimestre}")]
+        [HttpGet("/seguimiento/indicadores/region/anio/{anio}")]
         public IActionResult SeguimientoPorRegion(int anio, int trimestre)
         {
-            return Ok(_service.ForRegiones(anio, trimestre));
+            return Ok(_service.ForRegiones(anio));
         }
     }
 }

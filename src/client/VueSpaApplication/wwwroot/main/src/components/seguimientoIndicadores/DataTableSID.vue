@@ -17,13 +17,13 @@
 
         </v-alert>
         <v-container v-show="optionPanelChecked">
-            <v-row v-for="item in tracingData">
+            <v-row v-for="item in tracingData" :key="item.id">
                 <v-col cols="auto">
                     <v-card outlined >
                         <v-alert outlined class="my-0" dense type="success" icon="mdi-checkbox-marked-circle-outline"><strong>Objetivo: </strong>{{item.nombreObjetivo}}</v-alert>
                         <v-alert outlined class="my-0" dense type="info" icon="mdi-white-balance-incandescent"><strong>Resultado: </strong>{{item.nombreResultado}}</v-alert>
                         <v-alert v-if="item.indicadores.length === 0" outlined dense border="bottom" type="error" class="my-0">No se encontraron indicadores con registros para este objetivo/resultado</v-alert>
-                        <v-row v-for="ind in item.indicadores">
+                        <v-row v-for="ind in item.indicadores" :key="ind.id">
                             <v-col cols="auto">
                                 <v-divider></v-divider>
                                 <v-simple-table>

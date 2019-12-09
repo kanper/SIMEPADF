@@ -21,6 +21,7 @@
                             label="Trimestre"
                             prepend-icon="mdi-calendar-multiple"
                             @change="loadData"
+                            v-if="!hideQuarter"
                     ></v-select>
                 </v-col>
 
@@ -50,7 +51,7 @@
 
     export default {
         name: "OptionPanel",
-        props: ['tracing'],
+        props: {tracing: String, hideQuarter: {type: Boolean, default: false}},
         components: {PDFMaker},
         component: {
             PDFMaker
@@ -79,7 +80,7 @@
                 }
             },
             loadData(){
-                if(this.quarter !== null && this.year !== null){
+                if((this.quarter !== null || this.hideQuarter) && this.year !== null){
                     if(!this.restarted){
                         this.changeOptionPanelCheck();
                         this.restarted = true;

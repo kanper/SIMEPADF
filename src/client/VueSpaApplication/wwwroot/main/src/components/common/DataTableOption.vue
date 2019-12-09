@@ -35,7 +35,8 @@
                 'setTableRow',
                 'setConfirmationId',
                 'setConfirmationAction',
-                'changeReviewLogListVisibility'
+                'changeReviewLogListVisibility',
+                'changeRejectDialogVisibility'
             ]),
             ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification']),
             loadModel(id) {
@@ -72,6 +73,11 @@
                 this.closeAllDialogs();
                 this.changeReviewLogListVisibility();
             },
+            showRejectDialog(id) {
+                this.loadModel(id);
+                this.closeAllDialogs();
+                this.changeRejectDialogVisibility();
+            },
             doAction() {
                 switch (this.data.type) {
                     case 'info':
@@ -100,6 +106,9 @@
                         break;
                     case 'download':
                         this.services[this.modelSpecification.modelService].download(this.modelId, this.model.nombreArchivo);
+                        break;
+                    case 'reject':
+                        this.showRejectDialog(this.modelId);
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');
