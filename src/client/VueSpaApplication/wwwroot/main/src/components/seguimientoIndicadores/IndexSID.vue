@@ -5,7 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel/>
+                    <OptionPanel tracing="seguimientoDesagregados"/>
                     <DataTable/>
                 </v-flex>
             </v-layout>
@@ -18,7 +18,7 @@
     import InfoSnackbar from '../common/SnackbarInfo'
     import TitleBar from '../common/NavbarTitle'
     import AppAlert from '../common/Alert'
-    import DataTable from './DataTable'
+    import DataTable from './DataTableSID'
     import OptionPanel from "./OptionPanel";
 
     export default {

@@ -31,6 +31,7 @@
                                         <thead>
                                         <tr>
                                             <th>Indicador</th>
+                                            <th>Nivel</th>
                                             <th>Organización responsable</th>
                                             <th>Desagregados</th>
                                             <th>Paises</th>
@@ -41,6 +42,7 @@
                                         <tbody>
                                         <tr>
                                             <td>{{ind.nombreIndicador}}</td>
+                                            <td>{{ind.nivel}}</td>
                                             <td>{{ind.listaOrganizaciones}}</td>
                                             <td>
                                                 <table>
@@ -72,13 +74,24 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="des in ind.desagregados"><td v-for="socio in codigosSocios">
-                                                            {{getTableValueByOrg(socio.id,des.id,ind.registroSocios)}}
-                                                        </td></tr>
+                                                        <tr v-for="des in ind.desagregados">
+                                                            <td v-for="socio in codigosSocios">
+                                                                {{getTableValueByOrg(socio.id,des.id,ind.registroSocios)}}
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <td>0</td>
+                                            <td>
+                                                <table>
+                                                    <thead><tr><th></th></tr></thead>
+                                                    <tbody>
+                                                    <tr v-for="des in ind.desagregados">
+                                                        <td>{{getRowTotal(des.id, ind.registroSocios)}}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </template>
@@ -105,7 +118,6 @@
                 socio: '',
                 codigosPaises: null,
                 codigosSocios: null,
-                desagregados: null
             }
         },
         computed: {
@@ -141,6 +153,15 @@
                    }
                 });
                 return result;
+            },
+            getRowTotal(des, table) {
+                let result = 0;
+                table.forEach(item => {
+                    if(item.idDesagregado === des){
+                        result += item.valor;
+                    }
+                });
+                return result;
             }
         },
         created() {
@@ -158,13 +179,6 @@
                 .catch(e => {
                     this.showInfo(e.toString());
                 });
-            this.services.simpleIdentificadorService.getDesagregados()
-                .then(r => {
-                    this.desagregados = r.data;
-                })
-                .catch(e => {
-                    this.showInfo(e.toString());
-                })
         },
         destroyed() {
             this.setTracingData(null);

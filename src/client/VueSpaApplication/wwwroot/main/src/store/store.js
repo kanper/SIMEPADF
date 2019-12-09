@@ -110,7 +110,7 @@ export default new Vuex.Store({
                 });
         },
         loadTracingTable: async function ({commit}, params) {
-            services.seguimientoIndicadorService.seguimientoDesagregados(params.year, params.quarter)
+            services.seguimientoIndicadorService[params.tracing](params.year, params.quarter)
                 .then(r => {
                     commit('setTracingData', r.data);
                 })

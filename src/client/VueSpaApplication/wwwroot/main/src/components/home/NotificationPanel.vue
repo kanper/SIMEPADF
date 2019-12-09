@@ -10,7 +10,7 @@
         <v-list three-line>
             <v-list-item-group v-model="selected" multiple active-class="blue--text">
             <template v-for="(item, index) in notifications">
-                <v-list-item :key="item.titulo">
+                <v-list-item :key="item.fechaNotificacion">
                     <template v-slot:default="{ active, toggle }">
                         <v-list-item-content>
                             <v-list-item-title v-text="item.titulo"></v-list-item-title>

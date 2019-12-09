@@ -50,6 +50,7 @@
 
     export default {
         name: "OptionPanel",
+        props: ['tracing'],
         components: {PDFMaker},
         component: {
             PDFMaker
@@ -87,7 +88,7 @@
                 }
             },
             loadTable(year,quarter){
-                this.loadTracingTable({year:year,quarter:quarter});
+                this.loadTracingTable({tracing:this.tracing, year:year, quarter:quarter});
             }
         },
         created() {

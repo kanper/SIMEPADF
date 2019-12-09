@@ -5,7 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel/>
+                    <OptionPanel tracing="seguimientoRegion"/>
                 </v-flex>
             </v-layout>
         </v-container>
