@@ -28,6 +28,9 @@ import EvidenciaActividadIndex from './components/evidencia/IndexAE'
 import EvidenciaProductoIndex from './components/evidencia/IndexPE'
 import ProyectoSeguimientoIndicadorIndex from './components/seguimientoDesagregados/IndexPI'
 import ProyectoSeguimientoRegistroIndex from './components/seguimientoDesagregados/IndexPS'
+import SeguimientoIndicadorDesagregadoIndex from './components/seguimientoIndicadores/IndexSID'
+import SeguimientoIndicadorPaisIndex from './components/seguimientoIndicadores/IndexSIP'
+import SeguimientoIndicadorRegionIndex from './components/seguimientoIndicadores/IndexSIR'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
 import usuarioChange from './components/usuarios/Change'
@@ -72,6 +75,9 @@ const routes = [
     },
     {path: '/proyecto/:id/seguimiento/seleccion-indicador', name: 'proyecto-seguimiento-seleccion', component: ProyectoSeguimientoIndicadorIndex},
     {path: '/proyecto/:idProyecto/seguimiento/:idIndicador/registro', name: 'proyecto-seguimiento-registro', component: ProyectoSeguimientoRegistroIndex},
+    {path: '/seguimiento-indicadores/desagregados', name: 'proyecto-seguimiento-indicador-desagregado', component: SeguimientoIndicadorDesagregadoIndex},
+    {path: '/seguimiento-indicadores/pais', name: 'proyecto-seguimiento-indicador-pais', component: SeguimientoIndicadorPaisIndex},
+    {path: '/seguimiento-indicadores/region', name: 'proyecto-seguimiento-indicador-region', component: SeguimientoIndicadorRegionIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
     {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},

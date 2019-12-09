@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using DatabaseContext;
 using DTO.DTO;
@@ -15,6 +16,7 @@ namespace Services
         IEnumerable<MapDTO> getOrganizaciones(string id);
         double getValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado);
         bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor);
+        bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais);
     }
 
     public class ProyectoSeguimientoService : IProyectoSeguimientoService
@@ -149,6 +151,53 @@ namespace Services
                                  p.SocioInternacionalId == idSocio &&
                                  p.PlanDesagregacionDesagregacionId == idDesagregado).Valor = valor;
                 _context.SaveChanges();
+                updateProyectPercent(idProyecto);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private void updateProyectPercent(string idProyect)
+        {
+            try
+            {
+                var proyecto = _context.Proyecto.Single(p => p.CodigoProyecto == idProyect);
+                var accumulated = 0.0;
+                foreach (var reg in _context.PlanSocioDesagregacion.Where(psd => psd.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyect))
+                {
+                    accumulated = accumulated + reg.Valor;
+                }
+                proyecto.PorcentajeAvence = accumulated;
+                _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais)
+        {
+            try
+            {
+                var codigoPais = _context.Pais.Single(p => p.NombrePais == pais);
+                if (codigoPais != null)
+                {
+                    var registro = _context.PlanSocioDesagregacion
+                        .Single(p => p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
+                                     p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == idIndicador &&
+                                     p.SocioInternacionalId == idSocio &&
+                                     p.PlanDesagregacionDesagregacionId == idDesagregado);
+                    registro.Valor = valor;
+                    registro.CodigoPais = codigoPais.SiglaPais;
+                    _context.SaveChanges();
+                    updateProyectPercent(idProyecto);
+                }
                 return true;
             }
             catch (Exception e)

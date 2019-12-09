@@ -61,7 +61,7 @@ namespace Services
                 return (from p in _context.Proyecto
                     join pp in _context.PlanTrabajo on p equals pp.Proyecto
                     join pt in _context.ActividadPT on pp equals pt.PlanTrabajo
-                    join pc in _context.ProyectoPais on p equals pc.Proyecto
+                    join pc in _context.ActividadPTPais on pt equals pc.ActividadPT
                     join c in _context.Pais on pc.Pais equals c
                     where p.CodigoProyecto == id && c.NombrePais == country
                     select new PlanTrabajoActividadDTO()

@@ -218,6 +218,47 @@ namespace DatabaseContext.Migrations
                     b.ToTable("ActividadPTPais");
                 });
 
+            modelBuilder.Entity("Model.Domain.Alerta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Expira");
+
+                    b.Property<DateTime>("Inicio");
+
+                    b.Property<string>("Mensaje")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Pais")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<bool>("Revisado");
+
+                    b.Property<string>("Rol")
+                        .IsRequired()
+                        .HasMaxLength(15);
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(6);
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasMaxLength(110);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Alertas");
+                });
+
             modelBuilder.Entity("Model.Domain.ArchivoDescripcion", b =>
                 {
                     b.Property<int>("CodigoArchivo");
@@ -664,6 +705,8 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
 
+                    b.Property<string>("CodigoPais");
+
                     b.Property<int>("Trimestre");
 
                     b.Property<double>("Valor");
@@ -777,6 +820,8 @@ namespace DatabaseContext.Migrations
                     b.Property<string>("NombreProyecto")
                         .IsRequired()
                         .HasMaxLength(500);
+
+                    b.Property<double>("PorcentajeAvence");
 
                     b.Property<bool>("Regional");
 

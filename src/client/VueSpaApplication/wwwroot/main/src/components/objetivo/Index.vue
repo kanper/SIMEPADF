@@ -66,7 +66,8 @@
                         align: 'left',      //Alineación del contenido en la columna
                         value: 'nombre',    //Nombre del atributo que se colocara en la columna
                         width: '60%',       //Tamaño de la columna
-                        type: 'text'        //Tipo del contenido a mostrar en la columna
+                        type: 'text',        //Tipo del contenido a mostrar en la columna
+                        class: ['grey','lighten-3'],
                     },
                     {text: 'Resultados', align: 'center', value: 'resultados', type: 'number'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}

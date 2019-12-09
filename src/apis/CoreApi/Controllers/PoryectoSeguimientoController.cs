@@ -47,5 +47,12 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.setValor(idProyecto, idIndicador, idSocio, idDesagregado, valor));
         }
+
+        [HttpPut("/proyecto/{idProyecto}/seguimiento/{idIndicador}/socio/{idSocio}/desagregado/{idDesagregado}/valor/{valor}/pais/{pais}")]
+        public IActionResult setValorPais(string idProyecto, int idIndicador, int idSocio, int idDesagregado,
+            double valor, string pais)
+        {
+            return Ok(_service.setValor(idProyecto, idIndicador, idSocio, idDesagregado, valor, pais));
+        }
     }
 }

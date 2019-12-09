@@ -22,6 +22,7 @@ namespace Services
         bool Delete(string id);
         bool ChangeStatus(string id, string status);
         bool Check(string id, string estado, string pais);
+        bool Reject(string id, string observation, string username);
     }
     
     public class ProyectoService : IProyectoService
@@ -210,13 +211,24 @@ namespace Services
                         FechaInicio = p.FechaInicio,
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
+                        PorcentajeAvance = p.PorcentajeAvence,
                         EstadoProyecto = e.TipoEstado,
                         IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
                             where pl.CodigoPlanTrabajo == p.CodigoProyecto 
                             select pl).Any(),
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
                             where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
-                            select i).Any(),                        
+                            select i).Any(),
+                        Paises = (from pais2 in _context.Pais 
+                            join pp2 in _context.ProyectoPais 
+                                on pais2 equals pp2.Pais 
+                            where pp2.ProyectoId == p.CodigoProyecto 
+                            select new MapDTO()
+                            {
+                                Id = pais2.Id, 
+                                Nombre = pais2.NombrePais
+                            }).ToArray(),
+
                     }).ToList();
             }
             catch (Exception e)
@@ -252,6 +264,15 @@ namespace Services
                         IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
                             where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
                             select i).Any(),
+                        Paises = (from pais2 in _context.Pais 
+                            join pp2 in _context.ProyectoPais 
+                                on pais2 equals pp2.Pais 
+                            where pp2.ProyectoId == p.CodigoProyecto 
+                            select new MapDTO()
+                            {
+                                Id = pais2.Id, 
+                                Nombre = pais2.NombrePais
+                            }).ToArray(),
                     }).ToList();
             }
             catch (Exception e)
@@ -297,7 +318,7 @@ namespace Services
                         .Single(o => o.Id == dto.Id)
                         .AddProyecto(proyecto);
                 }
-                _context.SaveChanges();                
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -450,12 +471,40 @@ namespace Services
             proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
         }
 
+        public bool Reject(string id, string observation, string username)
+        {
+            try
+            {
+                MoveToPrevious(id);
+                CreateRejectNotification(id, observation, username);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
         private void MoveToPrevious(string id)
         {
             var proyecto = _context.Proyecto
                 .Include(p => p.EstadoProyecto)
                 .Single(P => P.CodigoProyecto == id);
-            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id - 1));
+            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado == "EN_PROCESO");
+        }
+
+        private void CreateRejectNotification(string id, string observation, string username)
+        {
+            var paises = (from p in _context.Pais
+                join pp in _context.ProyectoPais on p equals pp.Pais
+                where pp.ProyectoId == id
+                select p.NombrePais).ToArray();
+            foreach (var pais in paises)
+            {
+                _context.Alertas.Add(new Alerta("Proyecto Retornado",observation,"warnin","4",pais,username));
+                _context.SaveChanges();
+            }
         }
 
         private Pais GetPais(int id)

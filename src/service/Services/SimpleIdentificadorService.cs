@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DatabaseContext;
 using DTO.DTO;
@@ -11,6 +12,9 @@ namespace Services
         MapDTO GetMapProyecto(string id);
         MapDTO GetMapActividadPT(int id);
         MapDTO GetMapIndicador(int id);
+        IEnumerable<MapDTO> GetAllCountriesCodes();
+        IEnumerable<MapDTO> GetAllSocioCodes();
+        IEnumerable<MapDTO> GetAllDesagregados();
     }
 
     public class SimpleIdentificadorService : ISimpleIdentificadorService
@@ -75,6 +79,60 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        public IEnumerable<MapDTO> GetAllCountriesCodes()
+        {
+            try
+            {
+                return (from pais in _context.Pais
+                    select new MapDTO()
+                    {
+                        Id = pais.Id,
+                        Nombre = pais.SiglaPais
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetAllSocioCodes()
+        {
+            try
+            {
+                return (from socio in _context.SocioInternacional
+                    select new MapDTO()
+                    {
+                        Id = socio.Id,
+                        Nombre = socio.SiglasSocio
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetAllDesagregados()
+        {
+            try
+            {
+                return (from des in _context.Desagregacion
+                    select new MapDTO()
+                    {
+                        Id = des.Id,
+                        Nombre = des.TipoDesagregacion
+                    }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
             }
         }
     }

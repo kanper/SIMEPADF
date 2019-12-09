@@ -72,7 +72,8 @@
                     ],
                     modelParams: {                                         //Parametros para el modelo
                         status: '',           //Valores separados por el caracter de dolar '$'
-                        defaultStatus: ''
+                        defaultStatus: '',
+                        model: null
                     }
                 },
                 dataTableHeaders: [

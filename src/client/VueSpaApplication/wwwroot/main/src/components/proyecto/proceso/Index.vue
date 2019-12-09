@@ -13,6 +13,7 @@
         <InfoSnackbar/>
         <Confirmation />
         <ReviewCardList />
+        <RejectDialog />
     </div>
 </template>
 
@@ -25,6 +26,7 @@
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
     import ReviewCardList from '../../registroRevision/CardList'
+    import RejectDialog from "../../common/RejectDialog";
 
     export default {
         components: {
@@ -34,7 +36,8 @@
             AppAlert,
             DataInfo,
             Confirmation,
-            ReviewCardList
+            ReviewCardList,
+            RejectDialog
         },
         name: "objetivo-index",
         data() {
@@ -66,7 +69,8 @@
                     ],
                     modelParams: {
                         status:'',
-                        country: ''
+                        country: '',
+                        model: null
                     }
                 },
                 dataTableHeaders: [
@@ -79,6 +83,7 @@
                     },
                     {text: 'Clasificacion',align: 'center', value: 'clasificacion', type: 'text'},
                     {text: 'Estado', align: 'center', value: 'estado', type: 'text'},
+                    {text: 'Avance', align: 'center', value: 'avance', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [
@@ -100,6 +105,7 @@
                     {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '2review', class: 'mr-2', route: '', show: (row) => {return false}},
                     {text: 'Enviar a revisión', type: 'link', icon: 'mdi-arrow-right-bold', action: '1review', class: 'mr-2', route: '', show: (row) => {return row.isInProcess}},
                     {text: 'Marcar como revisado', type: 'link', icon: 'mdi-check-all', action: 'mark', class: 'mr-2', route: '', show: (row) => {return !row.isInProcess}},
+                    {text: 'Retornar a coordinador', type: 'reject', icon: 'mdi-clock-fast', action: '', class: 'mr-2', route: '', show: (row) => {return !row.isInProcess}},
                     {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
                     {text: 'Finalizar proyecto', type: 'link', icon: 'mdi-sync-off', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review}},
                 ],

@@ -19,6 +19,7 @@ export default new Vuex.Store({
         visibleInfoDialog: false,
         visibleConfirmationDialog: false,
         visibleCellDialog: false,
+        visibleRejectDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -30,7 +31,10 @@ export default new Vuex.Store({
         reviewLog: {},
         visibleReviewLog: false,
         isTableLoading: true,
-        tableCellValue: ''
+        tableCellValue: '',
+        optionPanelChecked: false,
+        tracingData: [],
+        notifications: []
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -49,11 +53,16 @@ export default new Vuex.Store({
         changeReviewLogListVisibility: (state) => state.visibleReviewLogList = !state.visibleReviewLogList,
         changeReviewLogVisibility: (state) => state.visibleReviewLog = !state.visibleReviewLog,
         changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
+        changeOptionPanelCheck: (state) => state.optionPanelChecked = !state.optionPanelChecked,
+        changeRejectDialogVisibility: (state) => state.visibleRejectDialog = !state.visibleRejectDialog,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
             state.visibleDeleteDialog = false;
             state.visibleInfoDialog = false;
+            state.visibleRejectDialog = false;
+            state.visibleReviewLog = false;
+            state.visibleReviewLogList = false;
         },
         setCRUDModel: (state, model) => state.CRUDModel = model,
         updateDataTable: (state, dataAction) => state.dataTable = dataAction,
@@ -72,6 +81,8 @@ export default new Vuex.Store({
         resetTableLoader: (state) => state.isTableLoading = true,
         stopTableLoading: (state) => state.isTableLoading = false,
         setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
+        setTracingData: (state, data) => state.tracingData = data,
+        fillNotifications: (state, data) => state.notifications = data,
     }
     ,
     actions: {
@@ -102,6 +113,33 @@ export default new Vuex.Store({
                 .catch(e => {
                     commit('showInfo', e.toString);
                 });
+        },
+        loadTracingTable: async function ({commit}, params) {
+            services.seguimientoIndicadorService[params.tracing](params.year, params.quarter)
+                .then(r => {
+                    commit('setTracingData', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        findAllNotifications: async function ({commit}, params) {
+            services.alertaService.getAlerts(params.rol, params.country)
+                .then(r => {
+                    commit('fillNotifications', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        saveNotification: async function ({commit}, params) {
+            services.alertaService.add(params)
+                .then(r => {
+                    commit('fillNotifications', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
         }
     }
 })

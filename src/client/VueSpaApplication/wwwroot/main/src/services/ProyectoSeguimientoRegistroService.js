@@ -25,4 +25,8 @@ export default class ProyectoSeguimientoRegistroService extends AbstractService 
     setValor(idProyecto, idIndicador, idDesagregado, idSocio, valor){
         return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}`)
     }
+
+    setValorByPais(idProyecto, idIndicador, idDesagregado, idSocio, valor, pais){
+        return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}/pais/${pais}`)
+    }
 }

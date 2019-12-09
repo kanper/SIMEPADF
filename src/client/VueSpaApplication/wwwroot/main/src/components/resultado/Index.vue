@@ -66,7 +66,7 @@
                         width: '30%',       //Tamaño de la columna
                         type: 'text'        //Tipo del contenido a mostrar en la columna
                     },
-                    {text: 'Resultado', align: 'left', width: '30%', value: 'nombreResultado', type: 'text', style: 'active-column'},
+                    {text: 'Resultado', align: 'left', width: '30%', value: 'nombreResultado', type: 'text', style: 'active-column',class: ['grey','lighten-3'],},
                     {text: 'Actividades', align: 'center', value: 'actividades', type: 'number'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
