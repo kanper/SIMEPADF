@@ -154,11 +154,7 @@ namespace Services
                 plan.FuenteDato = _context.FuenteDato.Single(f => f.Id == model.FuenteDato.Id);
                 plan.FrecuenciaMedicion = _context.FrecuenciaMedicion.Single(f => f.Id == model.FrecuenciaMedicion.Id);
                 plan.NivelImpacto = _context.NivelImpacto.Single(n => n.Id == model.NivelImpacto.Id);
-                plan.PlanDesagregaciones.Clear();
-                foreach (var dto in model.Desagregaciones)
-                {
-                    plan.AddDesagregacion(_context.Desagregacion.Single(d => d.Id == dto.Id));
-                }                
+                
                 foreach (var desagregado in plan.PlanDesagregaciones)
                 {
                     desagregado.PlanSocios = _context.PlanSocioDesagregacion
@@ -171,9 +167,31 @@ namespace Services
                     }
                     desagregado.PlanSocios.Clear();
                     _context.SaveChanges();
+                }
+                
+                foreach (var planDes in plan.PlanDesagregaciones)
+                {
+                    _context.PlanDesagregacion.Remove(planDes);
+                }
+                plan.PlanDesagregaciones.Clear();
+                _context.SaveChanges();
+                
+
+                foreach (var dto in model.Desagregaciones)
+                {
+                    plan.AddDesagregacion(_context.Desagregacion.Single(d => d.Id == dto.Id));
+                    _context.SaveChanges();
+                }
+                
+                foreach (var des in plan.PlanDesagregaciones)
+                {
+                    des.PlanSocios = _context.PlanSocioDesagregacion
+                        .Where(p =>
+                            p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == model.ProyectoId &&
+                            p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == model.IndicadorId).ToList();
                     foreach (var socio in socios)
-                    {
-                        desagregado.AddPlanSocio(socio);
+                    {    
+                        des.AddPlanSocio(socio);
                     }
                 }
                 _context.SaveChanges();

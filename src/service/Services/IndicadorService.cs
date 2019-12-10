@@ -86,7 +86,6 @@ namespace Services
                         TipoBeneficiario = i.TipoBeneficiario,
                         ValorMeta = m.ValorMeta
                     }).ToList();
-
             }
             catch (Exception e)
             {
