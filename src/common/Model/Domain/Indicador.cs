@@ -19,6 +19,7 @@ namespace Model.Domain
         public int CodigoIndicador { get; set; }
         public string NombreIndicador { get; set; }
         public string TipoBeneficiario { get; set; }
+        public double MetaGlobal { get; set; }
         public virtual Actividad Actividad { get; set; }
         public virtual Meta Meta { get; set; }
 
