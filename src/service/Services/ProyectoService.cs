@@ -258,6 +258,7 @@ namespace Services
                         FechaFin = p.FechaFin,
                         Beneficiarios = p.Beneficiarios,
                         EstadoProyecto = e.TipoEstado,
+                        PorcentajeAvance = p.PorcentajeAvence,
                         IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
                             where pl.CodigoPlanTrabajo == p.CodigoProyecto 
                             select pl).Any(),
@@ -424,13 +425,24 @@ namespace Services
                         on pp equals r.ProyectoPais
                     where proy.CodigoProyecto == id &&
                           e.TipoEstado == estado &&
-                          p.NombrePais == pais &&
+                          (p.NombrePais == pais || pais == "all") && 
                           r.RevisionCompleta == false
-                    select r).First();
-                if (registroRevision != null)
+                    select r).ToArray();
+                if (pais == "all")
                 {
-                    registroRevision.Revisado = true;
-                    registroRevision.FechaRevisado = DateTime.Now;
+                    foreach (var revision in registroRevision)
+                    {
+                        revision.Revisado = true;
+                        revision.FechaRevisado = DateTime.Now;
+                    }
+                }
+                else
+                {
+                    if (registroRevision.First() != null)
+                    {
+                        registroRevision.First().Revisado = true;
+                        registroRevision.First().FechaRevisado = DateTime.Now;
+                    }
                 }
                 _context.SaveChanges();
                 CheckIfAllCountryWasReviewed(id, estado);
