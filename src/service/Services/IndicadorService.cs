@@ -50,7 +50,8 @@ namespace Services
                         NombreActividad = a.NombreActividad,
                         NombreIndicador = i.NombreIndicador,
                         TipoBeneficiario = i.TipoBeneficiario,
-                        ValorMeta = m.ValorMeta
+                        ValorMeta = m.ValorMeta,
+                        MetaGlobal = i.MetaGlobal
                     }).Single();
             }
             catch (Exception e)
@@ -86,7 +87,6 @@ namespace Services
                         TipoBeneficiario = i.TipoBeneficiario,
                         ValorMeta = m.ValorMeta
                     }).ToList();
-
             }
             catch (Exception e)
             {
@@ -103,6 +103,7 @@ namespace Services
                 indicador.NombreIndicador = model.NombreIndicador;
                 indicador.Meta.ValorMeta = model.ValorMeta;
                 indicador.TipoBeneficiario = model.TipoBeneficiario;
+                indicador.MetaGlobal = model.MetaGlobal;
                 _context.SaveChanges();
                 return true;
             }

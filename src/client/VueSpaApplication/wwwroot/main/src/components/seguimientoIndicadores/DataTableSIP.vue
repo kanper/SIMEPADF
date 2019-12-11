@@ -33,7 +33,6 @@
                                             <th>Indicador</th>
                                             <th>Nivel</th>
                                             <th>Organización responsable</th>
-                                            <th>Desagregados</th>
                                             <th>Paises</th>
                                             <th>Socios internacionales</th>
                                             <th>TOTAL</th>
@@ -46,23 +45,17 @@
                                             <td>{{ind.listaOrganizaciones}}</td>
                                             <td>
                                                 <table>
-                                                    <thead><tr><th></th></tr></thead>
-                                                    <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>{{des.nombre}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
                                                     <thead>
                                                     <tr>
                                                         <th v-for="pais in codigosPaises">{{pais.nombre}}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="des in ind.desagregados"><td v-for="pais in codigosPaises">
-                                                            {{getTableValueByCountry(pais.nombre,des.id,ind.registroSocios)}}
-                                                        </td></tr>
+                                                        <tr>
+                                                            <td v-for="pais in codigosPaises">
+                                                                {{getTableValueByCountry(pais.nombre,ind.registroSocios)}}
+                                                            </td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
@@ -74,9 +67,9 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr v-for="des in ind.desagregados">
+                                                        <tr>
                                                             <td v-for="socio in codigosSocios">
-                                                                {{getTableValueByOrg(socio.id,des.id,ind.registroSocios)}}
+                                                                {{getTableValueByOrg(socio.id,ind.registroSocios)}}
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -86,8 +79,8 @@
                                                 <table>
                                                     <thead><tr><th></th></tr></thead>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados">
-                                                        <td>{{getRowTotal(des.id, ind.registroSocios)}}</td>
+                                                    <tr>
+                                                        <td>{{getRowTotal(ind.registroSocios)}}</td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -136,30 +129,28 @@
             ...mapActions(['loadTracingTable']),
             loadData: function() {
             },
-            getTableValueByOrg(id, des, table){
+            getTableValueByOrg(id, table){
                 let result = 0;
                 table.forEach(item => {
-                    if(item.id === id && item.idDesagregado === des){
-                        result = item.valor;
+                    if(item.id === id){
+                        result += item.valor;
                     }
                 });
                 return result;
             },
-            getTableValueByCountry(cod, des, table){
+            getTableValueByCountry(cod, table){
                 let result = 0;
                 table.forEach(item => {
-                   if (item.codigo === cod && item.idDesagregado === des){
+                   if (item.codigo === cod){
                        result += item.valor;
                    }
                 });
                 return result;
             },
-            getRowTotal(des, table) {
+            getRowTotal(table) {
                 let result = 0;
                 table.forEach(item => {
-                    if(item.idDesagregado === des){
-                        result += item.valor;
-                    }
+                    result += item.valor;
                 });
                 return result;
             }

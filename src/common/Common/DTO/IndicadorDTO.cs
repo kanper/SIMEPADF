@@ -10,6 +10,7 @@ namespace DTO.DTO
         public int CodigoActividad { get; set; }
         public string NombreActividad { get; set; }       
         public string NombreIndicador { get; set; }
+        public double MetaGlobal { get; set; }
         public double ValorMeta { get; set; }
         public string TipoBeneficiario { get; set; }
         public string ValorMetaF => TipoBeneficiario.Equals("N")

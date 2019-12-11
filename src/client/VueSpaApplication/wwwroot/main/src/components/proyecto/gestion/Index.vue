@@ -102,8 +102,8 @@
                     {text: 'Agregar Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
                     {text: 'Actividades', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}},
-                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && row.isPlanTrabajo && row.isIndicador}},
-                    {text: 'Solicitar verificación del proyecto', type: 'link', icon: 'mdi-reply-all', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isVerified && row.isPlanTrabajo && row.isIndicador}},
+                    {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return (row.isIncomplete || row.isVerified) && row.isPlanTrabajo && row.isIndicador}},
+                    {text: 'Solicitar verificación del proyecto', type: 'link', icon: 'mdi-reply-all', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isPreVerified && row.isPlanTrabajo && row.isIndicador}},
                     {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && !row.isCancelled}},
                 ],
             }

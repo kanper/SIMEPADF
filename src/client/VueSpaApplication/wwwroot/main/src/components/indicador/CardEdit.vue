@@ -16,10 +16,16 @@
 
                                 <v-switch v-model="usePercent" label="Usar porcentaje"></v-switch>
 
-                                <v-text-field :error-messages="errors.collect('meta')"
-                                              clearable data-vv-name="meta" label="Meta *" required
-                                              v-model="valorBase" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
+                                <v-text-field :error-messages="errors.collect('metaGlobal')"
+                                              clearable data-vv-name="metaGlobal" label="Meta Global *" required
+                                              v-model="metaGlobal" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
                                 ></v-text-field>
+
+                                <v-text-field :error-messages="errors.collect('meta')" :disabled="usePercent"
+                                              clearable data-vv-name="meta" label="Meta Anual *" required
+                                              v-model="metaAnual" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
+                                ></v-text-field>
+
                                 <v-subheader class="pl-0">Porcetaje para la meta</v-subheader>
                                 <v-flex text-xs-left>
                                   <span
@@ -81,14 +87,18 @@
             ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
             porcentajeMeta: {
                 get: function () {
-                   if(this.percentBase === 0 || this.percentBase === undefined) {
+                   if(this.CRUDModel.metaGlobal === 0 ) {
                        return 0.0;
                    }else {
-                       return (this.CRUDModel.valorMeta * 100)/this.percentBase;
+                       if(this.CRUDModel.valorMeta === 0){
+                           return 0.0;
+                       }else {
+                           return (this.CRUDModel.valorMeta * 100) / this.CRUDModel.metaGlobal;
+                       }
                    }
                 },
                 set: function (newValue) {
-                    this.CRUDModel.valorMeta = ((newValue / 100) * this.percentBase).toFixed(0);
+                    this.CRUDModel.valorMeta = ((newValue / 100) * this.CRUDModel.metaGlobal).toFixed(0);
                 }
             },
             valorBase: {
@@ -103,6 +113,32 @@
                     }
                     this.usePercent = false;
                     this.slider = 0.0;
+                }
+            },
+            metaGlobal: {
+                get: function () {
+                    return this.CRUDModel.metaGlobal;
+                },
+                set: function (newValue) {
+                    if(newValue < this.CRUDModel.valorMeta){
+                        this.CRUDModel.metaGlobal = newValue;
+                        this.metaAnual = newValue;
+                    } else {
+                        this.CRUDModel.metaGlobal = newValue;
+                    }
+                }
+            },
+            metaAnual: {
+                get: function () {
+                    return this.CRUDModel.valorMeta;
+                },
+                set: function (newValue) {
+                    if(newValue > this.CRUDModel.metaGlobal){
+                        this.metaGlobal = newValue;
+                        this.CRUDModel.valorMeta = newValue;
+                    } else {
+                        this.CRUDModel.valorMeta = newValue;
+                    }
                 }
             }
         },

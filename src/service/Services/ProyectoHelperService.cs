@@ -147,13 +147,11 @@ namespace Services
         {
             try
             {
-                return (from i in _context.Indicador                   
-                    join a in _context.Actividad
-                        on i.Actividad equals a
-                    join r in _context.Resultado
-                        on a.Resultado equals r
-                    join o in _context.Objetivo
-                        on r.Objetivo equals o                    
+                return (from o in _context.Objetivo
+                    join r in _context.Resultado on o equals r.Objetivo
+                    join a in _context.Actividad on r equals a.Resultado
+                    join i in _context.Indicador on a equals i.Actividad
+                    join m in _context.Meta on i equals m.Indicador
                     select new IndicadorDTO()
                     {
                         Id = i.CodigoIndicador,
@@ -175,17 +173,12 @@ namespace Services
         {
             try
             {
-                return (from i in _context.Indicador
-                    join p in _context.PlanMonitoreoEvaluacion
-                        on i equals p.Indicador into Plan
-                    from PlanIndicador in Plan.DefaultIfEmpty() 
-                    join a in _context.Actividad
-                        on i.Actividad equals a
-                    join r in _context.Resultado
-                        on a.Resultado equals r
-                    join o in _context.Objetivo
-                        on r.Objetivo equals o
-                        where PlanIndicador == null || PlanIndicador.ProyectoCodigoProyecto != proyectoId
+                var all = (from o in _context.Objetivo
+                    join r in _context.Resultado on o equals r.Objetivo
+                    join a in _context.Actividad on r equals a.Resultado
+                    join i in _context.Indicador on a equals i.Actividad
+                    join m in _context.Meta on i equals m.Indicador
+                    
                     select new IndicadorDTO()
                     {
                         Id = i.CodigoIndicador,
@@ -195,6 +188,19 @@ namespace Services
                         NombreObjetivo = o.NombreObjetivo,
                         TipoBeneficiario = i.TipoBeneficiario
                     }).ToList();
+                var included = (from plan in _context.PlanMonitoreoEvaluacion
+                    where plan.ProyectoCodigoProyecto == proyectoId
+                    select plan.IndicadorId).ToArray();
+                foreach (var id in included)
+                {
+                    var item = all.SingleOrDefault(i => i.Id == id);
+                    if (item != null)
+                    {
+                        all.Remove(item);
+                    }
+                }
+
+                return all;
             }
             catch (Exception e)
             {
