@@ -22,7 +22,16 @@
 
         <v-divider></v-divider>
 
-        <v-list-group :key="item.title" class="pt-0 pb-0" dense v-for="item in getRolMenu(user.RolId)" two-line :prepend-icon="item.icon">
+        <v-list-item v-for="item in menuActiveItems(user.RolId, true)" @click="redirect(item.path)" :key="item.title" link>
+            <v-list-item-icon>
+                <v-icon>{{item.icon}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-group :key="item.title" class="pt-0 pb-0" dense v-for="item in menuActiveItems(user.RolId, false)" two-line :prepend-icon="item.icon">
             <template v-slot:activator>
                 <v-list-item-title>{{item.title}}</v-list-item-title>
             </template>
@@ -47,14 +56,15 @@
                     {id: 1, rol: 'Gestor del Sistema', icon:'mdi-account',menu:[
                             {
                                 title: 'Usuarios',
-                                icon: 'mdi-account-circle',
-                                children: [
-                                    {icon: 'mdi-format-list-bulleted', title: 'Listar Usuarios', path: '/usuarios'},
-                                ]
+                                icon: 'mdi-account-multiple-outline',
+                                single: true ,
+                                path: '/usuarios',
+                                children: []
                             },
                             {
                                 title: 'Administración de Catalogos',
                                 icon: 'mdi-view-dashboard',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-city', title: 'Organizaciones Responsables', path: '/organizaciones'},
                                     {icon: 'mdi-account-multiple-outline', title: 'Socios', path: '/socios'},
@@ -67,6 +77,7 @@
                             {
                                 title: 'Plan de Monitoreo y Evaluación',
                                 icon: 'mdi-compass-outline',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-checkbox-marked-circle-outline', title: 'Objetivos', path: '/objetivos'},
                                     {icon: 'mdi-lightbulb', title: 'Resultados', path: '/resultados'},
@@ -79,6 +90,7 @@
                             {
                                 title: 'Proyectos',
                                 icon: 'mdi-briefcase',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
@@ -88,6 +100,7 @@
                             {
                                 title: 'Seguimiento de Indicadores',
                                 icon: 'mdi-flag-checkered',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
                                     {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
@@ -99,6 +112,7 @@
                             {
                                 title: 'Proyectos',
                                 icon: 'mdi-briefcase',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
@@ -108,46 +122,37 @@
                             {
                                 title: 'Seguimiento de Indicadores',
                                 icon: 'mdi-flag-checkered',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
                                     {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
-                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
                         ]},
                     {id: 4, rol: 'Coordinador', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos',
-                                icon: 'mdi-briefcase',
-                                children: [
-                                    {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
-                                ]
-                            },
-                            {
-                                title: 'Seguimiento de Indicadores',
-                                icon: 'mdi-flag-checkered',
-                                children: [
-                                    {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
-                                    {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
-                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
-                                ]
-                            },
+                                title: 'Proyectos en proceso',
+                                icon: 'mdi-repeat',
+                                single: true ,
+                                path:'/proyectos/proceso',
+                                children: []
+                            }
                         ]},
                     {id: 5, rol: 'Director de Finanzas', icon:'mdi-account',menu:[
                             {
-                                title: 'Proyectos',
-                                icon: 'mdi-briefcase',
-                                children: [
-                                    {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
-                                ]
+                                title: 'Proyectos en proceso',
+                                icon: 'mdi-repeat',
+                                single: true ,
+                                path:'/proyectos/proceso',
+                                children: []
                             },
                             {
                                 title: 'Seguimiento de Indicadores',
                                 icon: 'mdi-flag-checkered',
+                                single: false ,
                                 children: [
                                     {icon: 'mdi-account-group', title: 'Desagregados', path:'/seguimiento-indicadores/desagregados'},
                                     {icon: 'mdi-map-marker-outline', title: 'Información por Pais', path:'/seguimiento-indicadores/pais'},
-                                    {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
                         ]},
@@ -173,9 +178,6 @@
                 this.$router.push(path);
             },
             getRolName: function (RolId) {
-                if (this.development) {
-                    return 'Modo desarrollador';
-                }
                 if (RolId > 0 && RolId < 6) {
                     return this.userRoles[RolId - 1].rol;
                 } else {
@@ -183,9 +185,6 @@
                 }
             },
             getRolIcon: function (RolId) {
-                if (this.development) {
-                    return 'mdi-account-alert';
-                }
                 if (RolId > 0 && RolId < 6) {
                     return this.userRoles[RolId - 1].icon;
                 } else {
@@ -193,19 +192,17 @@
                 }
             },
             getRolMenu(RolId){
-                if (this.development) {
-                    let allMenu = [];
-                    for (let item of this.userRoles) {
-                        for(let menu of item.menu){
-                            allMenu.push(menu);
-                        }
-                    }
-                    return allMenu;
-                }
                 if (RolId > 0 && RolId < 6) {
                     return this.userRoles[RolId - 1].menu;
                 }
-            }
+            },
+            menuActiveItems(RolId, single){
+                if (RolId > 0 && RolId < 6) {
+                    return this.userRoles[RolId - 1].menu.filter(function (i) {
+                        return i.single === single;
+                    });
+                }
+            },
         }
     }
 </script>
