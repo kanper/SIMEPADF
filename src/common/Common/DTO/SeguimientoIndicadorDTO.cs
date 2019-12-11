@@ -19,6 +19,7 @@ namespace DTO.DTO
         public MapDTO[] Desagregados { get; set; }
         public SeguimientoIndicadorTableDTO[] RegistroSocios { get; set; }
         public string ListaOrganizaciones => DTOFormater.FormatArray(OrganizacionesResponsables);
-        
+        public string ListaDesagregados => DTOFormater.FormatArray(Desagregados);
+
     }
 }

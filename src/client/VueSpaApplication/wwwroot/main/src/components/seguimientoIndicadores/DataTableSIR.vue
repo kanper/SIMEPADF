@@ -50,52 +50,46 @@
                                         <tr>
                                             <td>{{ind.nombreIndicador}}</td>
                                             <td>{{ind.nivel}}</td>
+                                            <td>{{ind.listaDesagregados}}</td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>{{des.nombre}}</td></tr>
+                                                    <tr><td>{{ind.totalAnterior}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    <tr><td>{{ind.totalQ1}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    <tr><td>{{ind.totalQ2}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    <tr><td>{{ind.totalQ3}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    <tr><td>{{ind.totalQ4}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
                                                 <table>
                                                     <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr v-for="des in ind.desagregados"><td>0</td></tr>
+                                                    <tr><td>{{ind.totalQ1 + ind.totalQ2 + ind.totalQ3 + ind.totalQ4}}</td></tr>
                                                     </tbody>
                                                 </table>
                                             </td>
@@ -148,19 +142,19 @@
             ...mapActions(['loadTracingTable']),
             loadData: function() {
             },
-            getTableValueByOrg(id, des, table){
+            getTableValueByOrg(id, table){
                 let result = 0;
                 table.forEach(item => {
-                    if(item.id === id && item.idDesagregado === des){
-                        result = item.valor;
+                    if(item.id === id){
+                        result += item.valor;
                     }
                 });
                 return result;
             },
-            getTableValueByCountry(cod, des, table){
+            getTableValueByCountry(cod, table){
                 let result = 0;
                 table.forEach(item => {
-                   if (item.codigo === cod && item.idDesagregado === des){
+                   if (item.codigo === cod){
                        result += item.valor;
                    }
                 });
@@ -169,12 +163,10 @@
             getRowTotal(des, table) {
                 let result = 0;
                 table.forEach(item => {
-                    if(item.idDesagregado === des){
-                        result += item.valor;
-                    }
+                    result += item.valor;
                 });
                 return result;
-            }
+            },
         },
         created() {
             this.services.simpleIdentificadorService.getCodigoPaises()
