@@ -81,8 +81,8 @@
             makeTableBody() {
                 this.tracingData.forEach((wrapper) => {
                     if(wrapper.indicadores.length > 0){
-                        this.bodyTable.push([wrapper.nombreObjetivo]);
-                        this.bodyTable.push([wrapper.nombreResultado]);
+                        this.bodyTable.push(['Objetivo: ' + wrapper.nombreObjetivo]);
+                        this.bodyTable.push(['Resultado: ' + wrapper.nombreResultado]);
                         wrapper.indicadores.forEach((ind) => {
                             this.bodyTable.push(
                                 [
@@ -109,7 +109,13 @@
                                                             body: this.getSocioBody(ind.desagregados, ind.registroSocios)
                                                         },
                                                     }
-                                                ], '0'],
+                                                ], [
+                                                    {
+                                                        table: {
+                                                            body: this.getTotal(ind.desagregados, ind.registroSocios)
+                                                        },
+                                                    }
+                                                ]],
                                             ]
                                         },
                                     }
@@ -149,8 +155,8 @@
                         return this.codigosPaises.map((c) => {
                             let result = 0;
                             reg.forEach((r) => {
-                                if (r.id === c.id && r.idDesagregado === row.id)
-                                    result = r.valor;
+                                if (r.codigo === c.nombre && r.idDesagregado === row.id)
+                                    result += r.valor;
                             });
                             return result;
                         })
@@ -174,6 +180,20 @@
                 );
                 return body;
             },
+            getTotal(des, reg) {
+                let body = [['-']];
+                body = body.concat(
+                    des.map((row) => {
+                        let result = 0;
+                        reg.forEach((r) => {
+                            if (r.idDesagregado === row.id)
+                                result += r.valor;
+                        });
+                        return [result];
+                    })
+                );
+                return body;
+            }
         },
         created() {
             this.services.simpleIdentificadorService.getCodigoPaises()

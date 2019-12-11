@@ -182,6 +182,36 @@ namespace Services
                                       Fuente = fue.NombreFuente,
                                       Frecuencia = fre.NombreFrecuencia,
                                       Metodologia = plan.MetodologiaRecoleccion,
+                                      TotalQ1 = (from psd in _context.PlanSocioDesagregacion
+                                          join s in _context.SocioInternacional on psd.SocioInternacional equals s
+                                          join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                                          join p in _context.Proyecto on ps.Proyecto equals p
+                                          where psd.Trimestre == 1 && p.FechaInicio.Year == year && psd.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == ind.CodigoIndicador
+                                          select psd.Valor).Sum(),
+                                      TotalQ2 = (from psd in _context.PlanSocioDesagregacion
+                                          join s in _context.SocioInternacional on psd.SocioInternacional equals s
+                                          join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                                          join p in _context.Proyecto on ps.Proyecto equals p
+                                          where psd.Trimestre == 2 && p.FechaInicio.Year == year && psd.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == ind.CodigoIndicador
+                                          select psd.Valor).Sum(),
+                                      TotalQ3 = (from psd in _context.PlanSocioDesagregacion
+                                          join s in _context.SocioInternacional on psd.SocioInternacional equals s
+                                          join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                                          join p in _context.Proyecto on ps.Proyecto equals p
+                                          where psd.Trimestre == 3 && p.FechaInicio.Year == year && psd.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == ind.CodigoIndicador
+                                          select psd.Valor).Sum(),
+                                      TotalQ4 = (from psd in _context.PlanSocioDesagregacion
+                                          join s in _context.SocioInternacional on psd.SocioInternacional equals s
+                                          join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                                          join p in _context.Proyecto on ps.Proyecto equals p
+                                          where psd.Trimestre == 4 && p.FechaInicio.Year == year && psd.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == ind.CodigoIndicador
+                                          select psd.Valor).Sum(),
+                                      TotalAnterior = (from psd in _context.PlanSocioDesagregacion
+                                          join s in _context.SocioInternacional on psd.SocioInternacional equals s
+                                          join ps in _context.ProyectoSocio on s equals ps.SocioInternacional
+                                          join p in _context.Proyecto on ps.Proyecto equals p
+                                          where p.FechaInicio.Year == (year - 1) && psd.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == ind.CodigoIndicador
+                                          select psd.Valor).Sum(),
                                       OrganizacionesResponsables = (from org in _context.OrganizacionResponsable
                                           join proyorg in _context.ProyectoOrganizacion on org equals proyorg.OrganizacionResponsable
                                           where proyorg.Proyecto == proy
