@@ -23,7 +23,7 @@
                 docDefinition: null,
                 pageSize: 'LETTER',
                 pageOrientation: 'landscape',
-                pageMargins: [ 40, 60, 40, 60 ],
+                pageMargins: [ 40, 100, 40, 60 ],
                 styles: {
                     title: {fontSize: 20, bold: true},
                     subtitle: {bold: true, fontSize: 16},
@@ -48,18 +48,20 @@
                     pageOrientation: this.pageOrientation,
                     pageMargins: this.pageMargins,
                     styles: this.styles,
-                    content: [
+                    header: [
                         {
                             columns: [
                                 {stack: [
-                                        'Fundación Panamericana de Desarrollo',
+                                        'FUNDACIÓN PANAMERICANA PARA EL DESARROLLO',
                                         {text: 'Reporte de Desagregados', style: 'subtitle'},
                                         {text: 'Fecha: ' + this.getCurrentDate(), style: 'bodyText'},
                                     ],
-                                    style: 'title'},
-                                {image: this.icon, width: 140, height: 50, alignment: 'right', margin: 5},
+                                    style: 'title', margin: [ 40, 30, 0, 0 ]},
+                                {image: this.icon, width: 140, height: 50, alignment: 'right', margin: [ 0, 30, 20, 30 ]},
                             ],
                         },
+                    ],
+                    content: [
                         {
                             style: 'table',
                             table: {
@@ -70,7 +72,12 @@
                         },
                     ],
                     footer: (currentPage, pageCount) => {
-                        return {text: 'Pág. ' + currentPage.toString() + ' de ' + pageCount, style: 'footer', margin: [40,0,0,10]};
+                        return {
+                            columns: [
+                                {text: 'Reporte generado por: ' + window.User.Nombre + ' ' + window.User.Apellido, style: 'footer', alignment: 'left', margin: [40,10,0,0]},
+                                {text: 'Pág. ' + currentPage.toString() + ' de ' + pageCount, style: 'footer', alignment: 'right', margin: [0,10,40,0]}
+                            ]
+                        };
                     }
                 }
             },
