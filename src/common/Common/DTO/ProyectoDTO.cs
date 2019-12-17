@@ -16,6 +16,7 @@ namespace DTO.DTO
         public string TipoBeneficiario { get; set; }
         public string EstadoProyecto {get; set; }
         public bool IsPlanTrabajo { get; set; }
+        public bool IsActividadPlanTrabajo { get; set; }
         public bool IsIndicador { get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }
@@ -41,9 +42,9 @@ namespace DTO.DTO
                 switch (EstadoProyecto)
                 {
                     case "INCOMPLETO":
-                        return "Datos Incompleto";
+                        return "Datos Incompletos";
                     case "EN_PROCESO":
-                        return "Proyecto en proceso";
+                        return "Proyecto en Proceso";
                     case "CANCELADO":
                         return "Proyecto Cancelado";
                     case "FINALIZADO":
@@ -53,11 +54,11 @@ namespace DTO.DTO
                     case "PRE_VERIFICAR":
                         return "Pendiente de verificación";
                     case "1REVISION":
-                        return "Primera revisión";
+                        return "Primera Revisión";
                     case "2REVISION":
-                        return "Segunda revisión";
+                        return "Segunda Revisión";
                     case "3REVISION":
-                        return "Tercera revisión";
+                        return "Tercera Revisión";
                     default:
                         return "N/A";
                 }
