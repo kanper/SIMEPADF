@@ -47,7 +47,7 @@
 
 <script>
     import {mapMutations, mapActions} from 'vuex'
-    import PDFMaker from "../pdf/PDFMaker";
+    import PDFMaker from "../pdf/SDIPDFMaker";
 
     export default {
         name: "OptionPanel",

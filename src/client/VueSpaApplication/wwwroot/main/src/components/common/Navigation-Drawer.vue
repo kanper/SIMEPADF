@@ -107,6 +107,13 @@
                                     {icon: 'mdi-map-marker-distance', title: 'Información por Region', path:'/seguimiento-indicadores/region'},
                                 ]
                             },
+                            {
+                                title: 'Auditoria',
+                                icon: 'mdi-account-search',
+                                single: true ,
+                                path: '/auditoria',
+                                children: []
+                            },
                         ]},
                     {id: 3, rol: 'Director de País', icon:'mdi-account',menu:[
                             {
