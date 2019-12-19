@@ -494,11 +494,15 @@ namespace Services
         {
             if (status.Equals("EN_PROCESO"))
             {
+                var currentQuarter = _context.RegistroRevision
+                    .Include(r => r.ProyectoPais)
+                    .Where(r => r.ProyectoPais.ProyectoId == id);
+                
                 foreach (var proyectoPais in _context.ProyectoPais
                     .Include(rr => rr.RegistroRevisiones)
                     .Where(p => p.ProyectoId == id).ToList())
                 {
-                    proyectoPais.AddProcesoRevision();
+                    proyectoPais.AddProcesoRevision(!currentQuarter.Any() ? 0 : currentQuarter.Max(r => r.Trimestre));
                 }
             }
         }
