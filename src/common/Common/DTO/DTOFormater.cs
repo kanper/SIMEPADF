@@ -44,5 +44,32 @@ namespace DTO.DTO
             if (map == null) return Empty;
             return map.Length == 0 ? Empty : string.Join(", ", Array.ConvertAll(map, m => m.Nombre));
         }
+
+        public static string FormatProjectStatus(string status)
+        {
+            switch (status)
+            {
+                case "INCOMPLETO":
+                    return "Datos Incompletos";
+                case "EN_PROCESO":
+                    return "Proyecto en Proceso";
+                case "CANCELADO":
+                    return "Proyecto Cancelado";
+                case "FINALIZADO":
+                    return "Proyecto Finalizado";
+                case "VERIFICAR":
+                    return "Enviado para verificación";
+                case "PRE_VERIFICAR":
+                    return "Pendiente de verificación";
+                case "1REVISION":
+                    return "Primera Revisión";
+                case "2REVISION":
+                    return "Segunda Revisión";
+                case "3REVISION":
+                    return "Tercera Revisión";
+                default:
+                    return "N/A";
+            }
+        }
     }
 }

@@ -35,35 +35,7 @@ namespace DTO.DTO
         public bool Is2Review => EstadoProyecto.Equals("2REVISION", StringComparison.OrdinalIgnoreCase);
         public bool Is3Review => EstadoProyecto.Equals("3REVISION", StringComparison.OrdinalIgnoreCase);
         public string Clasificacion => Regional ? "Regional" : "Nacional";
-        public string Estado
-        {
-            get
-            {
-                switch (EstadoProyecto)
-                {
-                    case "INCOMPLETO":
-                        return "Datos Incompletos";
-                    case "EN_PROCESO":
-                        return "Proyecto en Proceso";
-                    case "CANCELADO":
-                        return "Proyecto Cancelado";
-                    case "FINALIZADO":
-                        return "Proyecto Finalizado";
-                    case "VERIFICAR":
-                        return "Enviado para verificación";
-                    case "PRE_VERIFICAR":
-                        return "Pendiente de verificación";
-                    case "1REVISION":
-                        return "Primera Revisión";
-                    case "2REVISION":
-                        return "Segunda Revisión";
-                    case "3REVISION":
-                        return "Tercera Revisión";
-                    default:
-                        return "N/A";
-                }
-            }
-        }
+        public string Estado => DTOFormater.FormatProjectStatus(EstadoProyecto);
 
     }
 }

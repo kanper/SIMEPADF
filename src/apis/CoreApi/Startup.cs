@@ -100,6 +100,7 @@ namespace CoreApi
             services.AddTransient<ISeguimientoIndicadorServer, SeguimientoIndicadorServer>();
             services.AddTransient<IAlertService, AlertService>();
             services.AddTransient<IAuditoriaService, AuditoriaService>();
+            services.AddTransient<IProyectoReporteService, ProyectoReporteService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

@@ -5,6 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
+                    <OptionPanel/>
                     <DataTable :headers="dataTableHeaders" :options="dataTableOptions"/>
                 </v-flex>
             </v-layout>
@@ -20,7 +21,7 @@
     import DataInfo from '../common/CardInfo'
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
-    import Banner from '../common/BannerCard'
+    import OptionPanel from "./OptionPanel"
 
     export default {
         components: {
@@ -29,7 +30,7 @@
             TitleBar,
             AppAlert,
             DataInfo,
-            Banner
+            OptionPanel
         },
         name: "ProyectoReporteIndex",
         data() {
@@ -42,15 +43,18 @@
                     modelPK: 'id',
                     modelStamp: 'nombreProyecto',
                     modelInfo: [
-
                     ],
                     modelParams: {
+                        year: 0,
+                        quarter: 0,
+                        countries: 'all',
+                        socios: 'all'
                     }
                 },
                 dataTableHeaders: [
                     {
-                        text: 'Acción',
-                        value: 'summary',
+                        text: 'Nombre Proyecto',
+                        value: 'nombreProyecto',
                         align: 'start',
                         sortable: true,
                         filterable: true,
@@ -59,8 +63,8 @@
                         width: '50%'
                     },
                     {
-                        text: 'Realizada Por',
-                        value: 'by',
+                        text: 'Estado',
+                        value: 'estadoProyecto',
                         align: 'start',
                         sortable: true,
                         filterable: true,
@@ -69,21 +73,21 @@
                         width: '25%'
                     },
                     {
-                        text: 'Fecha',
-                        value: 'auditAt',
-                        align: 'start',
-                        sortable: true,
-                        filterable: true,
+                        text: 'Opciones',
+                        value: 'action',
+                        align: 'center',
+                        sortable: false,
+                        filterable: false,
                         divider: false,
                         class: [],
-                        width: '25%'
+                        width: ''
                     }
                 ],
                 dataTableOptions: [
                     {
-                        text: 'Información',
+                        text: 'Generar reporte PDF',
                         type: 'info',
-                        icon: 'mdi-information-outline',
+                        icon: 'mdi-file-pdf',
                         color: '',
                         action: '',
                         class: 'mr-2',

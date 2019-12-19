@@ -95,6 +95,7 @@
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
                                     {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
+                                    {icon: 'mdi-file-pdf-box', title: 'Reportes', path:'/proyecto/reporte/'},
                                 ]
                             },
                             {
@@ -124,6 +125,7 @@
                                     {icon: 'mdi-format-list-bulleted', title: 'Gestión de proyectos', path:'/proyectos/gestion'},
                                     {icon: 'mdi-repeat', title: 'Proyectos en proceso', path:'/proyectos/proceso'},
                                     {icon: 'mdi-repeat-off', title: 'Proyectos cancelados y finalizados', path:'/proyectos/finalizado'},
+                                    {icon: 'mdi-file-pdf-box', title: 'Reportes', path:'/proyecto/reporte/'},
                                 ]
                             },
                             {
@@ -142,6 +144,13 @@
                                 icon: 'mdi-repeat',
                                 single: true ,
                                 path:'/proyectos/proceso',
+                                children: []
+                            },
+                            {
+                                title: 'Reporte de Proyectos',
+                                icon: 'mdi-file-pdf-box',
+                                single: true ,
+                                path:'/proyecto/reporte/',
                                 children: []
                             }
                         ]},

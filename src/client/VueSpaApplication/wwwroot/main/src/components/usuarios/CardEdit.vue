@@ -28,7 +28,6 @@
                 required
                 v-model="CRUDModel.nombrePersonal"
                 v-validate="'required|max:50'"
-                outlined
               ></v-text-field>
               <v-text-field
                 :error-messages="errors.collect('apellidoPersonal')"

@@ -33,6 +33,14 @@
                         <v-col class="px-0">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
+                                    <v-btn @click="resetTable" icon v-on="on"><v-icon color="green">mdi-file-excel</v-icon></v-btn>
+                                </template>
+                                <span>Generar Hoja de Cálculo</span>
+                            </v-tooltip>
+                        </v-col>
+                        <v-col class="px-0">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
                                     <v-btn @click="resetTable" icon v-on="on"><v-icon color="blue">mdi-undo-variant</v-icon></v-btn>
                                 </template>
                                 <span>Reiniciar</span>

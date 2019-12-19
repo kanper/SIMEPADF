@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <v-dialog
     fullscreen
     v-model="visibleNewDialog"
@@ -28,7 +28,6 @@
                 required
                 v-model="newModel.nombrePersonal"
                 v-validate="'required|max:50'"
-                outlined
               ></v-text-field>
               <v-text-field
                 :error-messages="errors.collect('apellidoPersonal')"
@@ -52,10 +51,12 @@
               <v-text-field
                 :error-messages="errors.collect('phoneNumber')"
                 data-vv-name="phoneNumber"
-                label="Telefono (###) ####-#### *"
+                label="Teléfono *"
                 required
                 v-model="newModel.phoneNumber"
                 :rules="phoneRules"
+                hint="(###) ####-####"
+                persistent-hint
               ></v-text-field>
             </v-flex>
             <v-spacer></v-spacer>
@@ -84,7 +85,7 @@
               <v-combobox
                 :items="roles"
                 item-text="nombre"
-                label="Seleccione el rol del usuario *"
+                label="Seleccione el Rol del usuario *"
                 required
                 v-model="newModel.name"
                 :return-object="false"
@@ -92,7 +93,7 @@
               <v-combobox
                 :items="paises"
                 item-text="nombre"
-                label="Seleccione un pais *"
+                label="Seleccione un país *"
                 required
                 v-model="newModel.pais"
                 :return-object="false"
@@ -113,8 +114,9 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-
+import {mask} from 'vue-the-mask'
 export default {
+  directives: {mask},
   data() {
     return {
       newModel: {
@@ -130,19 +132,19 @@ export default {
         name: "",
       },
       emailRules: [
-        v => !!v || 'E-mail es Obligatorio',
-        v => /.+@.+\..+/.test(v) || 'E-mail debe ser valido',
+        v => !!v || 'El Correo Electrónico es Obligatorio',
+        v => /.+@.+\..+/.test(v) || 'El Correo Electrónico debe ser válido',
       ],
       phoneRules: [
-        v => !!v || 'Telefono es Obligatorio',
-        v => /\(([0-9]{3})\)([ ])([0-9]{4})+-.+[0-9]{3}/.test(v) || 'Telefono debe ser valido',
+        v => !!v || 'El Número de Teléfono es Obligatorio',
+        v => /\(([0-9]{3})\)([ ])([0-9]{4})+-.+[0-9]{3}/.test(v) || 'El Número de Teléfono seguir el pátron: (###) ####-####',
       ],
       show1: false,
       paises: [],
       roles: [],
       datePickInicio: false,
       datePickFin: false,
-      datePickApro: false
+      datePickApro: false,
     };
   },
   computed: {
@@ -191,6 +193,7 @@ export default {
                 this.showInfo(e.toString());
               });
             this.closeAllDialogs();
+            this.resetForm();
           } else {
             this.showInfo(this.$validator.errors.all().toString());
           }
@@ -198,19 +201,29 @@ export default {
         .catch(e => {
           this.showInfo(e.toString());
         });
+    },
+    resetForm(){
+      this.newModel.id = "";
+      this.newModel.nombrePersonal = "";
+      this.newModel.apellidoPersonal = "";
+      this.newModel.cargo = "";
+      this.newModel.email = "";
+      this.newModel.password = "";
+      this.newModel.phoneNumber = "";
+      this.newModel.pais = "";
+      this.newModel.name = "";
     }
   },
   created() {
-    this.services.proyectoHelperService
-      .getPaises()
+    this.resetForm();
+    this.services.proyectoHelperService.getPaises()
       .then(r => {
         this.paises = r.data;
       })
       .catch(e => {
         this.showInfo(e.toString());
       });
-    this.services.proyectoHelperService
-      .getRoles()
+    this.services.proyectoHelperService.getRoles()
       .then(r => {
         this.roles = r.data;
       })

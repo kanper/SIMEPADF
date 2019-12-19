@@ -81,7 +81,7 @@ const routes = [
     {path: '/seguimiento-indicadores/pais', name: 'proyecto-seguimiento-indicador-pais', component: SeguimientoIndicadorPaisIndex},
     {path: '/seguimiento-indicadores/region', name: 'proyecto-seguimiento-indicador-region', component: SeguimientoIndicadorRegionIndex},
     {path: '/auditoria/', name: 'AuditoriaIndex', component: AuditoriaIndex},
-    {path: '/proyecto/reporte', name: 'ProyectoReporteIndex', component: ProyectoReporteIndex},
+    {path: '/proyecto/reporte/', name: 'ProyectoReporteIndex', component: ProyectoReporteIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
     {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},
