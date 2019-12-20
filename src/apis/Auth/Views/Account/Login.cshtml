@@ -10,12 +10,17 @@
     <div class="row">
         @if (Model.EnableLocalLogin)
         {
-            <div class="col-sm-7">
-                <h1 class="imagen img-responsive">
-                    <img class="imagen" src="~/logo.png" width="430" height="140" alt="Logo de PADF" title="Logo de PADF">
-                </h1>
+            <div class="col-md-7">
+                <div class="row">
+                    <div class="col-md-8" style="display:block; margin-left:auto; margin-right:auto">
+                        <img src="~/logo.png" width="400" height="200%" alt="Logo de PADF" title="Logo de PADF">
+                    </div>
+                    <div class="col-md-4">
+                        <img src="~/UES.png" width="150" height="200" alt="Logo UES" style="display:block; margin-left:auto; margin-right:auto"/>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-5">
+            <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Login</h3>

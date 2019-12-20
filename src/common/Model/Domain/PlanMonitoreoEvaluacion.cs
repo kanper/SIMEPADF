@@ -15,8 +15,8 @@ namespace Model.Domain
         {
             Proyecto = proyecto;            
             Indicador = indicador;
-            MetodologiaRecoleccion = "N/A";
-            ValorLineaBase = "N/A";
+            MetodologiaRecoleccion = "";
+            ValorLineaBase = "";
             FrecuenciaMedicion = null;
             FuenteDato = null;
             NivelImpacto = null;

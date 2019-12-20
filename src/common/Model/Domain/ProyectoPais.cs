@@ -31,11 +31,11 @@ namespace Model.Domain
             return PaisId == pais && ProyectoId == proyecto;
         }
 
-        public void AddProcesoRevision()
+        public void AddProcesoRevision(int currentQuarter)
         {
             for (var i = 1; i <= 3; i++)
             {
-                RegistroRevisiones.Add(new RegistroRevision(i , QuarterCalculator.GetQuarter(new DateTime())));
+                RegistroRevisiones.Add(new RegistroRevision(i , currentQuarter == 4 ? 1 : currentQuarter + 1));
             }
         }
     }

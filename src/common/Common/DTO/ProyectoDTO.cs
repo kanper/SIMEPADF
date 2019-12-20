@@ -16,6 +16,7 @@ namespace DTO.DTO
         public string TipoBeneficiario { get; set; }
         public string EstadoProyecto {get; set; }
         public bool IsPlanTrabajo { get; set; }
+        public bool IsActividadPlanTrabajo { get; set; }
         public bool IsIndicador { get; set; }
         public MapDTO[] Paises { get; set; }
         public MapDTO[] Organizaciones { get; set; }
@@ -34,35 +35,7 @@ namespace DTO.DTO
         public bool Is2Review => EstadoProyecto.Equals("2REVISION", StringComparison.OrdinalIgnoreCase);
         public bool Is3Review => EstadoProyecto.Equals("3REVISION", StringComparison.OrdinalIgnoreCase);
         public string Clasificacion => Regional ? "Regional" : "Nacional";
-        public string Estado
-        {
-            get
-            {
-                switch (EstadoProyecto)
-                {
-                    case "INCOMPLETO":
-                        return "Datos Incompleto";
-                    case "EN_PROCESO":
-                        return "Proyecto en proceso";
-                    case "CANCELADO":
-                        return "Proyecto Cancelado";
-                    case "FINALIZADO":
-                        return "Proyecto Finalizado";
-                    case "VERIFICAR":
-                        return "Enviado para verificación";
-                    case "PRE_VERIFICAR":
-                        return "Pendiente de verificación";
-                    case "1REVISION":
-                        return "Primera revisión";
-                    case "2REVISION":
-                        return "Segunda revisión";
-                    case "3REVISION":
-                        return "Tercera revisión";
-                    default:
-                        return "N/A";
-                }
-            }
-        }
+        public string Estado => DTOFormater.FormatProjectStatus(EstadoProyecto);
 
     }
 }

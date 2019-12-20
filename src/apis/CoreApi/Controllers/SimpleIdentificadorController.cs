@@ -30,10 +30,22 @@ namespace CoreApi.Controllers
             return Ok(_service.GetMapIndicador(id));
         }
 
+        [HttpGet("identificador/paises")]
+        public IActionResult GetAllPaises()
+        {
+            return Ok(_service.GetCountries());
+        }
+
         [HttpGet("identificador/paises/codigos")]
         public IActionResult GetAllPaisesCodes()
         {
             return Ok(_service.GetAllCountriesCodes());
+        }
+
+        [HttpGet("identificador/socios")]
+        public IActionResult GetAllSocios()
+        {
+            return Ok(_service.GetSocios());
         }
 
         [HttpGet("identificador/socios/codigos")]

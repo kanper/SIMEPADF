@@ -31,6 +31,9 @@
                             <PDFMaker />
                         </v-col>
                         <v-col class="px-0">
+                            <SheetMaker />
+                        </v-col>
+                        <v-col class="px-0">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                     <v-btn @click="resetTable" icon v-on="on"><v-icon color="blue">mdi-undo-variant</v-icon></v-btn>
@@ -47,15 +50,13 @@
 
 <script>
     import {mapMutations, mapActions} from 'vuex'
-    import PDFMaker from "../pdf/PDFMaker";
+    import PDFMaker from "../pdf/SDIPDFMaker";
+    import SheetMaker from "../sheet/SDISheetMaker"
 
     export default {
         name: "OptionPanel",
         props: {tracing: String, hideQuarter: {type: Boolean, default: false}},
-        components: {PDFMaker},
-        component: {
-            PDFMaker
-        },
+        components: {PDFMaker,SheetMaker},
         data() {
             return {
                 quarters:[{text:'Q1',value:'1'}, {text:'Q2',value:'2'}, {text:'Q3',value:'3'}, {text:'Q4',value:'4'}],

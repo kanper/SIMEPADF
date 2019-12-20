@@ -22,8 +22,16 @@ export default class SimpleIdentificadorService extends AbstractService {
         return this.axios.get(`${this.baseUrl}/paises/codigos`)
     }
 
+    getPaises() {
+        return this.axios.get(`${this.baseUrl}/paises`)
+    }
+
     getCodigoSocios(){
         return this.axios.get(`${this.baseUrl}/socios/codigos`)
+    }
+
+    getSocios(){
+        return this.axios.get(`${this.baseUrl}/socios`)
     }
 
     getDesagregados(){

@@ -18,7 +18,6 @@
                 required
                 v-model="form.nombrePersonal"
                 :rules="NameRules"
-                outlined
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-text-field

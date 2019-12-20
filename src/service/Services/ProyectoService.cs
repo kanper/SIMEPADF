@@ -14,7 +14,6 @@ namespace Services
     public interface IProyectoService
     {
         ProyectoDTO Get(string id);
-        IEnumerable<ProyectoDTO> GetAll();
         IEnumerable<ProyectoDTO> GetAll(string estado);       
         IEnumerable<ProyectoDTO> GetAll(string estado, string pais);
         bool Add(ProyectoDTO model, string estadoInicial);              
@@ -158,41 +157,13 @@ namespace Services
                 return null;
             }
         }
-
-        public IEnumerable<ProyectoDTO> GetAll()
-        {
-            try
-            {
-                return (from p in _context.Proyecto
-                    join e in _context.EstadoProyecto
-                        on p.EstadoProyecto equals e
-                    select new ProyectoDTO()
-                    {
-                        Id = p.CodigoProyecto,
-                        NombreProyecto = p.NombreProyecto,
-                        Regional = p.Regional,
-                        MontoProyecto = p.MontoProyecto,
-                        FechaAprobacion = p.FechaAprobacion,
-                        FechaInicio = p.FechaInicio,
-                        FechaFin = p.FechaFin,
-                        Beneficiarios = p.Beneficiarios,
-                        TipoBeneficiario = p.TipoBeneficiario,
-                        EstadoProyecto = e.TipoEstado,                       
-                    }).ToList();               
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return new List<ProyectoDTO>();
-            }
-        }
-
+        
         public IEnumerable<ProyectoDTO> GetAll(string estado, string pais)
         {
-            string[] estados = estado.Split('$');
             try
             {
-                return (from p in _context.Proyecto
+                var estados = estado.Split('$');
+                var dto = (from p in _context.Proyecto
                     join e in _context.EstadoProyecto
                         on p.EstadoProyecto equals e
                     join pp in _context.ProyectoPais
@@ -213,23 +184,15 @@ namespace Services
                         Beneficiarios = p.Beneficiarios,
                         PorcentajeAvance = p.PorcentajeAvence,
                         EstadoProyecto = e.TipoEstado,
-                        IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
-                            where pl.CodigoPlanTrabajo == p.CodigoProyecto 
-                            select pl).Any(),
-                        IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
-                            where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
-                            select i).Any(),
-                        Paises = (from pais2 in _context.Pais 
-                            join pp2 in _context.ProyectoPais 
-                                on pais2 equals pp2.Pais 
-                            where pp2.ProyectoId == p.CodigoProyecto 
-                            select new MapDTO()
-                            {
-                                Id = pais2.Id, 
-                                Nombre = pais2.NombrePais
-                            }).ToArray(),
-
                     }).ToList();
+                foreach (var item in dto)
+                {
+                    item.Paises = GetProyectCountries(item.Id);
+                    item.IsPlanTrabajo = CheckPlanTrabajo(item.Id);
+                    item.IsActividadPlanTrabajo = CheckActividadPlanTrabajo(item.Id);
+                    item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
+                }
+                return dto;
             }
             catch (Exception e)
             {
@@ -240,10 +203,10 @@ namespace Services
         
         public IEnumerable<ProyectoDTO> GetAll(string estado)
         {
-            string[] estados = estado.Split('$');
             try
             {
-                return (from p in _context.Proyecto
+                var estados = estado.Split('$');
+                var dto = (from p in _context.Proyecto
                     join e in _context.EstadoProyecto
                         on p.EstadoProyecto equals e
                     where estados.Contains(e.TipoEstado)    
@@ -259,22 +222,15 @@ namespace Services
                         Beneficiarios = p.Beneficiarios,
                         EstadoProyecto = e.TipoEstado,
                         PorcentajeAvance = p.PorcentajeAvence,
-                        IsPlanTrabajo = (from pl in _context.PlanTrabajo                            
-                            where pl.CodigoPlanTrabajo == p.CodigoProyecto 
-                            select pl).Any(),
-                        IsIndicador = (from i in _context.PlanMonitoreoEvaluacion 
-                            where i.ProyectoCodigoProyecto == p.CodigoProyecto                                                                  
-                            select i).Any(),
-                        Paises = (from pais2 in _context.Pais 
-                            join pp2 in _context.ProyectoPais 
-                                on pais2 equals pp2.Pais 
-                            where pp2.ProyectoId == p.CodigoProyecto 
-                            select new MapDTO()
-                            {
-                                Id = pais2.Id, 
-                                Nombre = pais2.NombrePais
-                            }).ToArray(),
                     }).ToList();
+                foreach (var item in dto)
+                {
+                    item.Paises = GetProyectCountries(item.Id);
+                    item.IsPlanTrabajo = CheckPlanTrabajo(item.Id);
+                    item.IsActividadPlanTrabajo = CheckActividadPlanTrabajo(item.Id);
+                    item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
+                }
+                return dto;
             }
             catch (Exception e)
             {
@@ -534,36 +490,130 @@ namespace Services
             return _context.OrganizacionResponsable.Single(o => o.Id == id);
         }
 
-        private bool IsPaisIncluded(ICollection<ProyectoPais> collection, int idPais)
-        {
-            return collection.Any(pp => idPais == pp.PaisId);
-        }
-
-        private bool IsSocioIncluded(ICollection<ProyectoSocio> collection, int idSocio)
-        {
-            return collection.Any(ps => idSocio == ps.SocioInternacionalId);
-        }
-
-        private bool IsOrganizacionIncluded(ICollection<ProyectoOrganizacion> collection, int idOrg)
-        {
-            return collection.Any(po => idOrg == po.OrganizacionResponsableId);
-        }
-
-        private bool IsIncluded(MapDTO[] map, int idPais)
-        {
-            return map.Any(dto => idPais == dto.Id);
-        }
-
         private void CreateReviewSet(string id, string status)
         {
             if (status.Equals("EN_PROCESO"))
             {
+                var currentQuarter = _context.RegistroRevision
+                    .Include(r => r.ProyectoPais)
+                    .Where(r => r.ProyectoPais.ProyectoId == id);
+                
                 foreach (var proyectoPais in _context.ProyectoPais
                     .Include(rr => rr.RegistroRevisiones)
                     .Where(p => p.ProyectoId == id).ToList())
                 {
-                    proyectoPais.AddProcesoRevision();
+                    proyectoPais.AddProcesoRevision(!currentQuarter.Any() ? 0 : currentQuarter.Max(r => r.Trimestre));
                 }
+            }
+        }
+
+        private bool CheckPlanMonitoreoEvaluacion(string id)
+        {
+            try
+            {
+                var result = false;
+                var evaluacions = _context.PlanMonitoreoEvaluacion
+                    .Include(p => p.NivelImpacto)
+                    .Include(p => p.FuenteDato)
+                    .Include(p => p.FrecuenciaMedicion)
+                    .Include(p => p.PlanDesagregaciones)
+                    .Where(p => p.ProyectoCodigoProyecto == id);
+                foreach (var evaluacion in evaluacions)
+                {
+                    if (evaluacion.MetodologiaRecoleccion.Length > 0 &&
+                        evaluacion.ValorLineaBase.Length > 0)
+                    {
+                        if (evaluacion.NivelImpacto != null &&
+                            evaluacion.FuenteDato != null &&
+                            evaluacion.FrecuenciaMedicion != null &&
+                            evaluacion.PlanDesagregaciones.Count > 0)
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        result = false;
+                        break;
+                    }
+                };
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private bool CheckActividadPlanTrabajo(string id)
+        {
+            try
+            {
+                var result = false;
+                var pts = _context.ActividadPT
+                    .Include(pt => pt.Productos)
+                    .Include(pt => pt.ActividadPTPaises)
+                    .Where(pt => pt.PlanTrabajoCodigoPlanTrabajo == id);
+                foreach (var pt in pts)
+                {
+                    if (pt.Monto > 0 &&
+                        pt.Productos.Count > 0 &&
+                        pt.ActividadPTPaises.Count > 0)
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private bool CheckPlanTrabajo(string id)
+        {
+            try
+            {
+                return _context.PlanTrabajo.Single(p => p.CodigoPlanTrabajo.Equals(id)) != null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private MapDTO[] GetProyectCountries(string id)
+        {
+            try
+            {
+                return (from pais in _context.Pais
+                    join pp in _context.ProyectoPais
+                        on pais equals pp.Pais
+                    where pp.ProyectoId == id
+                    select new MapDTO()
+                    {
+                        Id = pais.Id,
+                        Nombre = pais.NombrePais
+                    }).ToArray();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
             }
         }
     }

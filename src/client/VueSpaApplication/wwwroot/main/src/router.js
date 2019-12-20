@@ -31,6 +31,8 @@ import ProyectoSeguimientoRegistroIndex from './components/seguimientoDesagregad
 import SeguimientoIndicadorDesagregadoIndex from './components/seguimientoIndicadores/IndexSID'
 import SeguimientoIndicadorPaisIndex from './components/seguimientoIndicadores/IndexSIP'
 import SeguimientoIndicadorRegionIndex from './components/seguimientoIndicadores/IndexSIR'
+import AuditoriaIndex from './components/auditoria/Index'
+import ProyectoReporteIndex from './components/proyectoReporte/Index'
 import UsuarioIndex from './components/usuarios/Index'
 import usuarioEditar from './components/usuarios/Editar'
 import usuarioChange from './components/usuarios/Change'
@@ -78,6 +80,8 @@ const routes = [
     {path: '/seguimiento-indicadores/desagregados', name: 'proyecto-seguimiento-indicador-desagregado', component: SeguimientoIndicadorDesagregadoIndex},
     {path: '/seguimiento-indicadores/pais', name: 'proyecto-seguimiento-indicador-pais', component: SeguimientoIndicadorPaisIndex},
     {path: '/seguimiento-indicadores/region', name: 'proyecto-seguimiento-indicador-region', component: SeguimientoIndicadorRegionIndex},
+    {path: '/auditoria/', name: 'AuditoriaIndex', component: AuditoriaIndex},
+    {path: '/proyecto/reporte/', name: 'ProyectoReporteIndex', component: ProyectoReporteIndex},
     {path: '/usuarios/', name: 'UsuarioIndex', component: UsuarioIndex},
     {path: '/usuarios/:id/editar', name: 'usuario-editar', component: usuarioEditar},
     {path: '/usuarios/:id/change', name: 'usuario-change', component: usuarioChange},

@@ -1,13 +1,14 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog v-model="visibleReviewLogList" width="750">        
+        <v-dialog v-model="visibleReviewLogList" width="750" persistent scrollable>
         <v-card>
-            <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>                    
+            <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>
             <v-card-text>                
                 <v-data-table
                     :headers="headers"
-                    :items="reviewLogList"                    
+                    :items="reviewLogList"
                     hide-default-footer
+                    disable-pagination
                     class="elevation-1 mt-5"
                 >
                 <template v-slot:item.revisado="{ item }">

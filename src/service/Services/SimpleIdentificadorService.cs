@@ -15,6 +15,8 @@ namespace Services
         IEnumerable<MapDTO> GetAllCountriesCodes();
         IEnumerable<MapDTO> GetAllSocioCodes();
         IEnumerable<MapDTO> GetAllDesagregados();
+        IEnumerable<MapDTO> GetSocios();
+        IEnumerable<MapDTO> GetCountries();
     }
 
     public class SimpleIdentificadorService : ISimpleIdentificadorService
@@ -128,6 +130,42 @@ namespace Services
                         Id = des.Id,
                         Nombre = des.TipoDesagregacion
                     }).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetSocios()
+        {
+            try
+            {
+                return (from s in _context.SocioInternacional
+                    select new MapDTO()
+                    {
+                        Id = s.Id,
+                        Nombre = s.NombreSocio
+                    }).ToList().OrderBy(dto => dto.Nombre);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MapDTO>();
+            }
+        }
+
+        public IEnumerable<MapDTO> GetCountries()
+        {
+            try
+            {
+                return (from p in _context.Pais
+                    select new MapDTO()
+                    {
+                        Id = p.Id,
+                        Nombre = p.NombrePais
+                    }).ToList().OrderBy(dto => dto.Nombre);
             }
             catch (Exception e)
             {

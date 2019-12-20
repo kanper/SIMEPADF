@@ -19,12 +19,6 @@ namespace CoreApi.Controllers
             return Ok(_service.Get(id));
         }
 
-        [HttpGet("proyecto")]
-        public IActionResult GetAll()
-        {
-            return Ok(_service.GetAll());
-        }
-
         [HttpGet("proyecto/estado/{estado}")]
         public IActionResult GetAll(string estado)
         {
