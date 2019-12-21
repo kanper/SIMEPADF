@@ -29,6 +29,7 @@ namespace Services
             try
             {
                 return (from a in _context.Alertas
+                    orderby a.Inicio descending 
                     where a.Revisado == false &&
                           (a.Rol == rol || a.Rol == "ALL") &&
                           (a.Pais == pais || a.Pais == "ALL")
@@ -54,6 +55,7 @@ namespace Services
             try
             {
                 _context.Alertas.Single(a => a.Id == id).Revisado = true;
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception e)

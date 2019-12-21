@@ -3,6 +3,7 @@ namespace DTO.DTO
     public class SeguimientoIndicadorDTO
     {
         public int Id { get; set; }
+        public int CodigoActividad { get; set; }
         public string NombreIndicador { get; set; }
         public string NombreActividad { get; set; }
         public string Nivel { get; set; }

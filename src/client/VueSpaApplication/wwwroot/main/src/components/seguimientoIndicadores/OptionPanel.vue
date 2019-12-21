@@ -1,28 +1,75 @@
 <template>
     <v-card class="mx-auto mb-1" outlined>
+        <v-card-title class="font-weight-light">
+            Opciones de búsqueda
+        </v-card-title>
         <v-card-text>
-            <div>Opciones de busqueda</div>
             <v-row justify="space-between">
-                <v-col cols="6">
-                    <v-select
-                            v-model="year"
-                            :items="years"
-                            chips
-                            label="Año"
-                            prepend-icon="mdi-calendar"
-                            @change="loadData"
-                    ></v-select>
+                <v-col cols="5">
+                    <v-menu
+                            ref="menuStart"
+                            v-model="menuStart"
+                            :close-on-content-click="false"
+                            :return-value.sync="startDate"
+                            transition="scale-transition"
+                            offset-y
+                            max-width="290px"
+                            min-width="290px"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                    v-model="startDate"
+                                    label="Fecha de Inicio"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-on="on"
+                                    @change="loadData"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                                v-model="startDate"
+                                type="month"
+                                no-title
+                                scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menuStart = false">Cancelar</v-btn>
+                            <v-btn text color="primary" @click="$refs.menuStart.save(startDate)">OK</v-btn>
+                        </v-date-picker>
+                    </v-menu>
                 </v-col>
-                <v-col cols="4">
-                    <v-select
-                            v-model="quarter"
-                            :items="quarters"
-                            chips
-                            label="Trimestre"
-                            prepend-icon="mdi-calendar-multiple"
-                            @change="loadData"
-                            v-if="!hideQuarter"
-                    ></v-select>
+                <v-col cols="5">
+                    <v-menu
+                            ref="menuEnd"
+                            v-model="menuEnd"
+                            :close-on-content-click="false"
+                            :return-value.sync="endDate"
+                            transition="scale-transition"
+                            offset-y
+                            max-width="290px"
+                            min-width="290px"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                    v-model="endDate"
+                                    label="Fecha de Fin"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                                v-model="endDate"
+                                type="month"
+                                no-title
+                                scrollable
+                                @change="loadData"
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn text color="primary" @click="menuEnd = false">Cancelar</v-btn>
+                            <v-btn text color="primary" @click="$refs.menuEnd.save(endDate)">OK</v-btn>
+                        </v-date-picker>
+                    </v-menu>
                 </v-col>
 
                 <v-col cols="auto" class="text-center pl-0">
@@ -32,14 +79,6 @@
                         </v-col>
                         <v-col class="px-0">
                             <SheetMaker />
-                        </v-col>
-                        <v-col class="px-0">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <v-btn @click="resetTable" icon v-on="on"><v-icon color="blue">mdi-undo-variant</v-icon></v-btn>
-                                </template>
-                                <span>Reiniciar</span>
-                            </v-tooltip>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -59,47 +98,35 @@
         components: {PDFMaker,SheetMaker},
         data() {
             return {
-                quarters:[{text:'Q1',value:'1'}, {text:'Q2',value:'2'}, {text:'Q3',value:'3'}, {text:'Q4',value:'4'}],
-                quarter: null,
-                years: [],
-                year: null,
-                restarted:false
+                menuStart: false,
+                menuEnd: false,
+                restarted:false,
+                startDate: null,
+                endDate: null
             }
         },
         computed: {
 
         },
         methods: {
-            ...mapMutations(['changeOptionPanelCheck']),
+            ...mapMutations(['changeOptionPanelCheck','changeTracingDataLoading']),
             ...mapActions(['loadTracingTable']),
-            resetTable() {
-                this.year = null;
-                this.quarter = null;
-                if(this.restarted){
-                    this.changeOptionPanelCheck();
-                    this.restarted = false;
-                }
-            },
             loadData(){
-                if((this.quarter !== null || this.hideQuarter) && this.year !== null){
+                if(this.startDate !== null && this.endDate !== null){
                     if(!this.restarted){
                         this.changeOptionPanelCheck();
                         this.restarted = true;
                     }
-                    this.loadTable(this.year, this.quarter);
+                    this.loadTable();
                 }
             },
-            loadTable(year,quarter){
-                this.loadTracingTable({tracing:this.tracing, year:year, quarter:quarter});
-            }
+            loadTable(){
+                this.changeTracingDataLoading();
+                this.loadTracingTable({tracing:this.tracing, start:this.startDate, end:this.endDate});
+            },
         },
         created() {
-            let currentYear = new Date().getFullYear();
-            this.years.push({text:currentYear,value:currentYear});
-            for(let i = 1; i < 20 ; i++){
-                this.years.push({text:(currentYear - i),value:(currentYear - i) + ''});
-            }
-        }
+        },
     }
 </script>
 

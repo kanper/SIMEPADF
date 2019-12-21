@@ -65,7 +65,6 @@
                         {
                             style: 'table',
                             table: {
-                                headerRows: 1,
                                 widths: [ '*' ],
                                 body: this.bodyTable
                             }
@@ -179,7 +178,7 @@
                             let result = 0;
                             reg.forEach((r) => {
                                 if (r.id === s.id && r.idDesagregado === row.id)
-                                    result = r.valor;
+                                    result += r.valor;
                             });
                             return result;
                         })

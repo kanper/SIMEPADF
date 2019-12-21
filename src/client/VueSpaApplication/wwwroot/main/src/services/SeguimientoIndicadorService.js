@@ -6,8 +6,8 @@ export default class SeguimientoIndicadorService extends AbstractService {
         super(axios, `${baseUrl}seguimiento/indicadores/`);
     }
 
-    seguimientoDesagregados(year, quarter) {
-        return this.axios.get(`${this.baseUrl}desagregados/anio/${year}/trimestre/${quarter}`);
+    seguimientoDesagregados(start, end) {
+        return this.axios.get(`${this.baseUrl}desagregados/inicio/${start}/fin/${end}`);
     }
 
     seguimientoPais(year, quarter) {

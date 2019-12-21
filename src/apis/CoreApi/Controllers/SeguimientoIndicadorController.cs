@@ -13,10 +13,10 @@ namespace CoreApi.Controllers
             _service = server;
         }
 
-        [HttpGet("/seguimiento/indicadores/desagregados/anio/{anio}/trimestre/{trimestre}")]
-        public IActionResult SeguimientoPorDesagregados(int anio, int trimestre)
+        [HttpGet("/seguimiento/indicadores/desagregados/inicio/{inicio}/fin/{fin}")]
+        public IActionResult SeguimientoPorDesagregados(string inicio, string fin)
         {
-            return Ok(_service.ForDesagregados(anio, trimestre));
+            return Ok(_service.ForDesagregados(inicio, fin));
         }
 
         [HttpGet("/seguimiento/indicadores/pais/anio/{anio}/trimestre/{trimestre}")]

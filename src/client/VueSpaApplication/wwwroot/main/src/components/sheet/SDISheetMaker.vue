@@ -14,17 +14,21 @@
         name: "SDISheetMaker",
         data() {
             return {
-
+                sheetContent: "<table><thead><tr><th>Titulo</th></tr></thead><tbody><tr><td>Prueba de sheetjs</td></tr></tbody></table>"
             }
         },
         computed: {
             ...mapState(['services','tracingData'])
         },
         methods: {
+
             generate() {
-                let mainWS = XLSX.utils.json_to_sheet(this.tracingData);
+                let tables = document.getElementsByTagName("table");
                 let wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, mainWS, 'Desagregados');
+                for(let i = 0; i < tables.length; i++) {
+                    let mainWS = XLSX.utils.table_to_sheet(tables[i]);
+                    XLSX.utils.book_append_sheet(wb, mainWS, 'Desagregados' + i);
+                }
                 XLSX.writeFile(wb, 'book.xlsx')
             }
         }
