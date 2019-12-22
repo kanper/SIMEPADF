@@ -10,11 +10,11 @@ export default class SeguimientoIndicadorService extends AbstractService {
         return this.axios.get(`${this.baseUrl}desagregados/inicio/${start}/fin/${end}`);
     }
 
-    seguimientoPais(year, quarter) {
-        return this.axios.get(`${this.baseUrl}pais/anio/${year}/trimestre/${quarter}`);
+    seguimientoPais(start, end) {
+        return this.axios.get(`${this.baseUrl}pais/inicio/${start}/fin/${end}`);
     }
 
-    seguimientoRegion(year, quarter) {
-        return this.axios.get(`${this.baseUrl}region/anio/${year}`);
+    seguimientoRegion(start, end) {
+        return this.axios.get(`${this.baseUrl}region/anio/${start}`);
     }
 }

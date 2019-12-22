@@ -19,14 +19,14 @@ namespace CoreApi.Controllers
             return Ok(_service.ForDesagregados(inicio, fin));
         }
 
-        [HttpGet("/seguimiento/indicadores/pais/anio/{anio}/trimestre/{trimestre}")]
-        public IActionResult SeguimientoPorPais(int anio, int trimestre)
+        [HttpGet("/seguimiento/indicadores/pais/inicio/{inicio}/fin/{fin}")]
+        public IActionResult SeguimientoPorPais(string inicio, string fin)
         {
-            return Ok(_service.ForPaises(anio, trimestre));
+            return Ok(_service.ForPaises(inicio, fin));
         }
 
         [HttpGet("/seguimiento/indicadores/region/anio/{anio}")]
-        public IActionResult SeguimientoPorRegion(int anio, int trimestre)
+        public IActionResult SeguimientoPorRegion(int anio)
         {
             return Ok(_service.ForRegiones(anio));
         }

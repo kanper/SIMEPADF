@@ -53,7 +53,7 @@
                             columns: [
                                 {stack: [
                                         'FUNDACIÓN PANAMERICANA PARA EL DESARROLLO',
-                                        {text: 'Reporte de Desagregados', style: 'subtitle'},
+                                        {text: 'Reporte por países', style: 'subtitle'},
                                         {text: 'Fecha: ' + this.getCurrentDate(), style: 'bodyText'},
                                     ],
                                     style: 'title', margin: [ 40, 30, 0, 0 ]},
@@ -95,30 +95,23 @@
                                     {
                                         table: {
                                             body: [
-                                                ['Indicador','Organizaciones Responsables','Desagregados','Países','Socios Internacionales','Total'],
-                                                [ind.nombreIndicador, ind.listaOrganizaciones,[
+                                                ['Indicador','Nivel','Organización responsable','Países','Socios Internacionales','Total'],
+                                                [ind.nombreIndicador, this.getArrayAsList(ind.niveles), ind.listaOrganizaciones,[
                                                     {
                                                         table: {
-                                                            width: ['auto'],
-                                                            body: this.getDesagregadoList(ind.desagregados)
-                                                        }
-                                                    }
-                                                ],[
-                                                    {
-                                                        table: {
-                                                            body: this.getCountryBody(ind.desagregados, ind.registroSocios)
+                                                            body: this.getCountryBody(ind.registroSocios)
                                                         },
                                                     }
                                                 ], [
                                                     {
                                                         table: {
-                                                            body: this.getSocioBody(ind.desagregados, ind.registroSocios)
+                                                            body: this.getSocioBody(ind.registroSocios)
                                                         },
                                                     }
                                                 ], [
                                                     {
                                                         table: {
-                                                            body: this.getTotal(ind.desagregados, ind.registroSocios)
+                                                            body: this.getTotal(ind.registroSocios)
                                                         },
                                                     }
                                                 ]],
@@ -145,59 +138,39 @@
                     return s.nombre;
                 })
             },
-            getDesagregadoList(des) {
-                let tableRows = [['-']];
-                tableRows = tableRows.concat(
-                    des.map((row) => {
-                        return [row.nombre]
-                    })
-                );
-                return tableRows;
-            },
-            getCountryBody(des, reg) {
+            getCountryBody(reg) {
                 let body = [this.getCountryHeaders()];
-                body = body.concat(
-                    des.map((row) => {
-                        return this.codigosPaises.map((c) => {
-                            let result = 0;
-                            reg.forEach((r) => {
-                                if (r.codigo === c.nombre && r.idDesagregado === row.id)
-                                    result += r.valor;
-                            });
-                            return this.numberWithCommas(result);
-                        })
-                    })
-                );
-                return body;
-            },
-            getSocioBody(des, reg) {
-                let body = [this.getSocioHeaders()];
-                body = body.concat(
-                    des.map((row) => {
-                        return this.codigosSocios.map((s) => {
-                            let result = 0;
-                            reg.forEach((r) => {
-                                if (r.id === s.id && r.idDesagregado === row.id)
-                                    result += r.valor;
-                            });
-                            return this.numberWithCommas(result);
-                        })
-                    })
-                );
-                return body;
-            },
-            getTotal(des, reg) {
-                let body = [['-']];
-                body = body.concat(
-                    des.map((row) => {
+                body.push(
+                    this.codigosPaises.map((c) => {
                         let result = 0;
                         reg.forEach((r) => {
-                            if (r.idDesagregado === row.id)
+                            if (r.codigo === c.nombre)
                                 result += r.valor;
                         });
-                        return [this.numberWithCommas(result)];
+                        return this.numberWithCommas(result);
                     })
                 );
+                return body;
+            },
+            getSocioBody(reg) {
+                let body = [this.getSocioHeaders()];
+                body.push(
+                    this.codigosSocios.map((s) => {
+                        let result = 0;
+                        reg.forEach((r) => {
+                            if (r.id === s.id)
+                                result += r.valor;
+                        });
+                        return this.numberWithCommas(result);
+                    })
+                );
+                return body;
+            },
+            getTotal(reg) {
+                let body = [['-']];
+                let result = 0;
+                reg.forEach((r) => {result += r.valor;});
+                body.push([this.numberWithCommas(result)]);
                 return body;
             },
             numberWithCommas(x) {
@@ -205,6 +178,12 @@
                     return 0;
                 }
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            getArrayAsList(arr) {
+                if (arr === null || arr === undefined){
+                    return 'Vácio';
+                }
+                return arr.join();
             }
         },
         created() {

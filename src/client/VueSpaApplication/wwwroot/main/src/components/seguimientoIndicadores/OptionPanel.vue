@@ -5,7 +5,7 @@
         </v-card-title>
         <v-card-text>
             <v-row justify="space-between">
-                <v-col cols="5">
+                <v-col cols="5" v-if="!onlyYear">
                     <v-menu
                             ref="menuStart"
                             v-model="menuStart"
@@ -38,7 +38,7 @@
                         </v-date-picker>
                     </v-menu>
                 </v-col>
-                <v-col cols="5">
+                <v-col cols="5" v-if="!onlyYear">
                     <v-menu
                             ref="menuEnd"
                             v-model="menuEnd"
@@ -71,14 +71,33 @@
                         </v-date-picker>
                     </v-menu>
                 </v-col>
-
+                <v-col cols="6" v-if="onlyYear">
+                    <v-select
+                            v-model="selectedYear"
+                            :items="years"
+                            chips
+                            label="Año"
+                            prepend-icon="mdi-calendar"
+                            @change="loadData"
+                    ></v-select>
+                </v-col>
                 <v-col cols="auto" class="text-center pl-0">
                     <v-row class="flex-column ma-0 fill-height" justify="center">
                         <v-col class="px-0">
-                            <PDFMaker />
+                            <SDIPDFMaker v-if="SDI_PDF" />
+                            <SPIPDFMaker v-if="SPI_PDF" />
+                            <SRIPDFMaker v-if="SRI_PDF" />
                         </v-col>
                         <v-col class="px-0">
                             <SheetMaker />
+                        </v-col>
+                        <v-col class="px-0">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn @click="resetTable" icon v-on="on"><v-icon color="blue">mdi-undo-variant</v-icon></v-btn>
+                                </template>
+                                <span>Reiniciar búsqueda</span>
+                            </v-tooltip>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -89,27 +108,49 @@
 
 <script>
     import {mapMutations, mapActions} from 'vuex'
-    import PDFMaker from "../pdf/SDIPDFMaker";
+    import SDIPDFMaker from "../pdf/SDIPDFMaker";
+    import SPIPDFMaker from "../pdf/SPIPDFMaker";
+    import SRIPDFMaker from "../pdf/SRIPDFMaker";
     import SheetMaker from "../sheet/SDISheetMaker"
 
     export default {
         name: "OptionPanel",
-        props: {tracing: String, hideQuarter: {type: Boolean, default: false}},
-        components: {PDFMaker,SheetMaker},
+        props: {
+            tracing: String, 
+            onlyYear: {type: Boolean, default: false},
+            SDI_PDF: {type: Boolean, default: false},
+            SPI_PDF: {type: Boolean, default: false},
+            SRI_PDF: {type: Boolean, default: false},
+            },
+        components: {SDIPDFMaker,SPIPDFMaker,SRIPDFMaker,SheetMaker},
         data() {
             return {
                 menuStart: false,
                 menuEnd: false,
                 restarted:false,
                 startDate: null,
-                endDate: null
+                endDate: null,
+                years: [],
+                panelProperties: {
+                    year: 2000
+                }
             }
         },
         computed: {
-
+            selectedYear: {
+                get: function () {
+                    return this.startDate;
+                },
+                set: function (newValue) {
+                    this.startDate = newValue;
+                    this.endDate = newValue;
+                    this.panelProperties.year = newValue;
+                    this.resetPanelProperties();
+                }
+            }
         },
         methods: {
-            ...mapMutations(['changeOptionPanelCheck','changeTracingDataLoading']),
+            ...mapMutations(['changeOptionPanelCheck','changeTracingDataLoading','setOptionPanelProperties']),
             ...mapActions(['loadTracingTable']),
             loadData(){
                 if(this.startDate !== null && this.endDate !== null){
@@ -124,8 +165,20 @@
                 this.changeTracingDataLoading();
                 this.loadTracingTable({tracing:this.tracing, start:this.startDate, end:this.endDate});
             },
+            resetTable(){
+
+            },
+            resetPanelProperties() {
+                this.setOptionPanelProperties(this.panelProperties);
+            }
         },
         created() {
+            let currentYear = new Date().getFullYear();
+            this.years.push({text:currentYear,value:currentYear});
+            for(let i = 1; i < 20 ; i++){
+                this.years.push({text:(currentYear - i),value:(currentYear - i) + ''});
+            }
+            this.resetPanelProperties();
         },
     }
 </script>

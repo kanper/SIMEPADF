@@ -6,10 +6,10 @@ namespace DTO.DTO
         public int CodigoActividad { get; set; }
         public string NombreIndicador { get; set; }
         public string NombreActividad { get; set; }
-        public string Nivel { get; set; }
-        public string Frecuencia { get; set; }
-        public string Metodologia { get; set; }
-        public string Fuente { get; set; }
+        public string[] Niveles { get; set; }
+        public string[] Frecuencias { get; set; }
+        public string[] Metodologias { get; set; }
+        public string[] Fuentes { get; set; }
         public double Meta { get; set; }
         public double TotalAnterior { get; set; }
         public double TotalQ1 { get; set; }

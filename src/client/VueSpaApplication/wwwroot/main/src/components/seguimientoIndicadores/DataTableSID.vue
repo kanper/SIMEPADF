@@ -150,7 +150,7 @@
                         result += item.valor;
                     }
                 });
-                return result;
+                return this.numberWithCommas(result);
             },
             getTableValueByCountry(cod, des, table){
                 let result = 0;
@@ -159,7 +159,7 @@
                        result += item.valor;
                    }
                 });
-                return result;
+                return this.numberWithCommas(result);
             },
             getRowTotal(des, table) {
                 let result = 0;
@@ -168,7 +168,13 @@
                         result += item.valor;
                     }
                 });
-                return result;
+                return this.numberWithCommas(result);
+            },
+            numberWithCommas(x) {
+                if(x === null || x === undefined){
+                    return 0;
+                }
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
         },
         created() {

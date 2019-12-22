@@ -37,6 +37,7 @@ export default new Vuex.Store({
         notifications: [],
         isTracingDadaLoading: false,
         isNotificationLoading: true,
+        optionPanelProperties: {}
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -87,6 +88,7 @@ export default new Vuex.Store({
         setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
         setTracingData: (state, data) => state.tracingData = data,
         fillNotifications: (state, data) => state.notifications = data,
+        setOptionPanelProperties: (state, properties) => state.optionPanelProperties = properties,
     }
     ,
     actions: {

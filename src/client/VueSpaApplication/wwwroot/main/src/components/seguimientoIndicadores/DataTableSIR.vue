@@ -4,6 +4,7 @@
             <h2 class="font-weight-light">{{modelSpecification.modelTitle}}</h2>
             <v-spacer></v-spacer>
         </v-card-title>
+        <v-divider></v-divider>
         <v-alert
                 color="#2A3B4D"
                 dark
@@ -11,19 +12,27 @@
                 dense
                 height="50"
                 v-show="!optionPanelChecked"
-                class="mx-4"
+                class="mx-4 my-2"
         >
             Seleccione el Año de consulta para comenzar.
 
         </v-alert>
+        <div class="text-center mt-4">
+            <v-progress-circular
+                    :size="50"
+                    color="primary"
+                    indeterminate
+                    v-show="optionPanelChecked && isTracingDadaLoading"
+            ></v-progress-circular>
+        </div>
         <v-container v-show="optionPanelChecked">
-            <v-row v-for="item in tracingData" :key="'Obj' + item.id">
+            <v-row v-for="item in tracingData" :key="'Obj' + item.id + '-' + item.codigoResultado">
                 <v-col cols="auto">
                     <v-card outlined >
                         <v-alert outlined class="my-0" dense type="success" icon="mdi-checkbox-marked-circle-outline"><strong>Objetivo: </strong>{{item.nombreObjetivo}}</v-alert>
                         <v-alert outlined class="my-0" dense type="info" icon="mdi-white-balance-incandescent"><strong>Resultado: </strong>{{item.nombreResultado}}</v-alert>
                         <v-alert v-if="item.indicadores.length === 0" outlined dense border="bottom" type="error" class="my-0">No se encontraron indicadores con registros para este objetivo/resultado</v-alert>
-                        <v-row v-for="ind in item.indicadores" :key="'Ind' + ind.id">
+                        <v-row v-for="ind in item.indicadores" :key="'Ind' + item.id + '-' + ind.codigoActividad + '-' + ind.id">
                             <v-col cols="auto">
                                 <v-divider></v-divider>
                                 <v-simple-table>
@@ -33,13 +42,13 @@
                                             <th>Indicador</th>
                                             <th>Nivel</th>
                                             <th>Desagregados</th>
-                                            <th>Resultados 20xx</th>
+                                            <th>Resultados {{parseInt(optionPanelProperties.year,10) - 1}}</th>
                                             <th>Q t1</th>
                                             <th>Q t2</th>
                                             <th>Q t3</th>
                                             <th>Q t4</th>
-                                            <th>Total 20xx</th>
-                                            <th>Meta 20xx</th>
+                                            <th>Total {{optionPanelProperties.year}}</th>
+                                            <th>Meta {{optionPanelProperties.year}}</th>
                                             <th>Frecuencia</th>
                                             <th>Metodologia de recolección de datos</th>
                                             <th>Organizaciones responsables</th>
@@ -49,55 +58,19 @@
                                         <tbody>
                                         <tr>
                                             <td>{{ind.nombreIndicador}}</td>
-                                            <td>{{ind.nivel}}</td>
+                                            <td>{{ind.niveles.join()}}</td>
                                             <td>{{ind.listaDesagregados}}</td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalAnterior}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalQ1}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalQ2}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalQ3}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalQ4}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>
-                                                <table>
-                                                    <tbody>
-                                                    <tr><td>{{ind.totalQ1 + ind.totalQ2 + ind.totalQ3 + ind.totalQ4}}</td></tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                            <td>{{ind.meta}}</td>
-                                            <td>{{ind.frecuencia}}</td>
-                                            <td>{{ind.metodologia}}</td>
+                                            <td>{{numberWithCommas(ind.totalAnterior)}}</td>
+                                            <td>{{numberWithCommas(ind.totalQ1)}}</td>
+                                            <td>{{numberWithCommas(ind.totalQ2)}}</td>
+                                            <td>{{numberWithCommas(ind.totalQ3)}}</td>
+                                            <td>{{numberWithCommas(ind.totalQ4)}}</td>
+                                            <td>{{numberWithCommas(ind.totalQ1 + ind.totalQ2 + ind.totalQ3 + ind.totalQ4)}}</td>
+                                            <td>{{numberWithCommas(ind.meta)}}</td>
+                                            <td>{{ind.frecuencias.join()}}</td>
+                                            <td>{{ind.metodologias.join()}}</td>
                                             <td>{{ind.listaOrganizaciones}}</td>
-                                            <td>{{ind.fuente}}</td>
+                                            <td>{{ind.fuentes.join()}}</td>
                                         </tr>
                                         </tbody>
                                     </template>
@@ -127,7 +100,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'services','optionPanelChecked','tracingData']),
+            ...mapState(['modelSpecification', 'services','optionPanelChecked','tracingData','isTracingDadaLoading','optionPanelProperties']),
             isTableVisible: {
                 get: function () {
                     return this.optionPanelChecked;
@@ -167,6 +140,12 @@
                 });
                 return result;
             },
+            numberWithCommas(x) {
+                if(x === null || x === undefined){
+                    return 0;
+                }
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
         },
         created() {
             this.services.simpleIdentificadorService.getCodigoPaises()

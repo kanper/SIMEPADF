@@ -5,7 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel tracing="seguimientoPais"/>
+                    <OptionPanel tracing="seguimientoPais" :SPI_PDF="true"/>
                     <DataTable/>
                 </v-flex>
             </v-layout>
