@@ -36,7 +36,8 @@
                 'setConfirmationId',
                 'setConfirmationAction',
                 'changeReviewLogListVisibility',
-                'changeRejectDialogVisibility'
+                'changeRejectDialogVisibility',
+                'changeProjectPdfDialogVisibility'
             ]),
             ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification']),
             loadModel(id) {
@@ -78,6 +79,11 @@
                 this.closeAllDialogs();
                 this.changeRejectDialogVisibility();
             },
+            generatePDF(id) {
+                this.loadModel(id);
+                this.closeAllDialogs();
+                this.changeProjectPdfDialogVisibility();
+            },
             doAction() {
                 switch (this.data.type) {
                     case 'info':
@@ -109,6 +115,9 @@
                         break;
                     case 'reject':
                         this.showRejectDialog(this.modelId);
+                        break;
+                    case 'pdf':
+                        this.generatePDF(this.modelId);
                         break;
                     default:
                         console.error('Action type [' + this.data.type + '] invalid.');

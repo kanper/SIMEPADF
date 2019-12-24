@@ -20,6 +20,7 @@ export default new Vuex.Store({
         visibleConfirmationDialog: false,
         visibleCellDialog: false,
         visibleRejectDialog: false,
+        visibleProjectPdfDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -37,7 +38,8 @@ export default new Vuex.Store({
         notifications: [],
         isTracingDadaLoading: false,
         isNotificationLoading: true,
-        optionPanelProperties: {}
+        optionPanelProperties: {},
+        isUniqueEntity: true,
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -58,6 +60,7 @@ export default new Vuex.Store({
         changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
         changeOptionPanelCheck: (state) => state.optionPanelChecked = !state.optionPanelChecked,
         changeRejectDialogVisibility: (state) => state.visibleRejectDialog = !state.visibleRejectDialog,
+        changeProjectPdfDialogVisibility: (state) => state.visibleProjectPdfDialog = !state.visibleProjectPdfDialog,
         changeTracingDataLoading: (state) => state.isTracingDadaLoading = !state.isTracingDadaLoading,
         stopNotificationLoading: (state) => state.isNotificationLoading = false,
         closeAllDialogs: (state) => {
@@ -89,6 +92,7 @@ export default new Vuex.Store({
         setTracingData: (state, data) => state.tracingData = data,
         fillNotifications: (state, data) => state.notifications = data,
         setOptionPanelProperties: (state, properties) => state.optionPanelProperties = properties,
+        setUniqueEntityStatus: (state, status) => state.isUniqueEntity = status,
     }
     ,
     actions: {
@@ -144,6 +148,15 @@ export default new Vuex.Store({
             services.alertaService.add(params)
                 .then(r => {
                     commit('fillNotifications', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        validateNewEntity: async function ({commit}, params) {
+            services.validationService.validateNew(params.entityName, params.identifier)
+                .then(r => {
+                    commit('setUniqueEntityStatus', r.data);
                 })
                 .catch(e => {
                     commit('showInfo', e.toString);

@@ -9,9 +9,11 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <NewUniqueEntity identifierName="Nombre del resultado" :identifierValue="this.newModel.nombreResultado"/>
                                 <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="newModel.nombreResultado" v-validate="'required|max:1000'"
+                                            @input="validateIdentifier()"
                                 ></v-textarea>
                             </form>
                         </v-flex>
@@ -22,7 +24,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -30,8 +32,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import NewUniqueEntity from "../validation/NewUniqueEntity";
 
     export default {
+        components: {NewUniqueEntity},
         data() {
             return {
                 newModel: {
@@ -41,11 +45,11 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services'])
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services','isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateNewEntity']),
             save() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -85,6 +89,14 @@
             clearForm(){
                 this.newModel.nombreResultado = '';
                 this.$validator.reset();
+            },
+            validateIdentifier() {
+                if(this.newModel.nombreResultado !== null)
+                    if(this.newModel.nombreResultado.length > 0)
+                        this.validateNewEntity({entityName:"resultado",identifier:this.newModel.nombreResultado});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }
