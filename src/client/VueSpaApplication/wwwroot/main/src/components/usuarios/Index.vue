@@ -94,7 +94,7 @@
                         show: (row) => {return true}                          //Parametros para la ruta a redirigir
                     },
                     //{text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
-                    {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return row.id !== window.User.UserId}},
                 ],
             }
         },
