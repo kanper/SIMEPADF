@@ -8,16 +8,18 @@
                 <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Agregar nuevo</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark text @click="save()">Guardar</v-btn>
+                    <v-btn dark text :disabled="disableSaveBtn()" @click="save()">Guardar</v-btn>
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout row wrap>
                         <v-flex xs12>
+                            <NewUniqueEntity identifierName="Nombre del proyecto" :identifierValue="this.newModel.nombreProyecto"/>
                             <v-textarea :counter="500" :error-messages="errors.collect('nombre')" auto-grow filled
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="newModel.nombreProyecto" v-validate="'required|max:500'"
+                                        @input="validateIdentifier()"
                             ></v-textarea>
                             <v-switch v-model="regionalCheck" label="Regional"></v-switch>
                         </v-flex>
@@ -42,8 +44,6 @@
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -59,14 +59,12 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker @input="datePickApro = false" locale="es-es"
-                                               v-model="newModel.fechaAprobacion"></v-date-picker>
+                                               v-model="apDate" :max="apDateLimit"></v-date-picker>
                             </v-menu>
                             <v-spacer></v-spacer>
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -82,14 +80,12 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker @input="datePickInicio = false" locale="es-es"
-                                               v-model="newModel.fechaInicio"></v-date-picker>
+                                               v-model="startDate" :max="startDateMaxLimit" :min="startDateMinLimit"></v-date-picker>
                             </v-menu>
                             <v-spacer></v-spacer>
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -105,7 +101,7 @@
                                     ></v-text-field>
                                 </template>
                                 <v-date-picker @input="datePickFin = false" locale="es-es"
-                                               v-model="newModel.fechaFin"></v-date-picker>
+                                               v-model="endDate" :min="endDateLimit"></v-date-picker>
                             </v-menu>
                         </v-flex>
                         <v-flex xs6>
@@ -148,7 +144,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -156,9 +152,9 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
-    import services from "../../../store/services";
-
+    import NewUniqueEntity from "../../validation/NewUniqueEntity"
     export default {
+        components: {NewUniqueEntity},
         data() {
             return {
                 newModel: {
@@ -189,11 +185,15 @@
                     rol: null,
                     pais: null,
                     nombreUsuario: null
-                }
+                },
+                endDateLimit: "",
+                startDateMaxLimit:  "",
+                startDateMinLimit:  "",
+                apDateLimit: ""
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services']),
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services','isUniqueEntity']),
             regionalCheck: {
                 get: function () {
                     return this.newModel.regional;
@@ -202,11 +202,45 @@
                     this.newModel.regional = !this.newModel.regional;
                     this.newModel.paises = [];
                 }
+            },
+            startDate: {
+                get: function () {
+                    return this.newModel.fechaInicio;
+                },
+                set: function (newValue) {
+                    if (Date.parse(this.newModel.fechaFin) >= Date.parse(newValue) || Date.parse(this.newModel.fechaFin) === Date.parse(this.newModel.fechaInicio)){
+                        this.newModel.fechaInicio = newValue;
+                        this.endDateLimit = newValue.substr(0, 10);
+                        this.apDateLimit = newValue.substr(0, 10);
+                    }
+                }
+            },
+            endDate: {
+                get: function () {
+                    return this.newModel.fechaFin;
+                },
+                set: function (newValue) {
+                    if (Date.parse(this.newModel.fechaInicio) <= Date.parse(newValue) || Date.parse(this.newModel.fechaFin) === Date.parse(this.newModel.fechaInicio)){
+                        this.newModel.fechaFin = newValue;
+                        this.startDateMaxLimit = newValue.substr(0, 10);
+                    }
+                }
+            },
+            apDate: {
+                get: function () {
+                    return this.newModel.fechaAprobacion;
+                },
+                set: function (newValue) {
+                    if ( Date.parse(this.newModel.fechaInicio) >= Date.parse(newValue) || Date.parse(this.newModel.fechaAprobacion) === Date.parse(this.newModel.fechaInicio)){
+                        this.newModel.fechaAprobacion = newValue;
+                        this.startDateMinLimit = newValue.substr(0, 10);
+                    }
+                }
             }
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateNewEntity']),
             save() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -263,6 +297,9 @@
                 this.newModel.paises = [];
                 this.newModel.socios = [];
                 this.newModel.organizaciones = [];
+                this.startDateLimit = '';
+                this.endDateLimit = '';
+                this.apDateLimit = '';
                 this.$validator.reset();
             },
             buildNotification(){
@@ -272,6 +309,14 @@
                     return item.nombre;
                 }).join("$");
                 this.notificationModel.rol = "2$3"
+            },
+            validateIdentifier() {
+                if(this.newModel.nombreProyecto !== null)
+                    if(this.newModel.nombreProyecto.length > 0)
+                        this.validateNewEntity({entityName:"proyecto",identifier:this.newModel.nombreProyecto});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         },
         created() {

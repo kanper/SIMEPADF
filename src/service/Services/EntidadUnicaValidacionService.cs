@@ -17,6 +17,9 @@ namespace Services
         bool IsFuenteUnico(string identificador);
         bool IsNivelUnico(string identificador);
         bool IsDesagregadoUnico(string identificador);
+        bool IsProyectoUnico(string identificador);
+        bool IsPlanPTUnico(string identificador);
+        bool IsUsuarioUnico(string identificador);
     }
     
     public class EntidadUnicaValidacionService : IEntidadUnicaValidacionService
@@ -151,6 +154,45 @@ namespace Services
             try
             {
                 return !_context.Desagregacion.Any(d => d.TipoDesagregacion == identificador);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool IsProyectoUnico(string identificador)
+        {
+            try
+            {
+                return !_context.Proyecto.Any(p => p.NombreProyecto == identificador);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool IsPlanPTUnico(string identificador)
+        {
+            try
+            {
+                return !_context.ActividadPT.Any(a => a.NombreActividad == identificador);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool IsUsuarioUnico(string identificador)
+        {
+            try
+            {
+                return !_context.Usuario.Any(u => u.Email == identificador);
             }
             catch (Exception e)
             {

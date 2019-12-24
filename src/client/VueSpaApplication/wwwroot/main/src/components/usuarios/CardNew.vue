@@ -4,6 +4,7 @@
     v-model="visibleNewDialog"
     hide-overlay
     transition="dialog-bottom-transition"
+    persistent
   >
     <v-card>
       <v-toolbar dark color="black">
@@ -13,7 +14,7 @@
         <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Agregar nuevo</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn dark text @click="save()">Guardar</v-btn>
+          <v-btn dark text @click="save()" :disabled="disableSaveBtn()">Guardar</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-card-text>
@@ -61,6 +62,7 @@
             </v-flex>
             <v-spacer></v-spacer>
             <v-flex xs6>
+              <NewUniqueEntity identifierName="Correo electrónico" :identifierValue="this.newModel.email"/>
               <v-text-field
                 :error-messages="errors.collect('email')"
                 data-vv-name="email"
@@ -68,6 +70,7 @@
                 required
                 v-model="newModel.email"
                 :rules="emailRules"
+                @input="validateIdentifier()"
               ></v-text-field>
               <v-text-field
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -106,7 +109,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-        <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+        <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -114,9 +117,12 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import NewUniqueEntity from "../validation/NewUniqueEntity";
 import {mask} from 'vue-the-mask'
+
 export default {
   directives: {mask},
+  components: {NewUniqueEntity},
   data() {
     return {
       newModel: {
@@ -148,7 +154,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["modelSpecification", "visibleNewDialog", "services"])
+    ...mapState(["modelSpecification", "visibleNewDialog", "services","isUniqueEntity"])
   },
   methods: {
     ...mapMutations([
@@ -157,7 +163,7 @@ export default {
       "showInfo",
       "addAlert"
     ]),
-    ...mapActions(["loadDataTable"]),
+    ...mapActions(["loadDataTable","validateNewEntity"]),
     save() {
       this.$validator
         .validateAll()
@@ -212,6 +218,14 @@ export default {
       this.newModel.phoneNumber = "";
       this.newModel.pais = "";
       this.newModel.name = "";
+    },
+    validateIdentifier() {
+      if(this.newModel.email !== null)
+        if(this.newModel.email.length > 0)
+          this.validateNewEntity({entityName:"usuario",identifier:this.newModel.email});
+    },
+    disableSaveBtn(){
+      return !this.isUniqueEntity;
     }
   },
   created() {

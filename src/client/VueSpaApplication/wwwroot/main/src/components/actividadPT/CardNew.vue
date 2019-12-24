@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-dialog max-width="50%" persistent v-model="visibleNewDialog">
+    <v-dialog max-width="55%" persistent v-model="visibleNewDialog">
         <v-card>
             <v-card-title class="headline grey darken-3 white--text">Formulario de {{modelSpecification.modelTitle}}:
                 Agregar nuevo
@@ -14,6 +14,7 @@
                         <v-flex xs12>
 
                             <form>
+                                <NewUniqueEntity identifierName="Nombre de la actividad" :identifierValue="this.newModel.nombreActividad"/>
                                 <v-textarea
                                         v-model="newModel.nombreActividad"
                                         auto-grow filled clearable
@@ -23,6 +24,7 @@
                                         label="Nombre actividad"
                                         data-vv-name="nombreActividad"
                                         required
+                                        @input="validateIdentifier()"
                                 ></v-textarea>
                                 <v-text-field
                                         v-model="newModel.monto"
@@ -43,8 +45,6 @@
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
-                                        full-width
-                                        lazy
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
@@ -60,13 +60,11 @@
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker @input="datePick = false" locale="es-es"
-                                                   v-model="newModel.fechaInicio"></v-date-picker>
+                                                   v-model="startDate" :max="startDateLimit"></v-date-picker>
                                 </v-menu>
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
-                                        full-width
-                                        lazy
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
@@ -82,7 +80,7 @@
                                         ></v-text-field>
                                     </template>
                                     <v-date-picker @input="datePick1 = false" locale="es-es"
-                                                   v-model="newModel.fechaLimite"></v-date-picker>
+                                                   v-model="endDate" :min="endDateLimit"></v-date-picker>
                                 </v-menu>
                             </form>
                         </v-flex>
@@ -93,7 +91,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -101,10 +99,13 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import NewUniqueEntity from "../validation/NewUniqueEntity";
 
     export default {
+        components: {NewUniqueEntity},
         data() {
             return {
+                todat: new Date(),
                 newModel: {
                     id: 0,
                     nombreActividad: '',
@@ -117,10 +118,12 @@
                 montoActual: 0.0,
                 datePick: false,
                 datePick1: false,
+                endDateLimit: "",
+                startDateLimit:  ""
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services']),
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services','isUniqueEntity']),
             fieldRules () {
                 return {
                     required: true,
@@ -128,11 +131,33 @@
                     min_value: 0.1,
                     max_value: this.montoActual
                 }
+            },
+            startDate: {
+                get: function () {
+                    return this.newModel.fechaInicio;
+                },
+                set: function (newValue) {
+                    if (Date.parse(this.newModel.fechaLimite) >= Date.parse(newValue) || Date.parse(this.newModel.fechaLimite) === Date.parse(this.newModel.fechaInicio)){
+                        this.newModel.fechaInicio = newValue;
+                        this.endDateLimit = newValue.substr(0, 10);
+                    }
+                }
+            },
+            endDate: {
+                get: function () {
+                    return this.newModel.fechaLimite;
+                },
+                set: function (newValue) {
+                    if (Date.parse(this.newModel.fechaInicio) <= Date.parse(newValue) || Date.parse(this.newModel.fechaLimite) === Date.parse(this.newModel.fechaInicio)){
+                        this.newModel.fechaLimite = newValue;
+                        this.startDateLimit = newValue.substr(0, 10);
+                    }
+                }
             }
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateNewEntity']),
             save() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -175,6 +200,8 @@
                 this.newModel.fechaCreacion = new Date().toISOString().substr(0, 10);
                 this.$validator.reset();
                 this.getCurrentMount();
+                this.startDateLimit = '';
+                this.endDateLimit = '';
             },
             getCurrentMount()
             {
@@ -185,7 +212,15 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
-            }
+            },
+            validateIdentifier() {
+                if(this.newModel.nombreActividad !== null)
+                    if(this.newModel.nombreActividad.length > 0)
+                        this.validateNewEntity({entityName:"actividadPT",identifier:this.newModel.nombreActividad});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
+            },
         },
         created() {
             this.getCurrentMount();

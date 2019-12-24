@@ -71,5 +71,23 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.IsDesagregadoUnico(identificador));
         }
+
+        [HttpGet("validacion/proyecto/{identificador}")]
+        public IActionResult IsProyectoUnico(string identificador)
+        {
+            return Ok(_service.IsProyectoUnico(identificador));
+        }
+
+        [HttpGet("validacion/actividadPT/{identificador}")]
+        public IActionResult IsActividadPTUnico(string identificador)
+        {
+            return Ok(_service.IsPlanPTUnico(identificador));
+        }
+
+        [HttpGet("validacion/usuario/{identificador}")]
+        public IActionResult IsUsuarioUnico(string identificador)
+        {
+            return Ok(_service.IsUsuarioUnico(identificador));
+        }
     }
 }
