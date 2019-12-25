@@ -40,6 +40,7 @@
                                         <thead>
                                         <tr>
                                             <th>Indicador</th>
+                                            <th>Avance meta global</th>
                                             <th>Nivel</th>
                                             <th>Desagregados</th>
                                             <th>Resultados {{parseInt(optionPanelProperties.year,10) - 1}}</th>
@@ -58,6 +59,7 @@
                                         <tbody>
                                         <tr>
                                             <td>{{ind.nombreIndicador}}</td>
+                                            <td>{{ind.avanceMetaAnual}}</td>
                                             <td>{{ind.niveles.join()}}</td>
                                             <td>{{ind.listaDesagregados}}</td>
                                             <td>{{numberWithCommas(ind.totalAnterior)}}</td>
@@ -65,8 +67,8 @@
                                             <td>{{numberWithCommas(ind.totalQ2)}}</td>
                                             <td>{{numberWithCommas(ind.totalQ3)}}</td>
                                             <td>{{numberWithCommas(ind.totalQ4)}}</td>
-                                            <td>{{numberWithCommas(ind.totalQ1 + ind.totalQ2 + ind.totalQ3 + ind.totalQ4)}}</td>
-                                            <td>{{numberWithCommas(ind.meta)}}</td>
+                                            <td>{{numberWithCommas(ind.totalAnio)}}</td>
+                                            <td>{{numberWithCommas(ind.metaAnual)}}</td>
                                             <td>{{ind.frecuencias.join()}}</td>
                                             <td>{{ind.metodologias.join()}}</td>
                                             <td>{{ind.listaOrganizaciones}}</td>

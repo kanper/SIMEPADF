@@ -83,7 +83,8 @@
                     },
                     {text: 'Clasificacion',align: 'center', value: 'clasificacion', type: 'text'},
                     {text: 'Estado', align: 'center', value: 'estado', type: 'text'},
-                    {text: 'Avance', align: 'center', value: 'avance', type: 'text'},
+                    {text: 'Avance de beneficiarios', align: 'center', value: 'avanceBeneficiarios', type: 'text'},
+                    {text: 'Avance del plan de trabajo', align: 'center', value: 'avancePlanTrabajo', type: 'text'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
                 dataTableOptions: [

@@ -114,6 +114,7 @@ namespace Services
                     select new SeguimientoIndicadorWrapperDTO()
                     {
                         Id = obj.CodigoObjetivo,
+                        CodigoResultado = res.CodigoResultado,
                         NombreObjetivo = obj.NombreObjetivo,
                         NombreResultado = res.NombreResultado,
                         Indicadores = (from ind in _context.Indicador
@@ -123,9 +124,11 @@ namespace Services
                             select new SeguimientoIndicadorDTO()
                                   {
                                       Id = ind.CodigoIndicador,
+                                      CodigoActividad = act.CodigoActividad,
                                       NombreIndicador = ind.NombreIndicador,
                                       NombreActividad = act.NombreActividad,
-                                      Meta = meta.ValorMeta,
+                                      Meta = ind.MetaGlobal,
+                                      MetaAnual = meta.ValorMeta
                                   }).ToArray()
                     }).ToList();
                 foreach (var ind in result.SelectMany(wrap => wrap.Indicadores))

@@ -187,10 +187,12 @@ namespace Services
                     }).ToList();
                 foreach (var item in dto)
                 {
-                    item.Paises = GetProyectCountries(item.Id);
+                    item.Paises = GetProjectCountries(item.Id);
                     item.IsPlanTrabajo = CheckPlanTrabajo(item.Id);
                     item.IsActividadPlanTrabajo = CheckActividadPlanTrabajo(item.Id);
                     item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
+                    item.TotalActividades = GetProjectTotalActivities(item.Id);
+                    item.TotalActividadesFinalizadas = GetProjectEndedActivities(item.Id);
                 }
                 return dto;
             }
@@ -225,7 +227,7 @@ namespace Services
                     }).ToList();
                 foreach (var item in dto)
                 {
-                    item.Paises = GetProyectCountries(item.Id);
+                    item.Paises = GetProjectCountries(item.Id);
                     item.IsPlanTrabajo = CheckPlanTrabajo(item.Id);
                     item.IsActividadPlanTrabajo = CheckActividadPlanTrabajo(item.Id);
                     item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
@@ -596,7 +598,7 @@ namespace Services
             }
         }
 
-        private MapDTO[] GetProyectCountries(string id)
+        private MapDTO[] GetProjectCountries(string id)
         {
             try
             {
@@ -614,6 +616,37 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        private int GetProjectTotalActivities(string projectId)
+        {
+            try
+            {
+                return _context.ActividadPT.Count(a => a.PlanTrabajoCodigoPlanTrabajo == projectId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 0;
+            }
+        }
+
+        private int GetProjectEndedActivities(string projectId)
+        {
+            try
+            {
+                var today = DateTime.Now;
+                return _context.ActividadPT
+                    .Count(
+                        a => a.PlanTrabajoCodigoPlanTrabajo == projectId && 
+                             a.FechaLimite < today 
+                    );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return 0;
             }
         }
     }
