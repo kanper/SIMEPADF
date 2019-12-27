@@ -23,7 +23,7 @@
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
     import OptionPanel from "./OptionPanel"
-    import ProjectPdfDialog from "../proyecto/ProjectPdfDialog";
+    import ProjectPdfDialog from "./ProjectPdfDialog";
 
     export default {
         components: {
@@ -49,9 +49,8 @@
                     ],
                     modelParams: {
                         year: 0,
-                        quarter: 0,
-                        countries: 'all',
-                        socios: 'all'
+                        countries: '0',
+                        socios: '0'
                     }
                 },
                 dataTableHeaders: [

@@ -1,23 +1,17 @@
 <template>
     <v-card class="mx-auto mb-1" outlined>
+        <v-card-title class="font-weight-light">
+            Opciones de búsqueda
+        </v-card-title>
         <v-card-text>
-            <div>Opciones de busqueda</div>
             <v-row justify="space-between">
-                <v-col cols="2">
+                <v-col cols="4">
                     <v-select
                             v-model="year"
                             :items="years"
                             chips
                             label="Año"
                             prepend-icon="mdi-calendar"
-                            @change="rebuildTableData"
-                    ></v-select>
-                    <v-select
-                            v-model="quarter"
-                            :items="quarters"
-                            chips
-                            label="Trimestre"
-                            prepend-icon="mdi-calendar-multiple"
                             @change="rebuildTableData"
                     ></v-select>
                 </v-col>
@@ -46,14 +40,6 @@
                             item-text="nombre"
                             item-value="id"
                     ></v-select>
-                </v-col>
-
-                <v-col cols="auto" class="text-center pl-0">
-                    <v-row class="flex-column ma-0 fill-height" justify="center">
-                        <v-col class="px-0">
-                            <!-- PDF -->
-                        </v-col>
-                    </v-row>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -86,7 +72,14 @@
             ...mapActions(['loadDataTable']),
             ...mapMutations(['showInfo']),
             rebuildTableData(){
-                this.loadDataTable();
+                if(this.year !== null && this.country.length > 0 && this.socio.length > 0){
+                    this.modelSpecification.modelParams = {
+                        year: this.year,
+                        countries: this.country.join('$'),
+                        socios: this.socio.join('$')
+                    };
+                    this.loadDataTable();
+                }
             }
         },
         created() {

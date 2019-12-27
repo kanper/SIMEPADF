@@ -89,7 +89,9 @@
                             <SRIPDFMaker v-if="SRI_PDF" />
                         </v-col>
                         <v-col class="px-0">
-                            <SheetMaker />
+                            <SDISheetMaker v-if="SDI_SHEET"/>
+                            <SPISheetMaker v-if="SPI_SHEET"/>
+                            <SRISheetMaker v-if="SRI_SHEET"/>
                         </v-col>
                         <v-col class="px-0">
                             <v-tooltip bottom>
@@ -111,7 +113,9 @@
     import SDIPDFMaker from "../pdf/SDIPDFMaker";
     import SPIPDFMaker from "../pdf/SPIPDFMaker";
     import SRIPDFMaker from "../pdf/SRIPDFMaker";
-    import SheetMaker from "../sheet/SDISheetMaker"
+    import SDISheetMaker from "../sheet/SDISheetMaker";
+    import SPISheetMaker from "../sheet/SPISheetMaker";
+    import SRISheetMaker from "../sheet/SRISheetMaker";
 
     export default {
         name: "OptionPanel",
@@ -121,8 +125,11 @@
             SDI_PDF: {type: Boolean, default: false},
             SPI_PDF: {type: Boolean, default: false},
             SRI_PDF: {type: Boolean, default: false},
+            SDI_SHEET: {type: Boolean, default: false},
+            SPI_SHEET: {type: Boolean, default: false},
+            SRI_SHEET: {type: Boolean, default: false},
             },
-        components: {SDIPDFMaker,SPIPDFMaker,SRIPDFMaker,SheetMaker},
+        components: {SDIPDFMaker, SPIPDFMaker, SRIPDFMaker, SDISheetMaker, SPISheetMaker, SRISheetMaker},
         data() {
             return {
                 menuStart: false,

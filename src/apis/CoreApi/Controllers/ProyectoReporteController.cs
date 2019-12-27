@@ -24,10 +24,10 @@ namespace CoreApi.Controllers
             return Ok(_service.Get(id, year, quarter));
         }
 
-        [HttpGet("/proyecto/reporte/anio/{year}/trimestre/{quarter}/paises/{countries}/socios/{socios}")]
+        [HttpGet("/proyecto/reporte/anio/{year}/paises/{countries}/socios/{socios}")]
         public IActionResult GetAll(int year, int quarter, string countries, string socios)
         {
-            return Ok(_service.GetAll(year, quarter, countries, socios));
+            return Ok(_service.GetAll(year, countries, socios));
         }
     }
 }

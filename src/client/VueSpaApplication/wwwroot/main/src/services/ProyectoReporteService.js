@@ -11,6 +11,6 @@ export default class ProyectoReporteService extends AbstractService {
     }
 
     getAll(params) {
-        return this.axios.get(`${this.baseUrl}/anio/${params.year}/trimestre/${params.quarter}/paises/${params.countries}/socios/${params.socios}`)
+        return this.axios.get(`${this.baseUrl}/anio/${params.year}/paises/${params.countries}/socios/${params.socios}`)
     }
 }

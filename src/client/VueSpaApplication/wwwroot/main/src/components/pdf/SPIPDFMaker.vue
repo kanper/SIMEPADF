@@ -13,7 +13,7 @@
     let pdfFonts = require("pdfmake/build/vfs_fonts.js");
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     export default {
-        name: "SIDPDFMaker",
+        name: "SPIPDFMaker",
         props: [
 
         ],
