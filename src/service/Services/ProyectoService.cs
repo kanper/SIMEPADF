@@ -193,6 +193,7 @@ namespace Services
                     item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
                     item.TotalActividades = GetProjectTotalActivities(item.Id);
                     item.TotalActividadesFinalizadas = GetProjectEndedActivities(item.Id);
+                    item.IsChecked = IsProjectReviewCompletedForStatus(item.Id, pais, estados);
                 }
                 return dto;
             }
@@ -231,6 +232,9 @@ namespace Services
                     item.IsPlanTrabajo = CheckPlanTrabajo(item.Id);
                     item.IsActividadPlanTrabajo = CheckActividadPlanTrabajo(item.Id);
                     item.IsIndicador = CheckPlanMonitoreoEvaluacion(item.Id);
+                    item.TotalActividades = GetProjectTotalActivities(item.Id);
+                    item.TotalActividadesFinalizadas = GetProjectEndedActivities(item.Id);
+                    item.IsChecked = IsProjectReviewCompletedForStatus(item.Id, "all", estados);
                 }
                 return dto;
             }
@@ -649,5 +653,31 @@ namespace Services
                 return 0;
             }
         }
+
+        private bool IsProjectReviewCompletedForStatus(string projectId, string country, string[] status)
+        {
+            try
+            {
+                var reviewNumber = (from s in status where s.Contains("REVISION") select Int32.Parse(s.Replace("REVISION", ""))).ToList();
+                if (reviewNumber.Count > 0)
+                {
+                    var review = (from reg in _context.RegistroRevision
+                        join pp in _context.ProyectoPais on reg.ProyectoPais equals pp
+                        join p in _context.Pais on pp.Pais equals p
+                        where pp.ProyectoId == projectId && 
+                              (p.NombrePais == country || country == "all") &&
+                              reviewNumber.Contains(reg.NumeroRevision)
+                        select reg).ToList();
+                    return review.All(r => r.Revisado);
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
     }
 }
