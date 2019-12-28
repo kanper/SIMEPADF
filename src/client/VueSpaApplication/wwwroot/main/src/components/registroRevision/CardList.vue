@@ -37,11 +37,12 @@ export default {
     data () {
         return {
             headers: [
-          { text: 'Estado',align: 'left',sortable: false,value: 'revisado',},
-          { text: 'Número revisión', value: 'numero' },
-          { text: 'Trimestre', value: 'trimestreF' },
-          { text: 'País', value: 'pais' },
-          { text: 'Fecha revisión', value: 'fechaF' },
+                { text: 'Estado',align: 'left',sortable: false,value: 'revisado',},
+                { text: 'Número revisión', value: 'numero' },
+                { text: 'Trimestre', value: 'trimestreF' },
+                { text: 'Rol', value: 'rol' },
+                { text: 'País', value: 'pais' },
+                { text: 'Fecha revisión', value: 'fechaF' },
         ],
         }
     },
