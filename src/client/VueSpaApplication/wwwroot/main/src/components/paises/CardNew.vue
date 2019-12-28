@@ -9,6 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <NewUniqueEntity identifierName="Nombre del país" :identifierValue="this.newModel.nombrePais"/>
                                 <v-text-field
                                         v-model="newModel.nombrePais"
                                         v-validate="'required|max:50'"
@@ -17,6 +18,7 @@
                                         label="Nombre Pais*"
                                         data-vv-name="nombrePais"
                                         required
+                                        @input="validateIdentifier()"
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="newModel.siglaPais"
@@ -36,7 +38,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -44,8 +46,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import NewUniqueEntity from "../validation/NewUniqueEntity";
 
     export default {
+        components: {NewUniqueEntity},
         data() {
             return {
                 newModel: {
@@ -56,11 +60,11 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services'])
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services','isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateNewEntity']),
             save() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -101,6 +105,14 @@
                 this.newModel.nombrePais = '';
                 this.newModel.siglaPais = '';
                 this.$validator.reset();
+            },
+            validateIdentifier() {
+                if(this.newModel.nombrePais !== null)
+                    if(this.newModel.nombrePais.length > 0)
+                        this.validateNewEntity({entityName:"pais",identifier:this.newModel.nombrePais});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

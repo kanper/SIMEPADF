@@ -5,7 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel tracing="seguimientoDesagregados"/>
+                    <OptionPanel tracing="seguimientoDesagregados" :SDI_PDF="true" :SDI_SHEET="true"/>
                     <DataTable/>
                 </v-flex>
             </v-layout>

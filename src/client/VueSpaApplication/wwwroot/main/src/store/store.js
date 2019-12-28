@@ -20,6 +20,7 @@ export default new Vuex.Store({
         visibleConfirmationDialog: false,
         visibleCellDialog: false,
         visibleRejectDialog: false,
+        visibleProjectPdfDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -34,7 +35,11 @@ export default new Vuex.Store({
         tableCellValue: '',
         optionPanelChecked: false,
         tracingData: [],
-        notifications: []
+        notifications: [],
+        isTracingDadaLoading: false,
+        isNotificationLoading: true,
+        optionPanelProperties: {},
+        isUniqueEntity: true,
     },
     mutations: {
         setModelName: (state, name) => state.modelTitle = name,
@@ -55,6 +60,9 @@ export default new Vuex.Store({
         changeCellDialogVisibility: (state) => state.visibleCellDialog = !state.visibleCellDialog,
         changeOptionPanelCheck: (state) => state.optionPanelChecked = !state.optionPanelChecked,
         changeRejectDialogVisibility: (state) => state.visibleRejectDialog = !state.visibleRejectDialog,
+        changeProjectPdfDialogVisibility: (state) => state.visibleProjectPdfDialog = !state.visibleProjectPdfDialog,
+        changeTracingDataLoading: (state) => state.isTracingDadaLoading = !state.isTracingDadaLoading,
+        stopNotificationLoading: (state) => state.isNotificationLoading = false,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;
@@ -83,6 +91,8 @@ export default new Vuex.Store({
         setTableCellValue: (state, newValue) => state.tableCellValue = newValue,
         setTracingData: (state, data) => state.tracingData = data,
         fillNotifications: (state, data) => state.notifications = data,
+        setOptionPanelProperties: (state, properties) => state.optionPanelProperties = properties,
+        setUniqueEntityStatus: (state, status) => state.isUniqueEntity = status,
     }
     ,
     actions: {
@@ -115,13 +125,14 @@ export default new Vuex.Store({
                 });
         },
         loadTracingTable: async function ({commit}, params) {
-            services.seguimientoIndicadorService[params.tracing](params.year, params.quarter)
+            services.seguimientoIndicadorService[params.tracing](params.start, params.end)
                 .then(r => {
                     commit('setTracingData', r.data);
                 })
                 .catch(e => {
                     commit('showInfo', e.toString);
                 })
+                .finally(() => commit('changeTracingDataLoading'));
         },
         findAllNotifications: async function ({commit}, params) {
             services.alertaService.getAlerts(params.rol, params.country)
@@ -131,11 +142,21 @@ export default new Vuex.Store({
                 .catch(e => {
                     commit('showInfo', e.toString);
                 })
+                .finally(() => commit('stopNotificationLoading'));
         },
         saveNotification: async function ({commit}, params) {
             services.alertaService.add(params)
                 .then(r => {
                     commit('fillNotifications', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        validateNewEntity: async function ({commit}, params) {
+            services.validationService.validateNew(params.entityName, params.identifier)
+                .then(r => {
+                    commit('setUniqueEntityStatus', r.data);
                 })
                 .catch(e => {
                     commit('showInfo', e.toString);

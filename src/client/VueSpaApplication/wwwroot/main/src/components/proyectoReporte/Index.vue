@@ -12,6 +12,7 @@
         </v-container>
         <DataInfo/>
         <InfoSnackbar/>
+        <ProjectPdfDialog />
     </div>
 </template>
 <script>
@@ -22,6 +23,7 @@
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
     import OptionPanel from "./OptionPanel"
+    import ProjectPdfDialog from "./ProjectPdfDialog";
 
     export default {
         components: {
@@ -30,7 +32,8 @@
             TitleBar,
             AppAlert,
             DataInfo,
-            OptionPanel
+            OptionPanel,
+            ProjectPdfDialog
         },
         name: "ProyectoReporteIndex",
         data() {
@@ -46,9 +49,8 @@
                     ],
                     modelParams: {
                         year: 0,
-                        quarter: 0,
-                        countries: 'all',
-                        socios: 'all'
+                        countries: '0',
+                        socios: '0'
                     }
                 },
                 dataTableHeaders: [
@@ -61,16 +63,6 @@
                         divider: false,
                         class: [],
                         width: '50%'
-                    },
-                    {
-                        text: 'Estado',
-                        value: 'estadoProyecto',
-                        align: 'start',
-                        sortable: true,
-                        filterable: true,
-                        divider: false,
-                        class: [],
-                        width: '25%'
                     },
                     {
                         text: 'Opciones',
@@ -86,7 +78,7 @@
                 dataTableOptions: [
                     {
                         text: 'Generar reporte PDF',
-                        type: 'info',
+                        type: 'pdf',
                         icon: 'mdi-file-pdf',
                         color: '',
                         action: '',

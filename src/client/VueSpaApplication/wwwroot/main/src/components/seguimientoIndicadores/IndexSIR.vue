@@ -5,7 +5,7 @@
         <v-container>
             <v-layout>
                 <v-flex>
-                    <OptionPanel tracing="seguimientoRegion" :hideQuarter="true"/>
+                    <OptionPanel tracing="seguimientoRegion" :onlyYear="true" :SRI_PDF="true" :SRI_SHEET="true"/>
                     <DataTable />
                 </v-flex>
             </v-layout>

@@ -87,6 +87,19 @@
                         route: '',
                         show: (row) => {return true},       //Mostrar opción sí
                     },
+                    {
+                        text: 'Generar reporte PDF',
+                        type: 'pdf',
+                        icon: 'mdi-file-pdf',
+                        color: '',
+                        action: '',
+                        class: 'mr-2',
+                        route: '',
+                        show: (row) => {
+                            return row.isCompleted
+                        },
+                        disabled: false
+                    },
                 ],
             }
         },

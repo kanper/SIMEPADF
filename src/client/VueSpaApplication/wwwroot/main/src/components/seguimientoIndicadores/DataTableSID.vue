@@ -4,6 +4,7 @@
             <h2 class="font-weight-light">{{modelSpecification.modelTitle}}</h2>
             <v-spacer></v-spacer>
         </v-card-title>
+        <v-divider></v-divider>
         <v-alert
                 color="#2A3B4D"
                 dark
@@ -11,19 +12,27 @@
                 dense
                 height="50"
                 v-show="!optionPanelChecked"
-                class="mx-4"
+                class="mx-4 my-2"
         >
-            Seleccione el Año de consulta y el Trimestre para comenzar.
+            Seleccionar la Fecha de Inicio y la Fecha de Fin para iniciar la búsqueda
 
         </v-alert>
+        <div class="text-center mt-4">
+            <v-progress-circular
+                    :size="50"
+                    color="primary"
+                    indeterminate
+                    v-show="optionPanelChecked && isTracingDadaLoading"
+            ></v-progress-circular>
+        </div>
         <v-container v-show="optionPanelChecked">
-            <v-row v-for="item in tracingData" :key="item.id">
+            <v-row v-for="item in tracingData" :key="'Obj' + item.id + '-' + item.codigoResultado">
                 <v-col cols="auto">
                     <v-card outlined >
                         <v-alert outlined class="my-0" dense type="success" icon="mdi-checkbox-marked-circle-outline"><strong>Objetivo: </strong>{{item.nombreObjetivo}}</v-alert>
                         <v-alert outlined class="my-0" dense type="info" icon="mdi-white-balance-incandescent"><strong>Resultado: </strong>{{item.nombreResultado}}</v-alert>
                         <v-alert v-if="item.indicadores.length === 0" outlined dense border="bottom" type="error" class="my-0">No se encontraron indicadores con registros para este objetivo/resultado</v-alert>
-                        <v-row v-for="ind in item.indicadores" :key="ind.id">
+                        <v-row v-for="ind in item.indicadores" :key="'Ind' + item.id + '-' + ind.codigoActividad + '-' + ind.id">
                             <v-col cols="auto">
                                 <v-divider></v-divider>
                                 <v-simple-table>
@@ -119,7 +128,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'services','optionPanelChecked','tracingData']),
+            ...mapState(['modelSpecification', 'services','optionPanelChecked','tracingData','isTracingDadaLoading']),
             isTableVisible: {
                 get: function () {
                     return this.optionPanelChecked;
@@ -138,10 +147,10 @@
                 let result = 0;
                 table.forEach(item => {
                     if(item.id === id && item.idDesagregado === des){
-                        result = item.valor;
+                        result += item.valor;
                     }
                 });
-                return result;
+                return this.numberWithCommas(result);
             },
             getTableValueByCountry(cod, des, table){
                 let result = 0;
@@ -150,7 +159,7 @@
                        result += item.valor;
                    }
                 });
-                return result;
+                return this.numberWithCommas(result);
             },
             getRowTotal(des, table) {
                 let result = 0;
@@ -159,7 +168,13 @@
                         result += item.valor;
                     }
                 });
-                return result;
+                return this.numberWithCommas(result);
+            },
+            numberWithCommas(x) {
+                if(x === null || x === undefined){
+                    return 0;
+                }
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
         },
         created() {

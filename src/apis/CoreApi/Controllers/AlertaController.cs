@@ -21,7 +21,7 @@ namespace CoreApi.Controllers
             return Ok(_service.FindAll(rol, pais));
         }
 
-        [HttpPut("/alerta/{id}")]
+        [HttpGet("/alerta/{id}")]
         public IActionResult CheckRead(int id)
         {
             return Ok(_service.MarkAsRead(id));

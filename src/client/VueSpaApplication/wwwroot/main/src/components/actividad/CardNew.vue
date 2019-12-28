@@ -9,9 +9,11 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <NewUniqueEntity identifierName="Nombre de la actividad" :identifierValue="this.newModel.nombreActividad"/>
                                 <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="newModel.nombreActividad" v-validate="'required|max:1000'"
+                                            @input="validateIdentifier()"
                                 ></v-textarea>
                             </form>
                         </v-flex>
@@ -22,7 +24,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeNewDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="save()" color="green darken-1" text>Guardar</v-btn>
+                <v-btn @click="save()" color="green darken-1" text :disabled="disableSaveBtn()">Guardar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -30,8 +32,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import NewUniqueEntity from "../validation/NewUniqueEntity";
 
     export default {
+        components: {NewUniqueEntity},
         data() {
             return {
                 newModel: {
@@ -41,11 +45,11 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleNewDialog', 'services'])
+            ...mapState(['modelSpecification', 'visibleNewDialog', 'services', 'isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeNewDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateNewEntity']),
             save() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -82,9 +86,17 @@
                         this.showInfo(e.toString());
                     });
             },
-            clearForm(){
+            clearForm() {
                 this.newModel.nombreActividad = '';
                 this.$validator.reset();
+            },
+            validateIdentifier() {
+                if(this.newModel.nombreActividad !== null)
+                    if(this.newModel.nombreActividad.length > 0)
+                        this.validateNewEntity({entityName:"actividad",identifier:this.newModel.nombreActividad});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

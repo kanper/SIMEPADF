@@ -10,8 +10,8 @@ export default class AlertaService extends AbstractService{
         return this.axios.get(`${this.baseUrl}/rol/${rol}/pais/${country}`);
     }
 
-    checkAll(ids) {
-
+    check(id) {
+        return this.axios.get(`${this.baseUrl}/${id}`);
     }
 
 }

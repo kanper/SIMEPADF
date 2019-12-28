@@ -23,8 +23,23 @@ namespace DTO.DTO
         public MapDTO[] Socios { get; set; }
         public PlanMEDTO[] Indicadores { get; set; }
         public ActividadPtDTO[] Planes { get; set; }
+        public int TotalActividades { get; set; }
+        public int TotalActividadesFinalizadas { get; set; }
         public bool IsChecked { get; set; }
-        public string Avance => DTOFormater.FormatPercent(PorcentajeAvance / Beneficiarios);
+        public string AvancePlanTrabajo
+        {
+            get
+            {
+                if (TotalActividades == 0)
+                {
+                    return DTOFormater.FormatPercent(0.0);
+                }
+                var percent = TotalActividadesFinalizadas / TotalActividades;
+                return DTOFormater.FormatPercent(Convert.ToDouble(percent));
+            }
+        }
+
+        public string AvanceBeneficiarios => DTOFormater.FormatPercent(PorcentajeAvance / Beneficiarios);
         public bool IsCancelled => EstadoProyecto.Equals("CANCELADO", StringComparison.OrdinalIgnoreCase);
         public bool IsCompleted => EstadoProyecto.Equals("FINALIZADO", StringComparison.OrdinalIgnoreCase);
         public bool IsIncomplete => EstadoProyecto.Equals("INCOMPLETO", StringComparison.OrdinalIgnoreCase);
