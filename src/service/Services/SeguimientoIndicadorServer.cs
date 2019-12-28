@@ -219,8 +219,11 @@ namespace Services
         {
             try
             {
+                var validStatus = new[] {"EN_PROCESO","1REVISION","2REVISION","3REVISION","FINALIZADO"};
                 var projectIds = (from proj in _context.Proyecto
-                    where proj.FechaInicio >= GetStartDate(start) &&
+                    join st in _context.EstadoProyecto on proj.EstadoProyecto equals st
+                    where validStatus.Contains(st.TipoEstado) &&
+                          proj.FechaInicio >= GetStartDate(start) &&
                           proj.FechaInicio <= GetEndDate(end)
                     select proj.CodigoProyecto).ToList();
                 

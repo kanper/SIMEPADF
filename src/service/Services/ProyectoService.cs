@@ -668,10 +668,6 @@ namespace Services
                               (p.NombrePais == country || country == "all") &&
                               reviewNumber.Contains(reg.NumeroRevision)
                         select reg).ToList();
-                    foreach (var r in review)
-                    {
-                        Console.WriteLine($"Id: {r.RegistroRevisionId}, Trimestre: {r.Trimestre}, Numero: {r.NumeroRevision}, Revisado?: {r.Revisado}, Completo?: {r.RevisionCompleta}");
-                    }
                     return review.All(r => r.Revisado);
                 }
                 return false;
