@@ -10,7 +10,7 @@
                     {{getRolName(user.RolId)}}
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                    {{getRolName(user.Email)}}
+                    {{getUserName()}}
                 </v-list-item-subtitle>
             </v-list-item-content>
 
@@ -197,7 +197,14 @@
                 if (RolId > 0 && RolId < 6) {
                     return this.userRoles[RolId - 1].rol;
                 } else {
-                    return 'Usuario Anonimo';
+                    return 'Usuario Anónimo';
+                }
+            },
+            getUserName: function() {
+                if(this.user.Email != null){
+                    return this.user.Email;
+                } else {
+                    return 'Usuario Anónimo';
                 }
             },
             getRolIcon: function (RolId) {
