@@ -6,56 +6,41 @@ namespace CoreApi.Controllers
 {
     public class SocioInternacionalController : ControllerBase
     {
-        private readonly ISocioInternacionalService _SocioService;
+        private readonly ISocioInternacionalService _service;
 
-        public SocioInternacionalController(ISocioInternacionalService SocioService)
+        public SocioInternacionalController(ISocioInternacionalService service)
         {
-            _SocioService = SocioService;
+            _service = service;
         }
-
-        // GET api/values
-        [HttpGet("sociointernacional")]
+        
+        [HttpGet("socio-internacional")]
         public IActionResult Get()
         {
-            return Ok(
-                _SocioService.GetAll()
-            );
+            return Ok(_service.GetAll());
         }
-
-        // GET api/values/5
-        [HttpGet("sociointernacional/{id}")]
+        
+        [HttpGet("socio-internacional/{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(
-                _SocioService.Get(id)
-            );
+            return Ok(_service.Get(id));
         }
-
-        // POST api/values
-        [HttpPost("sociointernacional")]
+        
+        [HttpPost("socio-internacional")]
         public IActionResult Post([FromBody] SocioInternacional model)
         {
-            return Ok(
-                _SocioService.Add(model)
-            );
+            return Ok(_service.Add(model));
         }
-
-        // PUT api/values/5
-        [HttpPut("sociointernacional/{id}")]
+        
+        [HttpPut("socio-internacional/{id}")]
         public IActionResult Put([FromBody] SocioInternacional model)
         {
-            return Ok(
-                _SocioService.Update(model)
-            );
+            return Ok(_service.Update(model));
         }
-
-        // DELETE api/values/5
-        [HttpDelete("sociointernacional-{id}")]
+        
+        [HttpDelete("socio-internacional/{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok(
-                _SocioService.Delete(id)
-            );
+            return Ok(_service.Delete(id));
         }
     }
 }

@@ -33,5 +33,9 @@ export default class AbstractService {
     executeAction(id, action, params) {
         return null;
     }
+
+    used(id) {
+        return this.axios.get(`${this.baseUrl}/used/${id}`)
+    }
 }
 

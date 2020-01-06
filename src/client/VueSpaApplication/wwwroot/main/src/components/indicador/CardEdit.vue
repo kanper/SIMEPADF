@@ -87,10 +87,10 @@
             ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
             porcentajeMeta: {
                 get: function () {
-                   if(this.CRUDModel.metaGlobal === 0 ) {
+                   if(Number.isNaN(this.CRUDModel.metaGlobal) || this.CRUDModel.metaGlobal === 0) {
                        return 0.0;
                    }else {
-                       if(this.CRUDModel.valorMeta === 0){
+                       if(Number.isNaN(this.CRUDModel.valorMeta) || this.CRUDModel.valorMeta === 0){
                            return 0.0;
                        }else {
                            return (this.CRUDModel.valorMeta * 100) / this.CRUDModel.metaGlobal;

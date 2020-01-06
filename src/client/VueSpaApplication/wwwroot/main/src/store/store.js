@@ -21,9 +21,11 @@ export default new Vuex.Store({
         visibleCellDialog: false,
         visibleRejectDialog: false,
         visibleProjectPdfDialog: false,
+        visibleDisableCRUDDialog: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
+        CRUDAvailable: false,
         dataTable: [],
         tableRow: {},
         alerts: [],
@@ -62,7 +64,10 @@ export default new Vuex.Store({
         changeRejectDialogVisibility: (state) => state.visibleRejectDialog = !state.visibleRejectDialog,
         changeProjectPdfDialogVisibility: (state) => state.visibleProjectPdfDialog = !state.visibleProjectPdfDialog,
         changeTracingDataLoading: (state) => state.isTracingDadaLoading = !state.isTracingDadaLoading,
+        changeDisableDialog: (state) => state.visibleDisableCRUDDialog = !state.visibleDisableCRUDDialog,
         stopNotificationLoading: (state) => state.isNotificationLoading = false,
+        disableModelCRUD: (state) => state.CRUDAvailable = false,
+        enableModelCRUD: (state) => state.CRUDAvailable = true,
         closeAllDialogs: (state) => {
             state.visibleNewDialog = false;
             state.visibleEditDialog = false;

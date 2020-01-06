@@ -15,11 +15,13 @@
     export default {
         name: "data-table-option",
         data () {
-            return {}
+            return {
+                enableCRUD: false
+            }
         },
         props: ['data', 'modelId', 'model'],
         computed: {
-            ...mapState(['services', 'CRUDModel', 'modelSpecification'])
+            ...mapState(['services', 'CRUDModel', 'modelSpecification', 'CRUDAvailable'])
         },
         methods: {
             ...mapMutations([
@@ -37,7 +39,10 @@
                 'setConfirmationAction',
                 'changeReviewLogListVisibility',
                 'changeRejectDialogVisibility',
-                'changeProjectPdfDialogVisibility'
+                'changeProjectPdfDialogVisibility',
+                'enableModelCRUD',
+                'disableModelCRUD',
+                'changeDisableDialog'
             ]),
             ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification']),
             loadModel(id) {
@@ -46,6 +51,24 @@
                         this.setCRUDModel(r.data);
                     })
                     .catch(e => {
+                        this.showInfo(e.toString());
+                    });
+            },
+            verifiedUpdate() {
+
+            },
+            verifiedUsed(id) {
+                this.services[this.modelSpecification.modelService].used(id)
+                    .then(r => {
+                        if(r.data){
+                            this.enableCRUD = true;
+                        } else {
+                            this.enableCRUD = false;
+                            this.changeDisableDialog();
+                        }
+                    })
+                    .catch(e => {
+                        this.enableCRUD = false;
                         this.showInfo(e.toString());
                     });
             },
@@ -60,14 +83,34 @@
                 this.changeNewDialogVisibility();
             },
             showEditForm(id) {
-                this.loadModel(id);
-                this.closeAllDialogs();
-                this.changeEditDialogVisibility();
+                this.services[this.modelSpecification.modelService].used(id)
+                    .then(r => {
+                        if(r.data){
+                            this.changeDisableDialog();
+                        } else {
+                            this.loadModel(id);
+                            this.closeAllDialogs();
+                            this.changeEditDialogVisibility();
+                        }
+                    })
+                    .catch(e => {
+                        this.showInfo(e.toString());
+                    });
             },
             showDeleteConfirmation(id) {
-                this.loadModel(id);
-                this.closeAllDialogs();
-                this.changeDeleteDialogVisibility();
+                this.services[this.modelSpecification.modelService].used(id)
+                    .then(r => {
+                        if(r.data){
+                            this.changeDisableDialog();
+                        } else {
+                            this.loadModel(id);
+                            this.closeAllDialogs();
+                            this.changeDeleteDialogVisibility();
+                        }
+                    })
+                    .catch(e => {
+                        this.showInfo(e.toString());
+                    });
             },
             showReviewLogList(id, status) {
                 this.loadReviewLogList({id, status});

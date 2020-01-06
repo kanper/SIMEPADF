@@ -7,56 +7,41 @@ namespace CoreApi.Controllers
 {
     public class OrganizacionResponsableController : ControllerBase
     {
-        private readonly IOrganizacionResponsableService _OrganizacionService;
+        private readonly IOrganizacionResponsableService _service;
 
-        public OrganizacionResponsableController(IOrganizacionResponsableService OrganizacionService)
+        public OrganizacionResponsableController(IOrganizacionResponsableService service)
         {
-            _OrganizacionService = OrganizacionService;
+            _service = service;
         }
-
-        // GET api/values
-        [HttpGet("organizacionresponsable")]
+        
+        [HttpGet("organizacion-responsable")]
         public IActionResult Get()
         {
-            return Ok(
-                _OrganizacionService.GetAll()
-            );
+            return Ok(_service.GetAll());
         }
-
-        // GET api/values/5
-        [HttpGet("organizacionresponsable/{id}")]
+        
+        [HttpGet("organizacion-responsable/{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(
-                _OrganizacionService.Get(id)
-            );
+            return Ok(_service.Get(id));
         }
-
-        // POST api/values
-        [HttpPost("organizacionresponsable")]
+        
+        [HttpPost("organizacion-responsable")]
         public IActionResult Post([FromBody] OrganizacionResponsable model)
         {
-            return Ok(
-                _OrganizacionService.Add(model)
-            );
+            return Ok(_service.Add(model));
         }
-
-        // PUT api/values/5
-        [HttpPut("organizacionresponsable/{id}")]
+        
+        [HttpPut("organizacion-responsable/{id}")]
         public IActionResult Put([FromBody] OrganizacionResponsable model)
         {
-            return Ok(
-                _OrganizacionService.Update(model)
-            );
+            return Ok(_service.Update(model));
         }
-
-        // DELETE api/values/5
-        [HttpDelete("organizacionresponsable-{id}")]
+        
+        [HttpDelete("organizacion-responsable/{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok(
-                _OrganizacionService.Delete(id)
-            );
+            return Ok(_service.Delete(id));
         }
     }
 }

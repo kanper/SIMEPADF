@@ -13,6 +13,7 @@
         <FormEdit />
         <DeleteDialog/>
         <InfoSnackbar/>
+        <DisableDialog/>
     </div>
 </template>
 
@@ -25,6 +26,7 @@
     import DataInfo from '../common/CardInfo'
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
+    import DisableDialog from "../common/DisableDialog";
 
     export default {
         components: {
@@ -34,7 +36,8 @@
             TitleBar,
             AppAlert,
             FormEdit,
-            DataInfo
+            DataInfo,
+            DisableDialog
         },
         name: "objetivo-index",
         data() {

@@ -14,6 +14,7 @@
         <FormEdit />
         <DeleteDialog/>
         <InfoSnackbar/>
+        <DisableDialog/>
     </div>
 </template>
 
@@ -27,6 +28,7 @@
     import AppAlert from '../common/Alert'
     import DataTable from '../common/DataTable'
     import FormNew from './CardNew'
+    import DisableDialog from "../common/DisableDialog";
 
     export default {
         components: {
@@ -37,7 +39,8 @@
             AppAlert,
             FormEdit,
             DataInfo,
-            FormNew
+            FormNew,
+            DisableDialog
         },
         name: "desagregacion-index",
         data() {
