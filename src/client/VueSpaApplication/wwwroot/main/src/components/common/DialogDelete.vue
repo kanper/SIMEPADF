@@ -5,7 +5,7 @@
             </v-card-title>
             <v-card-text>
                 <v-card-subtitle>
-                    ¿Confirma eliminar los siguientes {{modelSpecification.modelTitle}} de la lista?
+                    ¿Confirma eliminar el siguiente {{modelSpecification.modelTitle}} de la lista?
                 </v-card-subtitle>                
                 <v-list-item three-line>
                     <v-list-item-icon>
@@ -13,14 +13,23 @@
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>Nombre:</v-list-item-title>
-                        <v-list-item-subtitle>{{ CRUDModel[modelSpecification.modelStamp] }}</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ CRUDModel.identificador }}</v-list-item-subtitle>
                     </v-list-item-content>                                        
-                </v-list-item>                
+                </v-list-item>
+                <v-alert
+                        icon="mdi-shield-lock-outline"
+                        prominent
+                        text
+                        type="error"
+                        v-show="!CRUDModel.removible"
+                >
+                    El registro "{{ CRUDModel.identificador }}" no puede ser eliminado hasta que se remuevan las dependencias existentes.
+                </v-alert>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeDeleteDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="deleteSelectedElements" color="red darken-1" text>Eliminar</v-btn>
+                <v-btn @click="deleteSelectedElements" color="red darken-1" text :disabled="!CRUDModel.removible">Eliminar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -37,7 +46,8 @@
             ...mapMutations(['changeDeleteDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
             ...mapActions(['loadDataTable']),
             deleteSelectedElements() {
-                this.services[this.modelSpecification.modelService].remove(this.CRUDModel[this.modelSpecification.modelPK], this.modelSpecification.modelParams)
+                let modelId = this.CRUDModel.codigo === null ? this.CRUDModel.id : this.CRUDModel.codigo;
+                this.services[this.modelSpecification.modelService].remove(modelId, this.modelSpecification.modelParams)
                     .then(r => {
                         this.loadDataTable();
                         if (r.data) {

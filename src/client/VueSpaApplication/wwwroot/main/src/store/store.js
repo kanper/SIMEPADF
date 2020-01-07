@@ -76,6 +76,7 @@ export default new Vuex.Store({
             state.visibleRejectDialog = false;
             state.visibleReviewLog = false;
             state.visibleReviewLogList = false;
+            state.isUniqueEntity = true;
         },
         setCRUDModel: (state, model) => state.CRUDModel = model,
         updateDataTable: (state, dataAction) => state.dataTable = dataAction,
@@ -160,6 +161,15 @@ export default new Vuex.Store({
         },
         validateNewEntity: async function ({commit}, params) {
             services.validationService.validateNew(params.entityName, params.identifier)
+                .then(r => {
+                    commit('setUniqueEntityStatus', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+        },
+        validateEditEntity: async function ({commit}, params) {
+            services.validationService.validateUpdate(params.entityName,params.id,params.identifier)
                 .then(r => {
                     commit('setUniqueEntityStatus', r.data);
                 })

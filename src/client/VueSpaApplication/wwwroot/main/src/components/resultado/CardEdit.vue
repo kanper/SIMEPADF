@@ -9,9 +9,11 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <EditUniqueEntity identifierName="Nombre del resultado" :identifierValue="this.CRUDModel.nombreResultado"/>
                                 <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="CRUDModel.nombreResultado" v-validate="'required|max:1000'"
+                                            @input="validateIdentifier()"
                                 ></v-textarea>
                             </form>
                         </v-flex>
@@ -22,7 +24,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -30,16 +32,19 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../validation/EditUniqueEntity";
+
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {}
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services'])
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -74,6 +79,14 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreResultado !== null)
+                    if(this.CRUDModel.nombreResultado.length > 0)
+                        this.validateEditEntity({entityName:"resultado",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreResultado});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

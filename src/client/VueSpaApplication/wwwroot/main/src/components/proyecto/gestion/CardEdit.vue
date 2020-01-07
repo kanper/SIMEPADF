@@ -8,16 +8,18 @@
                 <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Editar registro</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark text @click="update()">Actualizar</v-btn>
+                    <v-btn dark text @click="update()" :disabled="disableSaveBtn()">Actualizar</v-btn>
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout row wrap>
                         <v-flex xs12>
+                            <EditUniqueEntity identifierName="Nombre del proyecto" :identifierValue="this.CRUDModel.nombreProyecto"/>
                             <v-textarea :counter="500" :error-messages="errors.collect('nombre')" auto-grow filled
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="CRUDModel.nombreProyecto" v-validate="'required|max:500'"
+                                        @input="validateIdentifier()"
                             ></v-textarea>
                             <v-switch v-model="CRUDModel.regional" label="Regional"></v-switch>
                         </v-flex>
@@ -141,7 +143,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -149,8 +151,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../../validation/EditUniqueEntity"
 
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {
                 paises: [],
@@ -162,7 +166,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity']),
             approvedDate: {
                 get: function () {
                     if(this.CRUDModel.fechaAprobacion === undefined){
@@ -199,7 +203,7 @@
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -234,6 +238,14 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreProyecto !== null)
+                    if(this.CRUDModel.nombreProyecto.length > 0)
+                        this.validateEditEntity({entityName:"proyecto",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreProyecto});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         },
         created() {

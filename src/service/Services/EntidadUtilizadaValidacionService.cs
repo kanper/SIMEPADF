@@ -39,7 +39,7 @@ namespace Services
         {
             try
             {
-                return !_context.ArchivoDescripcion.Any(a => a.CodigoArchivo == id);
+                return _context.ArchivoDescripcion.Any(a => a.CodigoArchivo == id);
             }
             catch (Exception e)
             {

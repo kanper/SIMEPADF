@@ -54,6 +54,15 @@
                         this.showInfo(e.toString());
                     });
             },
+            loadRemovable(id) {
+                this.services[this.modelSpecification.modelService].removable(id)
+                    .then(r => {
+                        this.setCRUDModel(r.data);
+                    })
+                    .catch(e => {
+                        this.showInfo(e.toString());
+                    });
+            },
             verifiedUpdate() {
 
             },
@@ -103,7 +112,7 @@
                         if(r.data){
                             this.changeDisableDialog();
                         } else {
-                            this.loadModel(id);
+                            this.loadRemovable(id);
                             this.closeAllDialogs();
                             this.changeDeleteDialogVisibility();
                         }

@@ -9,6 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <EditUniqueEntity identifierName="Nombre de la organizacion" :identifierValue="this.CRUDModel.nombreOrganizacion"/>
                                 <v-text-field
                                         v-model="CRUDModel.nombreOrganizacion"
                                         v-validate="'required|max:100'"
@@ -17,6 +18,7 @@
                                         label="Nombre Organizacion*"
                                         data-vv-name="nombreOrganizacion"
                                         required
+                                        @input="validateIdentifier()"
                                 ></v-text-field>
                                 <v-text-field
                                         v-model="CRUDModel.siglasOrganizacion"
@@ -36,7 +38,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -44,17 +46,19 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../validation/EditUniqueEntity";
 
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {}
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services'])
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -89,6 +93,14 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreOrganizacion !== null)
+                    if(this.CRUDModel.nombreOrganizacion.length > 0)
+                        this.validateEditEntity({entityName:"organizacion",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreOrganizacion});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

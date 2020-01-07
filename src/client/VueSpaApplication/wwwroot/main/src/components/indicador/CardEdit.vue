@@ -9,9 +9,11 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <EditUniqueEntity identifierName="Nombre del indicador" :identifierValue="this.CRUDModel.nombreIndicador"/>
                                 <v-textarea :counter="1000" :error-messages="errors.collect('nombre')" auto-grow filled
                                             clearable data-vv-name="nombre" label="Nombre *" required
                                             v-model="CRUDModel.nombreIndicador" v-validate="'required|max:1000'"
+                                            @input="validateIdentifier()"
                                 ></v-textarea>
 
                                 <v-switch v-model="usePercent" label="Usar porcentaje"></v-switch>
@@ -67,7 +69,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -75,7 +77,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../validation/EditUniqueEntity";
+
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {
                 slider: 0.0,
@@ -84,7 +89,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity']),
             porcentajeMeta: {
                 get: function () {
                    if(Number.isNaN(this.CRUDModel.metaGlobal) || this.CRUDModel.metaGlobal === 0) {
@@ -144,7 +149,7 @@
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {                        
@@ -193,6 +198,14 @@
                 this.percentBase = 0;
                 this.slider = 0.0;
                 this.usePercent = false;
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreIndicador !== null)
+                    if(this.CRUDModel.nombreIndicador.length > 0)
+                        this.validateEditEntity({entityName:"indicador",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreIndicador});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

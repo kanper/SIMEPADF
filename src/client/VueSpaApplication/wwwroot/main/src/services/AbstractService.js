@@ -37,5 +37,9 @@ export default class AbstractService {
     used(id) {
         return this.axios.get(`${this.baseUrl}/used/${id}`)
     }
+
+    removable(id) {
+        return this.axios.get(`${this.baseUrl}/removable/${id}`)
+    }
 }
 

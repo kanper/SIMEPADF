@@ -9,4 +9,8 @@ export default class ValidationService extends AbstractService {
     validateNew(entityName, identifier) {
         return this.axios.get(`${this.baseUrl}/${entityName}/${identifier}`);
     }
+
+    validateUpdate(entityName, id, identifier) {
+        return this.axios.get(`${this.baseUrl}/${entityName}/${id}/identificador/${identifier}`)
+    }
 }
