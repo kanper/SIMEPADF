@@ -18,7 +18,7 @@
                 <v-col cols="4">
                     <v-select
                             v-model="country"
-                            :items="countries"
+                            :items="getAvailableCountriesByRol()"
                             chips
                             label="Paises"
                             prepend-icon="mdi-flag-outline"
@@ -79,6 +79,18 @@
                         socios: this.socio.join('$')
                     };
                     this.loadDataTable();
+                }
+            },
+            getAvailableCountriesByRol(){
+                if(window.User.RolId === '2'){
+                    return this.countries;
+                } else {
+                    let result = [];
+                    this.countries.forEach(item => {
+                        if (item.nombre === window.User.Pais)
+                            result.push(item)
+                    });
+                    return result;
                 }
             }
         },
