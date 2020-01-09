@@ -15,6 +15,7 @@
         <DeleteDialog/>
         <InfoSnackbar/>
         <Confirmation />
+        <DisableDialog/>
     </div>
 </template>
 
@@ -29,6 +30,7 @@
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
     import FormNew from './CardNew'
+    import DisableDialog from "../../common/DisableDialog";
 
     export default {
         components: {
@@ -40,7 +42,8 @@
             FormEdit,
             DataInfo,
             FormNew,
-            Confirmation
+            Confirmation,
+            DisableDialog
         },
         name: "objetivo-gestion-index",
         data() {

@@ -15,6 +15,7 @@
         <FormEdit />
         <DeleteDialog/>
         <InfoSnackbar/>
+        <DisableDialog/>
     </div>
 </template>
 
@@ -29,6 +30,7 @@
     import DataTable from '../common/DataTable'
     import FormNew from './CardNew'
     import Banner from '../common/BannerCard'
+    import DisableDialog from "../common/DisableDialog";
 
     export default {
         components: {
@@ -40,7 +42,9 @@
             FormEdit,
             DataInfo,
             FormNew,
-            Banner
+            Banner,
+            DisableDialog
+
         },
         name: "actividad-producto-index",
         data() {

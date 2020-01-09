@@ -47,7 +47,20 @@ namespace Services
             try
             {
                 var All = new List<AuditoriaDTO>();
-                return All;
+                All.AddRange(GetActividad());
+                All.AddRange(GetActividadPlanTrabajo());
+                All.AddRange(GetDesagregacion());
+                All.AddRange(GetFuenteDato());
+                All.AddRange(GetIndicador());
+                All.AddRange(GetResultado());
+                All.AddRange(GetObjetivo());
+                All.AddRange(GetNivelImpacto());
+                All.AddRange(GetOrganizacionResponsable());
+                All.AddRange(GetPais());
+                All.AddRange(GetProducto());
+                All.AddRange(GetProyecto());
+                All.AddRange(GetSocioInternacional());
+                return All.OrderByDescending(a => a.DateTime);
             }
             catch (Exception e)
             {

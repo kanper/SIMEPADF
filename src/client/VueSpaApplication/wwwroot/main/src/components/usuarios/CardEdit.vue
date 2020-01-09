@@ -13,7 +13,7 @@
         <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Editar Registro</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn dark text @click="update()">Actualizar</v-btn>
+          <v-btn dark text @click="update()" :disabled="disableSaveBtn()">Actualizar</v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-card-text>
@@ -59,6 +59,7 @@
             </v-flex>
             <v-spacer></v-spacer>
             <v-flex xs6>
+              <EditUniqueEntity identifierName="correo electrónico" :identifierValue="this.CRUDModel.email"/>
               <v-text-field
                 :error-messages="errors.collect('email')"
                 data-vv-name="email"
@@ -96,7 +97,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-        <v-btn @click="update()" color="green darken-1" text>Actualizar</v-btn>
+        <v-btn @click="update()" color="green darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -104,8 +105,10 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import EditUniqueEntity from "../validation/EditUniqueEntity";
 
 export default {
+  components: {EditUniqueEntity},
   data() {
     return {
       paises: [],
@@ -126,7 +129,8 @@ export default {
       "modelSpecification",
       "visibleEditDialog",
       "CRUDModel",
-      "services"
+      "services",
+      "isUniqueEntity"
     ]),
     pais: {
       get: function () {
@@ -147,7 +151,7 @@ export default {
       "showInfo",
       "addAlert"
     ]),
-    ...mapActions(["loadDataTable"]),
+    ...mapActions(["loadDataTable","validateEditEntity"]),
     update() {
       this.$validator
         .validateAll()
@@ -194,6 +198,14 @@ export default {
         .catch(e => {
           this.showInfo(e.toString());
         });
+    },
+    validateIdentifier() {
+      if(this.CRUDModel.email !== null)
+        if(this.CRUDModel.email.length > 0)
+          this.validateEditEntity({entityName:"usuario",id:this.CRUDModel.id,identifier:this.CRUDModel.email});
+    },
+    disableSaveBtn(){
+      return !this.isUniqueEntity;
     }
   },
   created() {

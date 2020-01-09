@@ -9,6 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <EditUniqueEntity identifierName="Nombre del actividad" :identifierValue="this.CRUDModel.nombreActividad"/>
                                 <v-textarea
                                         v-model="CRUDModel.nombreActividad"
                                         v-validate="'required|max:1000'"
@@ -18,6 +19,7 @@
                                         label="Nombre actividad"
                                         data-vv-name="nombreActividad"
                                         required
+                                        @input="validateIdentifier()"
                                 ></v-textarea>
                                 <v-text-field
                                         v-model="CRUDModel.monto"
@@ -88,7 +90,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -96,8 +98,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../validation/EditUniqueEntity";
 
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {
                 datePick: false,
@@ -106,7 +110,7 @@
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity']),
             startDate: {
                 get: function () {
                     if (this.CRUDModel.fechaInicio === undefined){
@@ -132,7 +136,7 @@
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -167,6 +171,14 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreActividad !== null)
+                    if(this.CRUDModel.nombreActividad.length > 0)
+                        this.validateEditEntity({entityName:"actividadPT",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreActividad});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         },
         created() {

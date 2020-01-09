@@ -9,6 +9,7 @@
                     <v-layout wrap>
                         <v-flex xs12>
                             <form>
+                                <EditUniqueEntity identifierName="Nombre de la fuente" :identifierValue="this.CRUDModel.nombreFuente"/>
                                 <v-textarea
                                         v-model="CRUDModel.nombreFuente"
                                         v-validate="'required|max:500'"
@@ -18,6 +19,7 @@
                                         label="Nombre fuente de datos"
                                         data-vv-name="nombreFuente"
                                         required
+                                        @input="validateIdentifier()"
                                 ></v-textarea>
                             </form>
                         </v-flex>
@@ -28,7 +30,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -36,17 +38,19 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../validation/EditUniqueEntity";
 
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {}
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services'])
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity'])
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -81,6 +85,14 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreFuente !== null)
+                    if(this.CRUDModel.nombreFuente.length > 0)
+                        this.validateEditEntity({entityName:"fuente",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreFuente});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
             }
         }
     }

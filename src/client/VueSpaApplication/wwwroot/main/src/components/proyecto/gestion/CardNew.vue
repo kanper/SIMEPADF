@@ -108,7 +108,7 @@
                             <v-combobox v-if="newModel.regional === true"
                                     :items="paises"
                                     item-text="nombre"
-                                    label="Seleccione uno o varios paises"
+                                    label="Seleccione uno o varios países"
                                     multiple
                                     required
                                     v-model="newModel.paises"
@@ -116,7 +116,7 @@
                             <v-combobox v-if="newModel.regional === false"
                                     :items="paises"
                                     item-text="nombre"
-                                    label="Seleccione un pais"
+                                    label="Seleccione un país"
                                     required
                                     v-model="regionPais"
                             ></v-combobox>

@@ -2,22 +2,24 @@
     <v-dialog fullscreen v-model="visibleEditDialog" hide-overlay transition="dialog-bottom-transition">
         <v-card>
             <v-toolbar dark color="black">
-                <v-btn icon dark @click="changeEditDialogVisibility">
+                <v-btn icon dark @click="closeDialog()">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-toolbar-title>Formulario de {{modelSpecification.modelTitle}}: Editar registro</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark text @click="update()">Actualizar</v-btn>
+                    <v-btn dark text @click="update()" :disabled="disableSaveBtn()">Actualizar</v-btn>
                 </v-toolbar-items>
             </v-toolbar>
             <v-card-text>
                 <v-container grid-list-md>
                     <v-layout row wrap>
                         <v-flex xs12>
+                            <EditUniqueEntity identifierName="Nombre del proyecto" :identifierValue="this.CRUDModel.nombreProyecto"/>
                             <v-textarea :counter="500" :error-messages="errors.collect('nombre')" auto-grow filled
                                         clearable data-vv-name="nombre" label="Nombre *" required
                                         v-model="CRUDModel.nombreProyecto" v-validate="'required|max:500'"
+                                        @input="validateIdentifier()"
                             ></v-textarea>
                             <v-switch v-model="CRUDModel.regional" label="Regional"></v-switch>
                         </v-flex>
@@ -42,8 +44,6 @@
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -65,8 +65,6 @@
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -88,8 +86,6 @@
                             <v-menu
                                     :close-on-content-click="false"
                                     :nudge-right="40"
-                                    full-width
-                                    lazy
                                     min-width="290px"
                                     offset-y
                                     transition="scale-transition"
@@ -109,13 +105,20 @@
                             </v-menu>
                         </v-flex>
                         <v-flex xs6>
-                            <v-combobox
-                                    :items="paises"
-                                    item-text="nombre"
-                                    label="Seleccione uno o varios paises"
-                                    multiple
-                                    required
-                                    v-model="CRUDModel.paises"
+                            <v-combobox v-if="CRUDModel.regional === true"
+                                        :items="paises"
+                                        item-text="nombre"
+                                        label="Seleccione uno o varios países"
+                                        multiple
+                                        required
+                                        v-model="CRUDModel.paises"
+                            ></v-combobox>
+                            <v-combobox v-if="CRUDModel.regional === false"
+                                        :items="paises"
+                                        item-text="nombre"
+                                        label="Seleccione un país"
+                                        required
+                                        v-model="regionPais"
                             ></v-combobox>
                             <v-combobox
                                     :items="socios"
@@ -140,8 +143,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn @click="changeEditDialogVisibility" color="gray darken-1" text>Cancelar</v-btn>
-                <v-btn @click="update()" color="blue darken-1" text>Actualizar</v-btn>
+                <v-btn @click="closeDialog()" color="gray darken-1" text>Cancelar</v-btn>
+                <v-btn @click="update()" color="blue darken-1" text :disabled="disableSaveBtn()">Actualizar</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -149,8 +152,10 @@
 
 <script>
     import {mapActions, mapMutations, mapState} from 'vuex'
+    import EditUniqueEntity from "../../validation/EditUniqueEntity"
 
     export default {
+        components: {EditUniqueEntity},
         data() {
             return {
                 paises: [],
@@ -158,11 +163,11 @@
                 socios: [],
                 datePickInicio: false,
                 datePickFin : false,
-                datePickApro: false
+                datePickApro: false,
             }
         },
         computed: {
-            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services']),
+            ...mapState(['modelSpecification', 'visibleEditDialog', 'CRUDModel', 'services','isUniqueEntity']),
             approvedDate: {
                 get: function () {
                     if(this.CRUDModel.fechaAprobacion === undefined){
@@ -195,11 +200,27 @@
                 set: function (newValue) {
                     this.CRUDModel.fechaFin = newValue;
                 }
+            },
+            regionPais: {
+                get: function () {
+                    if(this.CRUDModel.regional){
+                        return null;
+                    } else {
+                        if(this.CRUDModel.paises.length > 0){
+                            return this.CRUDModel.paises[0];
+                        }
+                        return null;
+                    }
+                },
+                set: function (newValue) {
+                    this.CRUDModel.paises = [];
+                    this.CRUDModel.paises.push(newValue);
+                }
             }
         },
         methods: {
             ...mapMutations(['changeEditDialogVisibility', 'closeAllDialogs', 'showInfo', 'addAlert']),
-            ...mapActions(['loadDataTable']),
+            ...mapActions(['loadDataTable','validateEditEntity']),
             update() {
                 this.$validator.validateAll()
                     .then(v => {
@@ -234,6 +255,18 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
+            },
+            validateIdentifier() {
+                if(this.CRUDModel.nombreProyecto !== null)
+                    if(this.CRUDModel.nombreProyecto.length > 0)
+                        this.validateEditEntity({entityName:"proyecto",id:this.CRUDModel.id,identifier:this.CRUDModel.nombreProyecto});
+            },
+            disableSaveBtn(){
+                return !this.isUniqueEntity;
+            },
+            closeDialog() {
+                this.regionPais = null;
+                this.changeEditDialogVisibility();
             }
         },
         created() {

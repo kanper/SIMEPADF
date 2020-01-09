@@ -19,6 +19,7 @@ namespace Services
         bool IsDesagregadoUnico(string identificador);
         bool IsProyectoUnico(string identificador);
         bool IsPlanPTUnico(string identificador);
+        bool IsProductoUnico(string identificador);
         bool IsUsuarioUnico(string identificador);
     }
     
@@ -180,6 +181,19 @@ namespace Services
             try
             {
                 return !_context.ActividadPT.Any(a => a.NombreActividad == identificador);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public bool IsProductoUnico(string identificador)
+        {
+            try
+            {
+                return !_context.Producto.Any(p => p.NombreProducto == identificador);
             }
             catch (Exception e)
             {

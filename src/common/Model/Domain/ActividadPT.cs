@@ -23,6 +23,7 @@ namespace Model.Domain
         public DateTime FechaInicio { get; set; }
         public DateTime FechaLimite { get; set; }
         public double Monto { get; set; }
+        public bool Completa { get; set; }
 
         public PlanTrabajo PlanTrabajo { get; set; }
         public string PlanTrabajoCodigoPlanTrabajo { get; set; }

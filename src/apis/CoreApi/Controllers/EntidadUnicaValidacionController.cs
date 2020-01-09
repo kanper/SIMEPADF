@@ -83,6 +83,12 @@ namespace CoreApi.Controllers
         {
             return Ok(_service.IsPlanPTUnico(identificador));
         }
+        
+        [HttpGet("validacion/producto/{identificador}")]
+        public IActionResult IsProductoUnico(string identificador)
+        {
+            return Ok(_service.IsProductoUnico(identificador));
+        }
 
         [HttpGet("validacion/usuario/{identificador}")]
         public IActionResult IsUsuarioUnico(string identificador)

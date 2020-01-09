@@ -1,36 +1,9 @@
-class PaisService {
-    axios
-    baseUrl
+import AbstractService from './AbstractService'
 
-    constructor(axios, apiUrl) {
-        this.axios = axios
-        this.baseUrl = `${apiUrl}pais`
+export default class PaisService extends AbstractService {
+
+    constructor(axios, baseUrl) {
+        super(axios, `${baseUrl}pais`);
     }
 
-    get(id) {
-        let self = this
-        return self.axios.get(`${self.baseUrl}/${id}`)
-    }
-
-    getAll() {
-        let self = this
-        return self.axios.get(`${self.baseUrl}`)
-    }
-
-    add(model) {
-        let self = this
-        return self.axios.post(`${self.baseUrl}`, model)
-    }
-
-    update(model, id) {
-        let self = this
-        return self.axios.put(`${self.baseUrl}/${id}`, model)
-    }
-
-    remove(id) {
-        let self = this
-        return self.axios.delete(`${self.baseUrl}-${id}`)
-    }
 }
-
-export default PaisService

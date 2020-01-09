@@ -1,43 +1,14 @@
-class UsuarioService {
-    axios
-    baseUrl
-    ApiUrl
+import AbstractService from './AbstractService'
 
-    constructor(axios, apiUrl, authUrl) {
-        this.axios = axios
-        this.baseUrl = `${apiUrl}usuario`
-        this.ApiUrl = `${authUrl}logout`
-    }
+export default class UsuarioService extends AbstractService {
+    authUrl;
 
-    get(id) {
-        let self = this
-        return self.axios.get(`${self.baseUrl}/${id}`)
+    constructor(axios, baseUrl, authUrl) {
+        super(axios, `${baseUrl}usuario`);
+        this.authUrl = authUrl;
     }
 
     logout() {
-        let self = this
-        return self.axios.get(`${self.ApiUrl}`)
-    }
-
-    getAll() {
-        let self = this
-        return self.axios.get(`${self.baseUrl}`)
-    }
-
-    add(model) {
-        let self = this
-        return self.axios.post(`${self.baseUrl}`, model)
-    }
-
-    update(model, id) {
-        let self = this
-        return self.axios.put(`${self.baseUrl}/${id}`, model)
-    }
-
-    remove(id) {
-        let self = this
-        return self.axios.delete(`${self.baseUrl}-${id}`)
+        return this.axios.get(`${this.authUrl}logout`)
     }
 }
-
-export default UsuarioService
