@@ -88,6 +88,13 @@ const routes = [
 
 ];
 
+// const router = new Router({
+//     mode: 'history', //removes # from url
+//     base: '/',
+//     fallback: true, //router should fallback to hash (#) mode when the browser dos not support history.pushState
+//     routes //short for `routes: routes`
+// });
+
 export default new Router({
     routes
 })
