@@ -1084,6 +1084,9 @@ namespace DatabaseContext.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RecoveryCode")
+                        .HasMaxLength(15);
+
                     b.Property<string>("RolId");
 
                     b.Property<string>("SecurityStamp");

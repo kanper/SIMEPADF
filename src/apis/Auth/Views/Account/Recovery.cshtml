@@ -1,0 +1,56 @@
+@model RecoveryInputModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @if (!Model.IsValidEmail)
+        {
+            <div class="alert alert-danger">
+                El correo electrónico ingresado es invalido.
+            </div>
+        }
+        <div class="panel">
+            <div class="panel-body">
+                <h5 class="panel-title">Recuperación de Contraseñas</h5>
+                <h6 class="mb-2 text-muted">Ingrese su correo electrónico</h6>
+                <form asp-route="Recovery">
+                    <div class="form-group">
+                        <label asp-for="Email">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" asp-for="Email" autofocus>
+                    </div>
+                    <p>Recibira un correo electrónico con un número que debera ingresar en formulario de la derecha.</p>
+                    <button class="btn btn-primary" name="button" value="send">Enviar Correo</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        @if (!Model.IsValidCode)
+            {
+                <div class="alert alert-danger">
+                    El código ingresado es invalido.
+                </div>
+            }
+        <div class="panel">
+          <div class="panel-body">
+              <h5 class="panel-title">Código de Recuperación</h5>
+              <form asp-route="Recovery">
+                  <div class="form-group">
+                      <label asp-for="Email">Email</label>
+                      <input type="email" class="form-control" placeholder="Email" asp-for="Email">
+                  </div>
+                  <h6 class="mb-2 text-muted">Ingrese el código de recuperación aquí</h6>
+                  <div class="form-group">
+                      <label asp-for="Codigo">Código</label>
+                      <input type="text" class="form-control" maxlength="10" placeholder="Código" asp-for="Codigo" autofocus>
+                  </div>
+                  <p>El código recibido tiene un tiempo de válidez de 30 minutos desde el momento en que reciba el correo electrónico.</p>
+                  <button class="btn btn-info" name="button" value="check">Comprobar Código</button>
+              </form>
+          </div>
+        </div>
+    </div>
+</div> 

@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Domain;
+using EmailConfiguration = Auth.Models.EmailConfiguration;
+using IEmailConfiguration = Auth.Models.IEmailConfiguration;
 
 namespace Auth
 {
@@ -58,6 +60,10 @@ namespace Auth
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+            
+            // Email Service 
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -29,12 +29,10 @@ namespace Model.Domain
         public string Cargo { get; set; }
         public DateTime FechaAfilacion { get; set; }
         public string Pais { get; set; }
-
         public bool Deleted { get; set; }
-
         public string RolId { get; set; }
         public Rol Rol { get; set; }
-
+        public string RecoveryCode { get; set; }
         public ICollection<ProyectoUsuario> ProyectoUsuarios { get; set; }
 
 

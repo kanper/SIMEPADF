@@ -16,6 +16,7 @@ namespace DatabaseContext.Config
             entityBuilder.Property(x => x.PasswordHash).IsRequired();
             entityBuilder.Property(x => x.Pais).IsRequired().HasMaxLength(50);
             entityBuilder.Property(x => x.FechaAfilacion).IsRequired();
+            entityBuilder.Property(x => x.RecoveryCode).HasMaxLength(15);
         }
     }
 }
