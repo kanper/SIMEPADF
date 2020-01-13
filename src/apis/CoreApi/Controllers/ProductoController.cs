@@ -1,10 +1,12 @@
 using System.Drawing.Printing;
 using DTO.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class ProductoController : ControllerBase
     {
 

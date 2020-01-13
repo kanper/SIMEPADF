@@ -1,4 +1,5 @@
-﻿using DatabaseContext;
+﻿using CoreApi.Config;
+using DatabaseContext;
 using DTO.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,8 @@ namespace CoreApi
             })
                 .AddEntityFrameworkStores<simepadfContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddMyDependecies(Configuration);
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>

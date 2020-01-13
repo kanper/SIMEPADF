@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class ProyectoInfoController : ControllerBase
     {
         private readonly IProyectoInfoService _service;

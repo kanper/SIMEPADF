@@ -19,7 +19,7 @@ namespace DatabaseContext
 
         public simepadfContext() { }
 
-        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser = null )
+        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser )
             : base(options)
         {
             _currentUser = currentUser;

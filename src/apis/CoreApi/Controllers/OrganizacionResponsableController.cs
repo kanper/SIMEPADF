@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Model.Domain;
 using Services;
 using System.Net.Http;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class OrganizacionResponsableController : ControllerBase
     {
         private readonly IOrganizacionResponsableService _service;

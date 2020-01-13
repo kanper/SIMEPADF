@@ -1,5 +1,6 @@
 ﻿using DatabaseContext;
 using DTO.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model.Domain;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;

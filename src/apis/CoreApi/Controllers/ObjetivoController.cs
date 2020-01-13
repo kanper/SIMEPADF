@@ -1,9 +1,11 @@
 ﻿using DTO.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class ObjetivoController : ControllerBase
     {
         private readonly IObjetivoService _service;

@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Model.Domain;
 using Services;
 
 namespace CoreApi.Controllers
 {
+    //[Authorize]
     public class PaisController : ControllerBase
     {
         private readonly IPaisService _service;
