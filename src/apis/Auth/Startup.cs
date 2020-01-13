@@ -1,7 +1,6 @@
 ﻿using Auth.Config;
 using Auth.Services;
 using DatabaseContext;
-using DTO.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Model.Domain;
+using EmailConfiguration = Auth.Models.EmailConfiguration;
+using IEmailConfiguration = Auth.Models.IEmailConfiguration;
 
 namespace Auth
 {
@@ -30,6 +31,8 @@ namespace Auth
             services.AddDbContext<simepadfContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            services.AddMyDependecies(Configuration);
 
             services.AddIdentity<Usuario, Rol>(config =>
             {
@@ -56,8 +59,11 @@ namespace Auth
             });
 
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+            
+            // Email Service 
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -5,7 +5,7 @@ using Services;
 
 namespace CoreApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PaisController : ControllerBase
     {
         private readonly IPaisService _service;

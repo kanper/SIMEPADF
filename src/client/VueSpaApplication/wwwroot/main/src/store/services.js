@@ -43,7 +43,7 @@ let authUrl = 'http://localhost:53153/';
 
 // Axios Configuration
 Axios.defaults.headers.common.Accept = 'application/json';
-Axios.defaults.headers.common.Authorization = `bearer ${User.Token}`;
+Axios.defaults.headers.common.Authorization = `Bearer ${User.Token}`;
 
 export default {
     paisService: new paisService(Axios, apiUrl),

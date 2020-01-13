@@ -19,9 +19,10 @@ namespace DatabaseContext
 
         public simepadfContext() { }
 
-        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser )
+        public simepadfContext(DbContextOptions<simepadfContext> options, ICurrentUserDTO currentUser = null)
             : base(options)
         {
+            Console.WriteLine("ingreso ");
             _currentUser = currentUser;
         }
 

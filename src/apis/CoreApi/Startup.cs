@@ -66,8 +66,6 @@ namespace CoreApi
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
-
-            //services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddDbContext<simepadfContext>(
@@ -108,7 +106,11 @@ namespace CoreApi
             services.AddTransient<IEntidadActualizableValidacionService, EntidadActualizableValidacionService>();
             services.AddTransient<IEntidadRemovibleValidacionService, EntidadRemovibleValidacionService>();
             services.AddTransient<IEntidadUtilizadaValidacionService, EntidadUtilizadaValidacionService>();
-
+            
+            // Email Service 
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
