@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DatabaseContext;
 using DTO.DTO;
+using Model.Domain.DbHelper;
 
 namespace Services
 {
@@ -10,7 +11,7 @@ namespace Services
     {
         IEnumerable<ProyectoReporteDTO> GetAll(int year, string countries, string socios);
         ProyectoReporteDTO Get(string id);
-        ProyectoReporteDTO Get(string id,int year, int quarter);
+        ProyectoReporteDTO Get(string id, string startDate, string endDate);
     }
     
     public class ProyectoReporteService : IProyectoReporteService
@@ -27,14 +28,17 @@ namespace Services
         {
             try
             {
-                var paisesSeleccionados = countries.Split('$');
-                var sociosSeleccionados = socios.Split('$');
+                string[] paisesSeleccionados;
+                string[] sociosSeleccionados;
                 var processStatus = new[] {"EN_PROCESO","1REVISION","2REVISION","3REVISION"};
+                paisesSeleccionados = countries.Equals("all") ? (from p in _context.Pais select p.Id.ToString()).ToArray() : countries.Split('$');
+                sociosSeleccionados = socios.Equals("all") ? (from s in _context.SocioInternacional select s.Id.ToString()).ToArray() : socios.Split('$');
+                
                 var projects = (from proj in _context.Proyecto
                     join st in _context.EstadoProyecto on proj.EstadoProyecto equals st
                     join ps in _context.ProyectoSocio on proj equals ps.Proyecto
                     join pp in _context.ProyectoPais on proj equals pp.Proyecto
-                    where proj.FechaInicio.Year == year && 
+                    where (proj.FechaInicio.Year == year || year == 0) && 
                           processStatus.Contains(st.TipoEstado) &&
                           paisesSeleccionados.Contains(pp.PaisId.ToString()) &&
                           sociosSeleccionados.Contains(ps.SocioInternacionalId.ToString())
@@ -80,7 +84,7 @@ namespace Services
             }
         }
 
-        public ProyectoReporteDTO Get(string id, int year, int quarter)
+        public ProyectoReporteDTO Get(string id, string startDate, string endDate)
         {
             try
             {
@@ -127,7 +131,7 @@ namespace Services
                 foreach (var item in result.Indicador)
                 {
                     result.Desagregados.Add(GetDesagregados(item.Id));
-                    result.Registro.Add(GetRegistro(result.Id, item.Id));
+                    result.Registro.Add(GetRegistro(result.Id, item.Id, startDate, endDate));
                 }
                 return result;
             }
@@ -168,19 +172,22 @@ namespace Services
             }
         }
 
-        private SeguimientoIndicadorTableDTO[] GetRegistro(string projectId, int indId)
+        private SeguimientoIndicadorTableDTO[] GetRegistro(string projectId, int indId, string startDate, string endDate)
         {
             try
             {
                 return (from plan in _context.PlanSocioDesagregacion
                     where plan.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == projectId &&
-                          plan.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == indId
+                          plan.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == indId &&
+                          plan.Fecha >= GetStartDate(startDate) && plan.Fecha <= GetEndDate(endDate)
                     select new SeguimientoIndicadorTableDTO()
                     {
                         Id = plan.SocioInternacionalId,
                         IdDesagregado = plan.PlanDesagregacionDesagregacionId,
                         Codigo = plan.CodigoPais,
-                        Valor = plan.Valor
+                        Valor = plan.Valor,
+                        Year = plan.Fecha.Year,
+                        Quarter = QuarterCalculator.GetQuarter(plan.Fecha)
                     }).ToArray();
             }
             catch (Exception e)
@@ -188,6 +195,30 @@ namespace Services
                 Console.WriteLine(e);
                 return null;
             }
+        }
+        
+        private int GetDateYear(string date)
+        {
+            if (date == null) throw new ArgumentNullException(nameof(date));
+            var values = date.Split("-");
+            return int.Parse(values[0]);
+        }
+
+        private int GetDateMonth(string date)
+        {
+            if (date == null) throw new ArgumentNullException(nameof(date));
+            var values = date.Split("-");
+            return int.Parse(values[1]);
+        }
+
+        private DateTime GetStartDate(string date)
+        {
+            return new DateTime(GetDateYear(date),GetDateMonth(date), 1);
+        }
+
+        private DateTime GetEndDate(string date)
+        {
+            return new DateTime(GetDateYear(date),GetDateMonth(date), DateTime.DaysInMonth(GetDateYear(date),GetDateMonth(date)));
         }
     }
 }

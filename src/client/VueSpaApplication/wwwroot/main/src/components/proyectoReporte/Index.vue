@@ -94,10 +94,20 @@
         },
         methods: {
             ...mapMutations(['defineModel', 'clearAlerts', 'emptyDataTable']),
+            getCountriesByRol(){
+                if(window.User.RolId === '2')
+                    return 'all';
+                return window.User.Pais;
+            },
+            getSociosByRol(){
+                return 'all'
+            }
         },
         created() {
             this.clearAlerts();
             this.defineModel(this.model);
+            this.model.modelParams.countries = this.getCountriesByRol();
+            this.model.modelParams.socios = this.getSociosByRol();
         },
         destroyed() {
             this.emptyDataTable();

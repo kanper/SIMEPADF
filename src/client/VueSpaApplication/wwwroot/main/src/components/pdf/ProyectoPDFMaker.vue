@@ -1,5 +1,14 @@
 <template>
-    <v-btn color="green darken-1" text @click="generate()" :disabled="disableBtn">Generar PDF</v-btn>
+    <v-btn color="green darken-1" text @click="generate()" :disabled="disableBtn">
+        <v-progress-circular
+                :width="2"
+                :size="20"
+                indeterminate
+                color="green"
+                v-show="visiblePdfProgress"
+        ></v-progress-circular>
+        Generar PDF
+    </v-btn>
 </template>
 
 <script>
@@ -12,15 +21,17 @@
         name: "ProyectoPDFMaker",
         props: {
             id: String,
-            quarter: Number,
-            year: Number,
+            startDate: String,
+            endDate: String,
             disableBtn: {
                 type: Boolean,
                 default: true
-            }
+            },
         },
         data() {
             return {
+                qForYear: [],
+                visiblePdfProgress: false,
                 projectModel: null,
                 today: new Date(),
                 docDefinition: null,
@@ -33,7 +44,8 @@
                     bodyText: {fontSize: 12},
                     bodyTitle: {fontSize:12, bold: true},
                     bodySubTitle: {fontSize:12, italics: true},
-                    table: {fontSize: 10, margin: [0, 5, 0, 15]},
+                    tableSeparator: {fontSize:12, bold: true, decoration:'underline', margin: [0, 5, 0, 5]},
+                    table: {fontSize: 10, margin: [0, 5, 0, 10]},
                     footer: {fontSize: 10, italics: true, color: 'gray'}
                 },
                 bodyTable: [],
@@ -50,6 +62,7 @@
         methods: {
             ...mapMutations(['showInfo']),
             makeReport() {
+                this.fillQuarterBetweenSelectedDates(this.startDate, this.endDate);
                 this.docDefinition = {
                     pageSize: this.pageSize,
                     pageOrientation: this.pageOrientation,
@@ -88,6 +101,7 @@
                 this.buildIndicadorTable();
             },
             generate() {
+                this.visiblePdfProgress = true;
                 this.loadModel();
             },
             getCurrentDate(){
@@ -95,7 +109,7 @@
                 return today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
             },
             loadModel() {
-                this.services.proyectoReporteService.getReporte(this.id,this.year,this.quarter)
+                this.services.proyectoReporteService.getReporte(this.id,this.startDate,this.endDate)
                     .then(r => {
                         this.projectModel = r.data;
                         this.makeReport();
@@ -104,60 +118,70 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     })
+                    .finally(() => {
+                        this.visiblePdfProgress = false;
+                    })
             },
             getPaisList(){
                 return (this.projectModel.paises.length > 1 ? 'Países: ':'País: ');
             },
             buildIndicadorTable() {
-                this.projectModel.indicador.forEach((item, index) => {
-                    this.docDefinition.content.push({
-                        style: 'table',
-                        table: {
-                            widths: ['auto', '*'],
-                            body: [
-                                ['Objetivo', item.nombreObjetivo],
-                                ['Resultado', item.nombreResultado],
-                                ['Actividad', item.nombreActividad],
-                                ['Indicador', item.nombreIndicador]
-                            ]
-                        }
-                    });
-                    this.docDefinition.content.push({
-                        style: 'table',
-                        table: {
-                            body: [
-                                ['Desagregados','Países','Socios Internacionales','Total'],
-                                [
-                                [
-                                    {
-                                        table: {
-                                            width: ['auto'],
-                                            body: this.getDesagregadoList(this.projectModel.desagregados[index])
+                for (let q = 0; q < this.qForYear.length; q++){
+                    this.docDefinition.content.push(
+                        {
+                            text:'Trimestre '+ this.qForYear[q].q +' del Año ' + this.qForYear[q].year,
+                            style: 'tableSeparator'
+                        });
+                    this.projectModel.indicador.forEach((item, index) => {
+                        this.docDefinition.content.push({
+                            style: 'table',
+                            table: {
+                                widths: ['auto', '*'],
+                                body: [
+                                    ['Objetivo', item.nombreObjetivo],
+                                    ['Resultado', item.nombreResultado],
+                                    ['Actividad', item.nombreActividad],
+                                    ['Indicador', item.nombreIndicador]
+                                ]
+                            }
+                        });
+                        this.docDefinition.content.push({
+                            style: 'table',
+                            table: {
+                                body: [
+                                    ['Desagregados','Países','Socios Internacionales','Total Q' + this.qForYear[q].q],
+                                    [
+                                        [
+                                            {
+                                                table: {
+                                                    width: ['auto'],
+                                                    body: this.getDesagregadoList(this.projectModel.desagregados[index])
+                                                }
+                                            }
+                                        ],[
+                                        {
+                                            table: {
+                                                body: this.getCountryBody(this.projectModel.desagregados[index], this.projectModel.registro[index], this.qForYear[q].year, this.qForYear[q].q)
+                                            },
                                         }
-                                    }
-                                ],[
-                                    {
-                                        table: {
-                                            body: this.getCountryBody(this.projectModel.desagregados[index], this.projectModel.registro[index])
-                                        },
-                                    }
-                                ], [
-                                    {
-                                        table: {
-                                            body: this.getSocioBody(this.projectModel.desagregados[index], this.projectModel.registro[index])
-                                        },
-                                    }
-                                ], [
-                                    {
-                                        table: {
-                                            body: this.getTotal(this.projectModel.desagregados[index], this.projectModel.registro[index])
-                                        },
-                                    }
-                                ]]
-                            ]
-                        }
+                                    ], [
+                                        {
+                                            table: {
+                                                body: this.getSocioBody(this.projectModel.desagregados[index], this.projectModel.registro[index], this.qForYear[q].year, this.qForYear[q].q)
+                                            },
+                                        }
+                                    ], [
+                                        {
+                                            table: {
+                                                body: this.getTotal(this.projectModel.desagregados[index], this.projectModel.registro[index], this.qForYear[q].year, this.qForYear[q].q)
+                                            },
+                                        }
+                                    ]]
+                                ]
+                            }
+                        })
                     })
-                })
+                }
             },
             getCountryHeaders() {
                 return this.codigosPaises.map(function (c) {
@@ -178,14 +202,14 @@
                 );
                 return tableRows;
             },
-            getCountryBody(des, reg) {
+            getCountryBody(des, reg, year, quarter) {
                 let body = [this.getCountryHeaders()];
                 body = body.concat(
                     des.map((row) => {
                         return this.codigosPaises.map((c) => {
                             let result = 0;
                             reg.forEach((r) => {
-                                if (r.codigo === c.nombre && r.idDesagregado === row.id)
+                                if (r.codigo === c.nombre && r.idDesagregado === row.id && r.year === year && r.quarter === quarter)
                                     result += r.valor;
                             });
                             return this.numberWithCommas(result);
@@ -194,14 +218,14 @@
                 );
                 return body;
             },
-            getSocioBody(des, reg) {
+            getSocioBody(des, reg, year, quarter) {
                 let body = [this.getSocioHeaders()];
                 body = body.concat(
                     des.map((row) => {
                         return this.codigosSocios.map((s) => {
                             let result = 0;
                             reg.forEach((r) => {
-                                if (r.id === s.id && r.idDesagregado === row.id)
+                                if (r.id === s.id && r.idDesagregado === row.id && r.year === year && r.quarter === quarter)
                                     result += r.valor;
                             });
                             return this.numberWithCommas(result);
@@ -210,13 +234,13 @@
                 );
                 return body;
             },
-            getTotal(des, reg) {
+            getTotal(des, reg, year, quarter) {
                 let body = [['-']];
                 body = body.concat(
                     des.map((row) => {
                         let result = 0;
                         reg.forEach((r) => {
-                            if (r.idDesagregado === row.id)
+                            if (r.idDesagregado === row.id && r.year === year && r.quarter === quarter)
                                 result += r.valor;
                         });
                         return [this.numberWithCommas(result)];
@@ -229,6 +253,54 @@
                     return 0;
                 }
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            fillQuarterBetweenSelectedDates(start, end) {
+                this.qForYear = [];
+                let startYear = this.getDateYear(start);
+                let endYear = this.getDateYear(end);
+                let startQ = this.getQuarter(this.getDateMonth(start));
+                let endQ = this.getQuarter(this.getDateMonth(end));
+                for (let year = startYear; year <= endYear; year ++){
+                    let numberOfYearsBetween = endYear - startYear;
+                    if(numberOfYearsBetween < 0) continue;
+                    if (numberOfYearsBetween === 0){
+                        for (let index = startQ; index <= endQ; index++){
+                            this.addYearQuarter(year, index);
+                        }
+                    } else {
+                        if(year === startYear){
+                            for (let index = startQ; index <= 4; index++){
+                                this.addYearQuarter(year, index);
+                            }
+                        }
+                        if(endYear - startYear > 1 && year !== startYear && year !== endYear){
+                            for(let index = 1; index <= 4; index++){
+                                this.addYearQuarter(year, index);
+                            }
+                        }
+                        if(year === endYear){
+                            for (let index = 1; index <= endQ; index++){
+                                this.addYearQuarter(year, index);
+                            }
+                        }
+                    }
+                }
+            },
+            getDateYear(date) {
+                if(date.split('-').length === 2){
+                    return parseInt(date.split('-')[0]);
+                }
+            },
+            getDateMonth(date) {
+                if(date.split('-').length === 2){
+                    return parseInt(date.split('-')[1]);
+                }
+            },
+            getQuarter(month) {
+                return Math.floor((month + 2) / 3);
+            },
+            addYearQuarter(year, quarter){
+                this.qForYear.push({year:year,q:quarter});
             }
         },
         created() {

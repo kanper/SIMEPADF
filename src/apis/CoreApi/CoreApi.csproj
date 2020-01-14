@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MailServer\MailServer.csproj" />
     <ProjectReference Include="..\..\common\Common\DTO.csproj" />
     <ProjectReference Include="..\..\persistence\DatabaseContext\DatabaseContext.csproj" />
     <ProjectReference Include="..\..\service\Services\Services.csproj" />

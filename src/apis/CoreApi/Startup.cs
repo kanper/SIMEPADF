@@ -3,7 +3,6 @@ using DTO.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -138,7 +137,8 @@ namespace CoreApi
             }
            
             app.UseAuthentication();
-            app.UseIdentity();
+            //app.UseIdentity(); //This method is obsolete and will be removed in a future version
+            app.UseAuthentication();
             app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();
         }

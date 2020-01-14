@@ -18,10 +18,10 @@ namespace CoreApi.Controllers
             return Ok(_service.Get(id));
         }
 
-        [HttpGet("/proyecto/reporte/id/{id}/anio/{year}/trimestre/{quarter}")]
-        public IActionResult Get(string id, int year, int quarter)
+        [HttpGet("/proyecto/reporte/id/{id}/start/{startDate}/end/{endDate}")]
+        public IActionResult Get(string id, string startDate, string endDate)
         {
-            return Ok(_service.Get(id, year, quarter));
+            return Ok(_service.Get(id, startDate, endDate));
         }
 
         [HttpGet("/proyecto/reporte/anio/{year}/paises/{countries}/socios/{socios}")]
