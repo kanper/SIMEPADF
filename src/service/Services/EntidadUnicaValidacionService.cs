@@ -180,7 +180,7 @@ namespace Services
         {
             try
             {
-                return !_context.ActividadPT.Any(a => a.NombreActividad == identificador);
+                return true;
             }
             catch (Exception e)
             {
@@ -193,7 +193,7 @@ namespace Services
         {
             try
             {
-                return !_context.Producto.Any(p => p.NombreProducto == identificador);
+                return true;
             }
             catch (Exception e)
             {
