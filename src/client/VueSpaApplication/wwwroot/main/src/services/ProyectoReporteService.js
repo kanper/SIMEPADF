@@ -6,8 +6,8 @@ export default class ProyectoReporteService extends AbstractService {
         super(axios, `${baseUrl}proyecto/reporte`);
     }
 
-    getReporte(id, quarter, year) {
-        return this.axios.get(`${this.baseUrl}/id/${id}/anio/${year}/trimestre/${quarter}`);
+    getReporte(id, startDate, endDate) {
+        return this.axios.get(`${this.baseUrl}/id/${id}/start/${startDate}/end/${endDate}`);
     }
 
     getAll(params) {

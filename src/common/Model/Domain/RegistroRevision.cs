@@ -3,7 +3,7 @@ using Model.Domain.DbHelper;
 
 namespace Model.Domain
 {
-    public class RegistroRevision: AudityEntity, ISoftDeleted
+    public class RegistroRevision: ISoftDeleted
     {
         public RegistroRevision()
         {

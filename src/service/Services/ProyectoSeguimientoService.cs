@@ -145,11 +145,13 @@ namespace Services
         {
             try
             {
-                _context.PlanSocioDesagregacion
+                var reg = _context.PlanSocioDesagregacion
                     .Single(p => p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
                                  p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == idIndicador &&
                                  p.SocioInternacionalId == idSocio &&
-                                 p.PlanDesagregacionDesagregacionId == idDesagregado).Valor = valor;
+                                 p.PlanDesagregacionDesagregacionId == idDesagregado);
+                reg.Valor = valor;
+                reg.Fecha = DateTime.Now;
                 _context.SaveChanges();
                 updateProyectPercent(idProyecto);
                 return true;

@@ -82,6 +82,7 @@ namespace DatabaseContext
             new RegistroRevisionConfig(modelBuilder.Entity<RegistroRevision>());
             new ArchivoDescripcionConfig(modelBuilder.Entity<ArchivoDescripcion>());
             new AlertConfig(modelBuilder.Entity<Alerta>());
+            new PlanSocioDesagregacionConfig(modelBuilder.Entity<PlanSocioDesagregacion>());
         }
 
         public DbSet<Usuario> Usuario { get; set; }

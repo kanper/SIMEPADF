@@ -36,8 +36,7 @@ namespace Services
         {
             try
             {
-                return !_context.Producto.Any(p => p.NombreProducto == identifier) || 
-                       _context.Producto.Any(p => p.codigoProducto == id && p.NombreProducto == identifier);
+                return true;
             }
             catch (Exception e)
             {
@@ -64,8 +63,7 @@ namespace Services
         {
             try
             {
-                return !_context.ActividadPT.Any(a => a.NombreActividad == identifier) || 
-                       _context.ActividadPT.Any(a => a.CodigoActividadPT == id && a.NombreActividad == identifier);
+                return true;
             }
             catch (Exception e)
             {

@@ -15,13 +15,15 @@ namespace Model.Domain
         {
             PlanDesagregacion = planDesagregacion;
             SocioInternacional = socioInternacional;
-            Trimestre = QuarterCalculator.GetQuarter(new DateTime());
+            Trimestre = QuarterCalculator.GetQuarter(DateTime.Now);
             Valor = 0;
+            Fecha = DateTime.Now;
         }
 
         public double Valor { get; set; }
         public int Trimestre { get; set; }
         public string CodigoPais { get; set; }
+        public DateTime Fecha { get; set; }
         public string PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto { get; set; }
         public int PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId { get; set; }
         public int PlanDesagregacionDesagregacionId { get; set; }
