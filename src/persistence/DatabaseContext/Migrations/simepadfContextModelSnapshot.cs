@@ -871,6 +871,10 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("ProyectoId");
 
+                    b.Property<bool>("Aprobado");
+
+                    b.Property<DateTime>("FechaAprobado");
+
                     b.HasKey("PaisId", "ProyectoId");
 
                     b.HasIndex("ProyectoId");

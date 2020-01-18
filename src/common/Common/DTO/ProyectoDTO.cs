@@ -26,6 +26,7 @@ namespace DTO.DTO
         public int TotalActividades { get; set; }
         public int TotalActividadesFinalizadas { get; set; }
         public bool IsChecked { get; set; }
+        public bool IsApproved { get; set; }
         public string AvancePlanTrabajo
         {
             get

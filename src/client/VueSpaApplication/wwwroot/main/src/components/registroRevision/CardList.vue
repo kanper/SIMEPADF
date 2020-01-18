@@ -1,32 +1,34 @@
 <template>
-    <v-layout row justify-center>
-        <v-dialog v-model="visibleReviewLogList" width="750" persistent scrollable>
+    <v-dialog v-model="visibleReviewLogList" width="750" persistent scrollable>
         <v-card>
             <v-card-title class="headline blue-grey darken-2 white--text" dark>Registro de revisiones</v-card-title>
-            <v-card-text>                
-                <v-data-table
-                    :headers="headers"
-                    :items="reviewLogList"
-                    hide-default-footer
-                    disable-pagination
-                    class="elevation-1 mt-5"
-                >
-                <template v-slot:item.revisado="{ item }">
-                  <v-chip :color="getColor(item.revisado)" dark>
-                    <v-icon v-if="!item.revisado">mdi-pause-circle-outline</v-icon>
-                    <v-icon v-if="item.revisado">mdi-checkbox-marked-circle-outline</v-icon>
-                    <v-icon v-if="item.retornado">mdi-alert-circle</v-icon>
-                  </v-chip>
-                </template>
-                </v-data-table>                
+            <v-card-text>
+                <v-row>
+                    <v-col cols="auto">
+                        <v-data-table
+                                :headers="headers"
+                                :items="reviewLogList"
+                                hide-default-footer
+                                disable-pagination
+                                class="elevation-1 mt-5"
+                        >
+                            <template v-slot:item.revisado="{ item }">
+                                <v-chip :color="getColor(item.revisado)" dark>
+                                    <v-icon v-if="!item.revisado">mdi-pause-circle-outline</v-icon>
+                                    <v-icon v-if="item.revisado">mdi-checkbox-marked-circle-outline</v-icon>
+                                    <v-icon v-if="item.retornado">mdi-alert-circle</v-icon>
+                                </v-chip>
+                            </template>
+                        </v-data-table>
+                    </v-col>
+                </v-row>
             </v-card-text>
             <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="grey darken-1" text @click="changeReviewLogListVisibility">Cerrar</v-btn>            
+                <v-spacer></v-spacer>
+                <v-btn color="grey darken-1" text @click="changeReviewLogListVisibility">Cerrar</v-btn>
             </v-card-actions>
         </v-card>
-        </v-dialog>
-    </v-layout>        
+    </v-dialog>
 </template>
 
 <script>

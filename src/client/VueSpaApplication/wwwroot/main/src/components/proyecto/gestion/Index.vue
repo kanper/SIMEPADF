@@ -16,6 +16,7 @@
         <InfoSnackbar/>
         <Confirmation />
         <DisableDialog/>
+        <CardList/>
     </div>
 </template>
 
@@ -31,6 +32,7 @@
     import Confirmation from '../../common/ConfirmationDialog'
     import FormNew from './CardNew'
     import DisableDialog from "../../common/DisableDialog";
+    import CardList from "../../registroAprobacion/CardList";
 
     export default {
         components: {
@@ -43,7 +45,8 @@
             DataInfo,
             FormNew,
             Confirmation,
-            DisableDialog
+            DisableDialog,
+            CardList
         },
         name: "objetivo-gestion-index",
         data() {
@@ -76,7 +79,9 @@
                     modelParams: {                                         //Parametros para el modelo
                         status: '',           //Valores separados por el caracter de dolar '$'
                         defaultStatus: '',
-                        model: null
+                        model: null,
+                        country: window.User.Pais,
+                        all: false,
                     }
                 },
                 dataTableHeaders: [
@@ -102,11 +107,12 @@
                         show: (row) => {return true},       //Mostrar opción sí
                     },
                     {text: 'Editar', type: 'edit', icon: 'mdi-pencil', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
+                    {text: 'Mostrar aprobaciones', type: 'approval-list', icon: 'mdi-spellcheck', action: '', class: 'mr-2', route: '', show: (row) => {return window.User.RolId === '3'}},
                     {text: 'Agregar Indicadores', type: 'redirect', icon: 'mdi-flag-triangle', action: '', class: 'mr-2', route: 'plan-index', show: (row) => {return true}},
                     {text: 'Crear plan de trabajo', type: 'link', icon: 'mdi-plus-circle-outline', action: 'create', class: 'mr-2', route: '', show: (row) => {return !row.isPlanTrabajo}},
                     {text: 'Actividades', type: 'redirect', icon: 'mdi-puzzle', action: '', class: 'mr-3', route: 'plan-trabajo-actividad-index', show: (row) => {return row.isPlanTrabajo}},
                     {text: 'Activar proyecto', type: 'link', icon: 'mdi-checkbox-marked-circle-outline', action: 'active', class: 'mr-2', route: '', show: (row) => {return (row.isIncomplete || row.isVerified) && row.isPlanTrabajo && row.isIndicador && row.isActividadPlanTrabajo}},
-                    {text: 'Solicitar verificación del proyecto', type: 'link', icon: 'mdi-reply-all', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isPreVerified && row.isPlanTrabajo && row.isIndicador && row.isActividadPlanTrabajo}},
+                    {text: 'Aprobar proyecto', type: 'link', icon: 'mdi-checkbox-marked-outline', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isPreVerified && row.isPlanTrabajo && row.isIndicador && row.isActividadPlanTrabajo && !row.isApproved}},
                     {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && !row.isCancelled}},
                 ],
             }
@@ -117,6 +123,7 @@
                 switch (window.User.RolId) {
                     case '2':
                         this.model.modelParams.status = 'INCOMPLETO$VERIFICAR';
+                        this.model.modelParams.all = true;
                         break;
                     case '3':
                         this.model.modelParams.status = 'PRE_VERIFICAR';

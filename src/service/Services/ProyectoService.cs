@@ -22,6 +22,7 @@ namespace Services
         bool ChangeStatus(string id, string status);
         bool Check(string id, string estado, string pais);
         bool Reject(string id, string observation, string username);
+        bool Approval(string id, string pais);
     }
     
     public class ProyectoService : IProyectoService
@@ -194,6 +195,7 @@ namespace Services
                     item.TotalActividades = GetProjectTotalActivities(item.Id);
                     item.TotalActividadesFinalizadas = GetProjectEndedActivities(item.Id);
                     item.IsChecked = IsProjectReviewCompletedForStatus(item.Id, pais, estados);
+                    item.IsApproved = IsProjectApprovedByCountry(item.Id, pais);
                 }
                 return dto;
             }
@@ -417,6 +419,33 @@ namespace Services
             }
         }
 
+        public bool Approval(string id, string pais)
+        {
+            try
+            {
+                var country = _context.Pais.Single(p => p.NombrePais == pais);
+                var proyectoPais = _context.ProyectoPais.Single(p => p.ProyectoId == id && p.PaisId == country.Id);
+                proyectoPais.Aprobado = true;
+                proyectoPais.FechaAprobado = DateTime.Now;
+                _context.SaveChanges();
+                PassIfAllCountriesAreApproval(id);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private void PassIfAllCountriesAreApproval(string id)
+        {
+            if (_context.ProyectoPais.All(p => p.Aprobado))
+            {
+                ChangeStatus(id, "VERIFICAR");
+            }
+        }
+
         private void CheckIfAllCountryWasReviewed(string id, string estado)
         {
             var rev = Int32.Parse(estado.Remove(1));
@@ -593,7 +622,7 @@ namespace Services
         {
             try
             {
-                return _context.PlanTrabajo.Single(p => p.CodigoPlanTrabajo.Equals(id)) != null;
+                return _context.PlanTrabajo.Any(p => p.CodigoPlanTrabajo.Equals(id));
             }
             catch (Exception e)
             {
@@ -640,11 +669,10 @@ namespace Services
         {
             try
             {
-                var today = DateTime.Now;
                 return _context.ActividadPT
                     .Count(
                         a => a.PlanTrabajoCodigoPlanTrabajo == projectId && 
-                             a.FechaLimite < today 
+                             a.Completa
                     );
             }
             catch (Exception e)
@@ -671,6 +699,20 @@ namespace Services
                     return review.All(r => r.Revisado);
                 }
                 return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        private bool IsProjectApprovedByCountry(string id, string pais)
+        {
+            try
+            {
+                var country = _context.Pais.Single(p => p.NombrePais == pais);
+                return _context.ProyectoPais.Any(p => p.ProyectoId == id && p.PaisId == country.Id && p.Aprobado);
             }
             catch (Exception e)
             {

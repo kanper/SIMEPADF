@@ -7,7 +7,11 @@ export default class ProyectoManagementService extends AbstractService {
     }
 
     getAll(params) {
-        return this.axios.get(`${this.baseUrl}/estado/${params.status}`);
+        if(params.all){
+            return this.axios.get(`${this.baseUrl}/estado/${params.status}`);
+        } else {
+            return this.axios.get(`${this.baseUrl}/estado/${params.status}/pais/${params.country}`);
+        }
     }
 
     add(model, params) {
@@ -26,7 +30,7 @@ export default class ProyectoManagementService extends AbstractService {
                 return this.changeProjectStatus(id,'CANCELADO');
             case 'check':
                 this.addNotification(params, 'Pendiente Verificación', '2');
-                return this.changeProjectStatus(id,'VERIFICAR');
+                return this.approvalProject(id,params.country);
             case 'finalize':
                 this.addNotification(params, 'Finalizado', '2$3');
                 return this.changeProjectStatus(id,'FINALIZADO');
@@ -37,6 +41,10 @@ export default class ProyectoManagementService extends AbstractService {
 
     changeProjectStatus(id,status){
         return this.axios.get(`${this.baseUrl}/${id}/estado/${status}`);
+    }
+
+    approvalProject(id, country){
+        return this.axios.get(`${this.baseUrl}/${id}/aprobar/${country}`);
     }
 
     create(id) {
@@ -50,6 +58,7 @@ export default class ProyectoManagementService extends AbstractService {
             tipo: 'info',
             rol: nextRole,
             nombreUsuario: window.User.Nombre + ' ' + window.User.Apellido,
+            codigoUsuario: window.User.UserId,
             pais: params.model.paises.map(function (item) {
                 return item.nombre;
             }).join("$")

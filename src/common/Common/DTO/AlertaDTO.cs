@@ -11,6 +11,7 @@ namespace DTO.DTO
         public string Mensaje { get; set; }
         public string Tipo { get; set; }
         public string NombreUsuario { get; set; }
+        public string CodigoUsuario { get; set; }
         public string Rol { get; set; }
         public string Pais { get; set; }
         public DateTime Fecha { get; set; }

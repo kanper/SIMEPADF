@@ -48,6 +48,7 @@ export default class ProyectoOnProcessService extends AbstractService {
             tipo: 'info',
             rol: nextRole,
             nombreUsuario: window.User.Nombre + ' ' + window.User.Apellido,
+            codigoUsuario: window.User.UserId,
             pais: params.model.paises.map(function (item) {
                 return item.nombre;
             }).join("$")
