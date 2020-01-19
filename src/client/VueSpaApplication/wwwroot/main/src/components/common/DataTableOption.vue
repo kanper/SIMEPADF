@@ -42,9 +42,10 @@
                 'changeProjectPdfDialogVisibility',
                 'enableModelCRUD',
                 'disableModelCRUD',
-                'changeDisableDialog'
+                'changeDisableDialog',
+                'changeApprovalLogListVisibility'
             ]),
-            ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification']),
+            ...mapActions(['loadDataTable', 'loadReviewLogList', 'saveNotification','loadApprovalLogList']),
             loadModel(id) {
                 this.services[this.modelSpecification.modelService].get(id, this.modelSpecification.modelParams)
                     .then(r => {
@@ -62,9 +63,6 @@
                     .catch(e => {
                         this.showInfo(e.toString());
                     });
-            },
-            verifiedUpdate() {
-
             },
             verifiedUsed(id) {
                 this.services[this.modelSpecification.modelService].used(id)
@@ -126,6 +124,11 @@
                 this.closeAllDialogs();
                 this.changeReviewLogListVisibility();
             },
+            showApprovalList(id) {
+                this.loadApprovalLogList({id});
+                this.closeAllDialogs();
+                this.changeApprovalLogListVisibility();
+            },
             showRejectDialog(id) {
                 this.loadModel(id);
                 this.closeAllDialogs();
@@ -161,6 +164,9 @@
                         break;
                     case 'review-list':
                         this.showReviewLogList(this.modelId, this.model.estadoProyecto);
+                        break;
+                    case 'approval-list':
+                        this.showApprovalList(this.modelId);
                         break;
                     case 'download':
                         this.services[this.modelSpecification.modelService].download(this.modelId, this.model.nombreArchivo);

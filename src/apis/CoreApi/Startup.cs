@@ -105,6 +105,7 @@ namespace CoreApi
             services.AddTransient<IEntidadActualizableValidacionService, EntidadActualizableValidacionService>();
             services.AddTransient<IEntidadRemovibleValidacionService, EntidadRemovibleValidacionService>();
             services.AddTransient<IEntidadUtilizadaValidacionService, EntidadUtilizadaValidacionService>();
+            services.AddTransient<IRegistroAprobacionService, RegistroAprobacionService>();
             
             // Email Service 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());

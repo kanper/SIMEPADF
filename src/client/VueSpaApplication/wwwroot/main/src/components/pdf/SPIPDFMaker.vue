@@ -1,7 +1,7 @@
 <template>
     <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on" @click="generate"><v-icon color="red">mdi-file-pdf</v-icon></v-btn>
+            <v-btn icon v-on="on" @click="generate" :disabled="disableBtn"><v-icon color="red">mdi-file-pdf</v-icon></v-btn>
         </template>
         <span>Generar PDF</span>
     </v-tooltip>
@@ -14,9 +14,7 @@
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     export default {
         name: "SPIPDFMaker",
-        props: [
-
-        ],
+        props: ['disableBtn'],
         data() {
             return {
                 today: new Date(),

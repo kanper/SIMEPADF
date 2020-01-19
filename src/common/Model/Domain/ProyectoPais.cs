@@ -16,14 +16,15 @@ namespace Model.Domain
         {
             Pais = pais;
             Proyecto = proyecto;
+            Aprobado = false;
         }               
 
         public int PaisId { get; set; }
         public Pais Pais { get; set; }
-
         public string ProyectoId { get; set; }
         public Proyecto Proyecto { get; set; }
-
+        public DateTime FechaAprobado { get; set; }
+        public bool Aprobado { get; set; }
         public ICollection<RegistroRevision> RegistroRevisiones { get; set; }
 
         public bool Equals(int pais, string proyecto)

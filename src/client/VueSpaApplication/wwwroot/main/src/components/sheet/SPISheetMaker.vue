@@ -1,7 +1,7 @@
 <template>
     <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-            <v-btn @click="generate" icon v-on="on"><v-icon color="green">mdi-file-excel</v-icon></v-btn>
+            <v-btn @click="generate" icon v-on="on" :disabled="disableBtn"><v-icon color="green">mdi-file-excel</v-icon></v-btn>
         </template>
         <span>Generar Hoja de Cálculo</span>
         <table id="hidden-sheet" hidden>
@@ -45,6 +45,7 @@
     import {mapState} from 'vuex'
     import XLSX from 'xlsx';
     export default {
+        props: ['disableBtn'],
         name: "SPISheetMaker",
         data() {
             return {

@@ -85,7 +85,7 @@ namespace Auth
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseIdentity();
+            app.UseAuthentication();
             app.UseIdentityServer();
 
             app.UseMvc(routes =>

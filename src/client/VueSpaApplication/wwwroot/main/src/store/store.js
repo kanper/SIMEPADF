@@ -22,6 +22,7 @@ export default new Vuex.Store({
         visibleRejectDialog: false,
         visibleProjectPdfDialog: false,
         visibleDisableCRUDDialog: false,
+        visibleApprovalLogList: false,
         confirmationId: 0,
         confirmationAction: '',
         CRUDModel: {},
@@ -30,6 +31,7 @@ export default new Vuex.Store({
         tableRow: {},
         alerts: [],
         reviewLogList: [],
+        approvalLogList: [],
         visibleReviewLogList: false,
         reviewLog: {},
         visibleReviewLog: false,
@@ -65,6 +67,7 @@ export default new Vuex.Store({
         changeProjectPdfDialogVisibility: (state) => state.visibleProjectPdfDialog = !state.visibleProjectPdfDialog,
         changeTracingDataLoading: (state) => state.isTracingDadaLoading = !state.isTracingDadaLoading,
         changeDisableDialog: (state) => state.visibleDisableCRUDDialog = !state.visibleDisableCRUDDialog,
+        changeApprovalLogListVisibility: (state) => state.visibleApprovalLogList = !state.visibleApprovalLogList,
         stopNotificationLoading: (state) => state.isNotificationLoading = false,
         disableModelCRUD: (state) => state.CRUDAvailable = false,
         enableModelCRUD: (state) => state.CRUDAvailable = true,
@@ -99,6 +102,7 @@ export default new Vuex.Store({
         fillNotifications: (state, data) => state.notifications = data,
         setOptionPanelProperties: (state, properties) => state.optionPanelProperties = properties,
         setUniqueEntityStatus: (state, status) => state.isUniqueEntity = status,
+        setApprovalLogList: (state, list) => state.approvalLogList = list,
     }
     ,
     actions: {
@@ -120,6 +124,16 @@ export default new Vuex.Store({
                 .catch(e => {
                     commit('showInfo', e.toString);
                 });
+        },
+        loadApprovalLogList: async function ({commit}, obj) {
+            services.registroAprobacionService.findAll(obj.id)
+                .then(r => {
+                    commit('setApprovalLogList', r.data);
+                })
+                .catch(e => {
+                    commit('showInfo', e.toString);
+                })
+
         },
         loadReviewLog: async function ({commit}, id, status, country) {
             services.registroRevisionService.findReview(id, status, country)

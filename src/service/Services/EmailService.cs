@@ -56,7 +56,7 @@ namespace Services
             }
         }
  
-        public void Send(EmailMessage emailMessage)
+        public async void Send(EmailMessage emailMessage)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Services
                     emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, false);
                     emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
                     emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
-                    emailClient.Send(message);
+                    await emailClient.SendAsync(message);
                     emailClient.Disconnect(true);
                 }
             }

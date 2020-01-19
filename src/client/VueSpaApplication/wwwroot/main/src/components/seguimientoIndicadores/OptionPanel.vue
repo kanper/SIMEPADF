@@ -84,22 +84,14 @@
                 <v-col cols="auto" class="text-center pl-0">
                     <v-row class="flex-column ma-0 fill-height" justify="center">
                         <v-col class="px-0">
-                            <SDIPDFMaker v-if="SDI_PDF" />
-                            <SPIPDFMaker v-if="SPI_PDF" />
-                            <SRIPDFMaker v-if="SRI_PDF" />
+                            <SDIPDFMaker v-if="SDI_PDF" :disableBtn="disablePDF"/>
+                            <SPIPDFMaker v-if="SPI_PDF" :disableBtn="disablePDF"/>
+                            <SRIPDFMaker v-if="SRI_PDF" :disableBtn="disablePDF"/>
                         </v-col>
                         <v-col class="px-0">
-                            <SDISheetMaker v-if="SDI_SHEET"/>
-                            <SPISheetMaker v-if="SPI_SHEET"/>
-                            <SRISheetMaker v-if="SRI_SHEET"/>
-                        </v-col>
-                        <v-col class="px-0">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ on }">
-                                    <v-btn @click="resetTable" icon v-on="on"><v-icon color="blue">mdi-undo-variant</v-icon></v-btn>
-                                </template>
-                                <span>Reiniciar búsqueda</span>
-                            </v-tooltip>
+                            <SDISheetMaker v-if="SDI_SHEET" :disableBtn="disableSheet"/>
+                            <SPISheetMaker v-if="SPI_SHEET" :disableBtn="disableSheet"/>
+                            <SRISheetMaker v-if="SRI_SHEET" :disableBtn="disableSheet"/>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -140,7 +132,9 @@
                 years: [],
                 panelProperties: {
                     year: 2000
-                }
+                },
+                disablePDF: true,
+                disableSheet: true
             }
         },
         computed: {
@@ -166,6 +160,8 @@
                         this.restarted = true;
                     }
                     this.loadTable();
+                    this.disablePDF = false;
+                    this.disableSheet = false;
                 }
             },
             loadTable(){

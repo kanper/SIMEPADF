@@ -34,6 +34,7 @@ import alertaService from '../services/AlertaService'
 import auditoriaService from '../services/AuditoriaService'
 import proyectoReporteService from '../services/ProyectoReporteService'
 import validationService from '../services/ValidationService'
+import registroAprobacionService from "../services/RegistroAprobacionService";
 import usuarioService from '../services/UsuarioService'
 
 //let apiUrl = 'https://localhost:44320/';
@@ -81,5 +82,6 @@ export default {
     auditoriaService: new auditoriaService(Axios, apiUrl),
     proyectoReporteService: new proyectoReporteService(Axios, apiUrl),
     validationService: new validationService(Axios, apiUrl),
-    usuarioService: new usuarioService(Axios, apiUrl, authUrl)
+    registroAprobacionService: new registroAprobacionService(Axios, apiUrl),
+    usuarioService: new usuarioService(Axios, apiUrl, authUrl),
 }

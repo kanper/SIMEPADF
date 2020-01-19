@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20200116000414_AgregaAprovacionPaisProyecto")]
+    partial class AgregaAprovacionPaisProyecto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -871,9 +873,9 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("ProyectoId");
 
-                    b.Property<bool>("Aprobado");
+                    b.Property<bool>("Aprovado");
 
-                    b.Property<DateTime>("FechaAprobado");
+                    b.Property<DateTime>("FechaAprovado");
 
                     b.HasKey("PaisId", "ProyectoId");
 

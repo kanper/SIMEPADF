@@ -1,7 +1,7 @@
 <template>
     <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-            <v-btn @click="generate" icon v-on="on"><v-icon color="green">mdi-file-excel</v-icon></v-btn>
+            <v-btn @click="generate" icon v-on="on" :disabled="disableBtn"><v-icon color="green">mdi-file-excel</v-icon></v-btn>
         </template>
         <span>Generar Hoja de Cálculo</span>
         <table class="hidden-sheet" hidden v-for="wrapper in tracingData">
@@ -47,6 +47,7 @@
     import XLSX from 'xlsx';
     export default {
         name: "SDISheetMaker",
+        props: ['disableBtn'],
         data() {
             return {
                 codigosPaises: null,
@@ -63,8 +64,10 @@
                 let table = document.getElementsByClassName("hidden-sheet");
                 let wb = XLSX.utils.book_new();
                 for (let index = 0; index < table.length; index ++){
-                    let WS = XLSX.utils.table_to_sheet(table[index]);
-                    XLSX.utils.book_append_sheet(wb, WS, 'Objetivo-' + (index + 1));
+                    if(table[index].nodeName === 'TABLE'){
+                        let WS = XLSX.utils.table_to_sheet(table[index]);
+                        XLSX.utils.book_append_sheet(wb, WS, 'Hoja-' + (index + 1));
+                    }
                 }
                 XLSX.writeFile(wb, 'book.xlsx')
             },
