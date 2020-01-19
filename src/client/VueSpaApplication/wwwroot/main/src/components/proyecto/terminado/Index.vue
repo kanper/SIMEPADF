@@ -12,6 +12,7 @@
         <DataInfo/>
         <InfoSnackbar/>
         <Confirmation />
+        <ProjectPdfDialog/>
     </div>
 </template>
 
@@ -23,6 +24,7 @@
     import AppAlert from '../../common/Alert'
     import DataTable from '../../common/DataTable'
     import Confirmation from '../../common/ConfirmationDialog'
+    import ProjectPdfDialog from "../../proyectoReporte/ProjectPdfDialog";
 
     export default {
         components: {
@@ -31,7 +33,8 @@
             TitleBar,
             AppAlert,
             DataInfo,
-            Confirmation
+            Confirmation,
+            ProjectPdfDialog
         },
         name: "objetivo-index",
         data() {

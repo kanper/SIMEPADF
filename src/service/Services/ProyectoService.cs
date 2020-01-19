@@ -470,8 +470,18 @@ namespace Services
             var proyecto = _context.Proyecto
                 .Include(p => p.EstadoProyecto)
                 .Single(p => p.CodigoProyecto == id);
-            if (proyecto.EstadoProyecto.TipoEstado.Equals("3REVISION")) return;
-            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
+            if (proyecto.EstadoProyecto.TipoEstado.Equals("3REVISION"))
+            {
+                var act = _context.ActividadPT.Where(a => a.PlanTrabajoCodigoPlanTrabajo == id);
+                foreach (var a in act)
+                {
+                    a.Completa = true;
+                }
+            }
+            else
+            {
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
+            }
         }
 
         public bool Reject(string id, string observation, string username)
