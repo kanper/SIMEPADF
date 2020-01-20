@@ -30,6 +30,7 @@ namespace Services
         {
             try
             {
+                RemoveReadAndOldNotifications();
                 return (from a in _context.Alertas
                     orderby a.Inicio descending 
                     where a.Revisado == false &&
@@ -88,6 +89,24 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return false;
+            }
+        }
+
+        private void RemoveReadAndOldNotifications()
+        {
+            try
+            {
+                var today = DateTime.Now;
+                foreach (var notification in _context.Alertas.Where(a => a.Revisado || a.Expira < today))
+                {
+                    _context.Alertas.Remove(notification);
+                }
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
         
