@@ -48,7 +48,7 @@ namespace VueSpaApplication
                   options.ClientSecret = Configuration["Auth:SecretKey"];
                   options.ResponseType = "code id_token";
 
-                  options.Scope.Add("CoreApi");
+                  options.Scope.Add("SIMEPADF.CORE");
 
                   options.SaveTokens = true;
 

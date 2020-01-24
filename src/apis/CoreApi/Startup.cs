@@ -68,7 +68,7 @@ namespace CoreApi
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddDbContext<simepadfContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                options => options.UseSqlServer(Configuration.GetConnectionString("DataBase"))
             );
 
             services.AddTransient<IUsuarioService, UsuarioService>();
