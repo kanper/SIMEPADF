@@ -51,7 +51,7 @@ namespace Services
                 {
                     if (item.Numero == 3)
                     {
-                        var copy = result.Find(r => r.Numero == item.Numero);
+                        var copy = result.Find(r => r.Numero == item.Numero && r.Trimestre == item.Trimestre);
                         if (copy == null)
                         {
                             result.Add(item);

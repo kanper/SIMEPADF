@@ -47,6 +47,7 @@ namespace Services
                         FechaInicio = a.FechaInicio,
                         FechaLimite = a.FechaLimite,
                         FechaCreacion = pt.FechaCreacion,
+                        Completa = a.Completa,
                         Paises = (from pais in _context.Pais
                                   join ap in _context.ActividadPTPais
                                       on pais equals ap.Pais
@@ -104,7 +105,8 @@ namespace Services
                         NombreActividad = a.NombreActividad,
                         Monto = a.Monto,
                         FechaInicio = a.FechaInicio,
-                        FechaLimite = a.FechaLimite
+                        FechaLimite = a.FechaLimite,
+                        Completa = a.Completa
                     }).ToList();
             }
             catch (Exception e)

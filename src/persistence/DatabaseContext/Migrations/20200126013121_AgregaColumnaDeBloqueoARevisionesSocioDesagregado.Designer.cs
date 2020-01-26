@@ -4,14 +4,16 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    partial class simepadfContextModelSnapshot : ModelSnapshot
+    [Migration("20200126013121_AgregaColumnaDeBloqueoARevisionesSocioDesagregado")]
+    partial class AgregaColumnaDeBloqueoARevisionesSocioDesagregado
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -709,10 +711,10 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
 
-                    b.Property<DateTime>("Fecha");
-
                     b.Property<string>("CodigoPais")
                         .HasMaxLength(10);
+
+                    b.Property<DateTime>("Fecha");
 
                     b.Property<bool>("Locked");
 
@@ -720,7 +722,7 @@ namespace DatabaseContext.Migrations
 
                     b.Property<double>("Valor");
 
-                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId", "Fecha");
+                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId");
 
                     b.HasIndex("SocioInternacionalId");
 

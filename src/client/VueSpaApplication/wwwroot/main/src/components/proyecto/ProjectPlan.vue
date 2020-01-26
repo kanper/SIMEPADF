@@ -3,11 +3,11 @@
         <v-flex xs12>
             <v-alert
             :value="true"
-            color="info"
+            :color="getAlertColor(plan.completa)"
             icon="mdi-play"
             outlined
             >
-            Actividad No. {{index + 1}}
+            Actividad No. {{index + 1}} <strong>{{getAlertStatusTitle(plan.completa)}}</strong>
             </v-alert>
         </v-flex>   
         <v-flex xs6>
@@ -84,12 +84,26 @@ export default {
         },
         methods: {
             formatDate(text){
-                if(text != undefined)
+                if(text !== undefined)
                 return text.split('T')[0];
             },
             numberWithCommas(x) {
-                if(x != undefined)
+                if(x !== undefined)
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+            getAlertColor(status){
+                if(status){
+                    return 'info';
+                } else {
+                    return 'warning';
+                }
+            },
+            getAlertStatusTitle(status){
+                if(status){
+                    return '(Completa)';
+                } else {
+                    return '(Imcompleta)';
+                }
             }
         }    
 }

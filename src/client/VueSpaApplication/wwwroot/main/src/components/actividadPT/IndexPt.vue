@@ -11,8 +11,8 @@
             </v-layout>
         </v-container>
         <DataInfo/>
-        <FormNew />
-        <FormEdit />
+        <FormNew :paises="paises"/>
+        <FormEdit :paises="paises"/>
         <DeleteDialog/>
         <InfoSnackbar/>
         <DisableDialog/>
@@ -62,10 +62,11 @@
                             value: 'nombreActividad',
                             type: 'text'
                         },
+                        {name: 'Estado', value: 'isCompleta', type: 'text'},
                         {name: 'Fecha Inicio', value: 'fechaInicio', type: 'date'},
                         {name: 'Fecha limite', value: 'fechaLimite', type: 'date'},
                         {name: 'Monto', value: 'monto', type: 'money'},
-                        {name: 'Paises', value: 'paises', type: 'array'}
+                        {name: 'Paises', value: 'paises', type: 'array'},
                     ],
                     modelParams: {                                         //Parametros para el modelo
                         idPlan: this.$route.params.id
@@ -73,14 +74,15 @@
                 },
                 dataTableHeaders: [
                     {
-                        text: 'Actividad',   //Texto a mostrar en la cabecera de la columna
-                        align: 'left',      //Alineación del contenido en la columna
-                        value: 'nombreActividad',    //Nombre del atributo que se colocara en la columna
-                        width: '45%',       //Tamaño de la columna
-                        type: 'text'        //Tipo del contenido a mostrar en la columna
+                        text: 'Actividad',
+                        align: 'left',
+                        value: 'nombreActividad',
+                        width: '40%',
+                        type: 'text'
                     },
                     {text: 'Fecha inicio', align: 'center', value: 'fechaInicioF', type: 'date'},
                     {text: 'Fecha limite', align: 'center', value: 'fechaLimiteF', type: 'date'},
+                    {text: 'Estado', align: 'center', value: 'isCompleta', type: 'text'},
                     {text: 'Monto', align: 'center', value: 'montoF', type: 'money'},
                     {text: 'Opciones', align: 'center', value: 'action', sortable: false, type: 'option'}
                 ],
@@ -98,7 +100,8 @@
                     {text: 'Eliminar', type: 'delete', icon: 'mdi-delete', action: '', class: 'mr-2', route: '', show: (row) => {return true}},
                     {text: 'Productos', type: 'redirect', icon: 'mdi-apps', action: '', class: 'mr-3', route: 'actividad-producto-index', show: (row) => {return true}}
                 ],
-                bannerText: ''
+                bannerText: '',
+                paises: [],
             }
         },
         computed: {
@@ -110,11 +113,17 @@
         created() {
             this.clearAlerts();
             this.defineModel(this.model);
-            this.services.proyectoService.get(this.$route.params.id)
+            this.services.simpleIdentificadorService.getProyecto(this.$route.params.id)
                 .then(r => {
-                    this.bannerText = r.data.nombreProyecto;
+                    this.bannerText = r.data.nombre;
                 })
                 .catch(e => {
+                    this.showInfo(e.toString());
+                });
+            this.services.proyectoHelperService.getPais(this.$route.params.id)
+                .then(r => {
+                    this.paises = r.data;
+                }).catch(e => {
                     this.showInfo(e.toString());
                 });
         },

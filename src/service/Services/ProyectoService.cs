@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 using Model.Domain;
+using Model.Domain.DbHelper;
 
 namespace Services
 {
@@ -132,6 +133,7 @@ namespace Services
                                       FechaCreacion = plan.FechaCreacion,
                                       FechaInicio = apt.FechaInicio,
                                       FechaLimite = apt.FechaLimite,
+                                      Completa = apt.Completa,
                                       Paises = (from aps in _context.ActividadPTPais 
                                           join pais in _context.Pais on aps.Pais equals pais
                                           where aps.ActividadPTCodigoActividadPT == apt.CodigoActividadPT
@@ -363,7 +365,20 @@ namespace Services
                 var proyecto = _context.Proyecto
                     .Include(s => s.EstadoProyecto)
                     .Single(p => p.CodigoProyecto == id);
-                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == status);                
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == status);
+                if (status.Equals("EN_PROCESO"))
+                {
+                    var currentQuarter = QuarterCalculator.GetQuarter(DateTime.Now);
+                    var act = _context.ActividadPT.Where(a => a.PlanTrabajoCodigoPlanTrabajo == id);
+                    foreach (var a in act)
+                    {
+                        if(a.FechaLimite.Year == DateTime.Now.Year && QuarterCalculator.GetQuarter(a.FechaLimite) == currentQuarter)
+                            a.Completa = true;
+                    }
+                    LockAllRecordSet(id);
+                    CreateNewRecordSet(id);
+                    _context.SaveChanges();
+                }
                 _context.SaveChanges();
                 return true;
             }
@@ -440,7 +455,7 @@ namespace Services
 
         private void PassIfAllCountriesAreApproval(string id)
         {
-            if (_context.ProyectoPais.All(p => p.Aprobado))
+            if (_context.ProyectoPais.Where( p => p.ProyectoId == id).All(pp => pp.Aprobado))
             {
                 ChangeStatus(id, "VERIFICAR");
             }
@@ -467,20 +482,20 @@ namespace Services
         
         private void MoveToNextStatus(string id)
         {
-            var proyecto = _context.Proyecto
-                .Include(p => p.EstadoProyecto)
-                .Single(p => p.CodigoProyecto == id);
-            if (proyecto.EstadoProyecto.TipoEstado.Equals("3REVISION"))
+            try
             {
-                var act = _context.ActividadPT.Where(a => a.PlanTrabajoCodigoPlanTrabajo == id);
-                foreach (var a in act)
+                var proyecto = _context.Proyecto
+                    .Include(p => p.EstadoProyecto)
+                    .Single(p => p.CodigoProyecto == id);
+                if (!proyecto.EstadoProyecto.TipoEstado.Equals("3REVISION"))
                 {
-                    a.Completa = true;
+                    proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
                 }
             }
-            else
+            catch (Exception e)
             {
-                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.Id == (proyecto.EstadoProyecto.Id + 1));
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -501,22 +516,38 @@ namespace Services
 
         private void MoveToPrevious(string id)
         {
-            var proyecto = _context.Proyecto
-                .Include(p => p.EstadoProyecto)
-                .Single(P => P.CodigoProyecto == id);
-            proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado == "EN_PROCESO");
+            try
+            {
+                var proyecto = _context.Proyecto
+                    .Include(p => p.EstadoProyecto)
+                    .Single(P => P.CodigoProyecto == id);
+                proyecto.EstadoProyecto = _context.EstadoProyecto.Single(e => e.TipoEstado == "EN_PROCESO");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private void CreateRejectNotification(string id, string observation, string username)
         {
-            var paises = (from p in _context.Pais
-                join pp in _context.ProyectoPais on p equals pp.Pais
-                where pp.ProyectoId == id
-                select p.NombrePais).ToArray();
-            foreach (var pais in paises)
+            try
             {
-                _context.Alertas.Add(new Alerta("Proyecto Retornado",observation,"warnin","4",pais,username));
-                _context.SaveChanges();
+                var paises = (from p in _context.Pais
+                    join pp in _context.ProyectoPais on p equals pp.Pais
+                    where pp.ProyectoId == id
+                    select p.NombrePais).ToArray();
+                foreach (var pais in paises)
+                {
+                    _context.Alertas.Add(new Alerta("Proyecto Retornado",observation,"warnin","4",pais,username));
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -549,6 +580,57 @@ namespace Services
                 {
                     proyectoPais.AddProcesoRevision(!currentQuarter.Any() ? 0 : currentQuarter.Max(r => r.Trimestre));
                 }
+            }
+        }
+
+        private void LockAllRecordSet(string id)
+        {
+            try
+            {
+                var unlockedRecords = (from d in _context.PlanDesagregacion
+                        join r in _context.PlanSocioDesagregacion on d equals r.PlanDesagregacion
+                        where d.PlanMonitoreoEvaluacionProyectoCodigoProyecto == id &&
+                              !r.Locked
+                              select r)
+                    .ToArray();
+                foreach (var record in unlockedRecords)
+                {
+                    record.Locked = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private void CreateNewRecordSet(string id)
+        {
+            try
+            {
+                var currentQuarter = (from p in _context.PlanSocioDesagregacion
+                    where p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == id
+                    select p.Trimestre).Max();
+                var socios = (from ps in _context.ProyectoSocio
+                    join s in _context.SocioInternacional on ps.SocioInternacional equals s
+                    where ps.ProyectoId == id
+                    select s).ToArray();
+                var plan = _context.PlanDesagregacion
+                    .Include(p => p.PlanSocios)
+                    .Where(p => p.PlanMonitoreoEvaluacionProyectoCodigoProyecto == id);
+                foreach (var reg in plan)
+                {
+                    foreach (var socio in socios)
+                    {
+                        reg.AddPlanSocio(socio, currentQuarter == 4 ? 1 : currentQuarter + 1);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 

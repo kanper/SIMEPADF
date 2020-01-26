@@ -53,7 +53,8 @@ namespace DatabaseContext
                 p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto,
                 p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId,
                 p.SocioInternacionalId,
-                p.PlanDesagregacionDesagregacionId
+                p.PlanDesagregacionDesagregacionId,
+                p.Fecha
             });
 
             AddMyFilters(ref modelBuilder);

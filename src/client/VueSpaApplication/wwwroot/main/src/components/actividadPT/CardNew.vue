@@ -103,6 +103,9 @@
 
     export default {
         components: {NewUniqueEntity},
+        props: {
+            paises: {type: Array},
+        },
         data() {
             return {
                 todat: new Date(),
@@ -114,7 +117,6 @@
                     monto: 0.0,
                     paises: []
                 },
-                paises: [],
                 montoActual: 0.0,
                 datePick: false,
                 datePick1: false,
@@ -222,15 +224,5 @@
                 return !this.isUniqueEntity;
             },
         },
-        created() {
-            this.getCurrentMount();
-            this.services.proyectoHelperService.getPais(this.$route.params.id)
-                .then(r => {
-                    this.paises = r.data;
-                    this.newModel.paises = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-        }
     }
 </script>
