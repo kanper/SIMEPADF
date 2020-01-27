@@ -85,6 +85,7 @@ namespace Auth
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseIdentity(); //This method is obsolete and will be removed in a future version
             app.UseAuthentication();
             app.UseIdentityServer();
 

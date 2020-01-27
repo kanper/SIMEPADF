@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using Model.Domain;
 using Newtonsoft.Json;
@@ -78,7 +79,6 @@ namespace CoreApi
             services.AddTransient<IResultadoService, ResultadoService>();
             services.AddTransient<IActividadService, ActividadService>();
             services.AddTransient<IIndicadorService, IndicadorService>();
-            services.AddTransient<IProyectoService, ProyectoService>();
             services.AddTransient<IProyectoHelperService, ProyectoHelperService>();
             services.AddTransient<IFuenteDatoService, FuenteDatoService>();
             services.AddTransient<IDesagregacionService, DesagregacionService>();
@@ -87,7 +87,6 @@ namespace CoreApi
             services.AddTransient<IPlanTrabajoService, PlanTrabajoService>();
             services.AddTransient<IActividadPtService, ActividadPtService>();
             services.AddTransient<IProductoService, ProductoService>();
-            services.AddTransient<IProyectoInfoService, ProyectoInfoService>();
             services.AddTransient<ICurrentUserDTO, CurrentUserDTO>();
             services.AddTransient<IRegistroRevisionService, RegistroRevisionService>();
             services.AddTransient<ISimpleIdentificadorService, SimpleIdentificadorService>();
@@ -104,6 +103,10 @@ namespace CoreApi
             services.AddTransient<IEntidadRemovibleValidacionService, EntidadRemovibleValidacionService>();
             services.AddTransient<IEntidadUtilizadaValidacionService, EntidadUtilizadaValidacionService>();
             services.AddTransient<IRegistroAprobacionService, RegistroAprobacionService>();
+            services.AddTransient<IProyectoInformationService, ProyectoInformationService>();
+            services.AddTransient<IProyectoListService, ProyectoListService>();
+            services.AddTransient<IProyectoManagementService, ProyectoManagementService>();
+            services.AddTransient<IProyectoProcessService, ProyectoProcessService>();
             
             // Email Service 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
@@ -139,7 +142,6 @@ namespace CoreApi
            
             app.UseAuthentication();
             //app.UseIdentity(); //This method is obsolete and will be removed in a future version
-            app.UseAuthentication();
             app.UseCors(MyAllowSpecificOrigins);           
             app.UseMvc();
         }

@@ -22,7 +22,6 @@ import actividadPtService from '../services/ActividadPtService'
 import planActividadService from '../services/PlanActividadService'
 import productoService from '../services/ProductoService'
 import actividadProductoService from '../services/ActividadProductoService'
-import proyectoInfoService from '../services/ProyectoInfoService'
 import registroRevisionService from '../services/RegistroRevisionService'
 import evidenciaService from '../services/ProductoEvidenciaService'
 import planTrabajoActividadService from '../services/PlanTrabajoActividadService'
@@ -65,7 +64,6 @@ export default {
     actividadPtService: new actividadPtService(Axios, apiUrl),
     planActividadService: new planActividadService(Axios, apiUrl),
     productoService: new productoService(Axios, apiUrl),
-    proyectoInfoService: new proyectoInfoService(Axios, apiUrl),
     actividadProductoService: new actividadProductoService(Axios, apiUrl),
     proyectoManagementService: new proyectoManagementService(Axios, apiUrl),
     proyectoOnProcessService: new proyectoOnProcessService(Axios, apiUrl),
