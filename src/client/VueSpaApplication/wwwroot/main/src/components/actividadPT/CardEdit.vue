@@ -40,8 +40,6 @@
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
-                                        full-width
-                                        lazy
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
@@ -62,8 +60,6 @@
                                 <v-menu
                                         :close-on-content-click="false"
                                         :nudge-right="40"
-                                        full-width
-                                        lazy
                                         min-width="290px"
                                         offset-y
                                         transition="scale-transition"
@@ -102,11 +98,13 @@
 
     export default {
         components: {EditUniqueEntity},
+        props: {
+            paises: {type: Array},
+        },
         data() {
             return {
                 datePick: false,
                 datePick1: false,
-                paises: [],
             }
         },
         computed: {
@@ -181,13 +179,5 @@
                 return !this.isUniqueEntity;
             }
         },
-        created() {
-            this.services.proyectoHelperService.getPais(this.$route.params.id)
-                .then(r => {
-                    this.paises = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-        }
     }
 </script>

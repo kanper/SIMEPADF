@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VueSpaApplication", "src\cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth", "src\apis\Auth\Auth.csproj", "{1B78122C-55A8-4175-B102-5AC705433323}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VueCliente", "..\..\..\Desktop\VueCliente\VueCliente\VueCliente.csproj", "{03148F67-9352-4C32-8F47-3535E6A9FBBC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,10 +61,6 @@ Global
 		{1B78122C-55A8-4175-B102-5AC705433323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B78122C-55A8-4175-B102-5AC705433323}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B78122C-55A8-4175-B102-5AC705433323}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03148F67-9352-4C32-8F47-3535E6A9FBBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03148F67-9352-4C32-8F47-3535E6A9FBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03148F67-9352-4C32-8F47-3535E6A9FBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03148F67-9352-4C32-8F47-3535E6A9FBBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,7 +73,6 @@ Global
 		{E5596EE9-890D-4FF1-AE4E-3DC70ED69486} = {F01A9002-59CD-4084-B698-079302668BFA}
 		{B1A1D8B2-898E-4AD3-ADCA-DF73BC5EC016} = {3B77B70D-6A5C-4628-9397-6A0788AB9D49}
 		{1B78122C-55A8-4175-B102-5AC705433323} = {4C79F43D-BCF9-4C3F-831C-55ABD1459F17}
-		{03148F67-9352-4C32-8F47-3535E6A9FBBC} = {3B77B70D-6A5C-4628-9397-6A0788AB9D49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {776D1490-8A54-4BF1-90B8-635FF49749D7}

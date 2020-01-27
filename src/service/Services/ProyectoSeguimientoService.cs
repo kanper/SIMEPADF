@@ -11,12 +11,13 @@ namespace Services
     public interface IProyectoSeguimientoService
     {
         IEnumerable<ProyectoSeguimientoIndicadorDTO> getProyectInd(string idProyect);
-        IEnumerable<ProyectoSeguimientoRegistroDTO> getRegistro(string idProyecto, int idIndicador);
+        IEnumerable<ProyectoSeguimientoRegistroDTO> getRegistro(string idProyecto, int idIndicador, int quarter);
         IEnumerable<CabezeraDTO> getCabezeras(string id);
         IEnumerable<MapDTO> getOrganizaciones(string id);
-        double getValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado);
-        bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor);
-        bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais);
+        double getValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, int quarter);
+        bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, int quarter);
+        bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais, int quarter);
+        int GetProyectoTrimestre(string id);
     }
 
     public class ProyectoSeguimientoService : IProyectoSeguimientoService
@@ -97,7 +98,7 @@ namespace Services
             }
         }
 
-        public IEnumerable<ProyectoSeguimientoRegistroDTO> getRegistro(string idProyecto, int idIndicador)
+        public IEnumerable<ProyectoSeguimientoRegistroDTO> getRegistro(string idProyecto, int idIndicador, int quarter)
         {
             try
             {
@@ -106,7 +107,9 @@ namespace Services
                 join d in _context.Desagregacion on pd.Desagregacion equals d
                 join s in _context.SocioInternacional on r.SocioInternacional equals s                
                     where pd.PlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
-                          pd.PlanMonitoreoEvaluacionIndicadorId == idIndicador
+                          pd.PlanMonitoreoEvaluacionIndicadorId == idIndicador &&
+                          r.Trimestre == quarter &&
+                          !r.Locked
                     select new ProyectoSeguimientoRegistroDTO()
                     {
                         Valor = r.Valor,
@@ -124,7 +127,7 @@ namespace Services
             }
         }
 
-        public double getValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado)
+        public double getValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, int quarter)
         {
             try
             {
@@ -132,7 +135,10 @@ namespace Services
                     .Single(p => p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
                                  p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == idIndicador &&
                                  p.SocioInternacionalId == idSocio &&
-                                 p.PlanDesagregacionDesagregacionId == idDesagregado).Valor;
+                                 p.PlanDesagregacionDesagregacionId == idDesagregado &&
+                                 p.Trimestre == quarter &&
+                                 !p.Locked)
+                    .Valor;
             }
             catch (Exception e)
             {
@@ -141,7 +147,7 @@ namespace Services
             }
         }
 
-        public bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor)
+        public bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, int quarter)
         {
             try
             {
@@ -149,11 +155,12 @@ namespace Services
                     .Single(p => p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
                                  p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == idIndicador &&
                                  p.SocioInternacionalId == idSocio &&
-                                 p.PlanDesagregacionDesagregacionId == idDesagregado);
+                                 p.PlanDesagregacionDesagregacionId == idDesagregado &&
+                                 p.Trimestre == quarter &&
+                                 !p.Locked);
                 reg.Valor = valor;
-                reg.Fecha = DateTime.Now;
                 _context.SaveChanges();
-                updateProyectPercent(idProyecto);
+                UpdateProjectPercent(idProyecto);
                 return true;
             }
             catch (Exception e)
@@ -163,17 +170,17 @@ namespace Services
             }
         }
 
-        private void updateProyectPercent(string idProyect)
+        private void UpdateProjectPercent(string idProyect)
         {
             try
             {
-                var proyecto = _context.Proyecto.Single(p => p.CodigoProyecto == idProyect);
+                var project = _context.Proyecto.Single(p => p.CodigoProyecto == idProyect);
                 var accumulated = 0.0;
                 foreach (var reg in _context.PlanSocioDesagregacion.Where(psd => psd.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyect))
                 {
-                    accumulated = accumulated + reg.Valor;
+                    accumulated += reg.Valor;
                 }
-                proyecto.PorcentajeAvence = accumulated;
+                project.PorcentajeAvence = accumulated;
                 _context.SaveChangesAsync();
             }
             catch (Exception e)
@@ -183,7 +190,7 @@ namespace Services
             }
         }
 
-        public bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais)
+        public bool setValor(string idProyecto, int idIndicador, int idSocio, int idDesagregado, double valor, string pais, int quarter)
         {
             try
             {
@@ -194,11 +201,13 @@ namespace Services
                         .Single(p => p.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto == idProyecto &&
                                      p.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId == idIndicador &&
                                      p.SocioInternacionalId == idSocio &&
-                                     p.PlanDesagregacionDesagregacionId == idDesagregado);
+                                     p.PlanDesagregacionDesagregacionId == idDesagregado &&
+                                     p.Trimestre == quarter &&
+                                     !p.Locked);
                     registro.Valor = valor;
                     registro.CodigoPais = codigoPais.SiglaPais;
                     _context.SaveChanges();
-                    updateProyectPercent(idProyecto);
+                    UpdateProjectPercent(idProyecto);
                 }
                 return true;
             }
@@ -206,6 +215,23 @@ namespace Services
             {
                 Console.WriteLine(e);
                 return false;
+            }
+        }
+
+        public int GetProyectoTrimestre(string id)
+        {
+            try
+            {
+                var reg = (from pp in _context.ProyectoPais
+                    join r in _context.RegistroRevision on pp equals r.ProyectoPais
+                    where pp.ProyectoId == id
+                    select r).ToArray();
+                return reg.All(r => r.Revisado) ? reg.Max(r => r.Trimestre) : reg.Where(r => !r.Revisado).Max(r => r.Trimestre);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

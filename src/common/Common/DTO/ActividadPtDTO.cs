@@ -20,5 +20,6 @@ namespace DTO.DTO
         public string MontoF => DTOFormater.FormatMoney(Monto);
         public string PaisesF => DTOFormater.FormatArray(Paises);
         public string ProductosF => DTOFormater.FormatArray(Productos);
+        public string IsCompleta => Completa ? "Completo" : "Incompleto";
     }
 }

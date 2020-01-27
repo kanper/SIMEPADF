@@ -34,7 +34,6 @@ namespace Services
 
         public IEnumerable<PersonalDTO> GetAll()
         {
-            var result = new List<PersonalDTO>();
             try
             {
                 return (from u in _databaseContext.Usuario
@@ -53,9 +52,9 @@ namespace Services
                             Pais = u.Pais,
                             Name = r.Name
                         }
-                   ).ToList();
+                    ).ToList();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return new List<PersonalDTO>();
@@ -64,7 +63,6 @@ namespace Services
 
         public PersonalDTO Get(string id)
         {
-            var result = new PersonalDTO();
             try
             {
                 return (from u in _databaseContext.Usuario
@@ -72,21 +70,21 @@ namespace Services
                             on u.Rol equals r
                         where u.Id ==id
                         select new PersonalDTO
-                    {
-                        Id = u.Id,
-                        NombrePersonal = u.NombrePersonal,
-                        ApellidoPersonal = u.ApellidoPersonal,
-                        Cargo = u.Cargo,
-                        FechaAfilacion = u.FechaAfilacion,
-                        Email = u.Email,
-                        PhoneNumber = u.PhoneNumber,
-                        Password = u.PasswordHash,
-                        Pais = u.Pais,
-                        Name = r.Name
-                    }
-                   ).Single();
+                        {
+                            Id = u.Id,
+                            NombrePersonal = u.NombrePersonal,
+                            ApellidoPersonal = u.ApellidoPersonal,
+                            Cargo = u.Cargo,
+                            FechaAfilacion = u.FechaAfilacion,
+                            Email = u.Email,
+                            PhoneNumber = u.PhoneNumber,
+                            Password = u.PasswordHash,
+                            Pais = u.Pais,
+                            Name = r.Name
+                        }
+                    ).Single();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return null;
@@ -96,7 +94,7 @@ namespace Services
         public bool Add(PersonalDTO model)
         {
             try
-            { 
+            {
                 var user = _databaseContext.Usuario.Single(x => x.Email == model.Email);
 
                 _databaseContext.Rol
@@ -106,8 +104,9 @@ namespace Services
                 _databaseContext.SaveChanges();
                 return true;
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -116,44 +115,33 @@ namespace Services
         {
             try
             {
-
-                var usuario = _databaseContext.Usuario
+                var user = _databaseContext.Usuario
                     .Include(u => u.Rol)
                     .Single(u => u.Id == id);
-
                 if(model.Email != null)
                 {
-                    usuario.Email = model.Email;
-                    usuario.UserName = model.Email;
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
                 }
-
-                if (model.NombrePersonal != null)
-                    usuario.NombrePersonal = model.NombrePersonal;
-
-                if (model.ApellidoPersonal != null)
-                    usuario.ApellidoPersonal = model.ApellidoPersonal;
-
-                if (model.Cargo != null)
-                    usuario.Cargo = model.Cargo;
-
-                if (model.PhoneNumber != null)
-                    usuario.PhoneNumber = model.PhoneNumber;
-
-                if (model.Pais != null)
-                    usuario.Pais = model.Pais;
-
+                if (model.NombrePersonal != null) user.NombrePersonal = model.NombrePersonal;
+                if (model.ApellidoPersonal != null) user.ApellidoPersonal = model.ApellidoPersonal;
+                if (model.Cargo != null) user.Cargo = model.Cargo;
+                if (model.PhoneNumber != null) user.PhoneNumber = model.PhoneNumber;
+                if (model.Pais != null) user.Pais = model.Pais;
                 if(model.newPassword != null)
                 {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                    var cambio = await _userManager.ResetPasswordAsync(usuario, token, model.newPassword);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, token, model.newPassword);
                 }
                  
-                    var result = await _userManager.UpdateAsync(usuario);
-                    await _databaseContext.SaveChangesAsync();
-                    return true;
+                await _userManager.UpdateAsync(user);
+                await _databaseContext.SaveChangesAsync();
+                return true;
             }
-            catch (System.Exception)
+            
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -164,12 +152,13 @@ namespace Services
             {
                 _databaseContext.Usuario.Single(x => x.Id == id).Deleted = true;
                 _databaseContext.SaveChanges();
+                return true;
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
-            return true;
         }
     }
 }

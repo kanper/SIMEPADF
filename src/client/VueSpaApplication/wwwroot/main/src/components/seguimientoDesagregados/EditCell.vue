@@ -20,7 +20,7 @@
     import { mapMutations, mapState } from 'vuex'
     export default {
         name: "EditCell",
-        props: ['desagregado','socio','reload'],
+        props: ['desagregado','socio','reload','quarter'],
         data() {
             return {
                 valor: 0
@@ -40,15 +40,15 @@
         methods: {
             ...mapMutations(['changeCellDialogVisibility','setTableCellValue','showInfo']),
             save(){
-                this.services.proyectoSeguimientoRegistroService.setValorByPais(this.$route.params.idProyecto,this.$route.params.idIndicador,this.desagregado,this.socio.replace("S", ""),this.cellValue, window.User.Pais)
+                this.services.proyectoSeguimientoRegistroService.setValorByPais(this.$route.params.idProyecto,this.$route.params.idIndicador,this.desagregado,this.socio.replace("S", ""),this.cellValue, window.User.Pais,this.quarter)
                     .then(r => {
                         this.changeCellDialogVisibility();
                         this.showInfo("Datos guardados correctamente.");
-                        this.reload();
                     })
                     .catch(e => {
                         this.showInfo(e.toString());
-                    });
+                    })
+                    .finally(() => this.reload());
             },
             isEditAvailable(){
                 return window.User.RolId !== '4';

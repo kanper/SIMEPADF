@@ -10,7 +10,7 @@
                 <tr>
                     <th>Desagregados / Socios</th>
                     <th class="text-center" v-for="item in headers" :key="item.id">{{item.text}}</th>
-                    <th class="text-center">Totales Trimestre</th>
+                    <th class="text-center">Totales Trimestre {{currentQuarter}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                 </tbody>
             </template>
         </v-simple-table>
-        <EditCell :desagregado="desagregado" :socio="socio" :reload="loadData"/>
+        <EditCell :desagregado="desagregado" :socio="socio" :reload="loadData" :quarter="currentQuarter"/>
     </v-card>
 </template>
 
@@ -43,7 +43,8 @@
                 headers: [],
                 dataTable: [],
                 desagregado: '',
-                socio: ''
+                socio: '',
+                currentQuarter: 0
             }
         },
         computed: {
@@ -52,7 +53,7 @@
         methods: {
             ...mapMutations(['showInfo', 'changeNewDialogVisibility', 'closeAllDialogs', 'resetTableLoader','changeCellDialogVisibility', 'setTableCellValue']),
             loadData: function() {
-                this.services.proyectoSeguimientoRegistroService.getAll(this.$route.params.idProyecto,this.$route.params.idIndicador)
+                this.services.proyectoSeguimientoRegistroService.getAll(this.$route.params.idProyecto,this.$route.params.idIndicador,this.currentQuarter)
                     .then(r => {
                         let rows = [];
                         r.data.forEach(function (item) {
@@ -85,7 +86,7 @@
             editCellValue(desagregado, socio){
                 this.desagregado = desagregado;
                 this.socio = socio.replace("S", "");
-                this.services.proyectoSeguimientoRegistroService.getValor(this.$route.params.idProyecto,this.$route.params.idIndicador,desagregado,socio.replace("S", ""))
+                this.services.proyectoSeguimientoRegistroService.getValor(this.$route.params.idProyecto,this.$route.params.idIndicador,desagregado,socio.replace("S", ""),this.currentQuarter)
                     .then(r => {
                         this.setTableCellValue(r.data);
                     })
@@ -113,7 +114,14 @@
                 .catch(e => {
                     this.showInfo(e.toString());
                 });
-            this.loadData();
+            this.services.proyectoSeguimientoRegistroService.getProjecCurrentQuarter(this.$route.params.idProyecto)
+                .then(r => {
+                    this.currentQuarter = r.data;
+                })
+                .catch(e => {
+                    this.showInfo(e.toString());
+                })
+                .finally(() => this.loadData());
         },
         destroyed() {
 
