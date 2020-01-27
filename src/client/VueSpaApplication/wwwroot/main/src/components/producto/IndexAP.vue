@@ -103,9 +103,9 @@
         created() {
             this.clearAlerts();
             this.defineModel(this.model);
-            this.services.actividadPtService.get(this.$route.params.id)
+            this.services.simpleIdentificadorService.getActividadPT(this.$route.params.id)
                 .then(r => {
-                    this.bannerText = r.data.nombreActividad;
+                    this.bannerText = r.data.nombre;
                 })
                 .catch(e => {
                     this.showInfo(e.toString());

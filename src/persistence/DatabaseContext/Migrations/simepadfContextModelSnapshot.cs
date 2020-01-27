@@ -709,16 +709,18 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
 
+                    b.Property<DateTime>("Fecha");
+
                     b.Property<string>("CodigoPais")
                         .HasMaxLength(10);
 
-                    b.Property<DateTime>("Fecha");
+                    b.Property<bool>("Locked");
 
                     b.Property<int>("Trimestre");
 
                     b.Property<double>("Valor");
 
-                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId");
+                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId", "Fecha");
 
                     b.HasIndex("SocioInternacionalId");
 

@@ -23,7 +23,6 @@ import ActividadPTIndex from './components/actividadPT/Index'
 import PlanActividadIndex from './components/actividadPT/IndexPt'
 import ProductoIndex from './components/producto/Index'
 import ActividadProductoIndex from './components/producto/IndexAP'
-import ProyectoInfoIndex from './components/proyectoInfo/IndexPI'
 import EvidenciaActividadIndex from './components/evidencia/IndexAE'
 import EvidenciaProductoIndex from './components/evidencia/IndexPE'
 import ProyectoSeguimientoIndicadorIndex from './components/seguimientoDesagregados/IndexPI'
@@ -64,7 +63,6 @@ const routes = [
     {path: '/planes-trabajo/:id/actividades', name: 'plan-trabajo-actividad-index', component: PlanActividadIndex},
     {path: '/productos', name: 'producto-index', component: ProductoIndex},
     {path: '/actividad/:id/productos', name: 'actividad-producto-index', component: ActividadProductoIndex},
-    {path: '/proyecto/:id/info', name: 'proyecto-info-index', component: ProyectoInfoIndex},
     {
         path: '/plan-trabajo/:id/actividades/evidencia',
         name: 'plan-trabajo-evidencias',
@@ -88,12 +86,12 @@ const routes = [
 
 ];
 
-// const router = new Router({
-//     mode: 'history', //removes # from url
-//     base: '/',
-//     fallback: true, //router should fallback to hash (#) mode when the browser dos not support history.pushState
-//     routes //short for `routes: routes`
-// });
+const router = new Router({
+    mode: 'history', //removes # from url
+    base: '/',
+    fallback: true, //router should fallback to hash (#) mode when the browser dos not support history.pushState
+    routes //short for `routes: routes`
+});
 
 export default new Router({
     routes

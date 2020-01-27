@@ -155,6 +155,11 @@
     import NewUniqueEntity from "../../validation/NewUniqueEntity"
     export default {
         components: {NewUniqueEntity},
+        props: {
+            paises: {type: Array},
+            organizaciones: {type: Array},
+            socios: {type: Array},
+        },
         data() {
             return {
                 newModel: {
@@ -167,13 +172,7 @@
                     fechaAprobacion: new Date().toISOString().substr(0, 10),
                     fechaInicio: new Date().toISOString().substr(0, 10),
                     fechaFin: new Date().toISOString().substr(0, 10),
-                    paises: [],
-                    organizaciones: [],
-                    socios: []
                 },
-                paises: [],
-                organizaciones: [],
-                socios: [],
                 regionPais: null,
                 datePickInicio: false,
                 datePickFin : false,
@@ -318,26 +317,6 @@
             disableSaveBtn(){
                 return !this.isUniqueEntity;
             }
-        },
-        created() {
-            this.services.proyectoHelperService.getPaises()
-                .then(r => {
-                    this.paises = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-            this.services.proyectoHelperService.getOrganizaciones()
-                .then(r => {
-                    this.organizaciones = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-            this.services.proyectoHelperService.getSocios()
-                .then(r => {
-                    this.socios = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
         }
     }
 </script>

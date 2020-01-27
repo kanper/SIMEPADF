@@ -9,6 +9,6 @@ export default class UsuarioService extends AbstractService {
     }
 
     logout() {
-        return this.axios.get(`${this.authUrl}logout`)
+        return this.axios.get(`${this.authUrl}Account/logout`)
     }
 }

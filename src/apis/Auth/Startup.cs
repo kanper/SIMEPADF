@@ -29,6 +29,7 @@ namespace Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<simepadfContext>(
+                //options => options.UseSqlServer(Configuration.GetConnectionString("DataBase"))
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
 
@@ -85,6 +86,7 @@ namespace Auth
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseIdentity(); //This method is obsolete and will be removed in a future version
             app.UseAuthentication();
             app.UseIdentityServer();
 

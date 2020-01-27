@@ -36,10 +36,12 @@ namespace CoreApi.Controllers
         [HttpPost("usuario")]
         public async Task<IActionResult> Post([FromBody] PersonalDTO model)
         {
-            var usuario = new Usuario(model.Id, model.Email, model.NombrePersonal, model.ApellidoPersonal, model.Cargo,
+            var user = new Usuario(model.Id, model.Email, model.NombrePersonal, model.ApellidoPersonal, model.Cargo,
                     model.FechaAfilacion, model.Email, model.PhoneNumber, model.Password, model.Pais);
 
-            var result = await _userManager.CreateAsync(usuario, model.Password);
+            user.EmailConfirmed = true;
+
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {

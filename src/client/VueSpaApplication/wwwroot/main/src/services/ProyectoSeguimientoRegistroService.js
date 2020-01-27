@@ -6,8 +6,8 @@ export default class ProyectoSeguimientoRegistroService extends AbstractService 
         super(axios, `${baseUrl}proyecto`);
     }
 
-    getAll(idProyecto, idIndicador) {
-        return this.axios.get(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/registro`)
+    getAll(idProyecto, idIndicador, quarter) {
+        return this.axios.get(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/trimestre/${quarter}/registro`)
     }
 
     getSocios(id) {
@@ -18,15 +18,19 @@ export default class ProyectoSeguimientoRegistroService extends AbstractService 
         return this.axios.get(`${this.baseUrl}/${id}/oraganizaciones`)
     }
 
-    getValor(idProyecto, idIndicador, idDesagregado, idSocio){
-        return this.axios.get(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor`)
+    getValor(idProyecto, idIndicador, idDesagregado, idSocio, quarter){
+        return this.axios.get(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/trimestre/${quarter}/valor`)
     }
 
-    setValor(idProyecto, idIndicador, idDesagregado, idSocio, valor){
-        return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}`)
+    setValor(idProyecto, idIndicador, idDesagregado, idSocio, valor, quarter){
+        return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}/trimestre/${quarter}`)
     }
 
-    setValorByPais(idProyecto, idIndicador, idDesagregado, idSocio, valor, pais){
-        return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}/pais/${pais}`)
+    setValorByPais(idProyecto, idIndicador, idDesagregado, idSocio, valor, pais, quarter){
+        return this.axios.put(`${this.baseUrl}/${idProyecto}/seguimiento/${idIndicador}/socio/${idSocio}/desagregado/${idDesagregado}/valor/${valor}/pais/${pais}/trimestre/${quarter}`)
+    }
+
+    getProjecCurrentQuarter(idProyecto){
+        return this.axios.get(`${this.baseUrl}/${idProyecto}/trimestre`)
     }
 }

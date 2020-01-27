@@ -10,8 +10,8 @@
             </v-layout>
         </v-container>
         <DataInfo/>
-        <FormNew />
-        <FormEdit />
+        <FormNew :socios="socios" :paises="paises" :organizaciones="organizaciones"/>
+        <FormEdit :socios="socios" :paises="paises" :organizaciones="organizaciones"/>
         <DeleteDialog/>
         <InfoSnackbar/>
         <Confirmation />
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import {mapMutations} from 'vuex'
+    import {mapState, mapMutations} from 'vuex'
     import InfoSnackbar from '../../common/SnackbarInfo'
     import TitleBar from '../../common/NavbarTitle'
     import DeleteDialog from '../../common/DialogDelete'
@@ -82,7 +82,7 @@
                         model: null,
                         country: window.User.Pais,
                         all: false,
-                    }
+                    },
                 },
                 dataTableHeaders: [
                     {
@@ -115,7 +115,13 @@
                     {text: 'Aprobar proyecto', type: 'link', icon: 'mdi-checkbox-marked-outline', action: 'check', class: 'mr-2', route: '', show: (row) => {return row.isPreVerified && row.isPlanTrabajo && row.isIndicador && row.isActividadPlanTrabajo && !row.isApproved}},
                     {text: 'Cancelar proyecto', type: 'link', icon: 'mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.isIncomplete && !row.isCancelled}},
                 ],
+                paises: [],
+                organizaciones: [],
+                socios: [],
             }
+        },
+        computed: {
+            ...mapState(['services'])
         },
         methods: {
             ...mapMutations(['defineModel','clearAlerts','emptyDataTable']),
@@ -150,6 +156,24 @@
             this.setUserPermission();
             this.setDefaultStatusByUserRol();
             this.defineModel(this.model);
+            this.services.proyectoHelperService.getPaises()
+                .then(r => {
+                    this.paises = r.data;
+                }).catch(e => {
+                this.showInfo(e.toString());
+            });
+            this.services.proyectoHelperService.getOrganizaciones()
+                .then(r => {
+                    this.organizaciones = r.data;
+                }).catch(e => {
+                this.showInfo(e.toString());
+            });
+            this.services.proyectoHelperService.getSocios()
+                .then(r => {
+                    this.socios = r.data;
+                }).catch(e => {
+                this.showInfo(e.toString());
+            });
         },
         destroyed() {
             this.emptyDataTable();

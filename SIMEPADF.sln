@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "src\service\Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VueSpaApplication", "src\client\VueSpaApplication\VueSpaApplication.csproj", "{B1A1D8B2-898E-4AD3-ADCA-DF73BC5EC016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "src\apis\Auth\Auth.csproj", "{1B78122C-55A8-4175-B102-5AC705433323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth", "src\apis\Auth\Auth.csproj", "{1B78122C-55A8-4175-B102-5AC705433323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,7 +11,7 @@ namespace Auth.Config
         {
             return new List<ApiResource>
             {
-                new ApiResource("CoreApi", "Mi Aplicacion API")
+                new ApiResource("SIMEPADF.CORE", "Mi Aplicacion API")
             };
         }
 
@@ -50,7 +50,7 @@ namespace Auth.Config
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "CoreApi",
+                        "SIMEPADF.CORE",
                     },
 
                     AllowOfflineAccess = true,

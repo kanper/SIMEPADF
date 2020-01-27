@@ -156,11 +156,13 @@
 
     export default {
         components: {EditUniqueEntity},
+        props: {
+            paises: {type: Array},
+            organizaciones: {type: Array},
+            socios: {type: Array},
+        },
         data() {
             return {
-                paises: [],
-                organizaciones: [],
-                socios: [],
                 datePickInicio: false,
                 datePickFin : false,
                 datePickApro: false,
@@ -268,26 +270,6 @@
                 this.regionPais = null;
                 this.changeEditDialogVisibility();
             }
-        },
-        created() {
-            this.services.proyectoHelperService.getPaises()
-                .then(r => {
-                    this.paises = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-            this.services.proyectoHelperService.getOrganizaciones()
-                .then(r => {
-                    this.organizaciones = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
-            this.services.proyectoHelperService.getSocios()
-                .then(r => {
-                    this.socios = r.data;
-                }).catch(e => {
-                this.showInfo(e.toString());
-            });
         }
     }
 </script>

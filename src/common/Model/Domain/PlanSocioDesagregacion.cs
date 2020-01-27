@@ -18,12 +18,14 @@ namespace Model.Domain
             Trimestre = QuarterCalculator.GetQuarter(DateTime.Now);
             Valor = 0;
             Fecha = DateTime.Now;
+            Locked = false;
         }
 
         public double Valor { get; set; }
         public int Trimestre { get; set; }
         public string CodigoPais { get; set; }
         public DateTime Fecha { get; set; }
+        public bool Locked { get; set; }
         public string PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto { get; set; }
         public int PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId { get; set; }
         public int PlanDesagregacionDesagregacionId { get; set; }
