@@ -4,10 +4,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseContext.Migrations
 {
-    public partial class desagregado : Migration
+    public partial class initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Alertas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Titulo = table.Column<string>(maxLength: 50, nullable: false),
+                    Mensaje = table.Column<string>(maxLength: 150, nullable: false),
+                    Tipo = table.Column<string>(maxLength: 6, nullable: false),
+                    Revisado = table.Column<bool>(nullable: false),
+                    Inicio = table.Column<DateTime>(nullable: false),
+                    Expira = table.Column<DateTime>(nullable: false),
+                    Rol = table.Column<string>(maxLength: 15, nullable: false),
+                    Pais = table.Column<string>(maxLength: 100, nullable: false),
+                    Usuario = table.Column<string>(maxLength: 110, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alertas", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "EstadoProyecto",
                 columns: table => new
@@ -132,7 +153,8 @@ namespace DatabaseContext.Migrations
                     FechaAfilacion = table.Column<DateTime>(nullable: false),
                     Pais = table.Column<string>(maxLength: 50, nullable: false),
                     Deleted = table.Column<bool>(nullable: false),
-                    RolId = table.Column<string>(nullable: true)
+                    RolId = table.Column<string>(nullable: true),
+                    RecoveryCode = table.Column<string>(maxLength: 15, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -431,6 +453,7 @@ namespace DatabaseContext.Migrations
                     FechaFin = table.Column<DateTime>(nullable: false),
                     MontoProyecto = table.Column<double>(nullable: false),
                     Beneficiarios = table.Column<double>(nullable: false),
+                    PorcentajeAvence = table.Column<double>(nullable: false),
                     TipoBeneficiario = table.Column<string>(maxLength: 1, nullable: true),
                     EstadoProyectoId = table.Column<int>(nullable: false),
                     Deleted = table.Column<bool>(nullable: false)
@@ -620,7 +643,9 @@ namespace DatabaseContext.Migrations
                 columns: table => new
                 {
                     PaisId = table.Column<int>(nullable: false),
-                    ProyectoId = table.Column<string>(nullable: false)
+                    ProyectoId = table.Column<string>(nullable: false),
+                    FechaAprobado = table.Column<DateTime>(nullable: false),
+                    Aprobado = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -748,6 +773,7 @@ namespace DatabaseContext.Migrations
                     FechaInicio = table.Column<DateTime>(nullable: false),
                     FechaLimite = table.Column<DateTime>(nullable: false),
                     Monto = table.Column<double>(nullable: false),
+                    Completa = table.Column<bool>(nullable: false),
                     PlanTrabajoCodigoPlanTrabajo = table.Column<string>(nullable: true),
                     Deleted = table.Column<bool>(nullable: false)
                 },
@@ -786,12 +812,6 @@ namespace DatabaseContext.Migrations
                 {
                     RegistroRevisionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedAt = table.Column<DateTime>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true),
-                    UpdatedBy = table.Column<string>(nullable: true),
-                    DeletedAt = table.Column<DateTime>(nullable: true),
-                    DeletedBy = table.Column<string>(nullable: true),
                     FechaRevisado = table.Column<DateTime>(nullable: false),
                     RevisionCompleta = table.Column<bool>(nullable: false),
                     NumeroRevision = table.Column<int>(nullable: false),
@@ -806,24 +826,6 @@ namespace DatabaseContext.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RegistroRevision", x => x.RegistroRevisionId);
-                    table.ForeignKey(
-                        name: "FK_RegistroRevision_Usuario_CreatedBy",
-                        column: x => x.CreatedBy,
-                        principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RegistroRevision_Usuario_DeletedBy",
-                        column: x => x.DeletedBy,
-                        principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RegistroRevision_Usuario_UpdatedBy",
-                        column: x => x.UpdatedBy,
-                        principalTable: "Usuario",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RegistroRevision_ProyectoPais_ProyectoPaisPaisId_ProyectoPaisProyectoId",
                         columns: x => new { x.ProyectoPaisPaisId, x.ProyectoPaisProyectoId },
@@ -845,6 +847,7 @@ namespace DatabaseContext.Migrations
                     DeletedBy = table.Column<string>(nullable: true),
                     NombreIndicador = table.Column<string>(maxLength: 1000, nullable: false),
                     TipoBeneficiario = table.Column<string>(maxLength: 1, nullable: true),
+                    MetaGlobal = table.Column<double>(nullable: false),
                     Deleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -1112,16 +1115,19 @@ namespace DatabaseContext.Migrations
                 name: "PlanSocioDesagregacion",
                 columns: table => new
                 {
+                    Fecha = table.Column<DateTime>(nullable: false),
                     PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto = table.Column<string>(nullable: false),
                     PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId = table.Column<int>(nullable: false),
                     PlanDesagregacionDesagregacionId = table.Column<int>(nullable: false),
                     SocioInternacionalId = table.Column<int>(nullable: false),
                     Valor = table.Column<double>(nullable: false),
-                    Trimestre = table.Column<int>(nullable: false)
+                    Trimestre = table.Column<int>(nullable: false),
+                    CodigoPais = table.Column<string>(maxLength: 10, nullable: true),
+                    Locked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlanSocioDesagregacion", x => new { x.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto, x.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId, x.SocioInternacionalId, x.PlanDesagregacionDesagregacionId });
+                    table.PrimaryKey("PK_PlanSocioDesagregacion", x => new { x.PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto, x.PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId, x.SocioInternacionalId, x.PlanDesagregacionDesagregacionId, x.Fecha });
                     table.ForeignKey(
                         name: "FK_PlanSocioDesagregacion_SocioInternacional_SocioInternacionalId",
                         column: x => x.SocioInternacionalId,
@@ -1454,21 +1460,6 @@ namespace DatabaseContext.Migrations
                 column: "ProyectoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RegistroRevision_CreatedBy",
-                table: "RegistroRevision",
-                column: "CreatedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RegistroRevision_DeletedBy",
-                table: "RegistroRevision",
-                column: "DeletedBy");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RegistroRevision_UpdatedBy",
-                table: "RegistroRevision",
-                column: "UpdatedBy");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RegistroRevision_ProyectoPaisPaisId_ProyectoPaisProyectoId",
                 table: "RegistroRevision",
                 columns: new[] { "ProyectoPaisPaisId", "ProyectoPaisProyectoId" });
@@ -1524,6 +1515,9 @@ namespace DatabaseContext.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ActividadPTPais");
+
+            migrationBuilder.DropTable(
+                name: "Alertas");
 
             migrationBuilder.DropTable(
                 name: "ArchivoDescripcion");

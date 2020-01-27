@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseContext.Migrations
 {
     [DbContext(typeof(simepadfContext))]
-    [Migration("20200116000414_AgregaAprovacionPaisProyecto")]
-    partial class AgregaAprovacionPaisProyecto
+    [Migration("20200127044104_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -711,16 +711,18 @@ namespace DatabaseContext.Migrations
 
                     b.Property<int>("PlanDesagregacionDesagregacionId");
 
+                    b.Property<DateTime>("Fecha");
+
                     b.Property<string>("CodigoPais")
                         .HasMaxLength(10);
 
-                    b.Property<DateTime>("Fecha");
+                    b.Property<bool>("Locked");
 
                     b.Property<int>("Trimestre");
 
                     b.Property<double>("Valor");
 
-                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId");
+                    b.HasKey("PlanDesagregacionPlanMonitoreoEvaluacionProyectoCodigoProyecto", "PlanDesagregacionPlanMonitoreoEvaluacionIndicadorId", "SocioInternacionalId", "PlanDesagregacionDesagregacionId", "Fecha");
 
                     b.HasIndex("SocioInternacionalId");
 
@@ -873,9 +875,9 @@ namespace DatabaseContext.Migrations
 
                     b.Property<string>("ProyectoId");
 
-                    b.Property<bool>("Aprovado");
+                    b.Property<bool>("Aprobado");
 
-                    b.Property<DateTime>("FechaAprovado");
+                    b.Property<DateTime>("FechaAprobado");
 
                     b.HasKey("PaisId", "ProyectoId");
 
