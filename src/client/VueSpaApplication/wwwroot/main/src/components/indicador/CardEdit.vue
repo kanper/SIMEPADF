@@ -25,7 +25,7 @@
 
                                 <v-text-field :error-messages="errors.collect('meta')" :disabled="usePercent"
                                               clearable data-vv-name="meta" label="Meta Anual *" required
-                                              v-model="metaAnual" v-validate="'required|min_value:0|max_value:2147483646|numeric'"
+                                              v-model="metaAnual" v-validate="'required|numeric|min_value:0|max_value:'+ maxNum"
                                 ></v-text-field>
 
                                 <v-subheader class="pl-0">Porcetaje para la meta</v-subheader>
@@ -85,7 +85,8 @@
             return {
                 slider: 0.0,
                 usePercent: false,
-                percentBase: 0
+                percentBase: 0,
+                maxNum : 0,
             }
         },
         computed: {
@@ -125,12 +126,8 @@
                     return this.CRUDModel.metaGlobal;
                 },
                 set: function (newValue) {
-                    if(newValue < this.CRUDModel.valorMeta){
-                        this.CRUDModel.metaGlobal = newValue;
-                        this.metaAnual = newValue;
-                    } else {
-                        this.CRUDModel.metaGlobal = newValue;
-                    }
+                    this.CRUDModel.metaGlobal = newValue;
+                    this.maxNum = newValue;
                 }
             },
             metaAnual: {
@@ -138,12 +135,7 @@
                     return this.CRUDModel.valorMeta;
                 },
                 set: function (newValue) {
-                    if(newValue > this.CRUDModel.metaGlobal){
-                        this.metaGlobal = newValue;
-                        this.CRUDModel.valorMeta = newValue;
-                    } else {
-                        this.CRUDModel.valorMeta = newValue;
-                    }
+                    this.CRUDModel.valorMeta = newValue;
                 }
             }
         },
