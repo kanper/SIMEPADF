@@ -71,7 +71,7 @@ export default {
             .catch(r => {
                 console.error(r.toString());
             });
-            this.load();
+            //this.load();
         },
         load() {
             setTimeout(function (){
