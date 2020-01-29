@@ -36,10 +36,11 @@ import validationService from '../services/ValidationService'
 import registroAprobacionService from "../services/RegistroAprobacionService";
 import usuarioService from '../services/UsuarioService'
 
-//let apiUrl = 'https://localhost:44320/';
+
 // let apiUrl = 'http://40.121.197.22/SIMEPADF.CORE/';
-// let authUrl = 'http://40.121.197.22/SIMEPADF.AUTH/';
+// let authUrl = 'http://40.121.197.22/SIMEPADF/';
 let apiUrl = 'http://localhost:5000/';
+// let authUrl = 'http://localhost:5000/';
 let authUrl = 'http://localhost:53153/';
 
 

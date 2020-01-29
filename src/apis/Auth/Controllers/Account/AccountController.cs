@@ -25,6 +25,7 @@ using Auth.Services;
 using Microsoft.EntityFrameworkCore.Internal;
 using EmailAddress = Auth.Models.EmailAddress;
 using EmailMessage = Auth.Models.EmailMessage;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Auth.Controllers
 {

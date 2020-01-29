@@ -14,9 +14,9 @@ using VueSpaApplication.Config;
 
 namespace VueSpaApplication
 {
+
     public class Startup
     {
-        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public Startup(IConfiguration configuration)
         {
@@ -81,16 +81,6 @@ namespace VueSpaApplication
             #endregion
 
             services.AddMyDependecies(Configuration);
-
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins, builder =>
-            //    {
-            //        builder.AllowAnyOrigin();
-            //        builder.AllowAnyMethod();
-            //        builder.AllowAnyHeader();
-            //    });
-            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
