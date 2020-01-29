@@ -172,6 +172,9 @@
                     fechaAprobacion: new Date().toISOString().substr(0, 10),
                     fechaInicio: new Date().toISOString().substr(0, 10),
                     fechaFin: new Date().toISOString().substr(0, 10),
+                    paises: [],
+                    organizaciones: [],
+                    socios: []
                 },
                 regionPais: null,
                 datePickInicio: false,
