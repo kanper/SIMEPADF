@@ -224,5 +224,8 @@
                 return !this.isUniqueEntity;
             },
         },
+        created(){
+            this.getCurrentMount();
+        }
     }
 </script>
