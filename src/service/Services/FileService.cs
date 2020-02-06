@@ -84,7 +84,8 @@ namespace Services
                 {
                     file.CopyToAsync(stream);
                 }
-                productoEvidencia(id).Archivo = makeDescripcion(file, filePath, descripcion);
+                
+                productoEvidencia(id).Archivo = MakeDescripcion(file, filePath, descripcion);
                 _context.SaveChanges();
                 return true;
             }
@@ -133,7 +134,7 @@ namespace Services
             }
         }
 
-        private ArchivoDescripcion makeDescripcion(IFormFile file, string path, string descripcion)
+        private ArchivoDescripcion MakeDescripcion(IFormFile file, string path, string descripcion)
         {
             var archivo = new ArchivoDescripcion();
             archivo.NombreReal = Truncate(file.FileName, 250);
@@ -141,7 +142,7 @@ namespace Services
             archivo.TamanioArchivo = file.Length;
             archivo.TipoContenido = Truncate(Path.GetExtension(file.FileName),10);
             archivo.Path = path;
-            archivo.Descripcion = Truncate(descripcion,250);
+            archivo.Descripcion = Truncate(descripcion.Length == 0 ? $"Archivo {file.ContentType}" : descripcion,250);
             return archivo;
         }
 
