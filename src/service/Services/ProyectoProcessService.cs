@@ -34,8 +34,9 @@ namespace Services
                 var project = _context.Proyecto
                     .Include(s => s.EstadoProyecto)
                     .Single(p => p.CodigoProyecto == idProject);
+                var currentStatus = project.EstadoProyecto;
                 project.EstadoProyecto = _context.EstadoProyecto.Single(s => s.TipoEstado == projectStatus);
-                if (projectStatus.Equals(InProcess))
+                if (projectStatus.Equals(InProcess) && currentStatus.TipoEstado.Equals(LastReview))
                 {
                     MarkCompletedActivities(idProject);
                     LockAllRecordSet(idProject);

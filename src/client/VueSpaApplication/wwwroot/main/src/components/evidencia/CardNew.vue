@@ -15,7 +15,7 @@
                                         autofocus
                                         chips
                                         show-size
-                                        accept=".doc,.docx,.pdf"
+                                        accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,image/*"
                                 ></v-file-input>
                             </form>
                         </v-flex>
