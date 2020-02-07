@@ -15,6 +15,12 @@ namespace CoreApi.Controllers
             _service = service;
         }
 
+        [HttpGet("/auditoria/user/{id}")]
+        public IActionResult SetAuditUser(string id)
+        {
+            return Ok(_service.SetCurrentUser(id));
+        }
+
         [HttpGet("/auditoria/all")]
         public IActionResult GetAllAuditoria()
         {

@@ -70,9 +70,10 @@ namespace Services
                               CodigoProyecto = p.CodigoProyecto,
                               NombreProyecto = p.NombreProyecto,
                               FechaInicio = pt.FechaInicio,
-                              FechaFin = p.FechaFin,
-                              FechaLimite = pt.FechaLimite,
+                              FechaFin = pt.FechaLimite,
+                              FechaLimite = p.FechaFin,
                               NombreActividad = pt.NombreActividad,
+                              Completa = pt.Completa,
                               Paises = (from ap in _context.ActividadPTPais
                                   join pais in _context.Pais on ap.Pais equals pais
                                   where ap.ActividadPTCodigoActividadPT == pt.CodigoActividadPT

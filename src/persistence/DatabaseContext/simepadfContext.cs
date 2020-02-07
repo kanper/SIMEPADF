@@ -29,9 +29,9 @@ namespace DatabaseContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer("Server=(localdb)\\padf;Database=SIMEPADF;Trusted_Connection=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlServer("Server=tcp:simepadf.database.windows.net,1433;Initial Catalog=SIMEPADFBD;Persist Security Info=False;User ID=administrador;Password=Simepadf$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                //optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Sqlserver2017;Encrypt=false;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:127.0.0.1,1433;Database=simepadf;User ID=SA;Password=Sqlserver2017;Encrypt=false;Connection Timeout=30;");
             }
         }
 
@@ -84,6 +84,7 @@ namespace DatabaseContext
             new ArchivoDescripcionConfig(modelBuilder.Entity<ArchivoDescripcion>());
             new AlertConfig(modelBuilder.Entity<Alerta>());
             new PlanSocioDesagregacionConfig(modelBuilder.Entity<PlanSocioDesagregacion>());
+            new AuditUserConfig(modelBuilder.Entity<AuditUser>());
         }
 
         public DbSet<Usuario> Usuario { get; set; }
@@ -116,6 +117,7 @@ namespace DatabaseContext
         public DbSet<ArchivoDescripcion> ArchivoDescripcion { get; set; }
         public DbSet<PlanSocioDesagregacion> PlanSocioDesagregacion { get; set; }
         public DbSet<Alerta> Alertas { get; set; }
+        public DbSet<AuditUser> AuditUser { get; set; }
 
         public override int SaveChanges()
         {
@@ -135,46 +137,44 @@ namespace DatabaseContext
         }
         private void MakeAudit()
         {
-            var modifiedEntries = ChangeTracker.Entries().Where(
-                x => x.Entity is AudityEntity
-                     && (
-                         x.State == EntityState.Added
-                         || x.State == EntityState.Modified
-                )
-            );
-
-            var user = new CurrentUser();
-            if (_currentUser != null)
+            try
             {
-                user = _currentUser.Get;
-            }
-
-            foreach (var entry in modifiedEntries)
-            {
-                var entity = entry.Entity as AudityEntity;
-
-                if (entity != null)
+                var auditUser = AuditUser.SingleOrDefault(u => u.Id == 1);
+                var modifiedEntries = ChangeTracker.Entries().Where(
+                    x => x.Entity is AudityEntity
+                         && (
+                             x.State == EntityState.Added
+                             || x.State == EntityState.Modified
+                         )
+                );
+            
+                foreach (var entry in modifiedEntries)
                 {
+                    if (!(entry.Entity is AudityEntity entity)) continue;
                     var date = DateTime.Now;
-                    string userId = user.UserId;
 
                     if (entry.State == EntityState.Added)
                     {
                         entity.CreatedAt = date;
-                        entity.CreatedBy = userId;
+                        if (auditUser != null) entity.CreatedBy = auditUser.User;
                     }
                     else if (entity is ISoftDeleted && ((ISoftDeleted)entity).Deleted)
                     {
                         entity.DeletedAt = date;
-                        entity.DeletedBy = userId;
+                        if (auditUser != null) entity.DeletedBy = auditUser.User;
                     }
 
                     Entry(entity).Property(x => x.CreatedAt).IsModified = false;
                     Entry(entity).Property(x => x.CreatedBy).IsModified = false;
 
                     entity.UpdatedAt = date;
-                    entity.UpdatedBy = userId;
+                    if (auditUser != null) entity.UpdatedBy = auditUser.User;
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
