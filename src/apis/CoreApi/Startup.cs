@@ -30,7 +30,7 @@ namespace CoreApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<Usuario, Rol>(opts =>
+            services.AddIdentity<Usuario, IdentityRole>(opts =>  //Usuario, Rol
             {
                 opts.Password.RequireDigit = false;
                 opts.Password.RequiredLength = 4;

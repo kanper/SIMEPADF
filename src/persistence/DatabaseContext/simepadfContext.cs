@@ -13,7 +13,7 @@ using Model.Domain.DbHelper;
 
 namespace DatabaseContext
 {
-    public partial class simepadfContext : IdentityDbContext<Usuario>
+    public partial class simepadfContext : IdentityDbContext<Usuario> //Usuario
     {
         private readonly ICurrentUserDTO _currentUser;
 

@@ -35,7 +35,7 @@ namespace Auth
 
             services.AddMyDependecies(Configuration);
 
-            services.AddIdentity<Usuario, Rol>(config =>
+            services.AddIdentity<Usuario, IdentityRole>(config =>
             {
                 config.SignIn.RequireConfirmedEmail = true;
             })
@@ -49,7 +49,7 @@ namespace Auth
                     .AddInMemoryClients(IdentityConfig.GetClients(
                         Configuration
                     ))
-                    .AddAspNetIdentity<Usuario>()
+                    .AddAspNetIdentity<Usuario>() //usuario
                     .AddProfileService<ProfileService>();
 
             services.Configure<CookiePolicyOptions>(options =>

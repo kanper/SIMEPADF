@@ -38,7 +38,7 @@ namespace Auth.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserManager<Usuario> _userManager;
+        private readonly UserManager<Usuario> _userManager; //Usuario
         private readonly SignInManager<Usuario> _signInManager;
         private readonly simepadfContext _simepadf;
         private readonly IConfiguration _configuration;
@@ -104,7 +104,7 @@ namespace Auth.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.Username); 
+                var user = await _userManager.FindByNameAsync(model.Username);
 
                 if (user == null)
                 {
@@ -113,8 +113,8 @@ namespace Auth.Controllers
                 else
                 {
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberLogin, true);
-
-                    if (result.Succeeded)
+                    
+                    if (!result.Succeeded)
                     {
                         if (_interaction.IsValidReturnUrl(model.ReturnUrl) || Url.IsLocalUrl(model.ReturnUrl))
                         {
