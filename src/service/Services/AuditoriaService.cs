@@ -4,6 +4,7 @@ using System.Linq;
 using DatabaseContext;
 using DTO;
 using DTO.DTO;
+using Model.Domain;
 using Model.Domain.DbHelper;
 
 namespace Services
@@ -11,6 +12,7 @@ namespace Services
 
     public interface IAuditoriaService
     {
+        bool SetCurrentUser(string id);
         IEnumerable<AuditoriaDTO> GetAll();
         IEnumerable<AuditoriaDTO> GetActividadPlanTrabajo();
         IEnumerable<AuditoriaDTO> GetDesagregacion();
@@ -40,6 +42,25 @@ namespace Services
         public AuditoriaService(simepadfContext context)
         {
             _context = context;
+        }
+
+        public bool SetCurrentUser(string id)
+        {
+            try
+            {
+                var audit = _context.AuditUser.Single(u => u.Id == 1);
+                if (audit.User.Equals(id)) return false;
+                audit.User = id;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                _context.AuditUser.Add(new AuditUser(){User = id});
+                _context.SaveChanges();
+                return false;
+            }
         }
 
         public IEnumerable<AuditoriaDTO> GetAll()
@@ -344,20 +365,42 @@ namespace Services
 
         private void AddCreationAudit(AudityEntity entity, string identifier)
         {
-            if(entity.CreatedAt.HasValue)
+            if (entity.CreatedBy == null)
+            {
                 Result.Add(new AuditoriaDTO(entity.CreatedBy,_CREATE,TABLENAME,identifier,entity.CreatedAt.GetValueOrDefault()));
+            }
+            else
+            {
+                var user = _context.Usuario.Single(u => u.Id == entity.CreatedBy);
+                Result.Add(new AuditoriaDTO($"{user.NombrePersonal} {user.ApellidoPersonal}",_CREATE,TABLENAME,identifier,entity.CreatedAt.GetValueOrDefault()));
+            }
         }
 
         private void AddUpdateAudit(AudityEntity entity, string identifier)
         {
-            if(entity.UpdatedAt.HasValue)
+            if (entity.UpdatedBy == null)
+            {
                 Result.Add(new AuditoriaDTO(entity.UpdatedBy,_UPDATE,TABLENAME,identifier,entity.UpdatedAt.GetValueOrDefault()));
+            }
+            else
+            {
+                var user = _context.Usuario.Single(u => u.Id == entity.UpdatedBy);
+                Result.Add(new AuditoriaDTO($"{user.NombrePersonal} {user.ApellidoPersonal}",_UPDATE,TABLENAME,identifier,entity.UpdatedAt.GetValueOrDefault()));
+            }
+                
         }
 
         private void AddDeleteAudit(AudityEntity entity, string identifier)
         {
-            if(entity.DeletedAt.HasValue)
+            if (entity.DeletedBy == null)
+            {
                 Result.Add(new AuditoriaDTO(entity.DeletedBy,_DELETE,TABLENAME,identifier,entity.DeletedAt.GetValueOrDefault()));
+            }
+            else
+            {
+                var user = _context.Usuario.Single(u => u.Id == entity.DeletedBy);
+                Result.Add(new AuditoriaDTO($"{user.NombrePersonal} {user.ApellidoPersonal}",_DELETE,TABLENAME,identifier,entity.DeletedAt.GetValueOrDefault()));
+            }
         }
     }
 }

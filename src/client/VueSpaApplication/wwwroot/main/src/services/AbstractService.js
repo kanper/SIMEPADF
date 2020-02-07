@@ -19,14 +19,17 @@ export default class AbstractService {
     }
 
     add(model, params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.post(`${this.baseUrl}`, model)
     }
 
     update(model, id, params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.put(`${this.baseUrl}/${id}`, model)
     }
 
     remove(id, params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.delete(`${this.baseUrl}/${id}`)
     }
 

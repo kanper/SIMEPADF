@@ -125,6 +125,7 @@ namespace Services
             try
             {
                 MoveToPrevious(idProject);
+                ResetCurrentReviewRecords(idProject);
                 CreateRejectNotification(idProject, observation, username);
                 return true;
             }
@@ -307,6 +308,24 @@ namespace Services
         {
             _context.Alertas.Add(new Alerta("Proyecto Retornado", observation, "warnin", "4", country, username));
             _context.SaveChanges();
+        }
+
+        private void ResetCurrentReviewRecords(string idProject)
+        {
+            var currentQuarter = (from r in _context.RegistroRevision
+                join pp in _context.ProyectoPais on r.ProyectoPais equals pp
+                where pp.ProyectoId == idProject
+                select r.Trimestre).Max();
+            var records = (from r in _context.RegistroRevision
+                join pp in _context.ProyectoPais on r.ProyectoPais equals pp
+                where pp.ProyectoId == idProject &&
+                      r.Trimestre == currentQuarter
+                select r).ToList();
+            foreach (var record in records)
+            {
+                record.Revisado = false;
+                record.RevisionCompleta = false;
+            }
         }
     }
 }
