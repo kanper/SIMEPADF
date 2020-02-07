@@ -108,7 +108,7 @@
                     {text: 'Retornar a coordinador', type: 'reject', icon: 'mdi-clock-fast', action: '', class: 'mr-2', route: '', show: (row) => {return !row.isInProcess}},
                     {text: 'Seguir revisión', type: 'link', icon: 'mdi-sync', action: 'active', class: 'mr-2', route: '', show: (row) => {return row.is3Review && row.isChecked}},
                     {text: 'Finalizar proyecto', type: 'link', icon: 'mdi-sync-off', action: 'finalize', class: 'mr-2', route: '', show: (row) => {return row.is3Review && row.isChecked}},
-                    {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return row.is3Review && row.isChecked}},
+                    {text: 'Cancelar Proyecto', type: 'link', icon: ' mdi-close-circle-outline', action: 'cancel', class: 'mr-2', route: '', show: (row) => {return (row.is3Review || row.isInProcess) && row.isChecked}},
                 ],
             }
         },
