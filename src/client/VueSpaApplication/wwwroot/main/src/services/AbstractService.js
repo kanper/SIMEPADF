@@ -11,10 +11,12 @@ export default class AbstractService {
     }
 
     get(id, params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.get(`${this.baseUrl}/${id}`)
     }
 
     getAll(params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.get(`${this.baseUrl}`)
     }
 
@@ -34,14 +36,17 @@ export default class AbstractService {
     }
 
     executeAction(id, action, params) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return null;
     }
 
     used(id) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.get(`${this.baseUrl}/used/${id}`)
     }
 
     removable(id) {
+        this.axios.get(`http://localhost:5000/auditoria/user/${window.User.UserId}`);
         return this.axios.get(`${this.baseUrl}/removable/${id}`)
     }
 }
