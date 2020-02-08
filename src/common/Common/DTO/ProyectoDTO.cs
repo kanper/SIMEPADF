@@ -35,8 +35,8 @@ namespace DTO.DTO
                 {
                     return DTOFormater.FormatPercent(0.0);
                 }
-                var percent = TotalActividadesFinalizadas / TotalActividades;
-                return DTOFormater.FormatPercent(Convert.ToDouble(percent));
+                var percent = (double)TotalActividadesFinalizadas / (double)TotalActividades;
+                return DTOFormater.FormatPercent(percent);
             }
         }
 
