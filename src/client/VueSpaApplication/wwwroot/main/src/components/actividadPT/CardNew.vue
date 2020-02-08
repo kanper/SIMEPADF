@@ -199,7 +199,9 @@
             clearForm(){
                 this.newModel.nombreActividad = '';
                 this.newModel.monto = 0.0;
-                this.newModel.fechaCreacion = new Date().toISOString().substr(0, 10);
+                this.newModel.fechaInicio = new Date().toISOString().substr(0, 10);
+                this.newModel.fechaLimite = new Date().toISOString().substr(0, 10);
+                this.newModel.monto = [];
                 this.$validator.reset();
                 this.getCurrentMount();
                 this.startDateLimit = '';
